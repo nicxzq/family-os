@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wiki 项目卡片 · 代码片段</title>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "LXGW WenKai TC", "LXGW WenKai", -apple-system, sans-serif;
+    background: #f5f5f0;
+    padding: 40px 24px 80px;
+    color: #2B2419;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  h1 { font-size: 32px; margin-bottom: 8px; }
+  .lede { color: #5C4F3D; margin-bottom: 40px; font-size: 16px; }
+
+  .variant {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.04), 0 12px 32px -16px rgba(0,0,0,0.12);
+  }
+  .variant-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed rgba(0,0,0,0.1);
+  }
+  .variant-head h2 { font-size: 18px; }
+  .variant-head .tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    background: rgba(229,107,90,0.1);
+    color: #E56B5A;
+    border-radius: 999px;
+    letter-spacing: 0.1em;
+  }
+
+  .preview {
+    background: #fafaf5;
+    padding: 28px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    border: 1px dashed rgba(0,0,0,0.1);
+  }
+
+  pre {
+    background: #1a1a1a;
+    color: #e5e5e5;
+    padding: 18px 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    position: relative;
+  }
+  pre .copy {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255,255,255,0.1);
+    color: #e5e5e5;
+    border: 0;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  pre .copy:hover { background: rgba(255,255,255,0.2); }
+  pre .copy.copied { background: #6FA86D; }
+
+  .note {
+    background: linear-gradient(180deg, #FFF8E0, #FBE39A);
+    padding: 18px 22px;
+    border-radius: 12px;
+    margin-bottom: 36px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .note strong { color: #2B2419; }
+  .note code {
+    background: rgba(0,0,0,0.08);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: 'SF Mono', monospace;
+    font-size: 12px;
+  }
+
+  /* ============= 变体 A: 极简卡片 ============= */
+  .pc-a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 460px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .pc-a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -8px rgba(0,0,0,0.15);
+  }
+  .pc-a-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: #E56B5A;
+    margin-bottom: 10px;
+  }
+  .pc-a h3 { font-size: 22px; line-height: 1.3; margin-bottom: 8px; }
+  .pc-a p { font-size: 14px; color: #666; margin-bottom: 14px; line-height: 1.6; }
+  .pc-a-meta { display: flex; gap: 14px; font-size: 12px; color: #888; }
+  .pc-a-meta span::before {
+    content: "·";
+    margin-right: 6px;
+    color: #ccc;
+  }
+  .pc-a-meta span:first-child::before { display: none; }
+
+  /* ============= 变体 B: 封面图卡片 ============= */
+  .pc-b {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    max-width: 460px;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.05), 0 8px 24px -12px rgba(0,0,0,0.15);
+    transition: transform 0.25s;
+  }
+  .pc-b:hover { transform: translateY(-3px); }
+  .pc-b-cover {
+    aspect-ratio: 1200 / 630;
+    background: linear-gradient(135deg, #F8F2E2 0%, #FBE39A 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .pc-b-cover-content {
+    position: absolute;
+    inset: 0;
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .pc-b-cover .small {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: #E56B5A;
+    margin-bottom: 8px;
+  }
+  .pc-b-cover .big {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #2B2419;
+  }
+  .pc-b-cover .underline {
+    height: 8px;
+    width: 100px;
+    background: rgba(244,193,62,0.6);
+    margin-top: 6px;
+  }
+  .pc-b-cover .dots {
+    position: absolute;
+    bottom: 20px;
+    right: 22px;
+    display: flex;
+    gap: 6px;
+  }
+  .pc-b-cover .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .pc-b-info { padding: 18px 22px 22px; }
+  .pc-b-info h3 { font-size: 18px; margin-bottom: 6px; }
+  .pc-b-info p { font-size: 13px; color: #666; line-height: 1.5; }
+
+  /* ============= 变体 C: 终端/极客风 ============= */
+  .pc-c {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: #1a1a1a;
+    color: #e5e5e5;
+    border-radius: 8px;
+    padding: 20px 22px;
+    max-width: 460px;
+    font-family: 'SF Mono', Menlo, monospace;
+    border: 1px solid #333;
+    transition: border-color 0.2s;
+  }
+  .pc-c:hover { border-color: #E56B5A; }
+  .pc-c .prompt { color: #6FA86D; font-size: 12px; margin-bottom: 12px; }
+  .pc-c .prompt::before { content: "$ "; color: #888; }
+  .pc-c h3 {
+    font-family: "LXGW WenKai TC", serif;
+    font-size: 22px;
+    color: white;
+    margin-bottom: 8px;
+  }
+  .pc-c p {
+    font-family: "LXGW WenKai TC", serif;
+    font-size: 13px;
+    color: #aaa;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .pc-c .meta {
+    display: flex;
+    gap: 12px;
+    font-size: 11px;
+    color: #666;
+  }
+  .pc-c .meta .tag {
+    background: rgba(229,107,90,0.15);
+    color: #E56B5A;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .pc-c .arrow {
+    color: #E56B5A;
+    margin-top: 12px;
+    font-size: 13px;
+  }
+
+  /* ============= 变体 D: 列表行（兼容大多wiki/blog） ============= */
+  .pc-d {
+    display: flex;
+    gap: 16px;
+    text-decoration: none;
+    color: inherit;
+    padding: 16px 0;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    align-items: flex-start;
+  }
+  .pc-d:hover h3 { color: #E56B5A; }
+  .pc-d-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #F8F2E2, #FBE39A);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 24px;
+  }
+  .pc-d-body { flex: 1; min-width: 0; }
+  .pc-d-body .row1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+    gap: 12px;
+  }
+  .pc-d-body h3 {
+    font-size: 17px;
+    transition: color 0.2s;
+  }
+  .pc-d-body .date {
+    font-size: 12px;
+    color: #888;
+    white-space: nowrap;
+  }
+  .pc-d-body p {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+  .pc-d-body .tags {
+    display: flex;
+    gap: 6px;
+    font-size: 11px;
+  }
+  .pc-d-body .tags span {
+    background: rgba(0,0,0,0.05);
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #666;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <h1>给 wiki.carlxu.cn 项目页用的 · 卡片代码</h1>
+  <p class="lede">下面是 4 种风格的项目卡片。挑一个最贴近您现有 wiki 风格的，复制 HTML 粘贴过去。每张卡片都默认链接到 <code>https://family.carlxu.cn</code>——记得改成您的实际部署地址。</p>
+
+  <div class="note">
+    💡 <strong>不知道挑哪种？</strong>把您 wiki 项目页的截图发我，我能照着风格做一个完美融入的定制版本。<br>
+    现在这 4 种覆盖了大多数常见的风格——<strong>变体 D（列表行）</strong>兼容性最强，几乎可以贴进任何 wiki / 博客。
+  </div>
+
+  <!-- ============= 变体 A ============= -->
+  <div class="variant">
+    <div class="variant-head">
+      <h2>变体 A · 极简卡片</h2>
+      <span class="tag">RECOMMEND</span>
+    </div>
+
+    <div class="preview">
+      <a class="pc-a" href="https://family.carlxu.cn" target="_blank">
+        <div class="pc-a-tag">FAMILY OS · v1</div>
+        <h3>好的家庭教育</h3>
+        <p>把李笑来的家庭教育理念，做成一家四口都能打开、能聊、能用的互动操作系统。</p>
+        <div class="pc-a-meta">
+          <span>HTML / CSS</span>
+          <span>静态站</span>
+          <span>2026</span>
+        </div>
+      </a>
+    </div>
+
+    <pre><button class="copy" onclick="copyMe(this)">复制</button><code>&lt;a class="pc-a" href="https://family.carlxu.cn" target="_blank"&gt;
+  &lt;div class="pc-a-tag"&gt;FAMILY OS · v1&lt;/div&gt;
+  &lt;h3&gt;好的家庭教育&lt;/h3&gt;
+  &lt;p&gt;把李笑来的家庭教育理念，做成一家四口都能打开、能聊、能用的互动操作系统。&lt;/p&gt;
+  &lt;div class="pc-a-meta"&gt;
+    &lt;span&gt;HTML / CSS&lt;/span&gt;
+    &lt;span&gt;静态站&lt;/span&gt;
+    &lt;span&gt;2026&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+
+&lt;style&gt;
+.pc-a { display:block; text-decoration:none; color:inherit; background:white;
+  border:1px solid rgba(0,0,0,0.08); border-radius:12px; padding:24px;
+  max-width:460px; transition:transform .2s, box-shadow .2s;
+  font-family:"LXGW WenKai TC", -apple-system, sans-serif; }
+.pc-a:hover { transform:translateY(-2px); box-shadow:0 8px 24px -8px rgba(0,0,0,.15); }
+.pc-a-tag { display:inline-block; font-size:11px; letter-spacing:.15em;
+  color:#E56B5A; margin-bottom:10px; }
+.pc-a h3 { font-size:22px; line-height:1.3; margin-bottom:8px; }
+.pc-a p { font-size:14px; color:#666; margin-bottom:14px; line-height:1.6; }
+.pc-a-meta { display:flex; gap:14px; font-size:12px; color:#888; }
+.pc-a-meta span::before { content:"·"; margin-right:6px; color:#ccc; }
+.pc-a-meta span:first-child::before { display:none; }
+&lt;/style&gt;</code></pre>
+  </div>
+
+  <!-- ============= 变体 B ============= -->
+  <div class="variant">
+    <div class="variant-head">
+      <h2>变体 B · 封面图卡片</h2>
+      <span class="tag">VISUAL</span>
+    </div>
+
+    <div class="preview">
+      <a class="pc-b" href="https://family.carlxu.cn" target="_blank">
+        <div class="pc-b-cover">
+          <div class="pc-b-cover-content">
+            <div class="small">A FAMILY OF LONG-TERMISTS</div>
+            <div class="big">好的<br>家庭教育</div>
+            <div class="underline"></div>
+          </div>
+          <div class="dots">
+            <div class="dot" style="background:#E56B5A;"></div>
+            <div class="dot" style="background:#F4C13E;"></div>
+            <div class="dot" style="background:#6FA86D;"></div>
+            <div class="dot" style="background:#4B7BA8;"></div>
+          </div>
+        </div>
+        <div class="pc-b-info">
+          <h3>家庭操作系统</h3>
+          <p>一家四口都能打开、能聊、能用的互动版家庭教育原则。</p>
+        </div>
+      </a>
+    </div>
+
+    <pre><button class="copy" onclick="copyMe(this)">复制</button><code>&lt;a class="pc-b" href="https://family.carlxu.cn" target="_blank"&gt;
+  &lt;img src="https://family.carlxu.cn/og.png" alt="好的家庭教育" class="pc-b-cover"&gt;
+  &lt;div class="pc-b-info"&gt;
+    &lt;h3&gt;家庭操作系统&lt;/h3&gt;
+    &lt;p&gt;一家四口都能打开、能聊、能用的互动版家庭教育原则。&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+
+&lt;style&gt;
+.pc-b { display:block; text-decoration:none; color:inherit; background:white;
+  border-radius:14px; overflow:hidden; max-width:460px;
+  box-shadow:0 2px 0 rgba(0,0,0,.05), 0 8px 24px -12px rgba(0,0,0,.15);
+  transition:transform .25s;
+  font-family:"LXGW WenKai TC", -apple-system, sans-serif; }
+.pc-b:hover { transform:translateY(-3px); }
+.pc-b-cover { width:100%; aspect-ratio:1200/630; display:block; object-fit:cover; }
+.pc-b-info { padding:18px 22px 22px; }
+.pc-b-info h3 { font-size:18px; margin-bottom:6px; }
+.pc-b-info p { font-size:13px; color:#666; line-height:1.5; }
+&lt;/style&gt;</code></pre>
+    <p style="font-size: 13px; color: #666; margin-top: 8px;">↑ 这个版本直接用 og.png 作封面，最省事。</p>
+  </div>
+
+  <!-- ============= 变体 C ============= -->
+  <div class="variant">
+    <div class="variant-head">
+      <h2>变体 C · 终端/极客风</h2>
+      <span class="tag">DEV</span>
+    </div>
+
+    <div class="preview" style="background: #0d0d0d;">
+      <a class="pc-c" href="https://family.carlxu.cn" target="_blank">
+        <div class="prompt">cat ~/projects/family-os.md</div>
+        <h3>好的家庭教育</h3>
+        <p>把家当作一件可以一起经营一辈子的事。<br>李笑来理念 + 一家四口的交互式操作系统。</p>
+        <div class="meta">
+          <span class="tag">v1</span>
+          <span>2026</span>
+          <span>HTML · 0 build</span>
+        </div>
+        <div class="arrow">→ open project</div>
+      </a>
+    </div>
+
+    <pre><button class="copy" onclick="copyMe(this)">复制</button><code>&lt;a class="pc-c" href="https://family.carlxu.cn" target="_blank"&gt;
+  &lt;div class="prompt"&gt;cat ~/projects/family-os.md&lt;/div&gt;
+  &lt;h3&gt;好的家庭教育&lt;/h3&gt;
+  &lt;p&gt;把家当作一件可以一起经营一辈子的事。
+李笑来理念 + 一家四口的交互式操作系统。&lt;/p&gt;
+  &lt;div class="meta"&gt;
+    &lt;span class="tag"&gt;v1&lt;/span&gt;
+    &lt;span&gt;2026&lt;/span&gt;
+    &lt;span&gt;HTML · 0 build&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="arrow"&gt;→ open project&lt;/div&gt;
+&lt;/a&gt;
+
+&lt;style&gt;
+.pc-c { display:block; text-decoration:none; background:#1a1a1a; color:#e5e5e5;
+  border-radius:8px; padding:20px 22px; max-width:460px;
+  font-family:'SF Mono', Menlo, monospace; border:1px solid #333;
+  transition:border-color .2s; }
+.pc-c:hover { border-color:#E56B5A; }
+.pc-c .prompt { color:#6FA86D; font-size:12px; margin-bottom:12px; }
+.pc-c .prompt::before { content:"$ "; color:#888; }
+.pc-c h3 { font-family:"LXGW WenKai TC", serif; font-size:22px; color:white; margin-bottom:8px; }
+.pc-c p { font-family:"LXGW WenKai TC", serif; font-size:13px; color:#aaa;
+  line-height:1.6; margin-bottom:14px; white-space:pre-line; }
+.pc-c .meta { display:flex; gap:12px; font-size:11px; color:#666; }
+.pc-c .meta .tag { background:rgba(229,107,90,.15); color:#E56B5A;
+  padding:2px 8px; border-radius:4px; }
+.pc-c .arrow { color:#E56B5A; margin-top:12px; font-size:13px; }
+&lt;/style&gt;</code></pre>
+  </div>
+
+  <!-- ============= 变体 D ============= -->
+  <div class="variant">
+    <div class="variant-head">
+      <h2>变体 D · 列表行（最兼容）</h2>
+      <span class="tag">UNIVERSAL</span>
+    </div>
+
+    <div class="preview" style="background: white; padding: 4px 24px;">
+      <a class="pc-d" href="https://family.carlxu.cn" target="_blank" style="border-top: 0;">
+        <div class="pc-d-icon">🏠</div>
+        <div class="pc-d-body">
+          <div class="row1">
+            <h3>好的家庭教育 · 家庭操作系统</h3>
+            <span class="date">2026 · in progress</span>
+          </div>
+          <p>把李笑来的家庭教育理念，做成一家四口都能打开、能聊、能用的互动操作系统。</p>
+          <div class="tags">
+            <span>家庭教育</span>
+            <span>静态站</span>
+            <span>长期主义</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <pre><button class="copy" onclick="copyMe(this)">复制</button><code>&lt;a class="pc-d" href="https://family.carlxu.cn" target="_blank"&gt;
+  &lt;div class="pc-d-icon"&gt;🏠&lt;/div&gt;
+  &lt;div class="pc-d-body"&gt;
+    &lt;div class="row1"&gt;
+      &lt;h3&gt;好的家庭教育 · 家庭操作系统&lt;/h3&gt;
+      &lt;span class="date"&gt;2026 · in progress&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;p&gt;把李笑来的家庭教育理念，做成一家四口都能打开、能聊、能用的互动操作系统。&lt;/p&gt;
+    &lt;div class="tags"&gt;
+      &lt;span&gt;家庭教育&lt;/span&gt;
+      &lt;span&gt;静态站&lt;/span&gt;
+      &lt;span&gt;长期主义&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+
+&lt;style&gt;
+.pc-d { display:flex; gap:16px; text-decoration:none; color:inherit;
+  padding:16px 0; border-top:1px solid rgba(0,0,0,.08); align-items:flex-start;
+  font-family:"LXGW WenKai TC", -apple-system, sans-serif; }
+.pc-d:hover h3 { color:#E56B5A; }
+.pc-d-icon { width:48px; height:48px; border-radius:10px;
+  background:linear-gradient(135deg,#F8F2E2,#FBE39A);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; font-size:24px; }
+.pc-d-body { flex:1; min-width:0; }
+.pc-d-body .row1 { display:flex; justify-content:space-between;
+  align-items:baseline; margin-bottom:4px; gap:12px; }
+.pc-d-body h3 { font-size:17px; transition:color .2s; }
+.pc-d-body .date { font-size:12px; color:#888; white-space:nowrap; }
+.pc-d-body p { font-size:13px; color:#666; line-height:1.6; margin-bottom:6px; }
+.pc-d-body .tags { display:flex; gap:6px; font-size:11px; }
+.pc-d-body .tags span { background:rgba(0,0,0,.05); padding:2px 8px;
+  border-radius:4px; color:#666; }
+&lt;/style&gt;</code></pre>
+  </div>
+
+  <div class="note" style="background: linear-gradient(180deg, #D7EBC9, #B5D4A8); margin-top: 40px;">
+    📝 <strong>怎么用？</strong><br>
+    1. 部署本项目到 Vercel，绑定子域名（推荐 <code>family.carlxu.cn</code>）<br>
+    2. 在 wiki 项目页 markdown 里允许嵌入 HTML，或在主题模板里加一段<br>
+    3. 复制上方任意一段代码，粘进去；改 href 为您的实际域名<br>
+    4. 如果 wiki 用 Tailwind / 已有设计系统，可以直接告诉我，我用您的 token 重写一版
+  </div>
+</div>
+
+<script>
+  function copyMe(btn) {
+    const code = btn.parentElement.querySelector('code').textContent;
+    navigator.clipboard.writeText(code);
+    const old = btn.textContent;
+    btn.textContent = '✓ 已复制';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = old;
+      btn.classList.remove('copied');
+    }, 1500);
+  }
+</script>
+
+</body>
+</html>

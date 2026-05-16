@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>给十二岁的你 · 好的家庭教育</title>
+<meta name="description" content="5 道互动小测试。没有正确答案——只有你的答案。">
+<meta property="og:title" content="给十二岁的你 · 好的家庭教育">
+<meta property="og:description" content="5 道互动小测试。没有正确答案——只有你的答案。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/for-eldest">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="给十二岁的你 · 好的家庭教育">
+<meta name="twitter:description" content="5 道互动小测试。没有正确答案——只有你的答案。">
+<meta name="twitter:image" content="https://family.carlxu.cn/og.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .game {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 60px 28px 100px;
+  }
+  .game .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--ink-mute);
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+  .game-intro {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .game-intro h1 {
+    font-size: clamp(32px, 5vw, 48px);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .game-intro .accent {
+    color: var(--coral);
+  }
+  .game-intro p {
+    color: var(--ink-soft);
+    font-size: 18px;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .progress {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 40px;
+    justify-content: center;
+  }
+  .progress span {
+    width: 32px;
+    height: 5px;
+    background: rgba(43, 36, 25, 0.1);
+    border-radius: 999px;
+    transition: background 0.3s;
+  }
+  .progress span.is-done {
+    background: var(--coral);
+  }
+  .progress span.is-current {
+    background: var(--yellow);
+  }
+
+  .q {
+    background: var(--paper);
+    padding: 40px 32px;
+    border-radius: 24px;
+    box-shadow: var(--shadow-card);
+    display: none;
+    animation: slideIn 0.4s ease;
+  }
+  .q.is-active { display: block; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .q-num {
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--ink-mute);
+    margin-bottom: 12px;
+  }
+  .q h2 {
+    font-size: 24px;
+    line-height: 1.4;
+    margin-bottom: 28px;
+  }
+  .q-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .q-option {
+    background: var(--cream);
+    padding: 18px 22px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1.6;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    text-align: left;
+    font-family: inherit;
+    color: var(--ink);
+    width: 100%;
+  }
+  .q-option:hover {
+    border-color: var(--coral-soft);
+    transform: translateX(4px);
+  }
+  .q-option.is-selected {
+    background: rgba(229, 107, 90, 0.1);
+    border-color: var(--coral);
+  }
+
+  .q-reaction {
+    display: none;
+    background: var(--cream-deep);
+    padding: 20px 24px;
+    border-radius: 14px;
+    margin-top: 8px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink);
+    border-left: 4px solid var(--yellow);
+  }
+  .q-reaction.is-shown { display: block; animation: slideIn 0.3s ease; }
+  .q-reaction strong { background: linear-gradient(transparent 60%, rgba(244, 193, 62, 0.5) 60%); }
+
+  .q-next {
+    margin-top: 20px;
+    background: var(--ink);
+    color: var(--cream);
+    border: 0;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 15px;
+    cursor: pointer;
+    font-family: inherit;
+    display: none;
+  }
+  .q-next.is-shown { display: inline-flex; align-items: center; gap: 6px; }
+
+  .result {
+    background: var(--paper);
+    padding: 48px 32px;
+    border-radius: 24px;
+    box-shadow: var(--shadow-card);
+    text-align: center;
+    display: none;
+  }
+  .result.is-active { display: block; }
+  .result h2 {
+    font-size: clamp(28px, 4vw, 36px);
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+  .result p {
+    font-size: 17px;
+    color: var(--ink-soft);
+    line-height: 1.8;
+    margin-bottom: 16px;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .result .secret {
+    background: linear-gradient(180deg, #FFF8E0, #FBE39A);
+    padding: 28px;
+    border-radius: 18px;
+    margin: 32px auto;
+    max-width: 520px;
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.85;
+  }
+  .result .secret h3 {
+    text-align: center;
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+  .result .retry {
+    margin-top: 24px;
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    padding: 12px 24px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<div class="game">
+  <a class="back" href="index.html">← 回家庭操作系统</a>
+
+  <div class="game-intro" id="intro">
+    <h1>嘿，<span class="accent">十二岁的你</span>。</h1>
+    <p>这不是测验。<br>没有分数，也没有人会打分。<br>就五个小问题——回答你<strong>真实的想法</strong>就行。</p>
+    <button class="q-next is-shown" style="margin-top: 32px;" onclick="start()">开始 →</button>
+  </div>
+
+  <div class="progress" id="progress" style="display: none;">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q" data-q="0">
+    <div class="q-num">问题 1 / 5</div>
+    <h2>"学习是谁的事？"</h2>
+    <div class="q-options">
+      <button class="q-option" data-r="0">是爸妈的事。他们催我，我就学。</button>
+      <button class="q-option" data-r="1">是学校的事。老师布置的，我就做。</button>
+      <button class="q-option" data-r="2">是我自己的事——只是我现在还没完全觉得。</button>
+      <button class="q-option" data-r="3">是我自己的事——而且我已经感觉到了。</button>
+    </div>
+    <div class="q-reaction">
+      <p>真有意思——这道题没有"对"的答案，但有一个真相：</p>
+      <p><strong>这世上 99% 的事情，最后谁负责，谁就受益。</strong></p>
+      <p>学习如果是爸妈的事，那将来学到的本事，是爸妈的；学习如果是老师的事，那将来的好成绩，是老师的。学习是你的事，那将来你能做的、能赚的、能看懂的——才是你的。</p>
+    </div>
+    <button class="q-next">下一题 →</button>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q" data-q="1">
+    <div class="q-num">问题 2 / 5</div>
+    <h2>当爸爸妈妈说"你应该⋯⋯"的时候，你心里第一反应是？</h2>
+    <div class="q-options">
+      <button class="q-option" data-r="0">烦。又来了。</button>
+      <button class="q-option" data-r="1">嗯⋯⋯我听着，但其实没怎么入耳。</button>
+      <button class="q-option" data-r="2">有时候有道理，有时候觉得他们也没做到。</button>
+      <button class="q-option" data-r="3">如果他们自己也在做，我就比较服。</button>
+    </div>
+    <div class="q-reaction">
+      <p>说实话，<strong>"自己也没做到却来要求别人"是世界上最讨厌的事情之一。</strong></p>
+      <p>所以爸爸最近在做一个偷偷的练习：在跟你说"你应该⋯⋯"之前，先问自己一句——"我做到了吗？"</p>
+      <p>如果我自己没做到，我就闭嘴。你也可以这样要求爸爸——只要你愿意，也用同样的标准要求自己。</p>
+    </div>
+    <button class="q-next">下一题 →</button>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q" data-q="2">
+    <div class="q-num">问题 3 / 5</div>
+    <h2>"竞争"这个词，对你来说是？</h2>
+    <div class="q-options">
+      <button class="q-option" data-r="0">压力。每天都在比。</button>
+      <button class="q-option" data-r="1">兴奋。我想赢。</button>
+      <button class="q-option" data-r="2">很累。但好像必须。</button>
+      <button class="q-option" data-r="3">没那么重要。我有我自己的事要做。</button>
+    </div>
+    <div class="q-reaction">
+      <p>给你一个我最近学到的小秘密：</p>
+      <p><strong>假设你每次竞争都有 90% 的赢面——已经很高了对吧？但连赢 100 次，概率是 0.9¹⁰⁰ = 十万分之二点六。</strong></p>
+      <p>意思是：天天去竞争的人，从一开始就在亏。聪明的做法是：<strong>非必要不竞争。</strong>把劲儿留给真正重要的几次——求学、求职、选谁一起生活。其他的，让别人去争。</p>
+    </div>
+    <button class="q-next">下一题 →</button>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q" data-q="3">
+    <div class="q-num">问题 4 / 5</div>
+    <h2>你最近一次"专注做一件事，忘了时间"，是什么时候？</h2>
+    <div class="q-options">
+      <button class="q-option" data-r="0">玩游戏的时候。</button>
+      <button class="q-option" data-r="1">画画 / 看小说 / 搭东西的时候。</button>
+      <button class="q-option" data-r="2">⋯⋯好像有点想不起来了。</button>
+      <button class="q-option" data-r="3">我每天都有这种时刻。</button>
+    </div>
+    <div class="q-reaction">
+      <p>不管你选了哪一个——你已经知道了：<strong>"全身心投入某件事"是这世界上最爽的感觉之一。</strong></p>
+      <p>这个东西，叫<strong>专注</strong>。它是你最值钱的能力，比聪明值钱多了。</p>
+      <p>所以我们家有一条规矩：你在做事的时候，没人会突然打断你说"快点喝水""快点穿外套"。<strong>你那十分钟的专注，比一小时被打扰的"学习"管用十倍。</strong></p>
+    </div>
+    <button class="q-next">下一题 →</button>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q" data-q="4">
+    <div class="q-num">最后一题 · 5 / 5</div>
+    <h2>如果让你给十年后的自己写一句话，你会写什么？</h2>
+    <div class="q-options">
+      <button class="q-option" data-r="0">"你赚了很多钱。"</button>
+      <button class="q-option" data-r="1">"你成了厉害的人。"</button>
+      <button class="q-option" data-r="2">"你过得开心。"</button>
+      <button class="q-option" data-r="3">"你还在不断变好。"</button>
+    </div>
+    <div class="q-reaction">
+      <p>这四个答案都很好。但有一个最特别——"你还在不断变好"。</p>
+      <p>因为前三个都是<strong>目标</strong>（target）——它有可能实现，也有可能落空。</p>
+      <p>第四个是<strong>方向</strong>（direction）——只要还在这个方向上，就永远不会"输"。</p>
+      <p>这就是爸爸最近想跟你说的最重要的一件事：<strong>选方向，不选目标。</strong>方向不会失败。</p>
+    </div>
+    <button class="q-next">看看结果 →</button>
+  </div>
+
+  <!-- 结果 -->
+  <div class="result">
+    <div style="font-size: 56px; margin-bottom: 8px;">🌱</div>
+    <h2>所以——你已经知道了。</h2>
+    <p>你不是"要被爸妈教育的人"。<br>你是<strong>正在长出自己的大脑</strong>的人。</p>
+    <p>我们家不会"管"你，但有几件事，我们想一起做：</p>
+
+    <div class="secret">
+      <h3>给十二岁的你 · 五条</h3>
+      <p>一 · 学习是你自己的事。爸妈只负责不打扰、买你想读的书、回答你的问题。</p>
+      <p>二 · 你犯错可以，被指责不行。这家里没有"批评教育"。</p>
+      <p>三 · 你说"不"是被允许的。但你要给一个理由——给你自己。</p>
+      <p>四 · 你想做的事，我们一起想办法。我们不替你做决定，但我们陪你想。</p>
+      <p>五 · 每周一次"家庭会议"，你也是一票。你不喜欢什么，可以说。</p>
+    </div>
+
+    <p style="font-size: 15px; color: var(--ink-mute);">把这页给爸爸/妈妈看一眼，<br>问他们："这五条，你们能做到吗？"</p>
+
+    <button class="retry" onclick="location.reload()">重新来一次</button>
+  </div>
+</div>
+
+<script>
+  let current = -1;
+  const total = 5;
+
+  function start() {
+    document.getElementById('intro').style.display = 'none';
+    document.getElementById('progress').style.display = 'flex';
+    goTo(0);
+  }
+
+  function goTo(idx) {
+    document.querySelectorAll('.q').forEach(q => q.classList.remove('is-active'));
+    document.querySelector('.result').classList.remove('is-active');
+
+    if (idx >= total) {
+      document.querySelector('.result').classList.add('is-active');
+      document.getElementById('progress').querySelectorAll('span').forEach(s => {
+        s.classList.add('is-done');
+        s.classList.remove('is-current');
+      });
+      return;
+    }
+
+    const q = document.querySelector(`.q[data-q="${idx}"]`);
+    q.classList.add('is-active');
+    current = idx;
+
+    const dots = document.getElementById('progress').querySelectorAll('span');
+    dots.forEach((s, i) => {
+      s.classList.toggle('is-done', i < idx);
+      s.classList.toggle('is-current', i === idx);
+    });
+  }
+
+  document.querySelectorAll('.q').forEach(q => {
+    q.querySelectorAll('.q-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        q.querySelectorAll('.q-option').forEach(o => o.classList.remove('is-selected'));
+        opt.classList.add('is-selected');
+        q.querySelector('.q-reaction').classList.add('is-shown');
+        q.querySelector('.q-next').classList.add('is-shown');
+      });
+    });
+    q.querySelector('.q-next').addEventListener('click', () => {
+      goTo(current + 1);
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+  });
+</script>
+
+</body>
+</html>

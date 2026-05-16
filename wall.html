@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>家庭墙 · 三个版本</title>
+<meta name="description" content="同一份家规，三种贴墙方式。挑一个最适合你家空间的。">
+<meta property="og:title" content="家庭墙 · 三个版本">
+<meta property="og:description" content="同一份家规，三种贴墙方式。挑一个最适合你家空间的。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/wall">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="家庭墙 · 三个版本">
+<meta name="twitter:description" content="同一份家规，三种贴墙方式。挑一个最适合你家空间的。">
+<meta name="twitter:image" content="https://family.carlxu.cn/og.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .chooser {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 60px 28px 100px;
+  }
+  .chooser .back {
+    display: inline-flex; align-items: center; gap: 6px;
+    text-decoration: none; color: var(--ink-mute); font-size: 14px;
+    margin-bottom: 32px;
+  }
+  .chooser h1 {
+    font-size: clamp(32px, 4.5vw, 48px);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .chooser .lede {
+    color: var(--ink-soft); font-size: 18px;
+    margin-bottom: 56px; line-height: 1.7;
+    max-width: 640px;
+  }
+
+  .variants {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  @media (min-width: 840px) {
+    .variants { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .variant {
+    background: var(--paper);
+    border-radius: 22px;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--ink);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease;
+  }
+  .variant:hover { transform: translateY(-4px); }
+
+  .variant-preview {
+    aspect-ratio: 4 / 3;
+    background: #E8E0CD;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .mini-poster {
+    width: 100%;
+    height: 100%;
+    background: #F8F2E2;
+    border: 1.5px solid rgba(43,36,25,0.4);
+    border-radius: 4px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .mini-head {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .mini-head .mt {
+    font-size: 10px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .mini-head .ms {
+    font-size: 6px;
+    color: var(--ink-mute);
+    font-style: italic;
+  }
+  .mini-rules {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 4px;
+  }
+  .mini-rule {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 7px;
+    color: var(--ink);
+  }
+  .mini-num {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 6px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* 横版 mini */
+  .variant[data-v="landscape"] .variant-preview { aspect-ratio: 4 / 3; }
+  .variant[data-v="landscape"] .mini-poster {
+    flex-direction: row;
+    gap: 8px;
+  }
+  .variant[data-v="landscape"] .mini-left {
+    flex: 0 0 38%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px dashed rgba(43,36,25,0.2);
+    padding-right: 6px;
+  }
+  .variant[data-v="landscape"] .mini-left .mt { font-size: 11px; text-align: left; line-height: 1.1; }
+  .variant[data-v="landscape"] .mini-left .ms { font-size: 5px; text-align: left; margin-top: 4px; }
+  .variant[data-v="landscape"] .mini-rules { gap: 2px; padding: 0; }
+  .variant[data-v="landscape"] .mini-rule { font-size: 6px; }
+
+  /* 卡片版 mini */
+  .variant[data-v="cards"] .mini-poster {
+    padding: 6px;
+  }
+  .variant[data-v="cards"] .mini-cards {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 4px;
+  }
+  .variant[data-v="cards"] .mini-card {
+    background: white;
+    border: 1px dashed rgba(43,36,25,0.25);
+    border-radius: 3px;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .variant[data-v="cards"] .mini-card .mc-num {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    color: white;
+    font-size: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+  }
+  .variant[data-v="cards"] .mini-card .mc-t {
+    font-size: 5px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .variant-info { padding: 24px 26px 28px; }
+  .variant-info .tag {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink-mute);
+    margin-bottom: 8px;
+  }
+  .variant-info h3 {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+  .variant-info p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+  .variant-info .meta {
+    font-size: 12px;
+    color: var(--ink-mute);
+    border-top: 1px dashed rgba(43,36,25,0.15);
+    padding-top: 12px;
+    display: flex;
+    gap: 10px;
+  }
+  .variant-info .meta span { display: flex; align-items: center; gap: 4px; }
+
+  .quick-edit {
+    margin-top: 48px;
+    padding: 28px 32px;
+    background: linear-gradient(180deg, #FFF8E0, #FBE39A);
+    border-radius: 18px;
+  }
+  .quick-edit h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+  .quick-edit p {
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+</style>
+</head>
+<body>
+
+<div class="chooser">
+  <a class="back" href="index.html">← 回家庭操作系统</a>
+
+  <h1>家庭墙 · 三个版本。</h1>
+  <p class="lede">同一份家规，三种贴墙的方式。挑一个最适合你家空间的，打印出来。</p>
+
+  <div class="variants">
+
+    <!-- 竖版 -->
+    <a class="variant" data-v="portrait" href="wall-portrait.html">
+      <div class="variant-preview">
+        <div class="mini-poster" style="aspect-ratio: 3 / 4.2; height: 100%; width: auto; margin: 0 auto;">
+          <div class="mini-head">
+            <div class="mt">我们家的六条</div>
+            <div class="ms">— 不焦虑，不躺平，慢慢来 —</div>
+          </div>
+          <div class="mini-rules">
+            <div class="mini-rule"><div class="mini-num" style="background:#E56B5A">一</div>方向 比 目标 重要</div>
+            <div class="mini-rule"><div class="mini-num" style="background:#F4C13E;color:#2B2419">二</div>读书 是 家事</div>
+            <div class="mini-rule"><div class="mini-num" style="background:#6FA86D">三</div>一起学，不教训</div>
+            <div class="mini-rule"><div class="mini-num" style="background:#4B7BA8">四</div>软技能 也是 学问</div>
+            <div class="mini-rule"><div class="mini-num" style="background:#E56B5A">五</div>保护 注意力</div>
+            <div class="mini-rule"><div class="mini-num" style="background:#F4C13E;color:#2B2419">六</div>时间是朋友</div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-info">
+        <div class="tag">A3 PORTRAIT · 主版</div>
+        <h3>竖版（推荐）</h3>
+        <p>一张纸把六条全部展示。视觉最完整，是家里"贴在最显眼位置"的选择——比如玄关进门处、书房书桌前。</p>
+        <div class="meta">
+          <span>📐 A3 竖向</span>
+          <span>✏️ 可编辑文字</span>
+          <span>🖨 可打印</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 横版 -->
+    <a class="variant" data-v="landscape" href="wall-landscape.html">
+      <div class="variant-preview">
+        <div class="mini-poster" style="aspect-ratio: 1.4 / 1; height: 100%; width: auto; margin: 0 auto;">
+          <div class="mini-left">
+            <div class="mt">我们家的<br>六条。</div>
+            <div class="ms">不焦虑，不躺平，慢慢来</div>
+          </div>
+          <div class="mini-rules" style="grid-template-columns: 1fr 1fr; display: grid; gap: 3px;">
+            <div class="mini-rule"><div class="mini-num" style="background:#E56B5A">一</div>方向 比 目标</div>
+            <div class="mini-rule"><div class="mini-num" style="background:#F4C13E;color:#2B2419">二</div>读书是家事</div>
+            <div class="mini-rule"><div class="mini-num" style="background:#6FA86D">三</div>一起学</div>
+            <div class="mini-rule"><div class="mini-num" style="background:#4B7BA8">四</div>软技能也是</div>
+            <div class="mini-rule"><div class="mini-num" style="background:#E56B5A">五</div>保护注意力</div>
+            <div class="mini-rule"><div class="mini-num" style="background:#F4C13E;color:#2B2419">六</div>不慌</div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-info">
+        <div class="tag">A3 LANDSCAPE</div>
+        <h3>横版</h3>
+        <p>给沙发后面、餐厅背墙、走廊横向墙面用的版本。布局是左侧标题 + 右侧两列六条。</p>
+        <div class="meta">
+          <span>📐 A3 横向</span>
+          <span>🛋 适合宽墙</span>
+          <span>🖨 可打印</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 卡片版 -->
+    <a class="variant" data-v="cards" href="wall-cards.html">
+      <div class="variant-preview">
+        <div class="mini-poster" style="aspect-ratio: 0.71 / 1; height: 100%; width: auto; margin: 0 auto;">
+          <div class="mini-head">
+            <div class="mt" style="font-size:8px;">六条 · 可裁切</div>
+          </div>
+          <div class="mini-cards">
+            <div class="mini-card"><div class="mc-num" style="background:#E56B5A">一</div><div class="mc-t">方向比目标</div></div>
+            <div class="mini-card"><div class="mc-num" style="background:#F4C13E;color:#2B2419">二</div><div class="mc-t">读书是家事</div></div>
+            <div class="mini-card"><div class="mc-num" style="background:#6FA86D">三</div><div class="mc-t">一起学</div></div>
+            <div class="mini-card"><div class="mc-num" style="background:#4B7BA8">四</div><div class="mc-t">软技能</div></div>
+            <div class="mini-card"><div class="mc-num" style="background:#E56B5A">五</div><div class="mc-t">保护注意力</div></div>
+            <div class="mini-card"><div class="mc-num" style="background:#F4C13E;color:#2B2419">六</div><div class="mc-t">不慌</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="variant-info">
+        <div class="tag">A4 · 6 CARDS</div>
+        <h3>单卡片版</h3>
+        <p>6 张独立卡片印在一张 A4 上。裁开后<strong>分别贴到不同房间</strong>——餐厅贴第四条、儿童房贴第五条、玄关贴第六条⋯⋯让每条家规出现在它该出现的地方。</p>
+        <div class="meta">
+          <span>📐 A4 · 6 张</span>
+          <span>✂️ 可裁切</span>
+          <span>🖨 可打印</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="quick-edit">
+    <h2>✏️ 想改一下措辞？</h2>
+    <p>打开<strong>竖版</strong>（主版），右下角会出现 Tweaks 面板——可以直接修改六条的标题和说明。修改会自动保存到那个文件。横版和卡片版的措辞需要手动同步。</p>
+  </div>
+</div>
+
+</body>
+</html>

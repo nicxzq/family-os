@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>家庭墙 · 单卡片版</title>
+<meta name="description" content="6 张可裁切卡片，分别贴各房间。">
+<meta property="og:title" content="家庭墙 · 单卡片版">
+<meta property="og:description" content="6 张可裁切卡片，分别贴各房间。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/wall-cards">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="家庭墙 · 单卡片版">
+<meta name="twitter:description" content="6 张可裁切卡片，分别贴各房间。">
+<meta name="twitter:image" content="https://family.carlxu.cn/og.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "LXGW WenKai TC", "LXGW WenKai", serif;
+    background: #E8E0CD;
+    padding: 40px 20px;
+    min-height: 100vh;
+  }
+  .controls {
+    max-width: 880px;
+    margin: 0 auto 24px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .controls .left, .controls .right { display: flex; gap: 8px; align-items: center; }
+  .back, .switch {
+    text-decoration: none; color: #5C4F3D; font-size: 13px;
+    padding: 8px 14px; background: rgba(255,255,255,0.5); border-radius: 999px;
+  }
+  .switch.active { background: #2B2419; color: #F8F2E2; }
+  .print-btn {
+    background: #2B2419; color: #F8F2E2; border: 0;
+    padding: 10px 22px; border-radius: 999px;
+    font-family: inherit; font-size: 14px; cursor: pointer;
+  }
+  .hint {
+    max-width: 880px; margin: 0 auto 32px;
+    background: rgba(255,255,255,0.5); padding: 14px 20px;
+    border-radius: 12px; font-size: 14px; color: #5C4F3D; line-height: 1.6;
+  }
+
+  /* A4 竖向: 210 x 297 */
+  .sheet {
+    width: 100%;
+    max-width: 880px;
+    aspect-ratio: 210 / 297;
+    margin: 0 auto;
+    background: #F8F2E2;
+    padding: 4%;
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+  }
+  .sheet-head {
+    text-align: center;
+    margin-bottom: 3%;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed rgba(43,36,25,0.2);
+  }
+  .sheet-head h1 {
+    font-size: clamp(16px, 2.2vw, 20px);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .sheet-head p {
+    font-size: clamp(10px, 1.2vw, 12px);
+    color: #8C7C66;
+    letter-spacing: 0.15em;
+  }
+
+  .grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 8% 7%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    border: 1px dashed rgba(43,36,25,0.25);
+  }
+  .card .num-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .card .num {
+    width: clamp(28px, 3.5vw, 38px);
+    height: clamp(28px, 3.5vw, 38px);
+    border-radius: 50%;
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: clamp(14px, 1.8vw, 18px);
+    flex-shrink: 0;
+  }
+  .card .num-label {
+    font-size: clamp(9px, 1.1vw, 11px);
+    letter-spacing: 0.2em;
+    color: #8C7C66;
+  }
+  .card h3 {
+    font-size: clamp(13px, 1.8vw, 17px);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .card p {
+    font-size: clamp(10px, 1.2vw, 12px);
+    color: #5C4F3D;
+    line-height: 1.55;
+    flex: 1;
+  }
+  .card .mark {
+    height: 3px;
+    width: 30px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+  .card .foot {
+    font-size: 9px;
+    color: rgba(140,124,102,0.6);
+    margin-top: 8px;
+    letter-spacing: 0.15em;
+  }
+
+  /* 各卡片颜色 */
+  .card[data-c="coral"]  .num, .card[data-c="coral"]  .mark { background: #E56B5A; }
+  .card[data-c="yellow"] .num, .card[data-c="yellow"] .mark { background: #F4C13E; }
+  .card[data-c="yellow"] .num { color: #2B2419; }
+  .card[data-c="green"]  .num, .card[data-c="green"]  .mark { background: #6FA86D; }
+  .card[data-c="blue"]   .num, .card[data-c="blue"]   .mark { background: #4B7BA8; }
+
+  @media print {
+    @page { size: A4 portrait; margin: 0; }
+    body { background: white; padding: 0; }
+    .controls, .hint { display: none; }
+    .sheet {
+      width: 100vw; height: 100vh; max-width: none;
+      aspect-ratio: auto; box-shadow: none; margin: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <div class="left">
+    <a class="back" href="wall.html">← 全部版本</a>
+    <a class="switch" href="wall-portrait.html">竖版</a>
+    <a class="switch" href="wall-landscape.html">横版</a>
+    <a class="switch active" href="wall-cards.html">单卡片版</a>
+  </div>
+  <div class="right">
+    <button class="print-btn" onclick="window.print()">🖨 打印 / 保存 PDF</button>
+  </div>
+</div>
+
+<div class="hint">
+  💡 6 张独立卡片可裁切下来，分别贴在不同房间：客厅、书房、儿童房、餐厅⋯⋯让每条家规都出现在它最该出现的地方。
+</div>
+
+<div class="sheet">
+  <div class="sheet-head">
+    <h1>我们家的六条 · 可裁切卡片</h1>
+    <p>family.os · v1 · 2026</p>
+  </div>
+
+  <div class="grid">
+
+    <div class="card" data-c="coral">
+      <div class="num-block">
+        <div class="num">一</div>
+        <div class="num-label">RULE 01</div>
+      </div>
+      <div class="mark"></div>
+      <h3>方向 比 目标 重要。</h3>
+      <p>我们不预设谁要成为什么。只确认大家在变得越来越好。</p>
+      <div class="foot">家中所有人</div>
+    </div>
+
+    <div class="card" data-c="yellow">
+      <div class="num-block">
+        <div class="num">二</div>
+        <div class="num-label">RULE 02</div>
+      </div>
+      <div class="mark"></div>
+      <h3>读书 是 家事。</h3>
+      <p>买书的钱永远不省。家里随时都有人正在读一本书。</p>
+      <div class="foot">客厅 · 书架旁</div>
+    </div>
+
+    <div class="card" data-c="green">
+      <div class="num-block">
+        <div class="num">三</div>
+        <div class="num-label">RULE 03</div>
+      </div>
+      <div class="mark"></div>
+      <h3>一起学，不教训。</h3>
+      <p>大人也是学生。"我们一起查查"代替"你应该⋯⋯"。</p>
+      <div class="foot">书房 · 学习桌</div>
+    </div>
+
+    <div class="card" data-c="blue">
+      <div class="num-block">
+        <div class="num">四</div>
+        <div class="num-label">RULE 04</div>
+      </div>
+      <div class="mark"></div>
+      <h3>软技能 也是 学问。</h3>
+      <p>判断、沟通、组织、做选择——饭桌也是教室。</p>
+      <div class="foot">餐厅</div>
+    </div>
+
+    <div class="card" data-c="coral">
+      <div class="num-block">
+        <div class="num">五</div>
+        <div class="num-label">RULE 05</div>
+      </div>
+      <div class="mark"></div>
+      <h3>保护 彼此的 注意力。</h3>
+      <p>不打断对方专注的时刻。吃饭时不刷手机——大人先做。</p>
+      <div class="foot">儿童房 · 玩耍区</div>
+    </div>
+
+    <div class="card" data-c="yellow">
+      <div class="num-block">
+        <div class="num">六</div>
+        <div class="num-label">RULE 06</div>
+      </div>
+      <div class="mark"></div>
+      <h3>不慌，时间是朋友。</h3>
+      <p>非必要不竞争。我们押的是十年，不是这一周。</p>
+      <div class="foot">玄关 · 出门前</div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

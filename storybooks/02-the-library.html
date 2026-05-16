@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>毛毛的小书房</title>
+<meta name="description" content="关于「每天读一点点」的绘本动画。">
+<meta property="og:title" content="毛毛的小书房">
+<meta property="og:description" content="关于「每天读一点点」的绘本动画。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/storybooks/02-the-library">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="毛毛的小书房">
+<meta name="twitter:description" content="关于「每天读一点点」的绘本动画。">
+<meta name="twitter:image" content="https://family.carlxu.cn/og.png">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "LXGW WenKai TC", "LXGW WenKai", serif; background: #FFF8E0; min-height: 100vh; overflow: hidden; }
+  .book { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
+  .top { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 20px 32px; z-index: 20; }
+  .back { text-decoration: none; color: #5C4F3D; font-size: 16px; background: rgba(255,255,255,0.7); padding: 8px 16px; border-radius: 999px; backdrop-filter: blur(8px); }
+  .read-aloud { background: #4B7BA8; color: white; border: 0; padding: 10px 18px; border-radius: 999px; font-family: inherit; font-size: 16px; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,0.1); }
+  .page { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 80px 40px 120px; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
+  .page.is-active { opacity: 1; pointer-events: auto; }
+  .page[data-bg="cream"] { background: #FFF8E0; }
+  .page[data-bg="sky"] { background: #D7E7F4; }
+  .page[data-bg="peach"] { background: #FBE3D5; }
+  .page[data-bg="mint"] { background: #D7EBC9; }
+  .page[data-bg="yellow"] { background: #FBE39A; }
+  .page[data-bg="blue"] { background: #A8C2DE; }
+  .scene { width: min(90vw, 480px); height: 40vh; max-height: 320px; margin-bottom: 32px; position: relative; }
+  .scene svg { width: 100%; height: 100%; }
+  .text { text-align: center; max-width: 640px; }
+  .text h2 { font-size: clamp(24px, 5vw, 38px); line-height: 1.4; color: #2B2419; font-weight: 500; text-wrap: balance; }
+  .text .big { font-size: clamp(32px, 6vw, 52px); line-height: 1.3; color: #4B7BA8; font-weight: 700; margin-top: 12px; }
+  .text .small { font-size: 18px; color: #5C4F3D; margin-top: 16px; }
+  .nav { position: absolute; bottom: 24px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 16px; z-index: 20; }
+  .nav button { background: white; border: 0; width: 56px; height: 56px; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,0.1); font-family: inherit; color: #2B2419; }
+  .nav button:disabled { opacity: 0.4; }
+  .dots { display: flex; gap: 6px; }
+  .dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(43,36,25,0.2); transition: all 0.3s; }
+  .dots span.is-active { background: #4B7BA8; transform: scale(1.4); }
+  .float { animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .pop { animation: pop 0.6s ease; }
+  @keyframes pop { 0% { transform: scale(0); opacity: 0; } 60% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 1; } }
+  .end-card { background: white; padding: 32px; border-radius: 24px; max-width: 480px; box-shadow: 0 8px 0 rgba(0,0,0,0.06), 0 24px 48px -16px rgba(0,0,0,0.2); text-align: center; }
+  .end-card h2 { font-size: 28px; color: #4B7BA8; margin-bottom: 16px; }
+  .end-card p { font-size: 19px; color: #2B2419; line-height: 1.7; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="book">
+  <div class="top">
+    <a class="back" href="../for-youngest.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+  </div>
+
+  <!-- 1 -->
+  <div class="page is-active" data-bg="cream" data-text="毛毛家有一个小小的书房。书房里有一只大椅子。每天爸爸都在那里——不说话，一直看书。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- 房间 -->
+        <rect x="40" y="40" width="320" height="220" fill="#FBE3D5" rx="10"/>
+        <!-- 书架 -->
+        <rect x="60" y="80" width="80" height="160" fill="#A8826B" rx="3"/>
+        <g fill="#E56B5A"><rect x="68" y="92" width="12" height="40"/><rect x="84" y="92" width="12" height="40"/><rect x="100" y="92" width="12" height="40"/><rect x="116" y="92" width="14" height="40"/></g>
+        <g fill="#6FA86D"><rect x="68" y="142" width="12" height="36"/><rect x="84" y="142" width="14" height="36"/><rect x="102" y="142" width="12" height="36"/></g>
+        <g fill="#F4C13E"><rect x="68" y="188" width="14" height="40"/><rect x="86" y="188" width="12" height="40"/><rect x="100" y="188" width="14" height="40"/><rect x="118" y="188" width="12" height="40"/></g>
+        <!-- 大椅子 + 爸爸鸡 -->
+        <g transform="translate(260,170)">
+          <rect x="-50" y="-30" width="100" height="80" rx="14" fill="#6FA86D"/>
+          <rect x="-60" y="20" width="120" height="40" rx="8" fill="#5B8E58"/>
+          <!-- 爸爸鸡（戴眼镜读书） -->
+          <g class="float">
+            <ellipse cx="0" cy="-10" rx="32" ry="36" fill="#FFFDF6"/>
+            <circle cx="0" cy="-48" r="26" fill="#FFFDF6"/>
+            <!-- 眼镜 -->
+            <circle cx="-9" cy="-48" r="7" stroke="#2B2419" stroke-width="2" fill="white" fill-opacity="0.5"/>
+            <circle cx="9" cy="-48" r="7" stroke="#2B2419" stroke-width="2" fill="white" fill-opacity="0.5"/>
+            <line x1="-2" y1="-48" x2="2" y2="-48" stroke="#2B2419" stroke-width="2"/>
+            <polygon points="0,-40 12,-36 0,-32" fill="#E56B5A"/>
+            <!-- 书 -->
+            <rect x="-20" y="0" width="40" height="28" fill="#4B7BA8" rx="2"/>
+            <rect x="-18" y="2" width="36" height="24" fill="#FFFDF6"/>
+            <line x1="0" y1="2" x2="0" y2="26" stroke="#A8C2DE" stroke-width="1"/>
+            <rect x="-15" y="6" width="12" height="1" fill="#8C7C66"/>
+            <rect x="-15" y="10" width="10" height="1" fill="#8C7C66"/>
+            <rect x="-15" y="14" width="13" height="1" fill="#8C7C66"/>
+            <rect x="3" y="6" width="10" height="1" fill="#8C7C66"/>
+            <rect x="3" y="10" width="12" height="1" fill="#8C7C66"/>
+          </g>
+        </g>
+        <!-- 灯 -->
+        <circle cx="260" cy="80" r="14" fill="#FBE39A"/>
+        <line x1="260" y1="80" x2="260" y2="40" stroke="#2B2419" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>毛毛家有一个<span style="color:#4B7BA8;">小书房</span>。</h2>
+      <p class="small">书房里有一只大椅子。<br>每天爸爸都在那里——<br>不说话，一直看书。</p>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="page" data-bg="peach" data-text="毛毛问：爸爸，你在看什么呀？爸爸说：我在看月亮。毛毛说：月亮在天上！爸爸笑笑说：也在这本书里。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- 爸爸鸡（坐着）+ 毛毛在脚边 -->
+        <g transform="translate(160,170)">
+          <ellipse cx="0" cy="0" rx="40" ry="44" fill="#FFFDF6"/>
+          <circle cx="0" cy="-50" r="32" fill="#FFFDF6"/>
+          <circle cx="-10" cy="-52" r="6" stroke="#2B2419" stroke-width="1.5" fill="white"/>
+          <circle cx="10" cy="-52" r="6" stroke="#2B2419" stroke-width="1.5" fill="white"/>
+          <line x1="-2" y1="-52" x2="2" y2="-52" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="-10" cy="-52" r="2" fill="#2B2419"/>
+          <circle cx="10" cy="-52" r="2" fill="#2B2419"/>
+          <polygon points="0,-42 14,-37 0,-32" fill="#E56B5A"/>
+          <path d="M -8,-30 Q 0,-25 8,-30" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <!-- 翻开的书 -->
+          <g transform="translate(0,30)">
+            <path d="M -30,0 L 0,-10 L 30,0 L 30,10 L 0,0 L -30,10 Z" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+            <circle cx="-15" cy="-2" r="6" fill="#FBE39A"/>
+          </g>
+        </g>
+        <!-- 小毛毛站脚边 -->
+        <g transform="translate(280,230)" class="float">
+          <ellipse cx="0" cy="0" rx="22" ry="24" fill="#FFFDF6"/>
+          <circle cx="0" cy="-28" r="18" fill="#FFFDF6"/>
+          <circle cx="-6" cy="-30" r="3" fill="#2B2419"/>
+          <circle cx="6" cy="-30" r="3" fill="#2B2419"/>
+          <polygon points="0,-23 10,-20 0,-17" fill="#E56B5A"/>
+          <!-- 仰头 -->
+          <ellipse cx="-18" cy="-8" rx="7" ry="12" fill="#FBE39A" transform="rotate(-25 -18 -8)"/>
+        </g>
+        <!-- 对话 -->
+        <g transform="translate(80,80)">
+          <ellipse cx="0" cy="0" rx="60" ry="32" fill="white" stroke="#2B2419" stroke-width="1.5"/>
+          <text x="0" y="0" font-size="16" text-anchor="middle" fill="#2B2419">爸爸，</text>
+          <text x="0" y="18" font-size="16" text-anchor="middle" fill="#2B2419">你在看什么？</text>
+        </g>
+        <!-- 月亮飘出来 -->
+        <g class="pop">
+          <circle cx="340" cy="60" r="22" fill="#FBE39A"/>
+          <circle cx="335" cy="55" r="20" fill="#FFF8E0"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>"爸爸，你在看<span style="color:#4B7BA8;">什么</span>呀？"</h2>
+      <p class="small">爸爸说："我在看月亮。"<br>毛毛说："月亮在<strong>天上</strong>！"<br>爸爸笑笑说："也在这本<strong>书里</strong>。"</p>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="page" data-bg="sky" data-text="毛毛凑过去，看到书里——真的有月亮。还有大海。还有一只会说话的兔子！毛毛眼睛睁得大大的。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- 一本翻开的大书 -->
+        <g transform="translate(200,160)">
+          <path d="M -160,-60 L 0,-80 L 160,-60 L 160,80 L 0,60 L -160,80 Z" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <line x1="0" y1="-80" x2="0" y2="60" stroke="#2B2419" stroke-width="1.5"/>
+          <!-- 左页：月亮 + 山 -->
+          <circle cx="-80" cy="-20" r="18" fill="#FBE39A"/>
+          <path d="M -150,30 Q -110,-10 -70,30 Q -30,0 -10,30 L -10,55 L -150,55 Z" fill="#A8C2DE"/>
+          <!-- 右页：兔子 + 海 -->
+          <ellipse cx="0" cy="50" rx="160" ry="6" fill="#7BA8CC"/>
+          <g transform="translate(80,10)" class="float">
+            <ellipse cx="0" cy="10" rx="18" ry="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1"/>
+            <circle cx="0" cy="-10" r="14" fill="#FFFDF6" stroke="#2B2419" stroke-width="1"/>
+            <ellipse cx="-6" cy="-30" rx="3" ry="14" fill="#FFFDF6" stroke="#2B2419" stroke-width="1"/>
+            <ellipse cx="6" cy="-30" rx="3" ry="14" fill="#FFFDF6" stroke="#2B2419" stroke-width="1"/>
+            <circle cx="-4" cy="-12" r="1.5" fill="#2B2419"/>
+            <circle cx="4" cy="-12" r="1.5" fill="#2B2419"/>
+            <circle cx="0" cy="-8" r="2" fill="#E56B5A"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>毛毛凑过去看——</h2>
+      <p class="big">书里有月亮，<br>有大海，<br>还有会说话的兔子！</p>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="page" data-bg="mint" data-text="毛毛说：我也想看！爸爸把一本小书放在毛毛手里。书很小，刚好。每天，毛毛也坐在书房，跟爸爸一起看。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- 椅子 + 爸爸鸡 -->
+        <g transform="translate(140,170)">
+          <rect x="-44" y="-30" width="88" height="70" rx="12" fill="#6FA86D"/>
+          <g>
+            <ellipse cx="0" cy="-10" rx="28" ry="32" fill="#FFFDF6"/>
+            <circle cx="0" cy="-44" r="22" fill="#FFFDF6"/>
+            <circle cx="-7" cy="-46" r="5" stroke="#2B2419" stroke-width="1.5" fill="white"/>
+            <circle cx="7" cy="-46" r="5" stroke="#2B2419" stroke-width="1.5" fill="white"/>
+            <circle cx="-7" cy="-46" r="1.5" fill="#2B2419"/>
+            <circle cx="7" cy="-46" r="1.5" fill="#2B2419"/>
+            <polygon points="0,-38 11,-34 0,-30" fill="#E56B5A"/>
+            <rect x="-15" y="-5" width="30" height="22" fill="#4B7BA8" rx="2"/>
+            <rect x="-13" y="-3" width="26" height="18" fill="#FFFDF6"/>
+            <line x1="0" y1="-3" x2="0" y2="15" stroke="#A8C2DE" stroke-width="1"/>
+          </g>
+        </g>
+        <!-- 小毛毛 也坐在小椅子上 -->
+        <g transform="translate(280,200)" class="float">
+          <rect x="-30" y="-20" width="60" height="50" rx="8" fill="#E56B5A"/>
+          <g>
+            <ellipse cx="0" cy="-5" rx="22" ry="24" fill="#FFFDF6"/>
+            <circle cx="0" cy="-30" r="18" fill="#FFFDF6"/>
+            <circle cx="-6" cy="-32" r="3" fill="#2B2419"/>
+            <circle cx="6" cy="-32" r="3" fill="#2B2419"/>
+            <polygon points="0,-25 10,-22 0,-19" fill="#E56B5A"/>
+            <path d="M -6,-20 Q 0,-15 6,-20" stroke="#2B2419" stroke-width="1.5" fill="none"/>
+            <!-- 小书 -->
+            <rect x="-12" y="-2" width="24" height="16" fill="#F4C13E" rx="1"/>
+            <rect x="-10" y="0" width="20" height="12" fill="#FFFDF6"/>
+            <line x1="0" y1="0" x2="0" y2="12" stroke="#FBE39A" stroke-width="1"/>
+          </g>
+        </g>
+        <!-- 心 -->
+        <text x="200" y="60" font-size="28" fill="#E56B5A" text-anchor="middle">♥</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>毛毛说："<span style="color:#4B7BA8;">我也想看！</span>"</h2>
+      <p class="small">爸爸把一本<strong>小书</strong>放在毛毛手里。<br>书很小，刚好。<br>每天，毛毛也坐在书房，<br><strong>跟爸爸一起看</strong>。</p>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="page" data-bg="yellow" data-text="毛毛看了很多书。她看会了认字。她看到了海里的鱼，山上的鸟。她什么都知道——因为书都告诉她了。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- 一摞书 -->
+        <g transform="translate(120,250)">
+          <rect x="-50" y="-12" width="100" height="20" fill="#E56B5A" rx="2"/>
+          <rect x="-46" y="-30" width="92" height="20" fill="#F4C13E" rx="2"/>
+          <rect x="-52" y="-48" width="104" height="20" fill="#6FA86D" rx="2"/>
+          <rect x="-48" y="-66" width="96" height="20" fill="#4B7BA8" rx="2"/>
+          <rect x="-44" y="-84" width="88" height="20" fill="#A8826B" rx="2"/>
+        </g>
+        <!-- 毛毛坐在书堆顶 -->
+        <g transform="translate(120,140)" class="float">
+          <ellipse cx="0" cy="0" rx="28" ry="30" fill="#FFFDF6"/>
+          <circle cx="0" cy="-32" r="22" fill="#FFFDF6"/>
+          <circle cx="-7" cy="-34" r="3.5" fill="#2B2419"/>
+          <circle cx="7" cy="-34" r="3.5" fill="#2B2419"/>
+          <polygon points="0,-26 12,-22 0,-18" fill="#E56B5A"/>
+          <path d="M -8,-20 Q 0,-13 8,-20" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <!-- 翅膀举起 -->
+          <ellipse cx="-26" cy="-12" rx="8" ry="18" fill="#FBE39A" transform="rotate(-35 -26 -12)"/>
+          <ellipse cx="26" cy="-12" rx="8" ry="18" fill="#FBE39A" transform="rotate(35 26 -12)"/>
+        </g>
+        <!-- 周围飞出的字符/星星 -->
+        <g class="pop" fill="#E56B5A">
+          <text x="280" y="80" font-size="24">★</text>
+          <text x="320" y="160" font-size="20">♪</text>
+          <text x="260" y="200" font-size="18">A</text>
+          <text x="300" y="240" font-size="22">月</text>
+          <text x="240" y="120" font-size="18">鱼</text>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>毛毛看了<span style="color:#4B7BA8;">好多好多</span>书。</h2>
+      <p class="small">她看会了认字。<br>她看到了海里的鱼，山上的鸟。<br>她什么都知道——<br><strong>因为书都告诉她了。</strong></p>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="page" data-bg="blue" data-text="所以呀，小弟弟。每天和爸爸一起，找一本书。读一点点就好。你不需要快——你只需要不停下来。">
+    <div class="end-card">
+      <h2>给小弟弟 📖</h2>
+      <p>每天，</p>
+      <p>和爸爸一起，</p>
+      <p style="font-size: 26px; color: #4B7BA8; font-weight: 700; margin: 16px 0;">找一本书。</p>
+      <p style="font-size: 16px; color: #5C4F3D;">读一点点就好。<br>你不需要快——<br>你只需要<strong>不停下来</strong>。</p>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button id="prev">←</button>
+    <div class="dots" id="dots"></div>
+    <button id="next">→</button>
+  </div>
+</div>
+
+<script>
+  const pages = document.querySelectorAll('.page');
+  const total = pages.length;
+  const dots = document.getElementById('dots');
+  let current = 0;
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('span');
+    if (i === 0) d.classList.add('is-active');
+    dots.appendChild(d);
+  }
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    pages.forEach((p, i) => p.classList.toggle('is-active', i === idx));
+    dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx));
+    current = idx;
+    document.getElementById('prev').disabled = idx === 0;
+    document.getElementById('next').disabled = idx === total - 1;
+  }
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+    if (e.key === 'ArrowRight') goTo(current + 1);
+  });
+  document.getElementById('readBtn').addEventListener('click', () => {
+    const text = pages[current].dataset.text;
+    if (!text || !window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-CN'; u.rate = 0.85; u.pitch = 1.1;
+    speechSynthesis.speak(u);
+  });
+  goTo(0);
+</script>
+</body>
+</html>

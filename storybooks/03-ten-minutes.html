@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>毛毛的十分钟</title>
+<meta name="description" content="关于「不被打扰的时候」的绘本动画。">
+<meta property="og:title" content="毛毛的十分钟">
+<meta property="og:description" content="关于「不被打扰的时候」的绘本动画。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/storybooks/03-ten-minutes">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="毛毛的十分钟">
+<meta name="twitter:description" content="关于「不被打扰的时候」的绘本动画。">
+<meta name="twitter:image" content="https://family.carlxu.cn/og.png">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "LXGW WenKai TC", "LXGW WenKai", serif; background: #FFF8E0; min-height: 100vh; overflow: hidden; }
+  .book { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
+  .top { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 20px 32px; z-index: 20; }
+  .back { text-decoration: none; color: #5C4F3D; font-size: 16px; background: rgba(255,255,255,0.7); padding: 8px 16px; border-radius: 999px; backdrop-filter: blur(8px); }
+  .read-aloud { background: #6FA86D; color: white; border: 0; padding: 10px 18px; border-radius: 999px; font-family: inherit; font-size: 16px; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,0.1); }
+  .page { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 80px 40px 120px; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
+  .page.is-active { opacity: 1; pointer-events: auto; }
+  .page[data-bg="cream"] { background: #FFF8E0; }
+  .page[data-bg="mint"] { background: #D7EBC9; }
+  .page[data-bg="peach"] { background: #FBE3D5; }
+  .page[data-bg="yellow"] { background: #FBE39A; }
+  .page[data-bg="green"] { background: #B5D4A8; }
+  .page[data-bg="sky"] { background: #D7E7F4; }
+  .scene { width: min(90vw, 480px); height: 40vh; max-height: 320px; margin-bottom: 32px; }
+  .scene svg { width: 100%; height: 100%; }
+  .text { text-align: center; max-width: 640px; }
+  .text h2 { font-size: clamp(24px, 5vw, 38px); line-height: 1.4; color: #2B2419; font-weight: 500; text-wrap: balance; }
+  .text .big { font-size: clamp(32px, 6vw, 52px); line-height: 1.3; color: #6FA86D; font-weight: 700; margin-top: 12px; }
+  .text .small { font-size: 18px; color: #5C4F3D; margin-top: 16px; }
+  .nav { position: absolute; bottom: 24px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 16px; z-index: 20; }
+  .nav button { background: white; border: 0; width: 56px; height: 56px; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,0.1); font-family: inherit; color: #2B2419; }
+  .nav button:disabled { opacity: 0.4; }
+  .dots { display: flex; gap: 6px; }
+  .dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(43,36,25,0.2); transition: all 0.3s; }
+  .dots span.is-active { background: #6FA86D; transform: scale(1.4); }
+  .float { animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .shake { animation: shake 0.4s ease-in-out infinite; }
+  @keyframes shake { 0%,100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+  .end-card { background: white; padding: 32px; border-radius: 24px; max-width: 480px; box-shadow: 0 8px 0 rgba(0,0,0,0.06); text-align: center; }
+  .end-card h2 { font-size: 28px; color: #6FA86D; margin-bottom: 16px; }
+  .end-card p { font-size: 19px; color: #2B2419; line-height: 1.7; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="book">
+  <div class="top">
+    <a class="back" href="../for-youngest.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+  </div>
+
+  <!-- 1 -->
+  <div class="page is-active" data-bg="cream" data-text="毛毛在搭积木。她搭得好认真。一块一块。一块一块。这是她最喜欢的时候。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- 地板 -->
+        <rect x="0" y="240" width="400" height="80" fill="#FBE3D5"/>
+        <!-- 积木塔 -->
+        <g>
+          <rect x="170" y="220" width="60" height="20" fill="#E56B5A" rx="2"/>
+          <rect x="175" y="200" width="50" height="20" fill="#F4C13E" rx="2"/>
+          <rect x="180" y="180" width="40" height="20" fill="#6FA86D" rx="2"/>
+          <rect x="185" y="160" width="30" height="20" fill="#4B7BA8" rx="2"/>
+        </g>
+        <!-- 毛毛专注地搭 -->
+        <g transform="translate(120,200)">
+          <ellipse cx="0" cy="0" rx="30" ry="34" fill="#FFFDF6"/>
+          <circle cx="0" cy="-38" r="26" fill="#FFFDF6"/>
+          <!-- 专注的眼神 -->
+          <ellipse cx="-8" cy="-40" rx="3" ry="4" fill="#2B2419"/>
+          <ellipse cx="10" cy="-40" rx="3" ry="4" fill="#2B2419"/>
+          <polygon points="2,-32 14,-28 2,-24" fill="#E56B5A"/>
+          <!-- 翅膀伸向积木 -->
+          <ellipse cx="34" cy="-18" rx="14" ry="8" fill="#FBE39A" transform="rotate(20 34 -18)"/>
+          <!-- 拿着的小积木 -->
+          <rect x="40" y="-32" width="18" height="14" fill="#A8C2DE" rx="2"/>
+        </g>
+        <!-- 沉浸感小圈 -->
+        <g opacity="0.4">
+          <circle cx="200" cy="150" r="100" stroke="#6FA86D" stroke-width="1" fill="none" stroke-dasharray="3 5"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>毛毛在<span style="color:#6FA86D;">搭积木</span>。</h2>
+      <p class="small">她搭得好认真。<br>一块。一块。<br>这是她<strong>最喜欢的时候</strong>。</p>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="page" data-bg="peach" data-text="可是——妈妈走过来了。妈妈：宝宝喝水！妈妈：宝宝穿外套！妈妈：宝宝吃水果！毛毛的塔倒了。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="240" width="400" height="80" fill="#FBE3D5"/>
+        <!-- 倒塌的积木 -->
+        <g>
+          <rect x="100" y="232" width="60" height="16" fill="#E56B5A" rx="2" transform="rotate(-20 130 240)"/>
+          <rect x="180" y="225" width="50" height="16" fill="#F4C13E" rx="2"/>
+          <rect x="250" y="230" width="40" height="16" fill="#6FA86D" rx="2" transform="rotate(15 270 238)"/>
+          <rect x="160" y="248" width="30" height="14" fill="#4B7BA8" rx="2" transform="rotate(-40 175 255)"/>
+        </g>
+        <!-- 毛毛皱眉 -->
+        <g transform="translate(140,200)">
+          <ellipse cx="0" cy="0" rx="28" ry="32" fill="#FFFDF6"/>
+          <circle cx="0" cy="-36" r="24" fill="#FFFDF6"/>
+          <!-- 眉头 -->
+          <path d="M -14,-44 L -4,-46" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+          <path d="M 14,-44 L 4,-46" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="-7" cy="-38" r="3" fill="#2B2419"/>
+          <circle cx="7" cy="-38" r="3" fill="#2B2419"/>
+          <polygon points="0,-30 11,-26 0,-22" fill="#E56B5A"/>
+          <!-- 撅嘴 -->
+          <path d="M -5,-22 Q 0,-25 5,-22" stroke="#2B2419" stroke-width="2" fill="none"/>
+        </g>
+        <!-- 妈妈鸡（大）+ 杯子 -->
+        <g transform="translate(290,180)" class="shake">
+          <ellipse cx="0" cy="0" rx="40" ry="44" fill="#FBE3D5" stroke="#E56B5A" stroke-width="1.5"/>
+          <circle cx="0" cy="-50" r="32" fill="#FBE3D5" stroke="#E56B5A" stroke-width="1.5"/>
+          <circle cx="-8" cy="-52" r="3" fill="#2B2419"/>
+          <circle cx="8" cy="-52" r="3" fill="#2B2419"/>
+          <polygon points="0,-44 14,-40 0,-36" fill="#E56B5A"/>
+          <!-- 拿杯子 -->
+          <rect x="-50" y="-10" width="20" height="22" fill="#A8C2DE" rx="3"/>
+          <ellipse cx="-40" cy="-10" rx="10" ry="3" fill="#7BA8CC"/>
+        </g>
+        <!-- 对话 -->
+        <g transform="translate(60,80)">
+          <ellipse cx="0" cy="0" rx="50" ry="22" fill="white" stroke="#2B2419" stroke-width="1.5"/>
+          <text x="0" y="6" font-size="16" text-anchor="middle" fill="#E56B5A">喝水！</text>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>可是妈妈来了：</h2>
+      <p class="small">"<span style="color:#E56B5A;">宝宝喝水</span>！"<br>"宝宝穿外套！"<br>"宝宝吃水果！"</p>
+      <p class="big" style="color:#E56B5A;">毛毛的塔，倒了。</p>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="page" data-bg="yellow" data-text="毛毛说：妈妈，等我十分钟。我在做一件好认真的事。妈妈愣了一下。然后说：好。我等你。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- 时钟 -->
+        <g transform="translate(120,160)">
+          <circle r="60" fill="white" stroke="#2B2419" stroke-width="3"/>
+          <circle r="55" fill="#FFF8E0"/>
+          <text x="0" y="-38" font-size="14" text-anchor="middle" fill="#2B2419">12</text>
+          <text x="38" y="6" font-size="14" text-anchor="middle" fill="#2B2419">3</text>
+          <text x="0" y="46" font-size="14" text-anchor="middle" fill="#2B2419">6</text>
+          <text x="-38" y="6" font-size="14" text-anchor="middle" fill="#2B2419">9</text>
+          <!-- 时针 + 分针 -->
+          <line x1="0" y1="0" x2="0" y2="-30" stroke="#E56B5A" stroke-width="4" stroke-linecap="round"/>
+          <line x1="0" y1="0" x2="20" y2="-20" stroke="#2B2419" stroke-width="3" stroke-linecap="round"/>
+          <circle r="5" fill="#2B2419"/>
+        </g>
+        <!-- "10分钟" 大字 -->
+        <g transform="translate(280,160)">
+          <text x="0" y="-20" font-size="48" text-anchor="middle" fill="#E56B5A" font-weight="700">10</text>
+          <text x="0" y="20" font-size="20" text-anchor="middle" fill="#2B2419">分钟</text>
+        </g>
+        <!-- 小毛毛抬头 -->
+        <g transform="translate(80,260)">
+          <ellipse cx="0" cy="0" rx="22" ry="24" fill="#FFFDF6"/>
+          <circle cx="0" cy="-28" r="18" fill="#FFFDF6"/>
+          <circle cx="-6" cy="-30" r="3" fill="#2B2419"/>
+          <circle cx="6" cy="-30" r="3" fill="#2B2419"/>
+          <polygon points="0,-22 10,-19 0,-16" fill="#E56B5A"/>
+          <path d="M -6,-18 Q 0,-14 6,-18" stroke="#2B2419" stroke-width="1.5" fill="none"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>毛毛说："妈妈，等我<span style="color:#6FA86D;">十分钟</span>。</h2>
+      <p class="small">我在做一件<strong>好认真</strong>的事。"<br><br>妈妈愣了一下。<br>然后说：<strong>"好。我等你。"</strong></p>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="page" data-bg="mint" data-text="毛毛的塔又开始往上长。一块。一块。一块。这次没有人打扰。她搭出了一只长颈鹿，那么高那么高！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="260" width="400" height="60" fill="#D7EBC9"/>
+        <!-- 高高的积木塔（长颈鹿造型） -->
+        <g>
+          <rect x="180" y="240" width="40" height="20" fill="#E56B5A" rx="2"/>
+          <rect x="175" y="220" width="50" height="20" fill="#F4C13E" rx="2"/>
+          <rect x="180" y="200" width="40" height="20" fill="#6FA86D" rx="2"/>
+          <rect x="185" y="180" width="30" height="20" fill="#4B7BA8" rx="2"/>
+          <rect x="185" y="160" width="30" height="20" fill="#E56B5A" rx="2"/>
+          <rect x="185" y="140" width="30" height="20" fill="#F4C13E" rx="2"/>
+          <rect x="185" y="120" width="30" height="20" fill="#6FA86D" rx="2"/>
+          <rect x="185" y="100" width="30" height="20" fill="#A8826B" rx="2"/>
+          <!-- 长颈鹿头 -->
+          <g transform="translate(200,80)">
+            <ellipse cx="0" cy="0" rx="22" ry="16" fill="#FBE39A"/>
+            <circle cx="-6" cy="-2" r="2" fill="#2B2419"/>
+            <ellipse cx="10" cy="0" rx="4" ry="2" fill="#E56B5A"/>
+            <path d="M -8,-14 L -6,-22 L -4,-14" fill="#FBE39A"/>
+            <path d="M 4,-14 L 6,-22 L 8,-14" fill="#FBE39A"/>
+          </g>
+        </g>
+        <!-- 小毛毛站旁边骄傲 -->
+        <g transform="translate(310,240)" class="float">
+          <ellipse cx="0" cy="0" rx="24" ry="26" fill="#FFFDF6"/>
+          <circle cx="0" cy="-30" r="20" fill="#FFFDF6"/>
+          <circle cx="-6" cy="-32" r="3.5" fill="#2B2419"/>
+          <circle cx="6" cy="-32" r="3.5" fill="#2B2419"/>
+          <polygon points="0,-25 11,-22 0,-19" fill="#E56B5A"/>
+          <path d="M -7,-20 Q 0,-14 7,-20" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <ellipse cx="-22" cy="-10" rx="8" ry="14" fill="#FBE39A" transform="rotate(-35 -22 -10)"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>这次<span style="color:#6FA86D;">没有人打扰</span>。</h2>
+      <p class="small">一块。一块。一块。<br><br>她搭出了一只<strong>长颈鹿</strong>——<br>那么高，那么高！</p>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="page" data-bg="green" data-text="妈妈说：哇，毛毛！你真厉害。毛毛笑了。她最喜欢的东西呀——叫做：不被打扰的时候。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- 妈妈鸡抱毛毛 -->
+        <g transform="translate(200,170)">
+          <ellipse cx="0" cy="0" rx="60" ry="68" fill="#FBE3D5"/>
+          <circle cx="0" cy="-70" r="40" fill="#FBE3D5"/>
+          <circle cx="-10" cy="-72" r="4" fill="#2B2419"/>
+          <circle cx="10" cy="-72" r="4" fill="#2B2419"/>
+          <polygon points="0,-62 16,-58 0,-54" fill="#E56B5A"/>
+          <path d="M -10,-50 Q 0,-42 10,-50" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <!-- 小毛毛被抱 -->
+          <g transform="translate(0,10)">
+            <ellipse cx="0" cy="0" rx="20" ry="22" fill="#FFFDF6"/>
+            <circle cx="0" cy="-22" r="16" fill="#FFFDF6"/>
+            <circle cx="-5" cy="-24" r="3" fill="#2B2419"/>
+            <circle cx="5" cy="-24" r="3" fill="#2B2419"/>
+            <polygon points="0,-18 9,-15 0,-12" fill="#E56B5A"/>
+            <path d="M -5,-13 Q 0,-9 5,-13" stroke="#2B2419" stroke-width="1.5" fill="none"/>
+          </g>
+        </g>
+        <!-- 心 -->
+        <text x="80" y="80" font-size="32" fill="#E56B5A">♥</text>
+        <text x="320" y="80" font-size="28" fill="#E56B5A">♥</text>
+        <text x="60" y="200" font-size="20" fill="#E56B5A">♥</text>
+        <text x="340" y="200" font-size="24" fill="#E56B5A">♥</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>妈妈说："哇——<span style="color:#6FA86D;">毛毛，你真厉害</span>。"</h2>
+      <p class="small">毛毛笑了。<br>她最喜欢的东西呀——<br>叫做：</p>
+      <p class="big">"不被打扰的时候。"</p>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="page" data-bg="sky" data-text="所以呀，小弟弟。你在做一件事的时候，全家都会让你好好做。你的十分钟，是这个家最贵的东西。">
+    <div class="end-card">
+      <h2>给小弟弟 ⏰</h2>
+      <p>你在做一件事的时候——</p>
+      <p style="font-size: 26px; color: #6FA86D; font-weight: 700; margin: 16px 0;">全家都让你<br>好好做。</p>
+      <p style="font-size: 16px; color: #5C4F3D;">你的<strong>十分钟</strong>，<br>是这个家最贵的东西。</p>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button id="prev">←</button>
+    <div class="dots" id="dots"></div>
+    <button id="next">→</button>
+  </div>
+</div>
+
+<script>
+  const pages = document.querySelectorAll('.page');
+  const total = pages.length;
+  const dots = document.getElementById('dots');
+  let current = 0;
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('span');
+    if (i === 0) d.classList.add('is-active');
+    dots.appendChild(d);
+  }
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    pages.forEach((p, i) => p.classList.toggle('is-active', i === idx));
+    dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx));
+    current = idx;
+    document.getElementById('prev').disabled = idx === 0;
+    document.getElementById('next').disabled = idx === total - 1;
+  }
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+    if (e.key === 'ArrowRight') goTo(current + 1);
+  });
+  document.getElementById('readBtn').addEventListener('click', () => {
+    const text = pages[current].dataset.text;
+    if (!text || !window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-CN'; u.rate = 0.85; u.pitch = 1.1;
+    speechSynthesis.speak(u);
+  });
+  goTo(0);
+</script>
+</body>
+</html>

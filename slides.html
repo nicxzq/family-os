@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>家庭幻灯片 · 周末一家人一起看</title>
+<meta name="description" content="14 页投屏幻灯片，把六个核心想法讲清楚。">
+<meta property="og:title" content="家庭幻灯片 · 周末一家人一起看">
+<meta property="og:description" content="14 页投屏幻灯片，把六个核心想法讲清楚。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/slides">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="家庭幻灯片 · 周末一家人一起看">
+<meta name="twitter:description" content="14 页投屏幻灯片，把六个核心想法讲清楚。">
+<meta name="twitter:image" content="https://family.carlxu.cn/og.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="deck-stage.js"></script>
+<style>
+  :root {
+    --cream: #F8F2E2;
+    --cream-deep: #F1E8D0;
+    --paper: #FFFDF6;
+    --ink: #2B2419;
+    --ink-soft: #5C4F3D;
+    --ink-mute: #8C7C66;
+    --coral: #E56B5A;
+    --yellow: #F4C13E;
+    --green: #6FA86D;
+    --blue: #4B7BA8;
+  }
+  body {
+    margin: 0;
+    font-family: "LXGW WenKai TC", "LXGW WenKai", serif;
+    background: #1a1a1a;
+  }
+  deck-stage {
+    --slide-bg: var(--cream);
+    --slide-color: var(--ink);
+  }
+
+  section {
+    padding: 80px 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    color: var(--ink);
+  }
+
+  /* 通用元素 */
+  .eyebrow {
+    font-size: 22px;
+    letter-spacing: 0.25em;
+    color: var(--coral);
+    margin-bottom: 32px;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: 92px;
+    line-height: 1.15;
+    font-weight: 700;
+    margin: 0 0 40px;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+  h1.huge { font-size: 132px; line-height: 1.05; }
+  h2 {
+    font-size: 64px;
+    line-height: 1.25;
+    font-weight: 600;
+    margin: 0 0 32px;
+    text-wrap: balance;
+  }
+  h3 {
+    font-size: 42px;
+    line-height: 1.3;
+    font-weight: 500;
+    margin: 0 0 24px;
+  }
+  p {
+    font-size: 32px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin: 0 0 20px;
+    max-width: 1300px;
+  }
+  p.big { font-size: 40px; color: var(--ink); }
+  p.small { font-size: 24px; color: var(--ink-mute); }
+
+  .accent-coral { color: var(--coral); }
+  .accent-yellow { color: var(--yellow); }
+  .accent-green { color: var(--green); }
+  .accent-blue { color: var(--blue); }
+  .hl { background: linear-gradient(transparent 60%, rgba(244, 193, 62, 0.45) 60%); padding: 0 4px; }
+
+  .slide-num {
+    position: absolute;
+    bottom: 40px;
+    left: 120px;
+    font-size: 18px;
+    color: var(--ink-mute);
+    letter-spacing: 0.2em;
+  }
+  .slide-tag {
+    position: absolute;
+    top: 40px;
+    right: 120px;
+    font-size: 18px;
+    color: var(--ink-mute);
+    letter-spacing: 0.2em;
+  }
+
+  /* 背景变种 */
+  .bg-cream { background: var(--cream); }
+  .bg-deep { background: var(--cream-deep); }
+  .bg-paper { background: var(--paper); }
+  .bg-coral { background: #FBE3D5; }
+  .bg-yellow { background: #FBE39A; }
+  .bg-green { background: #D7EBC9; }
+  .bg-blue { background: #D7E7F4; }
+  .bg-ink { background: var(--ink); color: var(--cream); }
+  .bg-ink p { color: rgba(248, 242, 226, 0.75); }
+  .bg-ink h1, .bg-ink h2, .bg-ink h3 { color: var(--cream); }
+  .bg-ink .slide-num, .bg-ink .slide-tag { color: rgba(248,242,226,0.5); }
+
+  /* 装饰圆点 */
+  .doodle {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.9;
+  }
+
+  /* 比较布局 */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 24px;
+  }
+  .compare-side {
+    background: var(--paper);
+    padding: 48px;
+    border-radius: 24px;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.05);
+  }
+  .compare-side .label {
+    font-size: 22px;
+    letter-spacing: 0.2em;
+    color: var(--ink-mute);
+    margin-bottom: 12px;
+  }
+  .compare-side h3 {
+    font-size: 38px;
+    margin-bottom: 20px;
+  }
+  .compare-side .x { color: var(--coral); }
+  .compare-side .y { color: var(--green); }
+  .compare-side p {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  /* 大数字 */
+  .stat {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin: 40px 0 20px;
+  }
+  .stat .n {
+    font-size: 180px;
+    line-height: 1;
+    font-weight: 700;
+    color: var(--coral);
+  }
+  .stat .u {
+    font-size: 36px;
+    color: var(--ink-soft);
+  }
+
+  /* 列表 */
+  ul.checks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 18px;
+  }
+  ul.checks li {
+    font-size: 30px;
+    color: var(--ink);
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  ul.checks li::before {
+    content: "·";
+    color: var(--coral);
+    font-weight: 700;
+    font-size: 50px;
+    line-height: 0.7;
+  }
+
+  /* 6 张方块 */
+  .six {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .six-card {
+    background: var(--paper);
+    padding: 32px;
+    border-radius: 20px;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.05);
+    position: relative;
+  }
+  .six-card .n {
+    font-size: 20px;
+    letter-spacing: 0.15em;
+    color: var(--ink-mute);
+    margin-bottom: 10px;
+  }
+  .six-card h4 {
+    font-size: 30px;
+    line-height: 1.3;
+    margin: 0 0 10px;
+    font-weight: 600;
+  }
+  .six-card p {
+    font-size: 20px;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.55;
+  }
+  .six-card .bar {
+    position: absolute;
+    top: 0;
+    left: 32px;
+    right: 32px;
+    height: 4px;
+    background: var(--coral);
+    border-radius: 0 0 4px 4px;
+  }
+  .six-card.y .bar { background: var(--yellow); }
+  .six-card.g .bar { background: var(--green); }
+  .six-card.b .bar { background: var(--blue); }
+</style>
+</head>
+<body>
+
+<deck-stage>
+
+  <!-- 1. 封面 -->
+  <section class="bg-cream" data-screen-label="01 封面">
+    <div class="eyebrow">A FAMILY OF LONG-TERMISTS</div>
+    <h1 class="huge">好的<br><span class="accent-coral">家庭教育</span></h1>
+    <p class="big">一家人都听得懂的<span class="hl">六句话</span>。</p>
+    <p class="small">2026 · 我们家 · v1</p>
+
+    <svg class="doodle" style="top: 80px; right: 120px;" width="180" height="180" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="40" stroke="#E56B5A" stroke-width="2" stroke-dasharray="4 6" fill="none"/>
+      <circle cx="50" cy="50" r="22" fill="#F4C13E" opacity="0.85"/>
+      <circle cx="58" cy="46" r="5" fill="#2B2419"/>
+    </svg>
+    <svg class="doodle" style="bottom: 80px; right: 200px;" width="100" height="100" viewBox="0 0 60 60">
+      <path d="M10 30 Q30 5 50 30 Q30 55 10 30 Z" fill="#6FA86D" opacity="0.7"/>
+    </svg>
+
+    <div class="slide-num">01</div>
+  </section>
+
+  <!-- 2. 这不是一份⋯⋯ -->
+  <section class="bg-deep" data-screen-label="02 这不是什么">
+    <div class="eyebrow">首先 · 说清楚</div>
+    <h1>这<span class="accent-coral">不是</span>⋯⋯</h1>
+    <ul class="checks" style="margin-top: 20px;">
+      <li><span style="color: var(--coral); font-weight: 600;">不是</span>一份"鸡娃"清单。</li>
+      <li><span style="color: var(--coral); font-weight: 600;">不是</span>谁要教育谁。</li>
+      <li><span style="color: var(--coral); font-weight: 600;">不是</span>一套要全家照搬的大道理。</li>
+    </ul>
+    <p class="big" style="margin-top: 40px;">是一家人可以一起<span class="hl">慢慢做</span>的几件事。</p>
+    <div class="slide-num">02</div>
+  </section>
+
+  <!-- 3. 一个问题：家庭教育的对象是谁？ -->
+  <section class="bg-cream" data-screen-label="03 对象是谁">
+    <div class="eyebrow">先问一个问题</div>
+    <h1>家庭教育的对象，<br>究竟是<span class="accent-coral">谁</span>？</h1>
+    <p>大多数人脱口而出："孩子。"</p>
+    <p class="big" style="margin-top: 36px;">真相是——首先是<span class="hl">父母</span>。</p>
+    <p style="margin-top: 28px;">再是子女。再是上一代。再是下一代。<br>家庭教育，是<strong style="color: var(--ink);">生生世世</strong>的事。</p>
+    <div class="slide-num">03</div>
+  </section>
+
+  <!-- 4. 6 张总览 -->
+  <section class="bg-deep" data-screen-label="04 六个想法 总览">
+    <div class="eyebrow">六个想法</div>
+    <h2>我们打算照着这六条<br>做一辈子。</h2>
+    <div class="six">
+      <div class="six-card"><div class="bar"></div><div class="n">第 1</div><h4>方向 比 目标 重要</h4><p>不"设计"孩子，一起"发展"</p></div>
+      <div class="six-card y"><div class="bar"></div><div class="n">第 2</div><h4>读书 是 家事</h4><p>家里随时有人在读一本书</p></div>
+      <div class="six-card g"><div class="bar"></div><div class="n">第 3</div><h4>一起学，不教训</h4><p>大人也是学生</p></div>
+      <div class="six-card b"><div class="bar"></div><div class="n">第 4</div><h4>软技能 也是 学问</h4><p>饭桌是教室</p></div>
+      <div class="six-card"><div class="bar"></div><div class="n">第 5</div><h4>保护 注意力</h4><p>不打扰彼此专注的时刻</p></div>
+      <div class="six-card y"><div class="bar"></div><div class="n">第 6</div><h4>时间 是 朋友</h4><p>非必要不竞争</p></div>
+    </div>
+    <div class="slide-num">04</div>
+  </section>
+
+  <!-- 5. 想法 1：发展 vs 设计 -->
+  <section class="bg-coral" data-screen-label="05 想法1 发展论">
+    <div class="slide-tag">第 1 想法 / 06</div>
+    <h2 style="font-size: 72px;">不"<span class="accent-coral">设计</span>"孩子，<br>和他一起"<span class="accent-green">发展</span>"。</h2>
+    <div class="compare">
+      <div class="compare-side">
+        <div class="label">设计论 · 容易掉的坑</div>
+        <h3 class="x">把孩子当作产品</h3>
+        <p>"他将来要做 X 。"</p>
+        <p>三岁就画好路线图，十岁开始焦虑。</p>
+      </div>
+      <div class="compare-side">
+        <div class="label">发展论 · 我们要走的路</div>
+        <h3 class="y">和孩子一起长</h3>
+        <p>"我们一起多读、多动、多想。"</p>
+        <p>能成为什么，让时间回答。</p>
+      </div>
+    </div>
+    <p class="small" style="margin-top: 36px;">设计有终点。发展没有。</p>
+    <div class="slide-num">05</div>
+  </section>
+
+  <!-- 6. 想法 2：持续阅读 -->
+  <section class="bg-yellow" data-screen-label="06 想法2 持续阅读">
+    <div class="slide-tag">第 2 想法 / 06</div>
+    <h2 style="font-size: 72px;">读书，是这个家<br><span class="hl">最便宜</span>也<span class="hl">最重要</span>的习惯。</h2>
+    <div class="stat">
+      <span class="n">200</span>
+      <span class="u">本书的钱<br>≈ 1 个补习班</span>
+    </div>
+    <p>200 本书，可以读十年。<br>一年的补习班，到第二年就忘了。</p>
+    <p class="big" style="margin-top: 28px;">买书的钱，<span class="hl">永远不省</span>。</p>
+    <div class="slide-num">06</div>
+  </section>
+
+  <!-- 7. 想法 3：教是最好的学 -->
+  <section class="bg-green" data-screen-label="07 想法3 教是最好的学">
+    <div class="slide-tag">第 3 想法 / 06</div>
+    <h2 style="font-size: 72px;">"教是最好的学"——<br>所以家长才是<br>学得最多的那个。</h2>
+    <p style="margin-top: 20px;">孩子问"为什么天是蓝的"——</p>
+    <p class="big">这是他在<span class="hl">送我一个免费的补课机会</span>。</p>
+    <p style="margin-top: 28px;">不当"老师"，当"同学"。<br>"我也不懂，<span class="accent-coral">我们一起查</span>"——是这家最有用的一句话。</p>
+    <div class="slide-num">07</div>
+  </section>
+
+  <!-- 8. 想法 4：学习的真相 -->
+  <section class="bg-blue" data-screen-label="08 想法4 学习真相">
+    <div class="slide-tag">第 4 想法 / 06</div>
+    <h2 style="font-size: 64px;">学校里能教的，<br>是<span class="accent-blue">硬技能</span>。</h2>
+    <h2 style="font-size: 64px; margin-top: 24px;">学校里不教的<br>那些——<br>才决定一个人的一辈子。</h2>
+    <ul class="checks" style="margin-top: 36px;">
+      <li>"你怎么看这件事？" — 判断力</li>
+      <li>"你怎么跟他说？" — 沟通</li>
+      <li>"你打算怎么安排？" — 组织</li>
+    </ul>
+    <p class="small" style="margin-top: 28px;">饭桌，是世界上最贵的私教课——它免费。</p>
+    <div class="slide-num">08</div>
+  </section>
+
+  <!-- 9. 想法 5：注意力 -->
+  <section class="bg-deep" data-screen-label="09 想法5 注意力">
+    <div class="slide-tag">第 5 想法 / 06</div>
+    <h2 style="font-size: 72px;">注意力，是这家里<br><span class="accent-coral">最贵的东西</span>。</h2>
+    <p>钱可以再赚。时间可以再省。</p>
+    <p class="big">注意力一旦被切碎——<span class="hl">就再也凑不回来</span>。</p>
+    <ul class="checks" style="margin-top: 32px;">
+      <li>每个人都有一段不被打断的时间。</li>
+      <li>吃饭时不刷手机——大人先做到。</li>
+      <li>孩子做事十分钟没人打断——比一小时被打断的"学习"管用十倍。</li>
+    </ul>
+    <div class="slide-num">09</div>
+  </section>
+
+  <!-- 10. 想法 6：时间是朋友 -->
+  <section class="bg-cream" data-screen-label="10 想法6 时间">
+    <div class="slide-tag">第 6 想法 / 06</div>
+    <h2 style="font-size: 72px;">把时间当<span class="accent-green">朋友</span>，<br>不当<span class="accent-coral">对手</span>。</h2>
+    <div class="stat">
+      <span class="n">0.9<sup style="font-size: 80px;">100</sup></span>
+      <span class="u">≈ <span style="color: var(--coral); font-weight: 600;">十万分之三</span><br>就算每次赢 90%</span>
+    </div>
+    <p class="big">真正重要的关口，<br>这辈子<span class="hl">就那么几次</span>。</p>
+    <p class="small" style="margin-top: 28px;">求学、求职、选谁一起生活——其它的让别人争去。</p>
+    <div class="slide-num">10</div>
+  </section>
+
+  <!-- 11. 那我们家具体怎么做？ -->
+  <section class="bg-deep" data-screen-label="11 家规预告">
+    <div class="eyebrow">所以——</div>
+    <h1>我们家<br>有<span class="accent-coral">六条</span>。</h1>
+    <p class="big">不挂嘴上，<span class="hl">贴墙上</span>。</p>
+    <p>客厅、餐厅、孩子房间——都行。<br>看一百遍，比说一百遍管用。</p>
+    <div class="slide-num">11</div>
+  </section>
+
+  <!-- 12. 家规 -->
+  <section class="bg-paper" data-screen-label="12 我们家的六条">
+    <div class="eyebrow">我们家的六条</div>
+    <div class="six">
+      <div class="six-card"><div class="bar"></div><div class="n">一</div><h4>方向 比 目标 重要</h4></div>
+      <div class="six-card y"><div class="bar"></div><div class="n">二</div><h4>读书 是 家事</h4></div>
+      <div class="six-card g"><div class="bar"></div><div class="n">三</div><h4>一起学，不教训</h4></div>
+      <div class="six-card b"><div class="bar"></div><div class="n">四</div><h4>软技能 也是 学问</h4></div>
+      <div class="six-card"><div class="bar"></div><div class="n">五</div><h4>保护 注意力</h4></div>
+      <div class="six-card y"><div class="bar"></div><div class="n">六</div><h4>不慌，时间是朋友</h4></div>
+    </div>
+    <p class="small" style="margin-top: 36px;">— 我们家 · 2026 ·  v1，会一直升级 —</p>
+    <div class="slide-num">12</div>
+  </section>
+
+  <!-- 13. 第一步要做什么 -->
+  <section class="bg-yellow" data-screen-label="13 第一步">
+    <div class="eyebrow">这周开始</div>
+    <h1>这周<span class="accent-coral">先做一件事</span>——</h1>
+    <p class="big" style="margin-top: 28px;">每晚睡前 <span class="hl">30 分钟</span>，<br>全家关掉手机，各读各的。</p>
+    <p style="margin-top: 36px;">不催、不查、不"今天读了什么"。<br>读什么都行，发呆也行。</p>
+    <p class="small" style="margin-top: 28px;">一周后我们一起聊聊——这 30 分钟，给你的家带来了什么。</p>
+    <div class="slide-num">13</div>
+  </section>
+
+  <!-- 14. 结尾 -->
+  <section class="bg-ink" data-screen-label="14 结尾">
+    <div class="eyebrow" style="color: var(--yellow);">最后一页</div>
+    <h1 class="huge">先从<span class="accent-coral">我</span>开始。<br>然后是<span class="accent-yellow">我们</span>。<br>最后是这个<span class="accent-green">家</span>。</h1>
+    <p style="font-size: 26px; opacity: 0.7; margin-top: 48px;">— 把家当作一辈子的项目 —</p>
+    <div class="slide-num">14</div>
+  </section>
+
+</deck-stage>
+
+</body>
+</html>
