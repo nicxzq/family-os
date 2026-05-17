@@ -129,39 +129,41 @@
     margin-top: 16px;
   }
 
-  /* 导航 */
-  .nav {
+  /* 左右导航按钮：固定在页面左右边缘垂直居中 */
+  .nav-btn {
     position: absolute;
-    bottom: 24px;
-    left: 0; right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    z-index: 20;
-  }
-  .nav button {
-    background: white;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.88);
     border: 0;
     width: 56px;
     height: 56px;
     border-radius: 50%;
     font-size: 24px;
     cursor: pointer;
-    box-shadow: 0 3px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
     font-family: inherit;
     color: #2B2419;
+    z-index: 20;
+    backdrop-filter: blur(4px);
   }
-  .nav button:disabled { opacity: 0.4; }
-  .nav button:active { transform: translateY(1px); box-shadow: 0 2px 0 rgba(0,0,0,0.1); }
-  .dots {
+  .nav-btn:disabled { opacity: 0.3; pointer-events: none; }
+  .nav-btn:active { transform: translateY(calc(-50% + 1px)); box-shadow: 0 2px 0 rgba(0,0,0,0.1); }
+  #prev { left: 12px; }
+  #next { right: 12px; }
+
+  /* 进度圆点：保留在底部居中 */
+  .dots-wrap {
+    position: absolute;
+    bottom: 24px;
+    left: 0; right: 0;
     display: flex;
-    gap: 6px;
+    justify-content: center;
+    z-index: 20;
   }
+  .dots { display: flex; gap: 6px; }
   .dots span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
+    width: 8px; height: 8px; border-radius: 50%;
     background: rgba(43, 36, 25, 0.2);
     transition: background 0.3s, transform 0.3s;
   }
@@ -214,6 +216,68 @@
     line-height: 1.7;
     margin-bottom: 12px;
   }
+
+  /* 互动元素 */
+  .interactive {
+    cursor: pointer;
+    transform-box: fill-box;
+    transform-origin: center center;
+  }
+  .interactive:hover { opacity: 0.9; }
+
+  /* 一次性动画类 */
+  .do-bounce {
+    animation: iBounce 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both !important;
+  }
+  @keyframes iBounce {
+    0%   { transform: translateY(0) scale(1); }
+    25%  { transform: translateY(-18px) scale(1.15); }
+    55%  { transform: translateY(-4px) scale(0.96); }
+    75%  { transform: translateY(-8px) scale(1.05); }
+    100% { transform: translateY(0) scale(1); }
+  }
+  .do-shake {
+    animation: iShake 0.55s ease both !important;
+  }
+  @keyframes iShake {
+    0%,100% { transform: rotate(0deg); }
+    18%     { transform: rotate(-22deg); }
+    38%     { transform: rotate(18deg); }
+    58%     { transform: rotate(-14deg); }
+    78%     { transform: rotate(9deg); }
+  }
+  .do-wobble {
+    animation: iWobble 0.7s ease both !important;
+  }
+  @keyframes iWobble {
+    0%,100% { transform: scaleX(1) scaleY(1); }
+    20%     { transform: scaleX(1.25) scaleY(0.75); }
+    45%     { transform: scaleX(0.85) scaleY(1.2); }
+    65%     { transform: scaleX(1.1) scaleY(0.9); }
+    80%     { transform: scaleX(0.96) scaleY(1.04); }
+  }
+
+  /* 语音气泡 */
+  .speech-bubble {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border-radius: 999px;
+    padding: 6px 16px;
+    font-size: 20px;
+    font-family: "LXGW WenKai TC", serif;
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.12);
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 50;
+    animation: bPop 0.3s ease;
+  }
+  @keyframes bPop {
+    from { transform: translateX(-50%) scale(0); opacity: 0; }
+    to   { transform: translateX(-50%) scale(1); opacity: 1; }
+  }
 </style>
 </head>
 <body>
@@ -234,7 +298,7 @@
         <!-- 草地 -->
         <ellipse cx="200" cy="280" rx="220" ry="40" fill="#6FA86D"/>
         <!-- 小鸡毛毛 -->
-        <g class="wiggle">
+        <g id="p1-mao" class="wiggle">
           <ellipse cx="200" cy="200" rx="50" ry="55" fill="#FFFDF6"/>
           <circle cx="200" cy="140" r="42" fill="#FFFDF6"/>
           <!-- 嘴 -->
@@ -275,7 +339,7 @@
           <text x="0" y="6" font-size="28" text-anchor="middle" fill="#2B2419">?</text>
         </g>
         <!-- 毛毛躲起来 -->
-        <g transform="translate(200,250)">
+        <g id="p2-mao" transform="translate(200,250)">
           <ellipse cx="0" cy="0" rx="60" ry="20" fill="#2B2419" opacity="0.15"/>
           <ellipse cx="0" cy="-20" rx="44" ry="48" fill="#FFFDF6"/>
           <!-- 眼睛闭着 -->
@@ -305,7 +369,7 @@
         <circle cx="340" cy="60" r="28" fill="#FBE39A"/>
         <circle cx="335" cy="55" r="26" fill="#FFF8E0"/>
         <!-- 卡梅拉（小鸡）勇敢站着 -->
-        <g class="float" transform="translate(180,200)">
+        <g id="p3-kamela" class="float" transform="translate(180,200)">
           <ellipse cx="0" cy="0" rx="32" ry="38" fill="#FFFDF6"/>
           <circle cx="0" cy="-42" r="30" fill="#FFFDF6"/>
           <polygon points="0,-32 15,-26 0,-20" fill="#E56B5A"/>
@@ -349,7 +413,7 @@
           <circle cx="0" cy="10" r="2" fill="#FBE39A"/>
         </g>
         <!-- 毛毛 偷偷尝 -->
-        <g transform="translate(150,200)" class="float">
+        <g id="p4-mao" transform="translate(150,200)" class="float">
           <ellipse cx="0" cy="0" rx="42" ry="46" fill="#FFFDF6"/>
           <circle cx="0" cy="-50" r="36" fill="#FFFDF6"/>
           <polygon points="20,-50 38,-45 22,-40" fill="#E56B5A"/>
@@ -381,7 +445,7 @@
         <!-- 太阳 -->
         <circle cx="340" cy="60" r="30" fill="#FBE39A"/>
         <!-- 三只小鸡一起跑 -->
-        <g transform="translate(80,210)" class="float">
+        <g id="p5-chick1" transform="translate(80,210)" class="float">
           <ellipse cx="0" cy="0" rx="28" ry="32" fill="#FFFDF6"/>
           <circle cx="0" cy="-36" r="24" fill="#FFFDF6"/>
           <circle cx="-7" cy="-38" r="3" fill="#2B2419"/>
@@ -389,7 +453,7 @@
           <polygon points="0,-32 12,-28 0,-24" fill="#E56B5A"/>
           <path d="M -6,-26 Q 0,-22 6,-26" stroke="#2B2419" stroke-width="1.5" fill="none"/>
         </g>
-        <g transform="translate(190,200)" class="float" style="animation-delay: -1s;">
+        <g id="p5-chick2" transform="translate(190,200)" class="float" style="animation-delay: -1s;">
           <ellipse cx="0" cy="0" rx="32" ry="36" fill="#FFFDF6"/>
           <circle cx="0" cy="-40" r="28" fill="#FFFDF6"/>
           <circle cx="-8" cy="-42" r="3.5" fill="#2B2419"/>
@@ -398,7 +462,7 @@
           <path d="M -8,-30 Q 0,-24 8,-30" stroke="#2B2419" stroke-width="2" fill="none"/>
           <ellipse cx="-30" cy="-12" rx="10" ry="18" fill="#FBE39A" transform="rotate(-30 -30 -12)"/>
         </g>
-        <g transform="translate(310,210)" class="float" style="animation-delay: -2s;">
+        <g id="p5-chick3" transform="translate(310,210)" class="float" style="animation-delay: -2s;">
           <ellipse cx="0" cy="0" rx="28" ry="32" fill="#FFFDF6"/>
           <circle cx="0" cy="-36" r="24" fill="#FFFDF6"/>
           <circle cx="-7" cy="-38" r="3" fill="#2B2419"/>
@@ -429,15 +493,38 @@
     </div>
   </div>
 
-  <div class="nav">
-    <button id="prev" aria-label="上一页">←</button>
-    <div class="dots" id="dots"></div>
-    <button id="next" aria-label="下一页">→</button>
-  </div>
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
 
 </div>
 
 <script>
+  function makeInteractive(el, animClass, msg) {
+    if (!el) return;
+    el.classList.add('interactive');
+    el.addEventListener('click', function () {
+      if (el._busy) return;
+      el._busy = true;
+      el.classList.remove(animClass);
+      void el.getBoundingClientRect();
+      el.classList.add(animClass);
+      if (msg) {
+        const scene = el.closest('.scene');
+        scene.style.position = 'relative';
+        const b = document.createElement('div');
+        b.className = 'speech-bubble';
+        b.textContent = msg;
+        scene.appendChild(b);
+        setTimeout(() => b.remove(), 1500);
+      }
+      setTimeout(() => {
+        el.classList.remove(animClass);
+        el._busy = false;
+      }, 750);
+    });
+  }
+
   const pages = document.querySelectorAll('.page');
   const total = pages.length;
   const dots = document.getElementById('dots');
@@ -479,6 +566,11 @@
   });
 
   goTo(0);
+  makeInteractive(document.getElementById('p1-mao'), 'do-bounce', '你好呀！👋');
+  makeInteractive(document.getElementById('p2-mao'), 'do-shake', '不要——！😤');
+  makeInteractive(document.getElementById('p3-kamela'), 'do-bounce', '试一试！🐣');
+  makeInteractive(document.getElementById('p4-mao'), 'do-bounce', '哇，甜的！😍');
+  ['p5-chick1','p5-chick2','p5-chick3'].forEach(id => makeInteractive(document.getElementById(id), 'do-bounce', '♥'));
 </script>
 
 </body>
