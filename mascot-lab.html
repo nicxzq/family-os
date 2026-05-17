@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>角色实验室 · 毛毛 + 你们一家</title>
+<meta name="description" content="为家里每个成员上传头像，让他们出现在毛毛的故事里。">
+<meta property="og:title" content="角色实验室 · 毛毛 + 你们一家">
+<meta property="og:description" content="为家里每个成员上传头像，让他们出现在毛毛的故事里。">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="mascot.js"></script>
+<style>
+  .lab {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 28px 100px;
+  }
+  .lab .back {
+    display: inline-flex; align-items: center; gap: 6px;
+    text-decoration: none; color: var(--ink-mute); font-size: 14px;
+    margin-bottom: 32px;
+  }
+  .lab h1 {
+    font-size: clamp(32px, 4.5vw, 48px);
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .lab .lede {
+    font-size: 18px; color: var(--ink-soft); line-height: 1.7;
+    margin-bottom: 56px; max-width: 700px;
+  }
+
+  .section-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .section-bar h2 { font-size: 24px; line-height: 1.3; }
+  .section-bar .line {
+    flex: 1;
+    height: 1px;
+    background: rgba(43,36,25,0.15);
+  }
+
+  /* ═══════ 姿势画廊 ═══════ */
+  .poses {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 16px;
+    margin-bottom: 60px;
+  }
+  .pose-card {
+    background: var(--paper);
+    border-radius: 16px;
+    padding: 20px 16px 16px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    cursor: pointer;
+    transition: transform 0.2s;
+    border: 2px solid transparent;
+  }
+  .pose-card:hover { transform: translateY(-2px); border-color: rgba(229,107,90,0.3); }
+  .pose-card .pose-name {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-top: 6px;
+    letter-spacing: 0.05em;
+  }
+  .pose-card .pose-code {
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-family: 'SF Mono', Menlo, monospace;
+    margin-top: 4px;
+  }
+
+  /* ═══════ 角色名册 ═══════ */
+  .roster {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 64px;
+  }
+  .member {
+    background: var(--paper);
+    border-radius: 20px;
+    padding: 24px 20px;
+    box-shadow: var(--shadow-card);
+    text-align: center;
+    position: relative;
+  }
+  .member .avatar-stage {
+    margin: 0 auto 16px;
+    width: 140px;
+    height: 154px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .member h3 {
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  .member .meta {
+    font-size: 12px;
+    color: var(--ink-mute);
+    margin-bottom: 16px;
+  }
+  .member .meta.has-image {
+    color: var(--green);
+  }
+  .actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-small {
+    background: var(--cream);
+    border: 0;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    color: var(--ink);
+    transition: background 0.15s;
+  }
+  .btn-small:hover { background: var(--cream-deep); }
+  .btn-small.primary {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .btn-small.danger {
+    background: transparent;
+    color: var(--coral);
+  }
+  .pose-select {
+    border: 0;
+    background: var(--cream);
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  /* ═══════ 故事预览 ═══════ */
+  .story-preview {
+    background: linear-gradient(180deg, #FBE39A, #F4C13E);
+    border-radius: 24px;
+    padding: 48px 40px;
+    text-align: center;
+    margin-bottom: 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .story-preview .label {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .story-preview h3 {
+    font-size: 26px;
+    line-height: 1.4;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+  .story-stage {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .story-controls {
+    margin-top: 24px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ═══════ 教程 ═══════ */
+  .howto {
+    background: var(--paper);
+    border-radius: 20px;
+    padding: 28px 32px;
+    box-shadow: var(--shadow-soft);
+  }
+  .howto h2 { margin-bottom: 16px; font-size: 22px; }
+  .howto pre {
+    background: #1a1a1a;
+    color: #e5e5e5;
+    padding: 18px 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    margin: 14px 0;
+  }
+  .howto code {
+    background: rgba(0,0,0,0.06);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: 'SF Mono', monospace;
+    font-size: 13px;
+  }
+  .howto p { margin-bottom: 12px; }
+  .howto ul { padding-left: 24px; margin-bottom: 12px; line-height: 1.8; }
+
+  /* 文件输入隐藏 */
+  .file-input { display: none; }
+
+  /* 头像/画作模式切换 */
+  .mode-toggle {
+    display: inline-flex;
+    margin-top: 12px;
+    background: var(--cream);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .btn-mode {
+    background: transparent;
+    border: 0;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    color: var(--ink-soft);
+    transition: all 0.15s;
+  }
+  .btn-mode.is-on {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--ink);
+    color: var(--cream);
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+  .toast.is-shown {
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="lab">
+  <a class="back" href="index.html">← 回家庭操作系统</a>
+
+  <h1>角色实验室</h1>
+  <p class="lede">
+    毛毛是一只小小鸡——但她可以变成你们家的任何一个人。<br>
+    为每个家庭成员上传一张照片，他们会以"小鸡毛毛 + 自己的脸"出现在故事里；<br>
+    也可以让孩子画一只全新的角色，扫描后选"完整画作"——他自己的画就是主角。<br>
+    照片只存在这台设备上，不上传任何地方。
+  </p>
+
+  <!-- ═══════ 角色名册 ═══════ -->
+  <div class="section-bar">
+    <h2>我们家的角色</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="roster" id="roster"></div>
+
+  <!-- ═══════ 故事预览 ═══════ -->
+  <div class="section-bar">
+    <h2>看看一起出现的样子</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="story-preview">
+    <div class="label">PREVIEW · 一家人</div>
+    <h3 id="story-title">"我们今天，<br>一起去看月亮。"</h3>
+    <div class="story-stage" id="story-stage"></div>
+    <div class="story-controls">
+      <button class="btn-small" onclick="setStoryPose('standing')">站立</button>
+      <button class="btn-small" onclick="setStoryPose('reading')">看书</button>
+      <button class="btn-small" onclick="setStoryPose('proud')">自豪</button>
+      <button class="btn-small" onclick="setStoryPose('thinking')">思考</button>
+      <button class="btn-small" onclick="setStoryPose('surprised')">惊讶</button>
+      <button class="btn-small" onclick="setStoryPose('running')">奔跑</button>
+    </div>
+  </div>
+
+  <!-- ═══════ 姿势画廊 ═══════ -->
+  <div class="section-bar">
+    <h2>可用的姿势 · 8 种</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="poses" id="poses"></div>
+
+  <!-- ═══════ 怎么用 ═══════ -->
+  <div class="section-bar">
+    <h2>怎么在新故事里用</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="howto">
+    <p><strong>给 Claude Code 的提示词模板</strong>（复制粘贴即可）：</p>
+    <pre>请用 mascot.js 系统创作一个新的毛毛绘本：
+- 主题：[XX]（比如：关于专注 / 关于读书 / 关于...）
+- 主角：可以用毛毛、卡梅拉，也可以用我家庭名册里的成员（爸爸/妈妈/大宝/小宝）
+- 长度：6 页，最后一页是结尾卡
+- 风格：和 storybooks/01-try-it.html 完全一致
+- 关键：每个角色用 &lt;family-character who="X" pose="Y" size="N"&gt;&lt;/family-character&gt; 调用
+- 文件保存到 storybooks/0X-名字.html
+- 别忘了在 for-youngest.html 里加入新绘本卡片</pre>
+
+    <p><strong>在 HTML 里手动写一个角色：</strong></p>
+    <pre>&lt;!-- 必须先引入 --&gt;
+&lt;script src="mascot.js"&gt;&lt;/script&gt;
+
+&lt;!-- 然后随处使用 --&gt;
+&lt;family-character who="毛毛" pose="reading" size="200"&gt;&lt;/family-character&gt;
+&lt;family-character who="小宝" pose="proud" size="180" show-name&gt;&lt;/family-character&gt;
+&lt;family-character who="卡梅拉" pose="surprised" size="160"&gt;&lt;/family-character&gt;</pre>
+
+    <p><strong>属性说明：</strong></p>
+    <ul>
+      <li><code>who</code> — 角色名（毛毛 / 卡梅拉 / 爸爸 / 妈妈 / 大宝 / 小宝 / 或您自定义）</li>
+      <li><code>pose</code> — 姿势（standing / reading / shy / surprised / proud / thinking / running / sleeping）</li>
+      <li><code>size</code> — 像素大小（默认 200）</li>
+      <li><code>show-name</code> — 加上这个属性会在下方显示名字</li>
+    </ul>
+
+    <p><strong>原理：</strong>头像数据存在浏览器本地（localStorage），所有页面共享。同一台设备上看任何故事，都能看到您给家人设定的脸。</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- 加载 SVG 符号库到页面（这样 <use> 才能引用） -->
+<div id="mascot-mount" style="display:none;"></div>
+
+<script>
+  // 把 mascot.svg 内容载入到 DOM，这样 <use href="#maomao-xxx"> 能找到
+  (async () => {
+    try {
+      const res = await fetch('mascot.svg');
+      const text = await res.text();
+      // extract <svg>...</svg> body
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, 'image/svg+xml');
+      const svg = doc.documentElement;
+      svg.style.display = 'none';
+      document.body.appendChild(svg);
+
+      // 现在让 mascot.js 的 family-character 用页内引用
+      window.__USE_INLINE_SYMBOLS = true;
+
+      // re-render any already-mounted family-character elements
+      document.querySelectorAll('family-character').forEach(el => {
+        if (typeof el.render === 'function') el.render();
+      });
+
+      renderAll();
+    } catch (e) {
+      console.warn('Could not inline mascot.svg, falling back to external reference', e);
+      renderAll();
+    }
+  })();
+
+  // 由于我们已 inline 了 SVG，重写 use 引用为 #id
+  // (mascot.js 默认会用 mascot.svg#id，这里我们劫持渲染让它用内联符号)
+  const POSES = [
+    { id: 'standing', label: '站立' },
+    { id: 'reading', label: '看书' },
+    { id: 'shy', label: '害羞' },
+    { id: 'surprised', label: '惊讶' },
+    { id: 'proud', label: '自豪' },
+    { id: 'thinking', label: '思考' },
+    { id: 'running', label: '奔跑' },
+    { id: 'sleeping', label: '睡觉' },
+  ];
+  const ALL_MEMBERS = ['毛毛', '卡梅拉', '爸爸', '妈妈', '大宝', '小宝'];
+
+  function makeCharacterHTML(who, pose, size = 140, showName = false) {
+    const el = document.createElement('family-character');
+    el.setAttribute('who', who);
+    el.setAttribute('pose', pose);
+    el.setAttribute('size', size);
+    if (showName) el.setAttribute('show-name', '');
+    return el;
+  }
+
+  // ═══════ 渲染姿势画廊 ═══════
+  function renderPoses() {
+    const container = document.getElementById('poses');
+    container.innerHTML = '';
+    POSES.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'pose-card';
+      card.innerHTML = `<div class="pose-vis"></div>
+        <div class="pose-name">${p.label}</div>
+        <div class="pose-code">pose="${p.id}"</div>`;
+      card.querySelector('.pose-vis').appendChild(makeCharacterHTML('毛毛', p.id, 130));
+      container.appendChild(card);
+    });
+  }
+
+  // ═══════ 渲染角色名册 ═══════
+  function renderRoster() {
+    const container = document.getElementById('roster');
+    container.innerHTML = '';
+    const roster = window.FamilyRoster.get();
+
+    ALL_MEMBERS.forEach(name => {
+      const m = roster[name];
+      const hasImage = !!m.image;
+
+      const card = document.createElement('div');
+      card.className = 'member';
+      card.innerHTML = `
+        <div class="avatar-stage"></div>
+        <h3>${m.label}</h3>
+        <div class="meta ${hasImage ? 'has-image' : ''}">${hasImage ? '✓ 自定义头像' : '默认毛毛形象'}</div>
+        <div class="actions">
+          <input type="file" class="file-input" accept="image/*" id="file-${name}">
+          <label class="btn-small primary" for="file-${name}">${hasImage ? '更换' : '上传照片/画作'}</label>
+          <select class="pose-select" data-who="${name}">
+            ${POSES.map(p => `<option value="${p.id}">${p.label}</option>`).join('')}
+          </select>
+          ${hasImage ? `<button class="btn-small danger" data-clear="${name}">清除</button>` : ''}
+        </div>
+        ${hasImage ? `
+        <div class="mode-toggle" data-who="${name}">
+          <button class="btn-mode ${(m.imageMode||'avatar')==='avatar' ? 'is-on' : ''}" data-mode="avatar">头像 + 小鸡身体</button>
+          <button class="btn-mode ${m.imageMode==='drawing' ? 'is-on' : ''}" data-mode="drawing">完整画作</button>
+        </div>` : ''}
+      `;
+      card.querySelector('.avatar-stage').appendChild(makeCharacterHTML(name, 'standing', 130));
+      container.appendChild(card);
+
+      // 上传
+      const fileInput = card.querySelector(`#file-${name}`);
+      fileInput.addEventListener('change', async e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        // 压缩为 dataURL (max 400px)
+        const dataUrl = await compressImage(file, 400);
+        window.FamilyRoster.setMember(name, { image: dataUrl });
+        showToast(`${name} 的头像已保存`);
+        renderRoster();
+        renderStoryStage();
+      });
+
+      // 切换姿势预览
+      const select = card.querySelector('.pose-select');
+      select.addEventListener('change', e => {
+        const stage = card.querySelector('.avatar-stage');
+        stage.innerHTML = '';
+        stage.appendChild(makeCharacterHTML(name, e.target.value, 130));
+      });
+
+      // 切换 image 模式
+      card.querySelectorAll(`.mode-toggle[data-who="${name}"] .btn-mode`).forEach(btn => {
+        btn.addEventListener('click', () => {
+          window.FamilyRoster.setMember(name, { imageMode: btn.dataset.mode });
+          renderRoster();
+          renderStoryStage();
+        });
+      });
+
+      // 清除照片
+      const clearBtn = card.querySelector(`[data-clear="${name}"]`);
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          if (confirm(`确定清除 ${name} 的自定义头像吗？`)) {
+            window.FamilyRoster.setMember(name, { image: null });
+            renderRoster();
+            renderStoryStage();
+            showToast(`${name} 已恢复默认形象`);
+          }
+        });
+      }
+    });
+  }
+
+  // ═══════ 渲染故事预览 ═══════
+  let storyPose = 'standing';
+  function renderStoryStage() {
+    const stage = document.getElementById('story-stage');
+    stage.innerHTML = '';
+    ALL_MEMBERS.forEach(name => {
+      stage.appendChild(makeCharacterHTML(name, storyPose, 130, true));
+    });
+  }
+  window.setStoryPose = (p) => {
+    storyPose = p;
+    renderStoryStage();
+  };
+
+  // ═══════ 工具函数 ═══════
+  function compressImage(file, maxSize) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > height) {
+            if (width > maxSize) { height *= maxSize / width; width = maxSize; }
+          } else {
+            if (height > maxSize) { width *= maxSize / height; height = maxSize; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', 0.85));
+        };
+        img.onerror = reject;
+        img.src = reader.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('is-shown');
+    clearTimeout(t._h);
+    t._h = setTimeout(() => t.classList.remove('is-shown'), 2200);
+  }
+
+  function renderAll() {
+    renderPoses();
+    renderRoster();
+    renderStoryStage();
+  }
+
+  // 监听任何地方触发的更新
+  window.addEventListener('family-roster-changed', () => {
+    renderRoster();
+    renderStoryStage();
+  });
+</script>
+
+</body>
+</html>
