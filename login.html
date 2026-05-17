@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>家庭成员</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --coral:#E56B5A;
+    --coral-soft:#F4A799;
+    --yellow:#F4C13E;
+    --yellow-soft:#FBE39A;
+    --green:#6FA86D;
+    --green-soft:#B5D4A8;
+    --blue:#4B7BA8;
+    --blue-soft:#A8C2DE;
+    --cream:#F8F2E2;
+    --cream-deep:#F1E8D0;
+    --ink:#2B2419;
+    --ink-soft:#5C4F3D;
+    --ink-mute:#8C7C66;
+    --shadow-card:0 4px 0 rgba(43,36,25,0.06),0 12px 32px -16px rgba(43,36,25,0.18);
+    --shadow-soft:0 2px 0 rgba(43,36,25,0.08);
+    --radius:18px;
+    --radius-lg:28px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: "LXGW WenKai TC", serif;
+    padding: 28px 16px 48px;
+  }
+  .page {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .topbar {
+    margin-bottom: 22px;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--ink-soft);
+    background: rgba(255,255,255,0.72);
+    padding: 8px 14px;
+    border-radius: 999px;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: clamp(34px, 8vw, 46px);
+    margin: 0 0 8px;
+  }
+  .subtitle {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 18px;
+  }
+  .member-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    margin: 28px 0 20px;
+  }
+  .member-card,
+  .create-card {
+    background: white;
+    border: 0;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 20px;
+    text-align: center;
+    font-family: inherit;
+    color: var(--ink);
+    cursor: pointer;
+    min-height: 184px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .member-card svg,
+  .avatar-btn svg {
+    border-radius: 50%;
+  }
+  .member-card:hover,
+  .create-card:hover {
+    transform: translateY(-2px);
+  }
+  .member-card,
+  .create-card,
+  .avatar-btn,
+  .color-btn,
+  .role-btn,
+  .submit-btn,
+  .ghost-link {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .member-name {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .role-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    color: white;
+  }
+  .role-badge.child { background: var(--coral); }
+  .role-badge.parent { background: var(--blue); }
+  .create-card {
+    border: 2px dashed var(--coral-soft);
+    background: rgba(255,255,255,0.48);
+  }
+  .create-plus {
+    font-size: 40px;
+    line-height: 1;
+    color: var(--coral);
+  }
+  .create-form {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease, margin-top 0.25s ease;
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 0 20px;
+  }
+  .create-form.is-open {
+    max-height: 720px;
+    opacity: 1;
+    margin-top: 16px;
+    padding: 24px 20px;
+  }
+  .create-form h3 {
+    margin: 0 0 18px;
+    font-size: 26px;
+  }
+  .field {
+    margin-bottom: 18px;
+  }
+  .field label,
+  .picker-label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+  .text-input,
+  .code-input {
+    width: 100%;
+    border: 2px solid var(--cream-deep);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    font: inherit;
+    background: var(--cream);
+    color: var(--ink);
+  }
+  .avatar-row,
+  .color-row,
+  .role-row {
+    display: flex;
+    gap: 10px;
+  }
+  .avatar-row { justify-content: space-between; }
+  .avatar-btn,
+  .role-btn {
+    border: 2px solid transparent;
+    border-radius: var(--radius);
+    background: var(--cream);
+    cursor: pointer;
+    font: inherit;
+    color: var(--ink);
+  }
+  .avatar-btn {
+    width: 62px;
+    height: 62px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .avatar-btn.is-selected {
+    border: 3px solid var(--coral);
+    background: white;
+  }
+  .color-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    padding: 0;
+    flex: 0 0 auto;
+  }
+  .color-btn[data-color="coral"] { background: var(--coral); }
+  .color-btn[data-color="blue"] { background: var(--blue); }
+  .color-btn[data-color="green"] { background: var(--green); }
+  .color-btn[data-color="yellow"] { background: var(--yellow); }
+  .color-btn.is-selected {
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.9);
+  }
+  .role-btn {
+    flex: 1;
+    padding: 14px 12px;
+    font-size: 18px;
+    background: white;
+    border-color: var(--cream-deep);
+  }
+  .role-btn.is-selected {
+    background: var(--cream-deep);
+    border-color: var(--ink);
+  }
+  #code-wrap {
+    display: none;
+  }
+  #code-wrap.is-visible {
+    display: block;
+  }
+  .submit-btn {
+    width: 100%;
+    border: 0;
+    border-radius: 999px;
+    padding: 15px 18px;
+    font: inherit;
+    font-size: 18px;
+    color: white;
+    background: var(--coral);
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+  }
+  .error {
+    min-height: 22px;
+    margin: 10px 0 0;
+    color: var(--coral);
+    font-size: 14px;
+  }
+  .guest-link {
+    display: inline-block;
+    margin-top: 22px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 15px;
+  }
+  .helper {
+    margin-top: 10px;
+    color: var(--ink-mute);
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="topbar">
+    <a id="back-link" class="back-link" href="index.html" hidden>← 返回</a>
+    <h1>家庭成员</h1>
+    <p class="subtitle">选择你是谁</p>
+  </div>
+
+  <div id="member-grid" class="member-grid"></div>
+
+  <div id="create-form" class="create-form">
+    <h3>新建成员</h3>
+    <form id="member-form">
+      <div class="field">
+        <label for="name-input">名字</label>
+        <input id="name-input" class="text-input" type="text" placeholder="叫什么名字？" maxlength="8">
+      </div>
+      <div class="field">
+        <div class="picker-label">选头像</div>
+        <div id="avatar-row" class="avatar-row"></div>
+      </div>
+      <div class="field">
+        <div class="picker-label">选颜色</div>
+        <div id="color-row" class="color-row"></div>
+      </div>
+      <div class="field">
+        <div class="picker-label">我是</div>
+        <div class="role-row">
+          <button type="button" class="role-btn is-selected" data-role="child">🐣 孩子</button>
+          <button type="button" class="role-btn" data-role="parent">🐓 家长</button>
+        </div>
+      </div>
+      <div id="code-wrap" class="field">
+        <label for="code-input">家庭码</label>
+        <input id="code-input" class="code-input" type="password" placeholder="默认 1234">
+        <div class="helper">只有家长档案需要输入家庭码。</div>
+      </div>
+      <button type="submit" class="submit-btn">开始阅读 →</button>
+      <p id="error-msg" class="error"></p>
+    </form>
+  </div>
+
+  <a id="guest-link" class="guest-link" href="index.html">以访客继续</a>
+</div>
+
+<script src="/fo-utils.js"></script>
+<script>
+  (function () {
+    var back = new URLSearchParams(location.search).get('back');
+    var backLink = document.getElementById('back-link');
+    var memberGrid = document.getElementById('member-grid');
+    var createForm = document.getElementById('create-form');
+    var guestLink = document.getElementById('guest-link');
+    var form = document.getElementById('member-form');
+    var nameInput = document.getElementById('name-input');
+    var codeWrap = document.getElementById('code-wrap');
+    var codeInput = document.getElementById('code-input');
+    var errorMsg = document.getElementById('error-msg');
+    var selected = { avatar: 'chick', color: 'coral', role: 'child' };
+    var avatars = ['chick', 'dad', 'mom', 'star'];
+    var colors = ['coral', 'blue', 'green', 'yellow'];
+
+    function targetHref() {
+      return back || 'index.html';
+    }
+
+    if (back) {
+      backLink.hidden = false;
+      backLink.href = back;
+    }
+
+    function renderMembers() {
+      var members = FO.getMembers();
+      memberGrid.innerHTML = '';
+      members.forEach(function (member) {
+        var card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'member-card';
+        card.innerHTML =
+          FO.avatarSVG(member.avatar, member.color, 64) +
+          '<div class="member-name">' + member.name + '</div>' +
+          '<span class="role-badge ' + member.role + '">' + (member.role === 'parent' ? '家长' : '孩子') + '</span>';
+        card.addEventListener('click', function () {
+          FO.setMember(member);
+          location.href = targetHref();
+        });
+        memberGrid.appendChild(card);
+      });
+
+      var createCard = document.createElement('button');
+      createCard.type = 'button';
+      createCard.className = 'create-card';
+      createCard.innerHTML = '<div class="create-plus">＋</div><div>新建成员</div>';
+      createCard.addEventListener('click', function () {
+        createForm.classList.toggle('is-open');
+      });
+      memberGrid.appendChild(createCard);
+    }
+
+    function renderAvatarPicker() {
+      var row = document.getElementById('avatar-row');
+      row.innerHTML = '';
+      avatars.forEach(function (avatar) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'avatar-btn' + (selected.avatar === avatar ? ' is-selected' : '');
+        btn.innerHTML = FO.avatarSVG(avatar, 'coral', 48);
+        btn.addEventListener('click', function () {
+          selected.avatar = avatar;
+          renderAvatarPicker();
+        });
+        row.appendChild(btn);
+      });
+    }
+
+    function renderColorPicker() {
+      var row = document.getElementById('color-row');
+      row.innerHTML = '';
+      colors.forEach(function (color) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'color-btn' + (selected.color === color ? ' is-selected' : '');
+        btn.setAttribute('data-color', color);
+        btn.setAttribute('aria-label', color);
+        btn.addEventListener('click', function () {
+          selected.color = color;
+          renderColorPicker();
+        });
+        row.appendChild(btn);
+      });
+    }
+
+    function syncRole(role) {
+      selected.role = role;
+      document.querySelectorAll('.role-btn').forEach(function (btn) {
+        btn.classList.toggle('is-selected', btn.getAttribute('data-role') === role);
+      });
+      codeWrap.classList.toggle('is-visible', role === 'parent');
+    }
+
+    document.querySelectorAll('.role-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        syncRole(btn.getAttribute('data-role'));
+      });
+    });
+
+    guestLink.addEventListener('click', function (event) {
+      event.preventDefault();
+      localStorage.removeItem('fo_member');
+      location.href = 'index.html';
+    });
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      errorMsg.textContent = '';
+      var name = nameInput.value.trim();
+      if (!name) {
+        errorMsg.textContent = '请先填写名字。';
+        return;
+      }
+      if (selected.role === 'parent' && codeInput.value !== FO.getFamilyCode()) {
+        errorMsg.textContent = '家庭码不对。';
+        return;
+      }
+      var member = {
+        id: FO.uuid(),
+        name: name,
+        role: selected.role,
+        avatar: selected.avatar,
+        color: selected.color,
+        joined: Date.now()
+      };
+      FO.addMember(member);
+      FO.setMember(member);
+      location.href = targetHref();
+    });
+
+    renderMembers();
+    renderAvatarPicker();
+    renderColorPicker();
+    syncRole('child');
+  })();
+</script>
+</body>
+</html>

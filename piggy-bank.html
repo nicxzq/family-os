@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>零花钱实验室</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --coral:#E56B5A;
+    --coral-soft:#F4A799;
+    --yellow:#F4C13E;
+    --yellow-soft:#FBE39A;
+    --green:#6FA86D;
+    --green-soft:#B5D4A8;
+    --blue:#4B7BA8;
+    --blue-soft:#A8C2DE;
+    --cream:#F8F2E2;
+    --cream-deep:#F1E8D0;
+    --ink:#2B2419;
+    --ink-soft:#5C4F3D;
+    --ink-mute:#8C7C66;
+    --shadow-card:0 4px 0 rgba(43,36,25,0.06),0 12px 32px -16px rgba(43,36,25,0.18);
+    --shadow-soft:0 2px 0 rgba(43,36,25,0.08);
+    --radius:18px;
+    --radius-lg:28px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+    background: radial-gradient(circle at top, rgba(244,193,62,0.18), transparent 36%), var(--cream);
+    color: var(--ink);
+    font-family: "LXGW WenKai TC", serif;
+  }
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .back-link,
+  .member-pill {
+    text-decoration: none;
+    color: var(--ink);
+    background: rgba(255,255,255,0.84);
+    border-radius: 999px;
+    padding: 8px 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: var(--shadow-soft);
+  }
+  .member-pill svg { border-radius: 50%; }
+  .title {
+    text-align: center;
+    margin: 10px 0 0;
+    font-size: clamp(30px, 7vw, 44px);
+  }
+  .piggy-card,
+  .quick-actions,
+  .ledger,
+  .goals-section,
+  .entry-form,
+  .login-card {
+    background: rgba(255,255,255,0.72);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 22px;
+    margin-top: 18px;
+  }
+  .piggy-wrap {
+    position: relative;
+    height: 240px;
+    text-align: center;
+  }
+  .piggy-wrap svg {
+    width: 180px;
+    max-width: 100%;
+  }
+  .balance {
+    margin-top: 8px;
+    text-align: center;
+    font-size: clamp(32px, 7vw, 42px);
+    color: var(--coral);
+    font-weight: 700;
+  }
+  .quick-actions {
+    display: flex;
+    gap: 12px;
+  }
+  .action-btn,
+  .submit-btn,
+  .chip,
+  .goal-add-btn,
+  .goal-save-btn,
+  .login-btn {
+    font: inherit;
+    transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .action-btn {
+    flex: 1;
+    height: 52px;
+    border: 0;
+    border-radius: var(--radius);
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  .action-btn.income { background: var(--green); }
+  .action-btn.expense { background: var(--coral); }
+  .entry-form {
+    max-height: 0;
+    overflow: hidden;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease;
+  }
+  .entry-form.is-open {
+    max-height: 400px;
+    opacity: 1;
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+  .entry-form h3,
+  .ledger h2,
+  .goals-section h2,
+  .login-card h2 {
+    margin: 0 0 14px;
+    font-size: 24px;
+  }
+  .field {
+    margin-bottom: 14px;
+  }
+  .field label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--ink-soft);
+  }
+  .amount-input,
+  .goal-input,
+  .goal-target,
+  .goal-emoji {
+    width: 100%;
+    border: 2px solid var(--cream-deep);
+    border-radius: var(--radius);
+    padding: 13px 14px;
+    font: inherit;
+    background: white;
+    color: var(--ink);
+  }
+  .chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+  .chip {
+    border: 2px solid var(--cream-deep);
+    background: white;
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 10px 14px;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .chip.is-selected {
+    border-color: var(--ink);
+    background: var(--cream-deep);
+  }
+  .submit-btn,
+  .goal-add-btn,
+  .goal-save-btn,
+  .login-btn {
+    border: 0;
+    border-radius: 999px;
+    background: var(--coral);
+    color: white;
+    padding: 14px 16px;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+  }
+  .submit-btn,
+  .goal-save-btn {
+    width: 100%;
+  }
+  .ledger-list,
+  .goal-list {
+    display: grid;
+    gap: 12px;
+  }
+  .entry-item,
+  .goal-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    box-shadow: var(--shadow-card);
+  }
+  .entry-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .entry-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .entry-emoji {
+    font-size: 22px;
+  }
+  .entry-meta {
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+  .entry-amount.income { color: var(--green); }
+  .entry-amount.expense { color: var(--coral); }
+  .goal-card strong {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  .goal-bar {
+    width: 100%;
+    height: 12px;
+    background: var(--cream-deep);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .goal-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--yellow), var(--coral-soft));
+    border-radius: 999px;
+  }
+  .goal-meta {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+  .goal-done {
+    color: var(--coral);
+    font-weight: 700;
+  }
+  .goal-form {
+    display: none;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--cream-deep);
+  }
+  .goal-form.is-open {
+    display: grid;
+    gap: 12px;
+  }
+  .coin {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #F4C13E;
+    border: 2px solid #E56B5A;
+    top: 0;
+    left: 50%;
+    margin-left: -14px;
+    animation: coinDrop .7s ease forwards;
+    z-index: 10;
+    pointer-events: none;
+  }
+  @keyframes coinDrop {
+    0% { transform: translateY(-80px); opacity: 1; }
+    80% { transform: translateY(80px); opacity: .6; }
+    100% { transform: translateY(80px); opacity: 0; }
+  }
+  .empty {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  .login-btn {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  @media (max-width: 640px) {
+    .quick-actions,
+    .goal-meta,
+    .topbar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .entry-item {
+      align-items: flex-start;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="topbar">
+    <a class="back-link" href="dashboard.html">← 返回</a>
+    <div class="title">零花钱实验室🐷</div>
+    <a id="member-pill" class="member-pill" href="login.html"></a>
+  </div>
+
+  <section id="login-card" class="login-card" hidden>
+    <h2>先选一个成员</h2>
+    <p>零花钱账本按成员分别保存，登录后才能继续。</p>
+    <a class="login-btn" href="login.html?back=piggy-bank.html">去登录</a>
+  </section>
+
+  <section id="piggy-body" hidden>
+    <section class="piggy-card">
+      <div id="piggy-wrap" class="piggy-wrap">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <defs>
+            <clipPath id="pig-clip">
+              <ellipse cx="100" cy="110" rx="88" ry="78"></ellipse>
+            </clipPath>
+          </defs>
+          <rect id="pig-fill" x="12" y="32" width="176" height="156" fill="#FBE39A" clip-path="url(#pig-clip)" style="transform-origin:bottom center;transform:scaleY(0);transition:transform 0.5s"></rect>
+          <ellipse cx="100" cy="110" rx="88" ry="78" fill="#F4A799"></ellipse>
+          <rect x="44" y="162" width="16" height="24" rx="6" fill="#E56B5A"></rect>
+          <rect x="74" y="162" width="16" height="24" rx="6" fill="#E56B5A"></rect>
+          <rect x="118" y="162" width="16" height="24" rx="6" fill="#E56B5A"></rect>
+          <rect x="148" y="162" width="16" height="24" rx="6" fill="#E56B5A"></rect>
+          <rect x="82" y="30" width="36" height="12" rx="6" fill="#8C7C66"></rect>
+          <path d="M175,90 Q190,80 185,100 Q180,120 190,115" stroke="#E56B5A" stroke-width="3" fill="none" stroke-linecap="round"></path>
+          <ellipse cx="138" cy="118" rx="20" ry="14" fill="#F4A799"></ellipse>
+          <circle cx="132" cy="119" r="4" fill="#E56B5A"></circle>
+          <circle cx="144" cy="119" r="4" fill="#E56B5A"></circle>
+          <circle cx="75" cy="92" r="5" fill="#2B2419"></circle>
+          <circle cx="95" cy="92" r="5" fill="#2B2419"></circle>
+        </svg>
+      </div>
+      <div id="balance" class="balance">¥ 0.00</div>
+    </section>
+
+    <section class="quick-actions">
+      <button class="action-btn income" data-form="income-form">+ 收入</button>
+      <button class="action-btn expense" data-form="expense-form">- 支出</button>
+    </section>
+
+    <section id="income-form" class="entry-form">
+      <h3>记一笔收入</h3>
+      <div class="field">
+        <label for="income-amount">金额</label>
+        <input id="income-amount" class="amount-input" type="number" inputmode="decimal" min="0" step="0.01">
+      </div>
+      <div class="field">
+        <label>分类</label>
+        <div id="income-chips" class="chips"></div>
+      </div>
+      <button id="income-submit" class="submit-btn" type="button">记一笔 →</button>
+    </section>
+
+    <section id="expense-form" class="entry-form">
+      <h3>记一笔支出</h3>
+      <div class="field">
+        <label for="expense-amount">金额</label>
+        <input id="expense-amount" class="amount-input" type="number" inputmode="decimal" min="0" step="0.01">
+      </div>
+      <div class="field">
+        <label>分类</label>
+        <div id="expense-chips" class="chips"></div>
+      </div>
+      <button id="expense-submit" class="submit-btn" type="button">记一笔 →</button>
+    </section>
+
+    <section class="ledger">
+      <h2>📓 账本</h2>
+      <div id="ledger-list" class="ledger-list"></div>
+    </section>
+
+    <section class="goals-section">
+      <h2>🎯 储蓄目标</h2>
+      <div id="goal-list" class="goal-list"></div>
+      <button id="goal-add-btn" class="goal-add-btn" type="button">+ 新目标</button>
+      <div id="goal-form" class="goal-form">
+        <input id="goal-name" class="goal-input" type="text" placeholder="目标名字">
+        <input id="goal-target" class="goal-target" type="number" inputmode="decimal" min="0" step="0.01" placeholder="目标金额">
+        <select id="goal-emoji" class="goal-emoji">
+          <option value="🎮">🎮</option>
+          <option value="📚">📚</option>
+          <option value="🎨">🎨</option>
+          <option value="🚲">🚲</option>
+          <option value="🎁">🎁</option>
+        </select>
+        <button id="goal-save-btn" class="goal-save-btn" type="button">保存目标</button>
+      </div>
+    </section>
+  </section>
+</div>
+
+<script src="/fo-utils.js"></script>
+<script>
+  const MAX_BALANCE = 200;
+
+  (function () {
+    var member = FO.getMember();
+    var memberPill = document.getElementById('member-pill');
+    var loginCard = document.getElementById('login-card');
+    var piggyBody = document.getElementById('piggy-body');
+    var pigFill = document.getElementById('pig-fill');
+    var piggyWrap = document.getElementById('piggy-wrap');
+    var balanceEl = document.getElementById('balance');
+    var incomeDefs = [
+      { emoji: '🎁', label: '零花钱' },
+      { emoji: '🧹', label: '做家务' },
+      { emoji: '🎂', label: '生日礼金' },
+      { emoji: '🏆', label: '奖励' }
+    ];
+    var expenseDefs = [
+      { emoji: '🍔', label: '零食' },
+      { emoji: '📚', label: '买书' },
+      { emoji: '🎮', label: '玩具' },
+      { emoji: '🎨', label: '文具' },
+      { emoji: '💝', label: '礼物' }
+    ];
+    var state = {
+      income: incomeDefs[0],
+      expense: expenseDefs[0]
+    };
+
+    memberPill.innerHTML = member ? FO.avatarSVG(member.avatar, member.color, 28) + '<span>' + member.name + '</span>' : '登录';
+
+    if (!member) {
+      loginCard.hidden = false;
+      return;
+    }
+
+    piggyBody.hidden = false;
+
+    function getData() {
+      return FO.getPiggy(member.id);
+    }
+
+    function saveData(data) {
+      FO.setPiggy(member.id, data);
+    }
+
+    function renderChips(containerId, key, defs) {
+      var container = document.getElementById(containerId);
+      container.innerHTML = '';
+      defs.forEach(function (def) {
+        var chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'chip' + (state[key].label === def.label ? ' is-selected' : '');
+        chip.textContent = def.emoji + def.label;
+        chip.addEventListener('click', function () {
+          state[key] = def;
+          renderChips(containerId, key, defs);
+        });
+        container.appendChild(chip);
+      });
+    }
+
+    function animateCoin() {
+      var coin = document.createElement('div');
+      coin.className = 'coin';
+      piggyWrap.appendChild(coin);
+      setTimeout(function () {
+        coin.remove();
+      }, 800);
+    }
+
+    function renderPiggy() {
+      var data = getData();
+      var ratio = Math.max(0, Math.min(1, data.balance / MAX_BALANCE));
+      pigFill.style.transform = 'scaleY(' + ratio + ')';
+      balanceEl.textContent = '¥ ' + data.balance.toFixed(2);
+    }
+
+    function renderLedger() {
+      var list = document.getElementById('ledger-list');
+      var entries = getData().entries.slice().sort(function (a, b) { return b.ts - a.ts; });
+      list.innerHTML = '';
+      if (!entries.length) {
+        list.innerHTML = '<p class="empty">还没有记账，先加第一笔吧！</p>';
+        return;
+      }
+      entries.forEach(function (entry) {
+        var item = document.createElement('div');
+        item.className = 'entry-item';
+        item.innerHTML =
+          '<div class="entry-left">' +
+            '<span class="entry-emoji">' + entry.emoji + '</span>' +
+            '<div><strong>' + entry.label + '</strong><div class="entry-meta">' + FO.formatTimeAgo(entry.ts) + '</div></div>' +
+          '</div>' +
+          '<strong class="entry-amount ' + entry.type + '">' + (entry.type === 'income' ? '+' : '-') + '¥' + entry.amount.toFixed(2) + '</strong>';
+        list.appendChild(item);
+      });
+    }
+
+    function renderGoals() {
+      var data = getData();
+      var list = document.getElementById('goal-list');
+      list.innerHTML = '';
+      if (!data.goals.length) {
+        list.innerHTML = '<p class="empty">先定一个想存下来的小目标。</p>';
+        return;
+      }
+      data.goals.forEach(function (goal) {
+        var ratio = goal.target > 0 ? Math.max(0, Math.min(1, goal.saved / goal.target)) : 0;
+        var card = document.createElement('div');
+        card.className = 'goal-card';
+        card.innerHTML =
+          '<strong>' + goal.emoji + ' ' + goal.name + '</strong>' +
+          '<div class="goal-bar"><div class="goal-fill" style="width:' + (ratio * 100) + '%;"></div></div>' +
+          '<div class="goal-meta">' +
+            '<span>¥' + goal.saved.toFixed(2) + ' / ¥' + goal.target.toFixed(2) + '</span>' +
+            '<span class="' + (data.balance >= goal.target ? 'goal-done' : '') + '">' + (data.balance >= goal.target ? '🎉达成！' : '') + '</span>' +
+          '</div>';
+        list.appendChild(card);
+      });
+    }
+
+    function updateGoalSavings(data) {
+      data.goals = data.goals.map(function (goal) {
+        return {
+          id: goal.id,
+          name: goal.name,
+          target: goal.target,
+          saved: Math.min(data.balance, goal.target),
+          emoji: goal.emoji
+        };
+      });
+    }
+
+    function submitEntry(type) {
+      var input = document.getElementById(type + '-amount');
+      var amount = Number(input.value);
+      if (!amount || amount <= 0) {
+        alert('请输入正确金额。');
+        return;
+      }
+      var selected = state[type];
+      var data = getData();
+      data.entries.unshift({
+        id: FO.uuid(),
+        type: type,
+        amount: amount,
+        label: selected.label,
+        emoji: selected.emoji,
+        ts: Date.now()
+      });
+      if (type === 'income') {
+        data.balance += amount;
+      } else {
+        data.balance = Math.max(0, data.balance - amount);
+      }
+      updateGoalSavings(data);
+      saveData(data);
+      input.value = '';
+      animateCoin();
+      renderPiggy();
+      renderLedger();
+      renderGoals();
+    }
+
+    document.querySelectorAll('.action-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var target = btn.getAttribute('data-form');
+        document.querySelectorAll('.entry-form').forEach(function (form) {
+          form.classList.toggle('is-open', form.id === target ? !form.classList.contains('is-open') : false);
+        });
+      });
+    });
+
+    document.getElementById('income-submit').addEventListener('click', function () {
+      submitEntry('income');
+    });
+
+    document.getElementById('expense-submit').addEventListener('click', function () {
+      submitEntry('expense');
+    });
+
+    document.getElementById('goal-add-btn').addEventListener('click', function () {
+      document.getElementById('goal-form').classList.toggle('is-open');
+    });
+
+    document.getElementById('goal-save-btn').addEventListener('click', function () {
+      var name = document.getElementById('goal-name').value.trim();
+      var target = Number(document.getElementById('goal-target').value);
+      var emoji = document.getElementById('goal-emoji').value;
+      if (!name || !target || target <= 0) {
+        alert('目标名字和金额都要填。');
+        return;
+      }
+      var data = getData();
+      data.goals.push({
+        id: FO.uuid(),
+        name: name,
+        target: target,
+        saved: Math.min(data.balance, target),
+        emoji: emoji
+      });
+      saveData(data);
+      document.getElementById('goal-name').value = '';
+      document.getElementById('goal-target').value = '';
+      document.getElementById('goal-form').classList.remove('is-open');
+      renderGoals();
+    });
+
+    renderChips('income-chips', 'income', incomeDefs);
+    renderChips('expense-chips', 'expense', expenseDefs);
+    renderPiggy();
+    renderLedger();
+    renderGoals();
+  })();
+</script>
+</body>
+</html>

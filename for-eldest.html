@@ -22,6 +22,8 @@
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.85); border:0; border-radius:999px; padding:6px 14px 6px 6px; font-family:inherit; font-size:14px; cursor:pointer; color:#5C4F3D; box-shadow:0 2px 0 rgba(43,36,25,0.08); }
+  .nav-member-btn svg { border-radius:50%; }
   .game {
     max-width: 720px;
     margin: 0 auto;
@@ -211,7 +213,10 @@
 <body>
 
 <div class="game">
-  <a class="back" href="index.html">← 回家庭操作系统</a>
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:32px;">
+    <a class="back" href="index.html" style="margin-bottom:0;">← 回家庭操作系统</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </div>
 
   <div class="game-intro" id="intro">
     <h1>嘿，<span class="accent">十二岁的你</span>。</h1>
@@ -390,6 +395,21 @@
       window.scrollTo({top: 0, behavior: 'smooth'});
     });
   });
+</script>
+<script src="/fo-utils.js"></script>
+<script>
+  (function(){
+    var m = window.FO ? FO.getMember() : null;
+    var el = document.getElementById('nav-member-btn');
+    if (!el) return;
+    if (m) {
+      el.innerHTML = FO.avatarSVG(m.avatar, m.color, 28) + '<span>' + m.name + '</span>';
+      el.onclick = function(){ location.href='dashboard.html'; };
+    } else {
+      el.innerHTML = '<span>登录</span>';
+      el.onclick = function(){ location.href='login.html'; };
+    }
+  })();
 </script>
 
 </body>

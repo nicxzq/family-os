@@ -68,7 +68,7 @@
 </head>
 <body>
 <div class="book">
-  <div class="top"><a class="back" href="../for-youngest.html">← 回绘本目录</a><button class="read-aloud" id="readBtn">🔊 念给我听</button></div>
+  <div class="top"><a class="back" href="../for-youngest.html">← 回绘本目录</a><button class="read-aloud" id="readBtn">🔊 念给我听</button><a href="../dashboard.html" class="dash-link" style="background:rgba(255,255,255,0.7);padding:8px 14px;border-radius:999px;text-decoration:none;font-size:16px;backdrop-filter:blur(8px);" title="仪表盘">📊</a></div>
 
   <div class="page is-active" data-bg="mint" data-text="毛毛今天有好多好多问题！为什么天是蓝的？为什么虫子不怕黑？为什么月亮跟着我走？">
     <div class="scene"><svg viewBox="0 0 400 320">
@@ -136,11 +136,13 @@
 
   <button class="nav-btn" id="prev" aria-label="上一页">←</button><div class="dots-wrap"><div class="dots" id="dots"></div></div><button class="nav-btn" id="next" aria-label="下一页">→</button>
 </div>
+<script src="../fo-utils.js"></script>
 <script>
+  const BOOK_ID = '05-why-why'; const BOOK_TITLE = '为什么'; const BOOK_TOTAL = 5;
   function makeInteractive(el, animClass, msg) { if (!el) return; el.classList.add('interactive'); el.addEventListener('click', function () { if (el._busy) return; el._busy = true; el.classList.remove(animClass); void el.getBoundingClientRect(); el.classList.add(animClass); if (msg) { const scene = el.closest('.scene'); scene.style.position = 'relative'; const b = document.createElement('div'); b.className = 'speech-bubble'; b.textContent = msg; scene.appendChild(b); setTimeout(() => b.remove(), 1500); } setTimeout(() => { el.classList.remove(animClass); el._busy = false; }, 750); }); }
   const pages = document.querySelectorAll('.page'); const total = pages.length; const dots = document.getElementById('dots'); let current = 0;
   for (let i = 0; i < total; i++) { const d = document.createElement('span'); if (i === 0) d.classList.add('is-active'); dots.appendChild(d); }
-  function goTo(idx) { if (idx < 0 || idx >= total) return; pages.forEach((p, i) => p.classList.toggle('is-active', i === idx)); dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx)); current = idx; document.getElementById('prev').disabled = idx === 0; document.getElementById('next').disabled = idx === total - 1; }
+  function goTo(idx) { if (idx < 0 || idx >= total) return; pages.forEach((p, i) => p.classList.toggle('is-active', i === idx)); dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx)); current = idx; document.getElementById('prev').disabled = idx === 0; document.getElementById('next').disabled = idx === total - 1; if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL); }
   document.getElementById('prev').addEventListener('click', () => goTo(current - 1)); document.getElementById('next').addEventListener('click', () => goTo(current + 1)); document.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') goTo(current - 1); if (e.key === 'ArrowRight') goTo(current + 1); });
   document.getElementById('readBtn').addEventListener('click', () => { const text = pages[current].dataset.text; if (!text || !window.speechSynthesis) return; speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'zh-CN'; u.rate = 0.85; u.pitch = 1.1; speechSynthesis.speak(u); });
   goTo(0);
@@ -149,6 +151,7 @@
   makeInteractive(document.getElementById('p3-book'), 'do-wobble', '翻一翻！📖');
   makeInteractive(document.getElementById('p4-moon'), 'do-wobble', '明白了！🌙');
   makeInteractive(document.getElementById('p5-hifive'), 'do-bounce', '一起学！✨');
+  document.addEventListener('DOMContentLoaded', () => { if (window.FO) FO.logHistory(BOOK_ID, BOOK_TITLE); });
 </script>
 </body>
 </html>

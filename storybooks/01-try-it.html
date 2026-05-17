@@ -287,6 +287,7 @@
   <div class="top">
     <a class="back" href="../for-youngest.html">← 回绘本目录</a>
     <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+    <a href="../dashboard.html" class="dash-link" style="background:rgba(255,255,255,0.7);padding:8px 14px;border-radius:999px;text-decoration:none;font-size:16px;backdrop-filter:blur(8px);" title="仪表盘">📊</a>
   </div>
 
   <!-- 第1页：开场 -->
@@ -499,7 +500,9 @@
 
 </div>
 
+<script src="../fo-utils.js"></script>
 <script>
+  const BOOK_ID = '01-try-it'; const BOOK_TITLE = '试一试'; const BOOK_TOTAL = 5;
   function makeInteractive(el, animClass, msg) {
     if (!el) return;
     el.classList.add('interactive');
@@ -543,6 +546,7 @@
     current = idx;
     document.getElementById('prev').disabled = idx === 0;
     document.getElementById('next').disabled = idx === total - 1;
+    if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL);
   }
 
   document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
@@ -571,7 +575,9 @@
   makeInteractive(document.getElementById('p3-kamela'), 'do-bounce', '试一试！🐣');
   makeInteractive(document.getElementById('p4-mao'), 'do-bounce', '哇，甜的！😍');
   ['p5-chick1','p5-chick2','p5-chick3'].forEach(id => makeInteractive(document.getElementById(id), 'do-bounce', '♥'));
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.FO) FO.logHistory(BOOK_ID, BOOK_TITLE);
+  });
 </script>
-
 </body>
 </html>

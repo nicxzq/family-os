@@ -79,6 +79,7 @@
   <div class="top">
     <a class="back" href="../for-youngest.html">← 回绘本目录</a>
     <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+    <a href="../dashboard.html" class="dash-link" style="background:rgba(255,255,255,0.7);padding:8px 14px;border-radius:999px;text-decoration:none;font-size:16px;backdrop-filter:blur(8px);" title="仪表盘">📊</a>
   </div>
 
   <!-- 1 -->
@@ -301,7 +302,9 @@
   <button class="nav-btn" id="next" aria-label="下一页">→</button>
 </div>
 
+<script src="../fo-utils.js"></script>
 <script>
+  const BOOK_ID = '03-ten-minutes'; const BOOK_TITLE = '十分钟'; const BOOK_TOTAL = 5;
   function makeInteractive(el, animClass, msg) {
     if (!el) return;
     el.classList.add('interactive');
@@ -343,6 +346,7 @@
     current = idx;
     document.getElementById('prev').disabled = idx === 0;
     document.getElementById('next').disabled = idx === total - 1;
+    if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL);
   }
   document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
   document.getElementById('next').addEventListener('click', () => goTo(current + 1));
@@ -364,6 +368,9 @@
   makeInteractive(document.getElementById('p3-clock'), 'do-wobble', '等我十分钟！⏰');
   makeInteractive(document.getElementById('p4-tower'), 'do-bounce', '长颈鹿塔！🦒');
   makeInteractive(document.getElementById('p5-mao'), 'do-bounce', '一起玩！🌈');
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.FO) FO.logHistory(BOOK_ID, BOOK_TITLE);
+  });
 </script>
 </body>
 </html>
