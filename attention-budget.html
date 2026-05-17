@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>我的注意力账本</title>
+<meta name="description" content="记录今天的注意力怎么花的——深度专注、轻度学习、休息娱乐、被打断。">
+<meta property="og:title" content="我的注意力账本">
+<meta property="og:url" content="https://family.carlxu.cn/attention-budget">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .game {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 60px 28px 100px;
+    position: relative;
+    z-index: 1;
+  }
+  .game .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--ink-mute);
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+  .panel {
+    background: var(--paper);
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    margin-bottom: 24px;
+  }
+  .panel h2 {
+    font-size: 24px;
+    margin-bottom: 18px;
+  }
+  .field {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .field label {
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+    border: 2px solid var(--cream-deep);
+    border-radius: var(--radius);
+    background: var(--cream);
+    color: var(--ink);
+    font: inherit;
+    padding: 13px 16px;
+    outline: none;
+  }
+  input[type="text"]:focus,
+  input[type="number"]:focus {
+    border-color: var(--coral-soft);
+    background: var(--paper);
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 160px;
+    gap: 14px;
+  }
+  .cat-pills { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 20px; }
+  .cat-pill input[type="radio"] { display: none; }
+  .cat-pill label {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: inherit;
+    background: var(--cream);
+    color: var(--ink-soft);
+    transition: all 0.2s;
+  }
+  .cat-pill input:checked + label {
+    border-color: currentColor;
+    font-weight: 700;
+  }
+  .cat-pill.deep input:checked + label { color: var(--coral); background: rgba(229,107,90,0.1); }
+  .cat-pill.learn input:checked + label { color: #9c7a00; background: var(--yellow-soft); }
+  .cat-pill.rest input:checked + label { color: var(--green); background: var(--green-soft); }
+  .cat-pill.lost input:checked + label { color: var(--ink-mute); background: var(--cream-deep); }
+  .add-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--cream);
+    font: inherit;
+    font-size: 15px;
+    padding: 14px 28px;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .chart-wrap {
+    position: relative;
+    width: 220px;
+    aspect-ratio: 1;
+  }
+  .chart-wrap svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .chart-center {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    pointer-events: none;
+  }
+  .chart-total {
+    font-size: 30px;
+    line-height: 1.1;
+    font-weight: 700;
+  }
+  .chart-label {
+    color: var(--ink-mute);
+    font-size: 13px;
+  }
+  .legend {
+    display: grid;
+    gap: 10px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+  .legend-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex: 0 0 auto;
+  }
+  .insight {
+    background: var(--cream-deep);
+    padding: 20px 24px;
+    border-radius: var(--radius);
+    border-left: 4px solid var(--yellow);
+    margin-top: 18px;
+    color: var(--ink);
+  }
+  .log-list {
+    display: grid;
+    gap: 12px;
+  }
+  .entry {
+    position: relative;
+    display: grid;
+    grid-template-columns: 4px 1fr;
+    gap: 16px;
+    background: var(--paper);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+  }
+  .entry-strip {
+    min-height: 82px;
+  }
+  .entry-body {
+    padding: 16px 48px 16px 0;
+  }
+  .entry-title {
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 4px;
+  }
+  .entry-meta {
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+  .delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--cream);
+    color: var(--ink-mute);
+    font: inherit;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .clear-btn {
+    display: block;
+    margin: 28px auto 0;
+    border: 0;
+    background: transparent;
+    color: var(--ink-mute);
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  @media (max-width: 640px) {
+    .game {
+      padding: 36px 18px 80px;
+    }
+    .panel {
+      padding: 24px 18px;
+    }
+    .form-row,
+    .summary-grid {
+      grid-template-columns: 1fr;
+    }
+    .chart-wrap {
+      margin: 0 auto;
+    }
+  }
+</style>
+</head>
+<body>
+
+<main class="game">
+  <a class="back" href="for-eldest.html">← 回去</a>
+  <div style="text-align:center; margin-bottom: 48px;">
+    <div style="font-size: 48px; margin-bottom: 8px;">🧠</div>
+    <h1>我的注意力账本</h1>
+    <p style="color: var(--ink-soft); font-size: 17px; line-height: 1.7; max-width: 420px; margin: 0 auto;">
+      注意力是你最贵的东西。<br>你今天怎么花的？
+    </p>
+  </div>
+
+  <section class="panel" aria-labelledby="add-title">
+    <h2 id="add-title">记一笔</h2>
+    <form id="entryForm">
+      <div class="form-row">
+        <div class="field">
+          <label for="name">你刚才在做什么？</label>
+          <input id="name" name="name" type="text" placeholder="读历史、打游戏、发呆⋯⋯" autocomplete="off" required>
+        </div>
+        <div class="field">
+          <label for="duration">用了几分钟？</label>
+          <input id="duration" name="duration" type="number" min="1" max="240" placeholder="45" required>
+        </div>
+      </div>
+
+      <div class="cat-pills" aria-label="注意力分类">
+        <span class="cat-pill deep">
+          <input id="cat-deep" type="radio" name="category" value="deep" checked>
+          <label for="cat-deep">深度专注</label>
+        </span>
+        <span class="cat-pill learn">
+          <input id="cat-learn" type="radio" name="category" value="learn">
+          <label for="cat-learn">轻度学习</label>
+        </span>
+        <span class="cat-pill rest">
+          <input id="cat-rest" type="radio" name="category" value="rest">
+          <label for="cat-rest">休息娱乐</label>
+        </span>
+        <span class="cat-pill lost">
+          <input id="cat-lost" type="radio" name="category" value="lost">
+          <label for="cat-lost">被打断/刷手机</label>
+        </span>
+      </div>
+
+      <button class="add-btn" type="submit">加到账本里</button>
+    </form>
+  </section>
+
+  <section class="panel" aria-labelledby="summary-title">
+    <h2 id="summary-title">今天的分布</h2>
+    <div class="summary-grid">
+      <div class="chart-wrap">
+        <svg id="chart" viewBox="0 0 200 200" role="img" aria-label="今天注意力分布图"></svg>
+        <div class="chart-center">
+          <div class="chart-total" id="chartTotal">0</div>
+          <div class="chart-label" id="chartLabel">分钟</div>
+        </div>
+      </div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div class="insight" id="insight">📊 记录得越多，看得越清楚。</div>
+  </section>
+
+  <section class="panel" aria-labelledby="log-title">
+    <h2 id="log-title">今天的记录</h2>
+    <div id="log"></div>
+  </section>
+
+  <button class="clear-btn" id="clearBtn" type="button">清空今天的记录</button>
+</main>
+
+<script>
+  const categories = [
+    { key: 'deep', label: '深度专注', color: 'var(--coral)' },
+    { key: 'learn', label: '轻度学习', color: 'var(--yellow)' },
+    { key: 'rest', label: '休息娱乐', color: 'var(--green)' },
+    { key: 'lost', label: '被打断/刷手机', color: 'var(--ink-mute)' }
+  ];
+
+  function localDateKey(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  const today = localDateKey(new Date());
+  const storageKey = `attention-log-${today}`;
+  const form = document.getElementById('entryForm');
+  const logEl = document.getElementById('log');
+  const chartEl = document.getElementById('chart');
+  const legendEl = document.getElementById('legend');
+  const insightEl = document.getElementById('insight');
+  const chartTotalEl = document.getElementById('chartTotal');
+  const chartLabelEl = document.getElementById('chartLabel');
+  const clearBtn = document.getElementById('clearBtn');
+
+  function loadEntries() {
+    try {
+      return JSON.parse(localStorage.getItem(storageKey)) || [];
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function saveEntries(entries) {
+    localStorage.setItem(storageKey, JSON.stringify(entries));
+  }
+
+  function polarToXY(cx, cy, r, angleDeg) {
+    const rad = (angleDeg - 90) * Math.PI / 180;
+    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+  }
+  function arcPath(cx, cy, r, startDeg, endDeg) {
+    const s = polarToXY(cx, cy, r, startDeg);
+    const e = polarToXY(cx, cy, r, endDeg);
+    const large = (endDeg - startDeg) > 180 ? 1 : 0;
+    return `M ${s.x} ${s.y} A ${r} ${r} 0 ${large} 1 ${e.x} ${e.y}`;
+  }
+  function donutSegment(cx, cy, outerR, innerR, startDeg, endDeg, color) {
+    const op = arcPath(cx, cy, outerR, startDeg, endDeg);
+    const ip = arcPath(cx, cy, innerR, endDeg, startDeg);
+    const startOuter = polarToXY(cx, cy, outerR, startDeg);
+    const startInner = polarToXY(cx, cy, innerR, startDeg);
+    const endOuter = polarToXY(cx, cy, outerR, endDeg);
+    const endInner = polarToXY(cx, cy, innerR, endDeg);
+    const large = (endDeg - startDeg) > 180 ? 1 : 0;
+    return `<path d="M ${startOuter.x} ${startOuter.y} A ${outerR} ${outerR} 0 ${large} 1 ${endOuter.x} ${endOuter.y} L ${endInner.x} ${endInner.y} A ${innerR} ${innerR} 0 ${large} 0 ${startInner.x} ${startInner.y} Z" fill="${color}" />`;
+  }
+
+  function getTotals(entries) {
+    return categories.reduce((totals, cat) => {
+      totals[cat.key] = entries
+        .filter(entry => entry.cat === cat.key)
+        .reduce((sum, entry) => sum + entry.duration, 0);
+      return totals;
+    }, {});
+  }
+
+  function renderChart(entries) {
+    const totals = getTotals(entries);
+    const total = Object.values(totals).reduce((sum, value) => sum + value, 0);
+
+    chartTotalEl.textContent = total ? total : '还没有记录';
+    chartLabelEl.textContent = total ? '分钟' : '';
+    chartTotalEl.style.fontSize = total ? '30px' : '20px';
+
+    if (!total) {
+      chartEl.innerHTML = '<circle cx="100" cy="100" r="66" fill="none" stroke="var(--cream-deep)" stroke-width="28" />';
+    } else {
+      let cursor = 0;
+      chartEl.innerHTML = categories.map(cat => {
+        const value = totals[cat.key];
+        if (!value) return '';
+        const start = cursor;
+        const end = cursor + (value / total) * 360;
+        cursor = end;
+        return donutSegment(100, 100, 80, 52, start, Math.min(end, 359.99), cat.color);
+      }).join('');
+    }
+
+    legendEl.innerHTML = categories.map(cat => `
+      <div class="legend-item">
+        <span class="legend-name"><span class="dot" style="background: ${cat.color};"></span>${cat.label}</span>
+        <strong>${totals[cat.key]} 分钟</strong>
+      </div>
+    `).join('');
+
+    insightEl.textContent = getInsight(totals, total);
+  }
+
+  function getInsight(totals, total) {
+    if (totals.deep >= 120) return '🔥 今天有超过两小时的深度专注，厉害！';
+    if (totals.deep >= 60) return '✨ 今天有一小时专注，不错的一天。';
+    if (totals.lost > totals.deep) return '💡 今天被打断/刷手机的时间比专注时间多——明天试试换个顺序？';
+    if (total < 30) return '📝 今天还没记录多少——随时可以加。';
+    return '📊 记录得越多，看得越清楚。';
+  }
+
+  function renderLog(entries) {
+    if (!entries.length) {
+      logEl.innerHTML = `
+        <div style="text-align:center; padding: 48px 0; color: var(--ink-mute);">
+          <div style="font-size: 40px; margin-bottom: 12px;">📭</div>
+          <p>今天还没有记录。<br>第一条记录——就从现在开始吧。</p>
+        </div>
+      `;
+      return;
+    }
+
+    logEl.innerHTML = `<div class="log-list">${[...entries].reverse().map(entry => {
+      const cat = categories.find(item => item.key === entry.cat) || categories[0];
+      return `
+        <article class="entry">
+          <div class="entry-strip" style="background: ${cat.color};"></div>
+          <div class="entry-body">
+            <div class="entry-title">${escapeHTML(entry.name)}</div>
+            <div class="entry-meta">${entry.duration} 分钟 · ${cat.label}</div>
+          </div>
+          <button class="delete-btn" type="button" aria-label="删除 ${escapeHTML(entry.name)}" data-id="${entry.id}">×</button>
+        </article>
+      `;
+    }).join('')}</div>`;
+  }
+
+  function render() {
+    const entries = loadEntries();
+    renderChart(entries);
+    renderLog(entries);
+  }
+
+  function escapeHTML(value) {
+    return String(value)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const name = form.elements.name.value.trim();
+    const duration = Number(form.elements.duration.value);
+    const cat = form.elements.category.value;
+
+    if (!name || duration < 1 || duration > 240) return;
+
+    const entries = loadEntries();
+    entries.push({ id: Date.now(), name, duration, cat });
+    saveEntries(entries);
+    form.reset();
+    document.getElementById('cat-deep').checked = true;
+    render();
+  });
+
+  logEl.addEventListener('click', event => {
+    const button = event.target.closest('.delete-btn');
+    if (!button) return;
+    const id = Number(button.dataset.id);
+    saveEntries(loadEntries().filter(entry => entry.id !== id));
+    render();
+  });
+
+  clearBtn.addEventListener('click', () => {
+    if (!window.confirm('确定要清空今天的记录吗？')) return;
+    localStorage.removeItem(storageKey);
+    render();
+  });
+
+  render();
+</script>
+
+</body>
+</html>
