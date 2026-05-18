@@ -1,7 +1,7 @@
 {
-  "sessionId": "14137ce6-9a82-4f24-a615-63830dbb1540",
+  "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
   "startedAt": "2026-05-17T05:52:34.457Z",
-  "updatedAt": "2026-05-17T12:57:38.729Z",
+  "updatedAt": "2026-05-18T23:00:18.127Z",
   "events": [
     {
       "ts": "2026-05-17T05:52:34.457Z",
@@ -74,16 +74,319 @@
       "kind": "resolve",
       "sessionId": "ac46e377-f648-46c1-bf88-c3be858f6601",
       "file": "/Users/carlxu/github/family-os/PLAN.md"
+    },
+    {
+      "ts": "2026-05-18T14:28:23.436Z",
+      "kind": "resolve",
+      "sessionId": "14137ce6-9a82-4f24-a615-63830dbb1540",
+      "file": "/Users/carlxu/github/family-os/CLAUDE.md"
+    },
+    {
+      "ts": "2026-05-18T15:03:22.788Z",
+      "kind": "resolve",
+      "sessionId": "056762f5-9928-410c-b62f-86a9a1a51d9b",
+      "file": "/Users/carlxu/github/family-os/games/index.html"
+    },
+    {
+      "ts": "2026-05-18T15:03:35.529Z",
+      "kind": "block",
+      "sessionId": "056762f5-9928-410c-b62f-86a9a1a51d9b",
+      "file": "/Users/carlxu/github/family-os/games/index.html",
+      "line": 1,
+      "literal": "90px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-18T15:03:35.531Z",
+      "kind": "block",
+      "sessionId": "056762f5-9928-410c-b62f-86a9a1a51d9b",
+      "file": "/Users/carlxu/github/family-os/games/index.html",
+      "line": 2,
+      "literal": "12px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-18T15:03:35.532Z",
+      "kind": "block",
+      "sessionId": "056762f5-9928-410c-b62f-86a9a1a51d9b",
+      "file": "/Users/carlxu/github/family-os/games/index.html",
+      "line": 2,
+      "literal": "10px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-18T15:03:35.532Z",
+      "kind": "block",
+      "sessionId": "056762f5-9928-410c-b62f-86a9a1a51d9b",
+      "file": "/Users/carlxu/github/family-os/games/index.html",
+      "line": 2,
+      "literal": "14px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-18T15:03:35.532Z",
+      "kind": "block",
+      "sessionId": "056762f5-9928-410c-b62f-86a9a1a51d9b",
+      "file": "/Users/carlxu/github/family-os/games/index.html",
+      "line": 2,
+      "literal": "40px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-18T15:03:35.533Z",
+      "kind": "block",
+      "sessionId": "056762f5-9928-410c-b62f-86a9a1a51d9b",
+      "file": "/Users/carlxu/github/family-os/games/index.html",
+      "line": 3,
+      "literal": "15px",
+      "reason": "low-confidence-radius"
+    },
+    {
+      "ts": "2026-05-18T15:03:35.534Z",
+      "kind": "deny",
+      "sessionId": "056762f5-9928-410c-b62f-86a9a1a51d9b",
+      "file": "/Users/carlxu/github/family-os/games/index.html",
+      "reason": "6 unresolved violation(s)"
+    },
+    {
+      "ts": "2026-05-18T15:35:24.871Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/STORYBOOK_DESIGN.md"
+    },
+    {
+      "ts": "2026-05-18T22:51:01.193Z",
+      "kind": "block",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/01-try-it.html",
+      "line": 6,
+      "literal": "72px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-18T22:51:01.195Z",
+      "kind": "block",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/01-try-it.html",
+      "line": 6,
+      "literal": "48px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-18T22:51:01.195Z",
+      "kind": "deny",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/01-try-it.html",
+      "reason": "2 unresolved violation(s)"
+    },
+    {
+      "ts": "2026-05-18T22:54:02.954Z",
+      "kind": "block",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/01-try-it.html",
+      "line": 6,
+      "literal": "11vh",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-18T22:54:02.956Z",
+      "kind": "block",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/01-try-it.html",
+      "line": 6,
+      "literal": "7vh",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-18T22:54:02.957Z",
+      "kind": "deny",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/01-try-it.html",
+      "reason": "2 unresolved violation(s)"
+    },
+    {
+      "ts": "2026-05-18T22:56:22.682Z",
+      "kind": "block",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/01-try-it.html",
+      "line": 6,
+      "literal": "80px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-18T22:56:22.684Z",
+      "kind": "block",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/01-try-it.html",
+      "line": 6,
+      "literal": "40px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-18T22:56:22.685Z",
+      "kind": "block",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/01-try-it.html",
+      "line": 6,
+      "literal": "120px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-18T22:56:22.686Z",
+      "kind": "deny",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/01-try-it.html",
+      "reason": "3 unresolved violation(s)"
+    },
+    {
+      "ts": "2026-05-18T22:57:57.617Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/01-try-it.html"
+    },
+    {
+      "ts": "2026-05-18T22:58:08.928Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/01-try-it.html"
+    },
+    {
+      "ts": "2026-05-18T22:58:14.869Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/01-try-it.html"
+    },
+    {
+      "ts": "2026-05-18T22:58:20.730Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/01-try-it.html"
+    },
+    {
+      "ts": "2026-05-18T22:58:37.225Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/02-the-library.html"
+    },
+    {
+      "ts": "2026-05-18T22:58:39.206Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/03-ten-minutes.html"
+    },
+    {
+      "ts": "2026-05-18T22:58:40.597Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/04-the-mountain.html"
+    },
+    {
+      "ts": "2026-05-18T22:58:42.171Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/05-why-why.html"
+    },
+    {
+      "ts": "2026-05-18T22:58:43.676Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/06-the-direction.html"
+    },
+    {
+      "ts": "2026-05-18T22:58:59.992Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/03-ten-minutes.html"
+    },
+    {
+      "ts": "2026-05-18T22:59:02.704Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/04-the-mountain.html"
+    },
+    {
+      "ts": "2026-05-18T22:59:05.091Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/05-why-why.html"
+    },
+    {
+      "ts": "2026-05-18T22:59:07.098Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/06-the-direction.html"
+    },
+    {
+      "ts": "2026-05-18T22:59:23.572Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/02-the-library.html"
+    },
+    {
+      "ts": "2026-05-18T22:59:38.689Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/02-the-library.html"
+    },
+    {
+      "ts": "2026-05-18T22:59:42.829Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/03-ten-minutes.html"
+    },
+    {
+      "ts": "2026-05-18T22:59:46.334Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/04-the-mountain.html"
+    },
+    {
+      "ts": "2026-05-18T22:59:49.700Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/05-why-why.html"
+    },
+    {
+      "ts": "2026-05-18T22:59:52.726Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/06-the-direction.html"
+    },
+    {
+      "ts": "2026-05-18T23:00:13.651Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/02-the-library.html"
+    },
+    {
+      "ts": "2026-05-18T23:00:15.910Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/03-ten-minutes.html"
+    },
+    {
+      "ts": "2026-05-18T23:00:18.127Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/04-the-mountain.html"
     }
   ],
-  "unresolvedByFile": {},
+  "unresolvedByFile": {
+    "/Users/carlxu/github/family-os/storybooks/STORYBOOK_DESIGN.md": 0,
+    "/Users/carlxu/github/family-os/storybooks/01-try-it.html": 0,
+    "/Users/carlxu/github/family-os/storybooks/02-the-library.html": 0,
+    "/Users/carlxu/github/family-os/storybooks/03-ten-minutes.html": 0,
+    "/Users/carlxu/github/family-os/storybooks/04-the-mountain.html": 0,
+    "/Users/carlxu/github/family-os/storybooks/05-why-why.html": 0,
+    "/Users/carlxu/github/family-os/storybooks/06-the-direction.html": 0
+  },
   "fabrications": [],
   "metrics": {
     "violations": 0,
-    "blocks": 0,
+    "blocks": 7,
     "rewrites": 0,
     "escapes": 0,
-    "denies": 0,
-    "resolves": 0
+    "denies": 3,
+    "resolves": 23
   }
 }

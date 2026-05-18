@@ -1,0 +1,24 @@
+{
+  "proposals": [
+    {
+      "id": "prop_2026-05-18_001",
+      "value": "11vh",
+      "intent": "storybook-page-top-padding (nav bar clearance)",
+      "proposedTokenName": "space.storybook-page-top-padding-nav-bar-clearance",
+      "callerFile": null,
+      "timestamp": "2026-05-18T22:54:44.547Z",
+      "status": "pending",
+      "tempName": "__proposed.storybookPageTopPaddingNavBarClearance)"
+    },
+    {
+      "id": "prop_2026-05-18_002",
+      "value": "7vh",
+      "intent": "storybook-page-bottom-padding (progress dots clearance)",
+      "proposedTokenName": "space.storybook-page-bottom-padding-progress-dots-clearance",
+      "callerFile": null,
+      "timestamp": "2026-05-18T22:54:44.914Z",
+      "status": "pending",
+      "tempName": "__proposed.storybookPageBottomPaddingProgressDotsClearance)"
+    }
+  ]
+}

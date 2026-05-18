@@ -1,0 +1,7 @@
+{"ts":"2026-05-18T15:03:35.529Z","kind":"block","sessionId":"056762f5-9928-410c-b62f-86a9a1a51d9b","file":"/Users/carlxu/github/family-os/games/index.html","line":1,"literal":"90px","reason":"no-match"}
+{"ts":"2026-05-18T15:03:35.531Z","kind":"block","sessionId":"056762f5-9928-410c-b62f-86a9a1a51d9b","file":"/Users/carlxu/github/family-os/games/index.html","line":2,"literal":"12px","reason":"no-match"}
+{"ts":"2026-05-18T15:03:35.532Z","kind":"block","sessionId":"056762f5-9928-410c-b62f-86a9a1a51d9b","file":"/Users/carlxu/github/family-os/games/index.html","line":2,"literal":"10px","reason":"no-match"}
+{"ts":"2026-05-18T15:03:35.532Z","kind":"block","sessionId":"056762f5-9928-410c-b62f-86a9a1a51d9b","file":"/Users/carlxu/github/family-os/games/index.html","line":2,"literal":"14px","reason":"no-match"}
+{"ts":"2026-05-18T15:03:35.532Z","kind":"block","sessionId":"056762f5-9928-410c-b62f-86a9a1a51d9b","file":"/Users/carlxu/github/family-os/games/index.html","line":2,"literal":"40px","reason":"no-match"}
+{"ts":"2026-05-18T15:03:35.533Z","kind":"block","sessionId":"056762f5-9928-410c-b62f-86a9a1a51d9b","file":"/Users/carlxu/github/family-os/games/index.html","line":3,"literal":"15px","reason":"low-confidence-radius"}
+{"ts":"2026-05-18T15:03:35.534Z","kind":"deny","sessionId":"056762f5-9928-410c-b62f-86a9a1a51d9b","file":"/Users/carlxu/github/family-os/games/index.html","reason":"6 unresolved violation(s)"}
