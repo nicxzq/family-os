@@ -7,11 +7,14 @@
 <meta name="description" content="给十二岁的你：20 个独立思辨小游戏。">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:999px; padding:6px 14px 6px 6px; font-size:14px; cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
   .nav-member-btn svg { border-radius:50%; }
-  .games-page { padding:36px 0 90px; }
-  .games-nav { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:54px; }
+  .games-page { padding:0 0 90px; }
+  .games-nav { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; position:sticky; top:0; z-index:10; background:var(--paper); box-shadow:var(--shadow-soft); border-radius:var(--radius); padding:10px 14px; margin-bottom:40px; }
   .games-nav a { color:var(--ink-mute); text-decoration:none; font-size:15px; }
   .games-hero { margin-bottom:34px; }
   .games-hero h1 { margin-bottom:12px; }
@@ -32,7 +35,6 @@
   .game-card p { color:var(--ink-soft); font-size:16px; }
   @media (max-width: 760px) {
     .game-grid { grid-template-columns:1fr; }
-    .games-page { padding-top:28px; }
   }
 </style>
 </head>
@@ -53,26 +55,26 @@
 <script src="../fo-utils.js"></script>
 <script>
   var games = [
-    ['g01-direction', '方向 vs 目标', '你追的，是哪一种？', 'coral', 'g01-direction.html'],
-    ['g02-compound', '时间的魔法', '复利是什么感觉？', 'yellow', 'g02-compound.html'],
-    ['g03-responsibility', '这是谁的事？', '一道关于责任的题', 'green', 'g03-responsibility.html'],
-    ['g04-soft-skills', '软技能地图', '看不见的能力，最值钱', 'blue', 'g04-soft-skills.html'],
-    ['g05-attention', '注意力卫士', '保护你最贵的资源', 'coral', 'g05-attention.html'],
-    ['g06-dilemma', '两难题', '没有标准答案，只有你的答案', 'yellow', 'g06-dilemma.html'],
-    ['g07-reading', '阅读侦探', '从一段话里找到黄金', 'green', 'g07-reading.html'],
-    ['g08-letter', '未来信件', '写给十年后的你', 'blue', 'g08-letter.html'],
-    ['g09-growth', '成长地图', '你在哪里？要去哪里？', 'coral', 'g09-growth.html'],
-    ['g10-questions', '提问高手', '好问题比好答案更难', 'yellow', 'g10-questions.html'],
-    ['g11-calm', '不慌实验室', '遇到难事，先别慌', 'blue', 'g11-calm.html'],
-    ['g12-express', '表达工坊', '把复杂的事说清楚', 'coral', 'g12-express.html'],
-    ['g13-learn', '学习解剖室', '你是怎么学东西的？', 'yellow', 'g13-learn.html'],
-    ['g14-bias', '思维陷阱', '大脑会骗你', 'green', 'g14-bias.html'],
-    ['g15-together', '共学密码', '一起学，比竞争更强', 'blue', 'g15-together.html'],
-    ['g16-empathy', '换位思考', '站在别人的角度看', 'coral', 'g16-empathy.html'],
-    ['g17-info', '信息鉴别', '不是所有信息都可信', 'yellow', 'g17-info.html'],
-    ['g18-longterm', '长期主义', '今天的小牺牲，明天的大收益', 'green', 'g18-longterm.html'],
-    ['g19-habit', '习惯实验室', '小习惯如何改变一个人', 'coral', 'g19-habit.html'],
-    ['g20-connect', '知识连接', '把学到的东西串起来', 'blue', 'g20-connect.html']
+    ['g01-direction', '方向 vs 目标', '你追的，是哪一种？', 'coral', '/games/g01-direction.html'],
+    ['g02-compound', '时间的魔法', '复利是什么感觉？', 'yellow', '/games/g02-compound.html'],
+    ['g03-responsibility', '这是谁的事？', '一道关于责任的题', 'green', '/games/g03-responsibility.html'],
+    ['g04-soft-skills', '软技能地图', '看不见的能力，最值钱', 'blue', '/games/g04-soft-skills.html'],
+    ['g05-attention', '注意力卫士', '保护你最贵的资源', 'coral', '/games/g05-attention.html'],
+    ['g06-dilemma', '两难题', '没有标准答案，只有你的答案', 'yellow', '/games/g06-dilemma.html'],
+    ['g07-reading', '阅读侦探', '从一段话里找到黄金', 'green', '/games/g07-reading.html'],
+    ['g08-letter', '未来信件', '写给十年后的你', 'blue', '/games/g08-letter.html'],
+    ['g09-growth', '成长地图', '你在哪里？要去哪里？', 'coral', '/games/g09-growth.html'],
+    ['g10-questions', '提问高手', '好问题比好答案更难', 'yellow', '/games/g10-questions.html'],
+    ['g11-calm', '不慌实验室', '遇到难事，先别慌', 'blue', '/games/g11-calm.html'],
+    ['g12-express', '表达工坊', '把复杂的事说清楚', 'coral', '/games/g12-express.html'],
+    ['g13-learn', '学习解剖室', '你是怎么学东西的？', 'yellow', '/games/g13-learn.html'],
+    ['g14-bias', '思维陷阱', '大脑会骗你', 'green', '/games/g14-bias.html'],
+    ['g15-together', '共学密码', '一起学，比竞争更强', 'blue', '/games/g15-together.html'],
+    ['g16-empathy', '换位思考', '站在别人的角度看', 'coral', '/games/g16-empathy.html'],
+    ['g17-info', '信息鉴别', '不是所有信息都可信', 'yellow', '/games/g17-info.html'],
+    ['g18-longterm', '长期主义', '今天的小牺牲，明天的大收益', 'green', '/games/g18-longterm.html'],
+    ['g19-habit', '习惯实验室', '小习惯如何改变一个人', 'coral', '/games/g19-habit.html'],
+    ['g20-connect', '知识连接', '把学到的东西串起来', 'blue', '/games/g20-connect.html']
   ];
   function doneList() {
     try { return JSON.parse(localStorage.getItem('fo_games_done') || '[]'); } catch(e) { return []; }
