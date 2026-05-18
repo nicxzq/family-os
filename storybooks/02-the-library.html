@@ -35,9 +35,9 @@
   .page[data-bg="mint"] { background: #D7EBC9; }
   .page[data-bg="yellow"] { background: #FBE39A; }
   .page[data-bg="blue"] { background: #A8C2DE; }
-  .scene { width: min(90vw, 480px); height: 40vh; max-height: 320px; margin-bottom: 32px; position: relative; }
+  .scene { flex: 1; min-height: 0; position: relative; width: 100%; overflow: hidden; }
   .scene svg { width: 100%; height: 100%; }
-  .text { text-align: center; max-width: 640px; }
+  .text { flex-shrink: 0; text-align: center; max-width: 100%; }
   .text h2 { font-size: clamp(24px, 5vw, 38px); line-height: 1.4; color: #2B2419; font-weight: 500; text-wrap: balance; }
   .text .big { font-size: clamp(32px, 6vw, 52px); line-height: 1.3; color: #4B7BA8; font-weight: 700; margin-top: 12px; }
   .text .small { font-size: 18px; color: #5C4F3D; margin-top: 16px; }
@@ -325,17 +325,20 @@
       el.classList.add(animClass);
       if (msg) {
         const scene = el.closest('.scene');
-        scene.style.position = 'relative';
+        const er = el.getBoundingClientRect();
+        const sr = scene.getBoundingClientRect();
+        const cx = er.left + er.width / 2 - sr.left;
+        const cy = Math.max(8, er.top - sr.top - 48);
         const b = document.createElement('div');
         b.className = 'speech-bubble';
         b.textContent = msg;
+        b.style.left = cx + 'px';
+        b.style.top  = cy + 'px';
+        b.style.transform = 'translateX(-50%)';
         scene.appendChild(b);
         setTimeout(() => b.remove(), 1500);
       }
-      setTimeout(() => {
-        el.classList.remove(animClass);
-        el._busy = false;
-      }, 750);
+      setTimeout(() => { el.classList.remove(animClass); el._busy = false; }, 750);
     });
   }
 
@@ -350,6 +353,7 @@
   }
   function goTo(idx) {
     if (idx < 0 || idx >= total) return;
+    speechSynthesis.cancel();
     pages.forEach((p, i) => p.classList.toggle('is-active', i === idx));
     dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx));
     current = idx;
@@ -363,6 +367,14 @@
     if (e.key === 'ArrowLeft') goTo(current - 1);
     if (e.key === 'ArrowRight') goTo(current + 1);
   });
+
+  let _tx = 0;
+  document.addEventListener('touchstart', e => { _tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - _tx;
+    if (Math.abs(dx) > 50) dx < 0 ? goTo(current + 1) : goTo(current - 1);
+  });
+
   document.getElementById('readBtn').addEventListener('click', () => {
     const text = pages[current].dataset.text;
     if (!text || !window.speechSynthesis) return;

@@ -94,11 +94,11 @@
   .page[data-bg="coral"]   { background: #F4A799; }
 
   .scene {
-    width: min(90vw, 480px);
-    height: 40vh;
-    max-height: 320px;
-    margin-bottom: 32px;
+    flex: 1;
+    min-height: 0;
     position: relative;
+    width: 100%;
+    overflow: hidden;
   }
   .scene svg {
     width: 100%;
@@ -106,8 +106,9 @@
   }
 
   .text {
+    flex-shrink: 0;
     text-align: center;
-    max-width: 640px;
+    max-width: 100%;
   }
   .text h2 {
     font-size: clamp(24px, 5vw, 38px);
@@ -514,17 +515,20 @@
       el.classList.add(animClass);
       if (msg) {
         const scene = el.closest('.scene');
-        scene.style.position = 'relative';
+        const er = el.getBoundingClientRect();
+        const sr = scene.getBoundingClientRect();
+        const cx = er.left + er.width / 2 - sr.left;
+        const cy = Math.max(8, er.top - sr.top - 48);
         const b = document.createElement('div');
         b.className = 'speech-bubble';
         b.textContent = msg;
+        b.style.left = cx + 'px';
+        b.style.top  = cy + 'px';
+        b.style.transform = 'translateX(-50%)';
         scene.appendChild(b);
         setTimeout(() => b.remove(), 1500);
       }
-      setTimeout(() => {
-        el.classList.remove(animClass);
-        el._busy = false;
-      }, 750);
+      setTimeout(() => { el.classList.remove(animClass); el._busy = false; }, 750);
     });
   }
 
@@ -541,6 +545,7 @@
 
   function goTo(idx) {
     if (idx < 0 || idx >= total) return;
+    speechSynthesis.cancel();
     pages.forEach((p, i) => p.classList.toggle('is-active', i === idx));
     dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx));
     current = idx;
@@ -555,6 +560,13 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') goTo(current - 1);
     if (e.key === 'ArrowRight') goTo(current + 1);
+  });
+
+  let _tx = 0;
+  document.addEventListener('touchstart', e => { _tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - _tx;
+    if (Math.abs(dx) > 50) dx < 0 ? goTo(current + 1) : goTo(current - 1);
   });
 
   // 朗读

@@ -35,9 +35,9 @@
   .page[data-bg="mint"] { background: #D7EBC9; }
   .page[data-bg="sky"] { background: #D7E7F4; }
   .page[data-bg="yellow"] { background: #FBE39A; }
-  .scene { width: min(90vw, 480px); height: 40vh; max-height: 320px; margin-bottom: 32px; position: relative; }
+  .scene { flex: 1; min-height: 0; position: relative; width: 100%; overflow: hidden; }
   .scene svg { width: 100%; height: 100%; }
-  .text { text-align: center; max-width: 640px; }
+  .text { flex-shrink: 0; text-align: center; max-width: 100%; }
   .text h2 { font-size: clamp(24px, 5vw, 38px); line-height: 1.4; color: #2B2419; font-weight: 500; text-wrap: balance; }
   .text .big { font-size: clamp(32px, 6vw, 52px); line-height: 1.3; color: #6FA86D; font-weight: 700; margin-top: 12px; }
   .text .small { font-size: 18px; color: #5C4F3D; margin-top: 16px; }
@@ -139,11 +139,12 @@
 <script src="../fo-utils.js"></script>
 <script>
   const BOOK_ID = '05-why-why'; const BOOK_TITLE = '为什么'; const BOOK_TOTAL = 5;
-  function makeInteractive(el, animClass, msg) { if (!el) return; el.classList.add('interactive'); el.addEventListener('click', function () { if (el._busy) return; el._busy = true; el.classList.remove(animClass); void el.getBoundingClientRect(); el.classList.add(animClass); if (msg) { const scene = el.closest('.scene'); scene.style.position = 'relative'; const b = document.createElement('div'); b.className = 'speech-bubble'; b.textContent = msg; scene.appendChild(b); setTimeout(() => b.remove(), 1500); } setTimeout(() => { el.classList.remove(animClass); el._busy = false; }, 750); }); }
+  function makeInteractive(el, animClass, msg) { if (!el) return; el.classList.add('interactive'); el.addEventListener('click', function () { if (el._busy) return; el._busy = true; el.classList.remove(animClass); void el.getBoundingClientRect(); el.classList.add(animClass); if (msg) { const scene = el.closest('.scene'); const er = el.getBoundingClientRect(); const sr = scene.getBoundingClientRect(); const cx = er.left + er.width / 2 - sr.left; const cy = Math.max(8, er.top - sr.top - 48); const b = document.createElement('div'); b.className = 'speech-bubble'; b.textContent = msg; b.style.left = cx + 'px'; b.style.top = cy + 'px'; b.style.transform = 'translateX(-50%)'; scene.appendChild(b); setTimeout(() => b.remove(), 1500); } setTimeout(() => { el.classList.remove(animClass); el._busy = false; }, 750); }); }
   const pages = document.querySelectorAll('.page'); const total = pages.length; const dots = document.getElementById('dots'); let current = 0;
   for (let i = 0; i < total; i++) { const d = document.createElement('span'); if (i === 0) d.classList.add('is-active'); dots.appendChild(d); }
-  function goTo(idx) { if (idx < 0 || idx >= total) return; pages.forEach((p, i) => p.classList.toggle('is-active', i === idx)); dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx)); current = idx; document.getElementById('prev').disabled = idx === 0; document.getElementById('next').disabled = idx === total - 1; if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL); }
+  function goTo(idx) { if (idx < 0 || idx >= total) return; speechSynthesis.cancel(); pages.forEach((p, i) => p.classList.toggle('is-active', i === idx)); dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx)); current = idx; document.getElementById('prev').disabled = idx === 0; document.getElementById('next').disabled = idx === total - 1; if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL); }
   document.getElementById('prev').addEventListener('click', () => goTo(current - 1)); document.getElementById('next').addEventListener('click', () => goTo(current + 1)); document.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') goTo(current - 1); if (e.key === 'ArrowRight') goTo(current + 1); });
+  let _tx = 0; document.addEventListener('touchstart', e => { _tx = e.touches[0].clientX; }, { passive: true }); document.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - _tx; if (Math.abs(dx) > 50) dx < 0 ? goTo(current + 1) : goTo(current - 1); });
   document.getElementById('readBtn').addEventListener('click', () => { const text = pages[current].dataset.text; if (!text || !window.speechSynthesis) return; speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'zh-CN'; u.rate = 0.85; u.pitch = 1.1; speechSynthesis.speak(u); });
   goTo(0);
   makeInteractive(document.getElementById('p1-q'), 'do-bounce', '？？？🤔');
