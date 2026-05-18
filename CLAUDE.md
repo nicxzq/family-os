@@ -67,6 +67,27 @@ All content is grounded in Li Xiaolai (李笑来) materials in `uploads/`. The s
 
 When adding or editing content, quotes and ideas must be faithful to the source texts in `uploads/`.
 
+## Pages (extended)
+
+| File | Route | Notes |
+|---|---|---|
+| `dashboard.html` | `/dashboard` | Reading progress panel + family overview |
+| `piggy-bank.html` | `/piggy-bank` | Pocket money lab for eldest |
+| `weekly-review.html` | `/weekly-review` | Printable weekly family review |
+| `attention-budget.html` | `/attention-budget` | Attention tracker game for eldest |
+| `games/index.html` | `/games` | Catalog of 10 interactive games for eldest |
+| `games/g01-direction.html` … `g10-questions.html` | `/games/g0N-*` | Individual game pages |
+| `login.html` | `/login` | Family member selector |
+
+## Commit conventions
+
+- **Language**: English only.
+- **Format**: `type(scope): short imperative summary` — no trailing period, under 72 chars.
+- **Types**: `feat` · `fix` · `docs` · `refactor` · `style`
+- **Scope**: filename stem or feature area (e.g. `eldest`, `index`, `games`, `roadmap`).
+- **Body**: bullet list of what changed; task-oriented, no filler.
+- Commit after each meaningful milestone, not after every file edit.
+
 ## Deployment
 
 Deployed to Vercel with no build command and no output directory. `vercel.json` configures `cleanUrls`, `trailingSlash: false`, and cache headers. To add a new page, create an `.html` file in the root; it becomes accessible at `/<name>` automatically.
