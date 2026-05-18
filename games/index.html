@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>游戏库 · 十二岁的思辨场</title>
-<meta name="description" content="给十二岁的你：10 个独立思辨小游戏。">
+<meta name="description" content="给十二岁的你：20 个独立思辨小游戏。">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../styles.css">
 <style>
-  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:color-mix(in srgb, var(--paper) 86%, transparent); border:0; border-radius:999px; padding:6px 14px 6px 6px; font-family:inherit; font-size:14px; cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:999px; padding:6px 14px 6px 6px; font-size:14px; cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
   .nav-member-btn svg { border-radius:50%; }
   .games-page { padding:36px 0 90px; }
   .games-nav { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:54px; }
@@ -46,7 +46,7 @@
     <h1>游戏库 · 十二岁的思辨场</h1>
     <p>挑一个，独立玩，没人监考。</p>
   </header>
-  <div class="summary"><span class="summary-dot"></span><span id="done-summary">已完成 0 / 10 个</span></div>
+  <div class="summary"><span class="summary-dot"></span><span id="done-summary">已完成 0 / 20 个</span></div>
   <section class="game-grid" id="game-grid" aria-label="游戏目录"></section>
 </main>
 
@@ -62,14 +62,24 @@
     ['g07-reading', '阅读侦探', '从一段话里找到黄金', 'green', 'g07-reading.html'],
     ['g08-letter', '未来信件', '写给十年后的你', 'blue', 'g08-letter.html'],
     ['g09-growth', '成长地图', '你在哪里？要去哪里？', 'coral', 'g09-growth.html'],
-    ['g10-questions', '提问高手', '好问题比好答案更难', 'yellow', 'g10-questions.html']
+    ['g10-questions', '提问高手', '好问题比好答案更难', 'yellow', 'g10-questions.html'],
+    ['g11-calm', '不慌实验室', '遇到难事，先别慌', 'blue', 'g11-calm.html'],
+    ['g12-express', '表达工坊', '把复杂的事说清楚', 'coral', 'g12-express.html'],
+    ['g13-learn', '学习解剖室', '你是怎么学东西的？', 'yellow', 'g13-learn.html'],
+    ['g14-bias', '思维陷阱', '大脑会骗你', 'green', 'g14-bias.html'],
+    ['g15-together', '共学密码', '一起学，比竞争更强', 'blue', 'g15-together.html'],
+    ['g16-empathy', '换位思考', '站在别人的角度看', 'coral', 'g16-empathy.html'],
+    ['g17-info', '信息鉴别', '不是所有信息都可信', 'yellow', 'g17-info.html'],
+    ['g18-longterm', '长期主义', '今天的小牺牲，明天的大收益', 'green', 'g18-longterm.html'],
+    ['g19-habit', '习惯实验室', '小习惯如何改变一个人', 'coral', 'g19-habit.html'],
+    ['g20-connect', '知识连接', '把学到的东西串起来', 'blue', 'g20-connect.html']
   ];
   function doneList() {
     try { return JSON.parse(localStorage.getItem('fo_games_done') || '[]'); } catch(e) { return []; }
   }
   (function(){
     var done = doneList();
-    document.getElementById('done-summary').textContent = '已完成 ' + done.length + ' / 10 个';
+    document.getElementById('done-summary').textContent = '已完成 ' + done.length + ' / 20 个';
     document.getElementById('game-grid').innerHTML = games.map(function(game, idx){
       var isDone = done.indexOf(game[0]) >= 0;
       return '<a class="game-card" data-color="' + game[3] + '" href="' + game[4] + '">' +
