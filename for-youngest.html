@@ -21,8 +21,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.85); border:0; border-radius:999px; padding:6px 14px 6px 6px; font-family:inherit; font-size:14px; cursor:pointer; color:#5C4F3D; box-shadow:0 2px 0 rgba(43,36,25,0.08); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.85); border:0; border-radius:999px; padding:6px 14px 6px 6px; font-family:inherit; font-size:14px; cursor:pointer; color:var(--ink-soft); box-shadow:0 2px 0 rgba(43,36,25,0.08); }
   .nav-member-btn svg { border-radius:50%; }
+  .member-bar { text-align:center; margin-bottom:16px; min-height:40px; color:var(--ink-soft); }
+  .member-bar a { color: var(--blue); font-size: 13px; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: "LXGW WenKai TC", "LXGW WenKai", serif;
@@ -182,11 +184,11 @@
 
 <div class="wrap">
   <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-    <a class="back" href="../index.html" style="margin-bottom:0;">← 回家庭操作系统</a>
+    <a class="back" href="index.html" style="margin-bottom:0;">← 回家庭操作系统</a>
     <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
   </div>
 
-  <div id="member-bar" class="member-bar" style="text-align:center;margin-bottom:16px;min-height:40px;"></div>
+  <div id="member-bar" class="member-bar"></div>
   <div class="head">
     <svg class="mascot" viewBox="0 0 100 100">
       <ellipse cx="50" cy="60" rx="30" ry="32" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
@@ -347,7 +349,7 @@
     var el = document.getElementById('nav-member-btn');
     if (!el) return;
     if (m) {
-      el.innerHTML = FO.avatarSVG(m.avatar, m.color, 28) + '<span>' + m.name + '</span>';
+      el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>';
       el.onclick = function(){ location.href='dashboard.html'; };
     } else {
       el.innerHTML = '<span>登录</span>';
@@ -360,7 +362,7 @@
     var m = window.FO ? FO.getMember() : null;
     var bar = document.getElementById('member-bar');
     if (bar && m) {
-      bar.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + ' <strong>' + m.name + '</strong>，你好！ <a href="dashboard.html" style="color:#4B7BA8;font-size:13px;">查看进度</a>';
+      bar.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + ' <strong>' + m.name + '</strong>，你好！ <a href="dashboard.html">查看进度</a>';
     }
     document.querySelectorAll('a.book[data-gated]').forEach(function(a){
       a.addEventListener('click', function(e){

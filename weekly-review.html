@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>家庭周会 · 复盘模板</title>
+<meta name="description" content="每周日 10 分钟，把这一周说清楚。">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:color-mix(in srgb, var(--paper) 86%, transparent); border:0; border-radius:999px; padding:6px 14px 6px 6px; font-family:inherit; font-size:14px; cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+  .nav-member-btn svg { border-radius:50%; }
+  .review-page { padding: 28px 0 80px; }
+  .review-nav { display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:56px; }
+  .review-nav a { color:var(--ink-mute); text-decoration:none; font-size:15px; }
+  .review-actions { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .print-btn { border:0; background:var(--ink); color:var(--cream); border-radius:999px; padding:10px 18px; font-family:inherit; font-size:14px; cursor:pointer; box-shadow:var(--shadow-soft); }
+  .review-head { text-align:center; margin-bottom:42px; }
+  .review-head h1 { margin-bottom:14px; }
+  .review-head p { color:var(--ink-soft); font-size:19px; margin-bottom:12px; }
+  .week-stamp { display:inline-flex; padding:6px 16px; border-radius:999px; background:var(--paper); color:var(--ink-mute); box-shadow:var(--shadow-soft); font-size:14px; }
+  .review-stack { display:grid; gap:22px; }
+  .review-card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:30px; border-left:6px solid var(--coral); break-inside:avoid; page-break-inside:avoid; }
+  .review-card[data-color="yellow"] { border-left-color:var(--yellow); }
+  .review-card[data-color="green"] { border-left-color:var(--green); }
+  .review-card[data-color="blue"] { border-left-color:var(--blue); }
+  .section-kicker { font-size:13px; letter-spacing:.14em; color:var(--ink-mute); margin-bottom:8px; }
+  .review-card h2 { color:var(--coral); font-size:clamp(24px, 3vw, 32px); margin-bottom:4px; }
+  .prompt { color:var(--ink-soft); margin-bottom:20px; }
+  .field-label { display:block; font-size:14px; color:var(--ink-mute); margin-bottom:8px; }
+  textarea, input { width:100%; border:1.5px solid color-mix(in srgb, var(--ink) 14%, transparent); background:var(--cream); color:var(--ink); border-radius:14px; font:inherit; box-shadow:inset 0 1px 0 color-mix(in srgb, var(--paper) 80%, transparent); }
+  textarea { min-height:120px; resize:vertical; padding:14px 16px; line-height:1.8; }
+  input { padding:10px 12px; }
+  textarea::placeholder, input::placeholder { color:var(--ink-mute); }
+  .line-area { min-height:172px; }
+  .reading-grid { display:grid; gap:12px; }
+  .reading-row { display:grid; grid-template-columns:78px 1fr 130px; gap:12px; align-items:center; }
+  .reader-name { color:var(--ink); font-weight:600; }
+  .avatar-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:16px; }
+  .split-fields { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .quote-box { margin-top:18px; background:var(--cream-deep); border-radius:var(--radius); padding:22px; }
+  .quote-box textarea { min-height:90px; background:var(--paper); }
+  @media (max-width: 720px) {
+    .review-page { padding-top:22px; }
+    .review-card { padding:24px; }
+    .reading-row, .avatar-grid, .split-fields { grid-template-columns:1fr; }
+  }
+  @media print {
+    body { background:white; color:black; font-size:14px; }
+    body::before, .review-nav, .print-btn, .nav-member-btn { display:none; }
+    .review-page { padding:0; }
+    .wrap, .wrap-narrow { max-width:none; padding:0; }
+    .review-head { margin-bottom:20px; }
+    .week-stamp, .review-card, textarea, input, .quote-box { background:white; color:black; box-shadow:none; }
+    .review-card { border:1px solid black; border-left:4px solid black; margin-bottom:14px; padding:18px; }
+    .review-card h2, .review-card[data-color] h2, .prompt, .field-label, .section-kicker { color:black; }
+    textarea, input { border:1px solid black; min-height:80px; }
+    textarea::placeholder, input::placeholder { color:#ccc; opacity:1; }
+    .line-area { min-height:130px; }
+    .quote-box { border:1px solid black; }
+  }
+</style>
+</head>
+<body>
+<main class="review-page wrap wrap-narrow">
+  <nav class="review-nav">
+    <a href="index.html">← 回家庭操作系统</a>
+    <div class="review-actions">
+      <button class="print-btn" type="button" onclick="window.print()">打印 PDF</button>
+      <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+    </div>
+  </nav>
+
+  <header class="review-head">
+    <h1>家庭周会 · 复盘模板</h1>
+    <p>每周日，10分钟，把这一周说清楚。</p>
+    <div class="week-stamp" id="week-stamp">第 - 周 · -</div>
+  </header>
+
+  <section class="review-stack" aria-label="每周复盘表">
+    <article class="review-card" data-color="coral">
+      <div class="section-kicker">SECTION 01</div>
+      <h2>本周亮点</h2>
+      <p class="prompt">这周，我们一起做了什么？</p>
+      <textarea class="line-area" placeholder="爸爸：&#10;妈妈：&#10;老大：&#10;老二："></textarea>
+    </article>
+
+    <article class="review-card" data-color="yellow">
+      <div class="section-kicker">SECTION 02</div>
+      <h2>共读进度</h2>
+      <p class="prompt">这周读了什么？</p>
+      <div class="reading-grid">
+        <label class="reading-row"><span class="reader-name">爸爸</span><input type="text" placeholder="书名 / 章节"><input type="text" placeholder="页数"></label>
+        <label class="reading-row"><span class="reader-name">妈妈</span><input type="text" placeholder="书名 / 章节"><input type="text" placeholder="页数"></label>
+        <label class="reading-row"><span class="reader-name">老大</span><input type="text" placeholder="书名 / 章节"><input type="text" placeholder="页数"></label>
+        <label class="reading-row"><span class="reader-name">老二</span><input type="text" placeholder="书名 / 章节"><input type="text" placeholder="页数"></label>
+      </div>
+    </article>
+
+    <article class="review-card" data-color="green">
+      <div class="section-kicker">SECTION 03</div>
+      <h2>每人一个收获</h2>
+      <p class="prompt">我学到了⋯⋯</p>
+      <div class="avatar-grid">
+        <label><span class="field-label">爸爸</span><textarea placeholder="这一周，我学到的是⋯⋯"></textarea></label>
+        <label><span class="field-label">妈妈</span><textarea placeholder="这一周，我学到的是⋯⋯"></textarea></label>
+        <label><span class="field-label">老大</span><textarea placeholder="这一周，我学到的是⋯⋯"></textarea></label>
+        <label><span class="field-label">老二</span><textarea placeholder="这一周，我学到的是⋯⋯"></textarea></label>
+      </div>
+    </article>
+
+    <article class="review-card" data-color="blue">
+      <div class="section-kicker">SECTION 04</div>
+      <h2>一个摩擦点</h2>
+      <p class="prompt">有什么不顺，我们一起想想</p>
+      <div class="split-fields">
+        <label><span class="field-label">发生了什么</span><textarea placeholder="不急着批评，先把事情说清楚。"></textarea></label>
+        <label><span class="field-label">解决方向</span><textarea placeholder="下次我们可以怎么试？"></textarea></label>
+      </div>
+    </article>
+
+    <article class="review-card" data-color="coral">
+      <div class="section-kicker">SECTION 05</div>
+      <h2>下周焦点</h2>
+      <p class="prompt">下周，我们想做到⋯⋯</p>
+      <textarea class="line-area" placeholder="1.&#10;2.&#10;3."></textarea>
+      <div class="quote-box">
+        <label><span class="field-label">本周家庭格言</span><textarea placeholder="写一句这周想放在家里的话。"></textarea></label>
+      </div>
+    </article>
+  </section>
+</main>
+
+<script src="fo-utils.js"></script>
+<script>
+  function isoWeek(date) {
+    var d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    var day = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - day);
+    var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+  }
+  (function(){
+    var now = new Date();
+    document.getElementById('week-stamp').textContent = '第 ' + isoWeek(now) + ' 周 · ' + now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日';
+    var m = window.FO ? FO.getMember() : null;
+    var el = document.getElementById('nav-member-btn');
+    if (!el) return;
+    if (m) {
+      el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>';
+      el.onclick = function(){ location.href='dashboard.html'; };
+    } else {
+      el.innerHTML = '<span>登录</span>';
+      el.onclick = function(){ location.href='login.html'; };
+    }
+  })();
+</script>
+</body>
+</html>

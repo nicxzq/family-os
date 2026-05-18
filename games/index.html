@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>游戏库 · 十二岁的思辨场</title>
+<meta name="description" content="给十二岁的你：10 个独立思辨小游戏。">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:color-mix(in srgb, var(--paper) 86%, transparent); border:0; border-radius:999px; padding:6px 14px 6px 6px; font-family:inherit; font-size:14px; cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+  .nav-member-btn svg { border-radius:50%; }
+  .games-page { padding:36px 0 90px; }
+  .games-nav { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:54px; }
+  .games-nav a { color:var(--ink-mute); text-decoration:none; font-size:15px; }
+  .games-hero { margin-bottom:34px; }
+  .games-hero h1 { margin-bottom:12px; }
+  .games-hero p { color:var(--ink-soft); font-size:20px; }
+  .summary { display:inline-flex; align-items:center; gap:10px; background:var(--paper); border-radius:999px; padding:9px 18px; box-shadow:var(--shadow-soft); color:var(--ink-soft); margin:8px 0 34px; }
+  .summary-dot { width:10px; height:10px; border-radius:50%; background:var(--green); }
+  .game-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:18px; }
+  .game-card { display:block; text-decoration:none; background:var(--paper); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow-card); border-left:5px solid var(--coral); transition:transform .2s ease, border-color .2s ease; min-height:170px; }
+  .game-card:hover { transform:translateY(-3px); }
+  .game-card[data-color="yellow"] { border-left-color:var(--yellow); }
+  .game-card[data-color="green"] { border-left-color:var(--green); }
+  .game-card[data-color="blue"] { border-left-color:var(--blue); }
+  .card-top { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
+  .badge { display:inline-flex; align-items:center; justify-content:center; min-width:48px; height:32px; border-radius:999px; background:var(--cream); color:var(--ink-mute); font-size:14px; letter-spacing:.1em; }
+  .status { color:var(--ink-mute); font-size:14px; }
+  .status.is-done { color:var(--green); }
+  .game-card h2 { font-size:24px; margin-bottom:8px; }
+  .game-card p { color:var(--ink-soft); font-size:16px; }
+  @media (max-width: 760px) {
+    .game-grid { grid-template-columns:1fr; }
+    .games-page { padding-top:28px; }
+  }
+</style>
+</head>
+<body>
+<main class="games-page wrap">
+  <nav class="games-nav">
+    <a href="../for-eldest.html">← 给十二岁的你</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+  <header class="games-hero">
+    <h1>游戏库 · 十二岁的思辨场</h1>
+    <p>挑一个，独立玩，没人监考。</p>
+  </header>
+  <div class="summary"><span class="summary-dot"></span><span id="done-summary">已完成 0 / 10 个</span></div>
+  <section class="game-grid" id="game-grid" aria-label="游戏目录"></section>
+</main>
+
+<script src="../fo-utils.js"></script>
+<script>
+  var games = [
+    ['g01-direction', '方向 vs 目标', '你追的，是哪一种？', 'coral', 'g01-direction.html'],
+    ['g02-compound', '时间的魔法', '复利是什么感觉？', 'yellow', 'g02-compound.html'],
+    ['g03-responsibility', '这是谁的事？', '一道关于责任的题', 'green', 'g03-responsibility.html'],
+    ['g04-soft-skills', '软技能地图', '看不见的能力，最值钱', 'blue', 'g04-soft-skills.html'],
+    ['g05-attention', '注意力卫士', '保护你最贵的资源', 'coral', 'g05-attention.html'],
+    ['g06-dilemma', '两难题', '没有标准答案，只有你的答案', 'yellow', 'g06-dilemma.html'],
+    ['g07-reading', '阅读侦探', '从一段话里找到黄金', 'green', 'g07-reading.html'],
+    ['g08-letter', '未来信件', '写给十年后的你', 'blue', 'g08-letter.html'],
+    ['g09-growth', '成长地图', '你在哪里？要去哪里？', 'coral', 'g09-growth.html'],
+    ['g10-questions', '提问高手', '好问题比好答案更难', 'yellow', 'g10-questions.html']
+  ];
+  function doneList() {
+    try { return JSON.parse(localStorage.getItem('fo_games_done') || '[]'); } catch(e) { return []; }
+  }
+  (function(){
+    var done = doneList();
+    document.getElementById('done-summary').textContent = '已完成 ' + done.length + ' / 10 个';
+    document.getElementById('game-grid').innerHTML = games.map(function(game, idx){
+      var isDone = done.indexOf(game[0]) >= 0;
+      return '<a class="game-card" data-color="' + game[3] + '" href="' + game[4] + '">' +
+        '<div class="card-top"><span class="badge">' + String(idx + 1).padStart(2, '0') + '</span><span class="status ' + (isDone ? 'is-done' : '') + '">' + (isDone ? '✓ done' : '○ not started') + '</span></div>' +
+        '<h2>' + game[1] + '</h2><p>' + game[2] + '</p></a>';
+    }).join('');
+    var m = window.FO ? FO.getMember() : null;
+    var el = document.getElementById('nav-member-btn');
+    if (m) {
+      el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>';
+      el.onclick = function(){ location.href='../dashboard.html'; };
+    } else {
+      el.innerHTML = '<span>登录</span>';
+      el.onclick = function(){ location.href='../login.html'; };
+    }
+  })();
+</script>
+</body>
+</html>

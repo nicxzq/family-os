@@ -22,8 +22,83 @@
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
-  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.85); border:0; border-radius:999px; padding:6px 14px 6px 6px; font-family:inherit; font-size:14px; cursor:pointer; color:#5C4F3D; box-shadow:0 2px 0 rgba(43,36,25,0.08); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:999px; padding:6px 14px 6px 6px; font-family:inherit; font-size:14px; cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
   .nav-member-btn svg { border-radius:50%; }
+  .eldest-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    background: var(--paper);
+    box-shadow: var(--shadow-soft);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    margin-bottom: 32px;
+  }
+  .eldest-topbar .back {
+    margin-bottom: 0;
+  }
+  .eldest-quicknav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .eldest-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 36px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--cream);
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14px;
+    box-shadow: var(--shadow-soft);
+  }
+  .eldest-pill:hover {
+    color: var(--ink);
+  }
+  .eldest-pill-icon {
+    display: none;
+  }
+  @media (max-width: 600px) {
+    .eldest-topbar {
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+    .eldest-topbar .back {
+      font-size: 13px;
+    }
+    .eldest-quicknav {
+      flex-wrap: nowrap;
+      gap: 6px;
+    }
+    .eldest-pill {
+      width: 36px;
+      min-width: 36px;
+      padding: 7px;
+    }
+    .eldest-pill-text,
+    .nav-member-btn span {
+      display: none;
+    }
+    .eldest-pill-icon {
+      display: inline;
+    }
+    .nav-member-btn {
+      width: 36px;
+      height: 36px;
+      justify-content: center;
+      padding: 2px;
+    }
+  }
   .game {
     max-width: 720px;
     margin: 0 auto;
@@ -213,10 +288,14 @@
 <body>
 
 <div class="game">
-  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:32px;">
-    <a class="back" href="index.html" style="margin-bottom:0;">← 回家庭操作系统</a>
-    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
-  </div>
+  <nav class="eldest-topbar" aria-label="十二岁页面导航">
+    <a class="back" href="index.html">← 回家庭操作系统</a>
+    <div class="eldest-quicknav">
+      <a class="eldest-pill" href="games/index.html"><span class="eldest-pill-icon" aria-hidden="true">🎮</span><span class="eldest-pill-text">游戏库</span></a>
+      <a class="eldest-pill" href="attention-budget.html"><span class="eldest-pill-icon" aria-hidden="true">🧮</span><span class="eldest-pill-text">工具箱</span></a>
+      <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+    </div>
+  </nav>
 
   <div class="game-intro" id="intro">
     <h1>嘿，<span class="accent">十二岁的你</span>。</h1>
@@ -341,6 +420,9 @@
       <a href="attention-budget.html" style="display: inline-flex; align-items: center; gap: 8px; background: var(--ink); color: var(--cream); text-decoration: none; padding: 14px 28px; border-radius: 999px; font-size: 15px; font-family: inherit;">
         去试试「注意力账本」→
       </a>
+      <a href="games/index.html" style="display: inline-flex; align-items: center; gap: 8px; background: var(--cream); color: var(--ink); text-decoration: none; padding: 14px 28px; border-radius: 999px; font-size: 15px; font-family: inherit; margin-left: 8px;">
+        去游戏库 →
+      </a>
     </div>
 
     <button class="retry" onclick="location.reload()">重新来一次</button>
@@ -403,7 +485,7 @@
     var el = document.getElementById('nav-member-btn');
     if (!el) return;
     if (m) {
-      el.innerHTML = FO.avatarSVG(m.avatar, m.color, 28) + '<span>' + m.name + '</span>';
+      el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>';
       el.onclick = function(){ location.href='dashboard.html'; };
     } else {
       el.innerHTML = '<span>登录</span>';

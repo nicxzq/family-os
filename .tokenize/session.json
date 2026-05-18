@@ -1,0 +1,89 @@
+{
+  "sessionId": "14137ce6-9a82-4f24-a615-63830dbb1540",
+  "startedAt": "2026-05-17T05:52:34.457Z",
+  "updatedAt": "2026-05-17T12:57:38.729Z",
+  "events": [
+    {
+      "ts": "2026-05-17T05:52:34.457Z",
+      "kind": "resolve",
+      "sessionId": "d190f7b4-b0cb-4d18-ac2f-77c90751ff57",
+      "file": "/Users/carlxu/github/family-os/.codex-toolkit.md"
+    },
+    {
+      "ts": "2026-05-17T06:05:37.729Z",
+      "kind": "resolve",
+      "sessionId": "d190f7b4-b0cb-4d18-ac2f-77c90751ff57",
+      "file": "/Users/carlxu/github/family-os/PLAN.md"
+    },
+    {
+      "ts": "2026-05-17T10:04:33.866Z",
+      "kind": "resolve",
+      "sessionId": "d190f7b4-b0cb-4d18-ac2f-77c90751ff57",
+      "file": "/Users/carlxu/github/family-os/ROADMAP.md"
+    },
+    {
+      "ts": "2026-05-17T10:51:23.431Z",
+      "kind": "resolve",
+      "sessionId": "d190f7b4-b0cb-4d18-ac2f-77c90751ff57",
+      "file": "/Users/carlxu/github/family-os/for-youngest.html"
+    },
+    {
+      "ts": "2026-05-17T10:51:25.580Z",
+      "kind": "resolve",
+      "sessionId": "d190f7b4-b0cb-4d18-ac2f-77c90751ff57",
+      "file": "/Users/carlxu/github/family-os/for-youngest.html"
+    },
+    {
+      "ts": "2026-05-17T10:51:27.072Z",
+      "kind": "resolve",
+      "sessionId": "d190f7b4-b0cb-4d18-ac2f-77c90751ff57",
+      "file": "/Users/carlxu/github/family-os/for-youngest.html"
+    },
+    {
+      "ts": "2026-05-17T10:51:45.526Z",
+      "kind": "resolve",
+      "sessionId": "d190f7b4-b0cb-4d18-ac2f-77c90751ff57",
+      "file": "/Users/carlxu/github/family-os/ROADMAP.md"
+    },
+    {
+      "ts": "2026-05-17T10:51:50.833Z",
+      "kind": "resolve",
+      "sessionId": "d190f7b4-b0cb-4d18-ac2f-77c90751ff57",
+      "file": "/Users/carlxu/github/family-os/ROADMAP.md"
+    },
+    {
+      "ts": "2026-05-17T10:51:52.954Z",
+      "kind": "resolve",
+      "sessionId": "d190f7b4-b0cb-4d18-ac2f-77c90751ff57",
+      "file": "/Users/carlxu/github/family-os/ROADMAP.md"
+    },
+    {
+      "ts": "2026-05-17T10:59:04.542Z",
+      "kind": "resolve",
+      "sessionId": "d190f7b4-b0cb-4d18-ac2f-77c90751ff57",
+      "file": "/Users/carlxu/github/family-os/ROADMAP.md"
+    },
+    {
+      "ts": "2026-05-17T10:59:07.136Z",
+      "kind": "resolve",
+      "sessionId": "d190f7b4-b0cb-4d18-ac2f-77c90751ff57",
+      "file": "/Users/carlxu/github/family-os/ROADMAP.md"
+    },
+    {
+      "ts": "2026-05-17T12:57:38.729Z",
+      "kind": "resolve",
+      "sessionId": "ac46e377-f648-46c1-bf88-c3be858f6601",
+      "file": "/Users/carlxu/github/family-os/PLAN.md"
+    }
+  ],
+  "unresolvedByFile": {},
+  "fabrications": [],
+  "metrics": {
+    "violations": 0,
+    "blocks": 0,
+    "rewrites": 0,
+    "escapes": 0,
+    "denies": 0,
+    "resolves": 0
+  }
+}
