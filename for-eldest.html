@@ -132,6 +132,70 @@
     margin: 0 auto;
     line-height: 1.7;
   }
+  .game-teaser {
+    margin-top: 40px;
+    text-align: left;
+  }
+  .teaser-or {
+    font-size: 13px;
+    color: var(--ink-mute);
+    letter-spacing: .1em;
+    margin-bottom: 14px;
+  }
+  .teaser-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .teaser-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: var(--paper);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    padding: 18px 20px;
+    text-decoration: none;
+    color: var(--ink);
+    border-left: 4px solid var(--coral);
+    transition: transform .2s;
+  }
+  .teaser-card:hover {
+    transform: translateY(-2px);
+  }
+  .teaser-card:nth-child(2) {
+    border-left-color: var(--yellow);
+  }
+  .teaser-num {
+    font-size: 11px;
+    letter-spacing: .15em;
+    color: var(--ink-mute);
+    margin-bottom: 2px;
+  }
+  .teaser-card strong {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+  .teaser-card span {
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .teaser-more {
+    font-size: 14px;
+    color: var(--ink-mute);
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 4px;
+  }
+  .teaser-more:hover {
+    color: var(--ink);
+  }
+  @media (max-width: 480px) {
+    .teaser-cards {
+      grid-template-columns: 1fr;
+    }
+  }
 
   .progress {
     display: flex;
@@ -301,6 +365,22 @@
     <h1>嘿，<span class="accent">十二岁的你</span>。</h1>
     <p>这不是测验。<br>没有分数，也没有人会打分。<br>就五个小问题——回答你<strong>真实的想法</strong>就行。</p>
     <button class="q-next is-shown" style="margin-top: 32px;" onclick="start()">开始 →</button>
+    <div class="game-teaser">
+      <p class="teaser-or">或者，直接去玩 →</p>
+      <div class="teaser-cards">
+        <a class="teaser-card" href="games/g01-direction.html">
+          <span class="teaser-num">01</span>
+          <strong>方向 vs 目标</strong>
+          <span>你追的，是哪一种？</span>
+        </a>
+        <a class="teaser-card" href="games/g02-compound.html">
+          <span class="teaser-num">02</span>
+          <strong>时间的魔法</strong>
+          <span>复利是什么感觉？</span>
+        </a>
+      </div>
+      <a class="teaser-more" href="games/index.html">查看全部 10 个游戏 →</a>
+    </div>
   </div>
 
   <div class="progress" id="progress" style="display: none;">
