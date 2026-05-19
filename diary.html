@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>日记 | 家庭 OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="/fo-supabase.js"></script>
+<style>
+  .back-link {
+    display: inline-flex; align-items: center;
+    text-decoration: none; color: var(--ink-soft);
+    background: var(--paper); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+  }
+  .new-entry-card {
+    background: var(--paper);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+  .mood-row { display: flex; }
+  .mood-btn {
+    flex: 1; font: inherit; cursor: pointer;
+    background: var(--cream); border: thin solid var(--cream-deep);
+    border-radius: var(--radius);
+  }
+  .mood-btn.is-selected {
+    background: var(--coral-soft); border-color: var(--coral);
+  }
+  .diary-textarea {
+    display: block; box-sizing: border-box;
+    font: inherit; background: var(--cream); color: var(--ink);
+    border: thin solid var(--cream-deep); border-radius: var(--radius);
+    resize: vertical;
+  }
+  .diary-submit {
+    display: block;
+    background: var(--coral); color: var(--paper);
+    border: 0; border-radius: var(--radius-lg);
+    font: inherit; cursor: pointer; box-shadow: var(--shadow-soft);
+  }
+  .entry-card {
+    background: var(--paper);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+  .entry-mood {
+    border-radius: var(--radius); background: var(--yellow-soft);
+    color: var(--ink-soft);
+  }
+  .entry-time { color: var(--ink-mute); }
+  .entry-content { color: var(--ink-soft); white-space: pre-wrap; }
+  .delete-btn {
+    background: none; border: 0;
+    color: var(--ink-mute); cursor: pointer; float: right;
+  }
+  .delete-btn:hover { color: var(--coral); }
+  .gate { text-align: center; }
+  .gate a { color: var(--coral); }
+  .status-msg { color: var(--ink-mute); text-align: center; }
+  .submit-error { color: var(--coral); }
+</style>
+</head>
+<body>
+<main class="wrap wrap-narrow"
+  style="padding-top:var(--__proposed-lgMajorSectionSpacing);padding-bottom:var(--__proposed-xlPageBottomPadding);">
+
+  <div style="margin-bottom:var(--__proposed-lgMajorSectionSpacing);border-bottom:thin solid var(--cream-deep);padding-bottom:var(--__proposed-smStandardElementSpacing);">
+    <a class="back-link" href="index.html"
+      style="padding:var(--__proposed-xsGapBetweenTightElements) var(--__proposed-smStandardElementSpacing);margin-bottom:var(--__proposed-smStandardElementSpacing);display:inline-flex;">← 返回</a>
+    <h1>📖 日记</h1>
+    <p id="diary-user-line" style="color:var(--ink-mute);"></p>
+  </div>
+
+  <!-- Not-logged-in gate -->
+  <div id="gate" class="gate" hidden>
+    <p>请先 <a href="login.html?back=diary.html">登录</a> 才能写日记。</p>
+  </div>
+
+  <!-- New entry form -->
+  <section id="new-entry-section" hidden
+    style="margin-bottom:var(--__proposed-lgMajorSectionSpacing);">
+    <div class="new-entry-card" style="padding:var(--__proposed-mdCardInteriorPadding);">
+      <h3 style="margin-bottom:var(--__proposed-smStandardElementSpacing);">写今天</h3>
+
+      <div style="margin-bottom:var(--__proposed-smStandardElementSpacing);">
+        <div style="color:var(--ink-mute);margin-bottom:var(--__proposed-xsGapBetweenTightElements);">心情</div>
+        <div class="mood-row" id="mood-row"
+          style="gap:var(--__proposed-xsGapBetweenTightElements);">
+          <button type="button" class="mood-btn" data-mood="happy">😊 开心</button>
+          <button type="button" class="mood-btn" data-mood="calm">😌 平静</button>
+          <button type="button" class="mood-btn" data-mood="curious">🤔 好奇</button>
+          <button type="button" class="mood-btn" data-mood="tired">😴 疲惫</button>
+          <button type="button" class="mood-btn" data-mood="sad">😢 难过</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom:var(--__proposed-smStandardElementSpacing);">
+        <textarea id="diary-content" class="diary-textarea" rows="5"
+          style="width:100%;"
+          placeholder="今天发生了什么？有什么想法？随便写……"></textarea>
+      </div>
+
+      <button type="button" id="submit-btn" class="diary-submit"
+        style="width:100%;padding:var(--__proposed-smStandardElementSpacing);">保存 →</button>
+      <p id="submit-error" class="submit-error"
+        style="min-height:var(--__proposed-smStandardElementSpacing);margin-top:var(--__proposed-xsGapBetweenTightElements);"></p>
+    </div>
+  </section>
+
+  <!-- Entry list -->
+  <section id="entries-section" hidden>
+    <h3 style="margin-bottom:var(--__proposed-smStandardElementSpacing);">过去的日记</h3>
+    <div id="entry-list"></div>
+    <p id="entries-status" class="status-msg"></p>
+  </section>
+
+</main>
+
+<script src="/fo-utils.js"></script>
+<script>
+(function () {
+  var MOODS = { happy: '😊 开心', calm: '😌 平静', curious: '🤔 好奇', tired: '😴 疲惫', sad: '😢 难过' };
+  var selectedMood = null;
+
+  document.getElementById('mood-row').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-mood]');
+    if (!btn) return;
+    selectedMood = btn.dataset.mood;
+    document.querySelectorAll('.mood-btn').forEach(function (b) {
+      b.classList.toggle('is-selected', b.dataset.mood === selectedMood);
+    });
+  });
+
+  function formatDate(iso) {
+    return new Date(iso).toLocaleDateString('zh-CN', {
+      year: 'numeric', month: 'long', day: 'numeric', weekday: 'short'
+    });
+  }
+
+  function renderEntries(entries) {
+    var list = document.getElementById('entry-list');
+    var status = document.getElementById('entries-status');
+    list.innerHTML = '';
+    if (!entries.length) {
+      status.textContent = '还没有日记，今天写第一篇吧。';
+      return;
+    }
+    status.textContent = '';
+    entries.forEach(function (entry) {
+      var card = document.createElement('div');
+      card.className = 'entry-card';
+      card.style.cssText =
+        'margin-bottom:var(--__proposed-smStandardElementSpacing);' +
+        'padding:var(--__proposed-smStandardElementSpacing);';
+      var moodBadge = entry.mood
+        ? '<span class="entry-mood" style="padding:0 var(--__proposed-xsGapBetweenTightElements);margin-right:var(--__proposed-xsGapBetweenTightElements);">'
+          + (MOODS[entry.mood] || entry.mood) + '</span>'
+        : '';
+      card.innerHTML =
+        '<button class="delete-btn" data-id="' + entry.id + '" title="删除">✕</button>' +
+        moodBadge +
+        '<span class="entry-time">' + formatDate(entry.created_at) + '</span>' +
+        '<p class="entry-content" style="margin-top:var(--__proposed-xsGapBetweenTightElements);">'
+          + entry.content.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</p>';
+      list.appendChild(card);
+    });
+  }
+
+  document.getElementById('entry-list').addEventListener('click', async function (e) {
+    var btn = e.target.closest('.delete-btn');
+    if (!btn) return;
+    if (!confirm('确定删除这篇日记？')) return;
+    try {
+      await FO_DB.deleteDiaryEntry(btn.dataset.id);
+      btn.closest('.entry-card').remove();
+    } catch (err) {
+      alert('删除失败，请稍后再试。');
+    }
+  });
+
+  async function init() {
+    if (typeof FO_DB === 'undefined' || !FO_DB.isConfigured()) {
+      document.getElementById('gate').hidden = false;
+      document.getElementById('gate').querySelector('p').innerHTML =
+        '后端未配置。请参考 <a href="https://github.com">setup 说明</a> 完成 Supabase 初始化。';
+      return;
+    }
+    var session = await FO_DB.getSession();
+    if (!session) {
+      document.getElementById('gate').hidden = false;
+      return;
+    }
+    var profile = await FO_DB.getProfile(session.user.id);
+    if (profile) {
+      document.getElementById('diary-user-line').textContent = profile.name + ' 的日记';
+    }
+    document.getElementById('new-entry-section').hidden = false;
+    document.getElementById('entries-section').hidden = false;
+
+    var entries = await FO_DB.getDiaryEntries(100);
+    renderEntries(entries);
+
+    document.getElementById('submit-btn').addEventListener('click', async function () {
+      var content = document.getElementById('diary-content').value.trim();
+      var errorEl = document.getElementById('submit-error');
+      errorEl.textContent = '';
+      if (!content) { errorEl.textContent = '请写点什么再保存。'; return; }
+      try {
+        await FO_DB.addDiaryEntry(content, selectedMood);
+        document.getElementById('diary-content').value = '';
+        selectedMood = null;
+        document.querySelectorAll('.mood-btn').forEach(function (b) {
+          b.classList.remove('is-selected');
+        });
+        var fresh = await FO_DB.getDiaryEntries(100);
+        renderEntries(fresh);
+      } catch (err) {
+        errorEl.textContent = '保存失败：' + (err.message || '请稍后再试');
+      }
+    });
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

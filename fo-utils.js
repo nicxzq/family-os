@@ -21,6 +21,15 @@ window.FO = {
     const hist = JSON.parse(localStorage.getItem('fo_history') || '[]');
     hist.unshift({ bookId, title, ts: Date.now(), memberId: m.id });
     localStorage.setItem('fo_history', JSON.stringify(hist.slice(0, 200)));
+    if (typeof FO_DB !== 'undefined') FO_DB.logActivity('storybook', bookId, title).catch(() => {});
+  },
+  logGameHistory(gameId, title) {
+    const m = this.getMember();
+    if (!m) return;
+    const hist = JSON.parse(localStorage.getItem('fo_history') || '[]');
+    hist.unshift({ bookId: gameId, title, ts: Date.now(), memberId: m.id, type: 'game' });
+    localStorage.setItem('fo_history', JSON.stringify(hist.slice(0, 200)));
+    if (typeof FO_DB !== 'undefined') FO_DB.logActivity('game', gameId, title).catch(() => {});
   },
   logProgress(bookId, pageIdx, total) {
     const m = this.getMember();
@@ -34,6 +43,9 @@ window.FO = {
     rec.completed = rec.pages.length >= total;
     rec.lastTs = Date.now();
     localStorage.setItem('fo_progress', JSON.stringify(all));
+    if (typeof FO_DB !== 'undefined') {
+      FO_DB.saveProgress(bookId, rec.pages, rec.last, rec.completed).catch(() => {});
+    }
   },
   getProgress(memberId) {
     const all = JSON.parse(localStorage.getItem('fo_progress') || '{}');

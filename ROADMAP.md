@@ -14,6 +14,7 @@
 | v1.3 | 2026-05-17 | 注意力账本游戏（attention-budget.html）；绘本 05/06 正式上架 |
 | v1.4 | 2026-05-18 | 每周复盘表；十二岁游戏库 10 个（games/）；游戏目录页 |
 | v1.5 | 2026-05-18 | 游戏库扩充至 20 个（g11–g20）|
+| v1.6 | 2026-05-19 | 轻量后端：Supabase schema + fo-supabase.js + login 云端登录 + diary.html 日记页 |
 
 ---
 
@@ -38,7 +39,7 @@
 
 ### 🥉 长期（≥ 半年）
 
-- [ ] **会"复盘"的家** — 轻量后端（Cloudflare D1 / Supabase），家人可登录写日记、看历史
+- [x] **会"复盘"的家** — Supabase 后端：profiles / diary / history / progress / invite_codes；login.html 云端登录；diary.html 日记页；fo-supabase.js 客户端；详见 supabase/SETUP.md
 - [ ] **AI 家庭顾问** — 家庭对话助手，仅限"问问题"，不下决定
 - [ ] **儿童成长档案** — 老二老大 18 岁前重要时刻的成长轨迹（非相册）
 - [ ] **公开/付费版** — 把"家庭操作系统"做成其它家庭可领养的模板

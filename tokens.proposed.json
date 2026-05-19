@@ -19,6 +19,76 @@
       "timestamp": "2026-05-18T22:54:44.914Z",
       "status": "pending",
       "tempName": "__proposed.storybookPageBottomPaddingProgressDotsClearance)"
+    },
+    {
+      "id": "prop_2026-05-19_003",
+      "value": "380px",
+      "intent": "auth modal max-width",
+      "proposedTokenName": "space.auth-modal-max-width",
+      "callerFile": null,
+      "timestamp": "2026-05-19T13:14:59.618Z",
+      "status": "pending",
+      "tempName": "__proposed.authModalMaxWidth"
+    },
+    {
+      "id": "prop_2026-05-19_004",
+      "value": "90%",
+      "intent": "auth modal responsive width",
+      "proposedTokenName": "space.auth-modal-responsive-width",
+      "callerFile": null,
+      "timestamp": "2026-05-19T13:14:59.672Z",
+      "status": "pending",
+      "tempName": "__proposed.authModalResponsiveWidth"
+    },
+    {
+      "id": "prop_2026-05-19_005",
+      "value": "0.5rem",
+      "intent": "xs gap between tight elements",
+      "proposedTokenName": "space.xs-gap-between-tight-elements",
+      "callerFile": null,
+      "timestamp": "2026-05-19T13:21:28.413Z",
+      "status": "pending",
+      "tempName": "__proposed.xsGapBetweenTightElements"
+    },
+    {
+      "id": "prop_2026-05-19_006",
+      "value": "1rem",
+      "intent": "sm standard element spacing",
+      "proposedTokenName": "space.sm-standard-element-spacing",
+      "callerFile": null,
+      "timestamp": "2026-05-19T13:21:28.791Z",
+      "status": "pending",
+      "tempName": "__proposed.smStandardElementSpacing"
+    },
+    {
+      "id": "prop_2026-05-19_007",
+      "value": "1.5rem",
+      "intent": "md card interior padding",
+      "proposedTokenName": "space.md-card-interior-padding",
+      "callerFile": null,
+      "timestamp": "2026-05-19T13:21:29.097Z",
+      "status": "pending",
+      "tempName": "__proposed.mdCardInteriorPadding"
+    },
+    {
+      "id": "prop_2026-05-19_008",
+      "value": "2rem",
+      "intent": "lg major section spacing",
+      "proposedTokenName": "space.lg-major-section-spacing",
+      "callerFile": null,
+      "timestamp": "2026-05-19T13:21:29.816Z",
+      "status": "pending",
+      "tempName": "__proposed.lgMajorSectionSpacing"
+    },
+    {
+      "id": "prop_2026-05-19_009",
+      "value": "4rem",
+      "intent": "xl page-bottom padding",
+      "proposedTokenName": "space.xl-page-bottom-padding",
+      "callerFile": null,
+      "timestamp": "2026-05-19T13:21:29.837Z",
+      "status": "pending",
+      "tempName": "__proposed.xlPageBottomPadding"
     }
   ]
 }

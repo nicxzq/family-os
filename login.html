@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="/fo-supabase.js"></script>
 <style>
   :root {
     --coral:#E56B5A;
@@ -260,6 +262,30 @@
     color: var(--ink-mute);
     font-size: 13px;
   }
+  /* auth overlay */
+  .auth-overlay {
+    position: fixed; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100; opacity: 0; pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .auth-overlay::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--ink); opacity: 0.45;
+  }
+  .auth-overlay.is-open { opacity: 1; pointer-events: auto; }
+  .auth-modal {
+    position: relative; z-index: 1;
+    width: var(--__proposed-authModalResponsiveWidth);
+    max-width: var(--__proposed-authModalMaxWidth);
+  }
+  .sync-bar { text-align: center; }
+  .sync-btn {
+    background: none; border: thin solid var(--blue-soft);
+    border-radius: var(--radius); font: inherit;
+    color: var(--blue); cursor: pointer;
+  }
+  .sync-btn:hover { background: var(--blue-soft); }
 </style>
 </head>
 <body>
@@ -305,6 +331,70 @@
   </div>
 
   <a id="guest-link" class="guest-link" href="index.html">以访客继续</a>
+
+  <div class="sync-bar">
+    <button class="sync-btn" id="sync-btn">🔗 登录同步数据</button>
+    <p id="sync-status" class="helper"></p>
+  </div>
+</div>
+
+<!-- Auth overlay -->
+<div id="auth-overlay" class="auth-overlay">
+  <div class="auth-modal">
+    <div class="create-form is-open" style="max-height:none;margin-top:0;">
+      <h3>账户</h3>
+      <div class="field">
+        <div class="picker-label">操作</div>
+        <div class="role-row" id="auth-tabs">
+          <button type="button" class="role-btn is-selected" data-tab="login">登录</button>
+          <button type="button" class="role-btn" data-tab="register">注册</button>
+        </div>
+      </div>
+
+      <!-- Login -->
+      <div id="auth-login-section">
+        <div class="field">
+          <label for="auth-email">邮箱</label>
+          <input id="auth-email" class="text-input" type="email" autocomplete="email" placeholder="邮箱地址">
+        </div>
+        <div class="field">
+          <label for="auth-password">密码</label>
+          <input id="auth-password" class="text-input" type="password" autocomplete="current-password" placeholder="密码">
+        </div>
+        <button type="button" id="auth-login-btn" class="submit-btn">登录</button>
+        <p id="auth-error" class="error"></p>
+      </div>
+
+      <!-- Register -->
+      <div id="auth-reg-section" hidden>
+        <div class="field">
+          <label for="reg-email">邮箱</label>
+          <input id="reg-email" class="text-input" type="email" autocomplete="email" placeholder="邮箱地址">
+        </div>
+        <div class="field">
+          <label for="reg-password">密码</label>
+          <input id="reg-password" class="text-input" type="password" autocomplete="new-password" placeholder="至少 6 位">
+        </div>
+        <div class="field">
+          <label for="reg-invite">邀请码</label>
+          <input id="reg-invite" class="code-input" type="text" placeholder="FAMILY2026">
+          <div class="helper">家庭成员用 FAMILY2026，朋友向家长索取专属码。</div>
+        </div>
+        <div class="field">
+          <div class="picker-label">我是</div>
+          <div class="role-row" id="reg-role-row">
+            <button type="button" class="role-btn is-selected" data-role="child">🐣 孩子</button>
+            <button type="button" class="role-btn" data-role="parent">🐓 家长</button>
+            <button type="button" class="role-btn" data-role="friend">🌟 朋友</button>
+          </div>
+        </div>
+        <button type="button" id="auth-reg-btn" class="submit-btn">注册 →</button>
+        <p id="reg-error" class="error"></p>
+      </div>
+
+      <button type="button" id="auth-close-btn" class="guest-link" style="display:block;">关闭</button>
+    </div>
+  </div>
 </div>
 
 <script src="/fo-utils.js"></script>
@@ -443,6 +533,141 @@
     renderAvatarPicker();
     renderColorPicker();
     syncRole('child');
+  })();
+</script>
+<script>
+  // ── Supabase auth ────────────────────────────────────────────────────────────
+  (function () {
+    var overlay   = document.getElementById('auth-overlay');
+    var syncBtn   = document.getElementById('sync-btn');
+    var syncStatus = document.getElementById('sync-status');
+    var regRole   = 'child';
+
+    function openOverlay()  { overlay.classList.add('is-open'); }
+    function closeOverlay() { overlay.classList.remove('is-open'); }
+
+    // close on backdrop click
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeOverlay();
+    });
+    document.getElementById('auth-close-btn').addEventListener('click', closeOverlay);
+
+    // tab switching
+    document.getElementById('auth-tabs').addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-tab]');
+      if (!btn) return;
+      var tab = btn.dataset.tab;
+      document.querySelectorAll('#auth-tabs .role-btn').forEach(function (b) {
+        b.classList.toggle('is-selected', b.dataset.tab === tab);
+      });
+      document.getElementById('auth-login-section').hidden = (tab !== 'login');
+      document.getElementById('auth-reg-section').hidden   = (tab !== 'register');
+    });
+
+    // register role picker
+    document.getElementById('reg-role-row').addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-role]');
+      if (!btn) return;
+      regRole = btn.dataset.role;
+      document.querySelectorAll('#reg-role-row .role-btn').forEach(function (b) {
+        b.classList.toggle('is-selected', b.dataset.role === regRole);
+      });
+    });
+
+    // sync button: toggle sign-in / sign-out
+    syncBtn.addEventListener('click', async function () {
+      if (typeof FO_DB === 'undefined' || !FO_DB.isConfigured()) {
+        syncStatus.textContent = '后端未配置，数据暂存本设备。';
+        return;
+      }
+      var session = await FO_DB.getSession();
+      if (session) {
+        await FO_DB.signOut();
+        syncBtn.textContent = '🔗 登录同步数据';
+        syncStatus.textContent = '已退出登录。';
+      } else {
+        openOverlay();
+      }
+    });
+
+    // sign in
+    document.getElementById('auth-login-btn').addEventListener('click', async function () {
+      var errorEl = document.getElementById('auth-error');
+      errorEl.textContent = '';
+      var email    = document.getElementById('auth-email').value.trim();
+      var password = document.getElementById('auth-password').value;
+      if (!email || !password) { errorEl.textContent = '请填写邮箱和密码。'; return; }
+      try {
+        var data = await FO_DB.signIn(email, password);
+        var profile = await FO_DB.getProfile(data.user.id);
+        if (profile) {
+          var m = { id: data.user.id, name: profile.name, avatar: profile.avatar, color: profile.color, role: profile.role, joined: Date.now() };
+          FO.setMember(m);
+          if (!FO.getMembers().find(function (x) { return x.id === m.id; })) FO.addMember(m);
+        }
+        closeOverlay();
+        syncBtn.textContent = '✅ ' + (profile ? profile.name : email);
+        syncStatus.textContent = '数据将自动同步到云端。';
+        document.getElementById('member-grid') && (function(){ var memberGrid = document.getElementById('member-grid'); memberGrid.innerHTML = ''; }());
+        location.reload();
+      } catch (err) {
+        errorEl.textContent = '邮箱或密码不正确。';
+      }
+    });
+
+    // register
+    document.getElementById('auth-reg-btn').addEventListener('click', async function () {
+      var errorEl = document.getElementById('reg-error');
+      errorEl.textContent = '';
+      var email    = document.getElementById('reg-email').value.trim();
+      var password = document.getElementById('reg-password').value;
+      var code     = document.getElementById('reg-invite').value.trim().toUpperCase();
+      if (!email || !password) { errorEl.textContent = '请填写邮箱和密码。'; return; }
+      if (!code)               { errorEl.textContent = '请填写邀请码。'; return; }
+      if (password.length < 6) { errorEl.textContent = '密码至少需要 6 位。'; return; }
+      try {
+        var ok = await FO_DB.checkInviteCode(code);
+        if (!ok) { errorEl.textContent = '邀请码无效或已用完。'; return; }
+        var cur  = FO.getMember();
+        var meta = { name: cur ? cur.name : '新成员', avatar: cur ? cur.avatar : 'chick', color: cur ? cur.color : 'coral', role: regRole };
+        await FO_DB.signUp(email, password, meta);
+        await FO_DB.useInviteCode(code);
+        closeOverlay();
+        syncStatus.textContent = '注册成功！请查收确认邮件，验证后即可登录。';
+      } catch (err) {
+        errorEl.textContent = '注册失败：' + (err.message || '请稍后再试');
+      }
+    });
+
+    // auto-restore session on load
+    (async function () {
+      if (typeof FO_DB === 'undefined' || !FO_DB.isConfigured()) return;
+      try {
+        var session = await FO_DB.getSession();
+        if (!session) return;
+        var profile = await FO_DB.getProfile(session.user.id);
+        if (!profile) return;
+        var m = { id: session.user.id, name: profile.name, avatar: profile.avatar, color: profile.color, role: profile.role, joined: Date.now() };
+        FO.setMember(m);
+        if (!FO.getMembers().find(function (x) { return x.id === m.id; })) FO.addMember(m);
+        syncBtn.textContent = '✅ ' + profile.name;
+        syncStatus.textContent = '数据将自动同步到云端。';
+        // refresh member grid
+        var grid = document.getElementById('member-grid');
+        if (grid) {
+          grid.innerHTML = '';
+          FO.getMembers().forEach(function (member) {
+            var card = document.createElement('button');
+            card.type = 'button'; card.className = 'member-card';
+            card.innerHTML = FO.avatarSVG(member.avatar, member.color, 64) +
+              '<div class="member-name">' + member.name + '</div>' +
+              '<span class="role-badge ' + member.role + '">' + (member.role === 'parent' ? '家长' : '孩子') + '</span>';
+            card.addEventListener('click', function () { FO.setMember(member); location.href = new URLSearchParams(location.search).get('back') || 'index.html'; });
+            grid.appendChild(card);
+          });
+        }
+      } catch (e) { /* offline / unconfigured */ }
+    })();
   })();
 </script>
 </body>
