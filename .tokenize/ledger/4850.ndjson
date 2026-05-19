@@ -1,3 +1,0 @@
-{"ts":"2026-05-19T13:16:59.214Z","kind":"block","sessionId":"1c10a35f-5f1a-41e2-bd7e-a71370a094bd","file":"/Users/carlxu/github/family-os/login.html","line":2,"literal":"10px","reason":"no-match"}
-{"ts":"2026-05-19T13:16:59.218Z","kind":"block","sessionId":"1c10a35f-5f1a-41e2-bd7e-a71370a094bd","file":"/Users/carlxu/github/family-os/login.html","line":4,"literal":"13px","reason":"no-match"}
-{"ts":"2026-05-19T13:16:59.219Z","kind":"deny","sessionId":"1c10a35f-5f1a-41e2-bd7e-a71370a094bd","file":"/Users/carlxu/github/family-os/login.html","reason":"2 unresolved violation(s)"}
