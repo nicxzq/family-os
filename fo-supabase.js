@@ -36,10 +36,19 @@ window.FO_DB = {
     const { data, error } = await c.auth.signUp({
       email,
       password,
-      options: { data: meta }
+      options: {
+        data: meta,
+        emailRedirectTo: window.location.origin + '/login.html'
+      }
     });
     if (error) throw error;
     return data;
+  },
+
+  async resendVerification(email) {
+    const c = this._c(); if (!c) throw new Error('未配置后端');
+    const { error } = await c.auth.resend({ type: 'signup', email });
+    if (error) throw error;
   },
 
   async signOut() {

@@ -630,10 +630,25 @@
         if (!ok) { errorEl.textContent = '邀请码无效或已用完。'; return; }
         var cur  = FO.getMember();
         var meta = { name: cur ? cur.name : '新成员', avatar: cur ? cur.avatar : 'chick', color: cur ? cur.color : 'coral', role: regRole };
-        await FO_DB.signUp(email, password, meta);
+        var result = await FO_DB.signUp(email, password, meta);
+        // Supabase returns user=null when the email already exists but is unconfirmed
+        // (prevents email enumeration; doesn't resend automatically)
+        if (!result.user) {
+          errorEl.innerHTML = '此邮箱已注册但尚未验证。<button id="resend-btn" style="background:none;border:0;color:var(--blue);cursor:pointer;font:inherit;text-decoration:underline;">重新发送验证邮件</button>';
+          document.getElementById('resend-btn').addEventListener('click', async function () {
+            this.disabled = true; this.textContent = '发送中…';
+            try {
+              await FO_DB.resendVerification(email);
+              errorEl.textContent = '验证邮件已重发，请查收收件箱（含垃圾箱）。';
+            } catch (e) {
+              errorEl.textContent = '发送失败：' + (e.message || '请稍后再试');
+            }
+          });
+          return;
+        }
         await FO_DB.useInviteCode(code);
         closeOverlay();
-        syncStatus.textContent = '注册成功！请查收确认邮件，验证后即可登录。';
+        syncStatus.textContent = '注册成功！请查收确认邮件，点击链接后再回来登录。';
       } catch (err) {
         errorEl.textContent = '注册失败：' + (err.message || '请稍后再试');
       }
