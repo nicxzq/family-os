@@ -1,7 +1,7 @@
 {
-  "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+  "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
   "startedAt": "2026-05-17T05:52:34.457Z",
-  "updatedAt": "2026-05-18T23:00:18.127Z",
+  "updatedAt": "2026-05-19T12:58:12.737Z",
   "events": [
     {
       "ts": "2026-05-17T05:52:34.457Z",
@@ -369,24 +369,280 @@
       "kind": "resolve",
       "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
       "file": "/Users/carlxu/github/family-os/storybooks/04-the-mountain.html"
+    },
+    {
+      "ts": "2026-05-18T23:01:47.849Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/05-why-why.html"
+    },
+    {
+      "ts": "2026-05-18T23:01:50.158Z",
+      "kind": "resolve",
+      "sessionId": "83d79e40-9c57-4c21-b3ad-500df1f4020f",
+      "file": "/Users/carlxu/github/family-os/storybooks/06-the-direction.html"
+    },
+    {
+      "ts": "2026-05-19T12:56:54.682Z",
+      "kind": "resolve",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/supabase/schema.sql"
+    },
+    {
+      "ts": "2026-05-19T12:57:15.167Z",
+      "kind": "resolve",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/fo-supabase.js"
+    },
+    {
+      "ts": "2026-05-19T12:57:30.658Z",
+      "kind": "resolve",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/fo-utils.js"
+    },
+    {
+      "ts": "2026-05-19T12:57:55.139Z",
+      "kind": "resolve",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.704Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 2,
+      "literal": "10px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.714Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 4,
+      "literal": "13px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.724Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 9,
+      "literal": "rgba(43,36,25,0.45)",
+      "reason": "low-confidence-ink"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.724Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 11,
+      "literal": "16px",
+      "reason": "low-confidence-radius"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.725Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 20,
+      "literal": "24px",
+      "reason": "low-confidence-radius.lg"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.730Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 20,
+      "literal": "20px",
+      "reason": "low-confidence-radius"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.730Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 21,
+      "literal": "380px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.730Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 23,
+      "literal": "22px",
+      "reason": "low-confidence-radius"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.731Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 26,
+      "literal": "2px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.731Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 31,
+      "literal": "10px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.732Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 31,
+      "literal": "16px",
+      "reason": "low-confidence-radius"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.732Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 33,
+      "literal": "3px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.732Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 33,
+      "literal": "-2px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.733Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 37,
+      "literal": "10px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.733Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 39,
+      "literal": "14px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.733Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 43,
+      "literal": "16px",
+      "reason": "low-confidence-radius"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.733Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 44,
+      "literal": "1px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.734Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 49,
+      "literal": "2px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.734Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 50,
+      "literal": "999px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.734Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 51,
+      "literal": "10px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.735Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 51,
+      "literal": "22px",
+      "reason": "low-confidence-radius"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.735Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 52,
+      "literal": "15px",
+      "reason": "low-confidence-radius"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.735Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 56,
+      "literal": "8px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.736Z",
+      "kind": "block",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "line": 56,
+      "literal": "13px",
+      "reason": "no-match"
+    },
+    {
+      "ts": "2026-05-19T12:58:12.737Z",
+      "kind": "deny",
+      "sessionId": "1c10a35f-5f1a-41e2-bd7e-a71370a094bd",
+      "file": "/Users/carlxu/github/family-os/login.html",
+      "reason": "24 unresolved violation(s)"
     }
   ],
   "unresolvedByFile": {
-    "/Users/carlxu/github/family-os/storybooks/STORYBOOK_DESIGN.md": 0,
-    "/Users/carlxu/github/family-os/storybooks/01-try-it.html": 0,
-    "/Users/carlxu/github/family-os/storybooks/02-the-library.html": 0,
-    "/Users/carlxu/github/family-os/storybooks/03-ten-minutes.html": 0,
-    "/Users/carlxu/github/family-os/storybooks/04-the-mountain.html": 0,
-    "/Users/carlxu/github/family-os/storybooks/05-why-why.html": 0,
-    "/Users/carlxu/github/family-os/storybooks/06-the-direction.html": 0
+    "/Users/carlxu/github/family-os/supabase/schema.sql": 0,
+    "/Users/carlxu/github/family-os/fo-supabase.js": 0,
+    "/Users/carlxu/github/family-os/fo-utils.js": 0,
+    "/Users/carlxu/github/family-os/login.html": 1
   },
   "fabrications": [],
   "metrics": {
     "violations": 0,
-    "blocks": 7,
+    "blocks": 24,
     "rewrites": 0,
     "escapes": 0,
-    "denies": 3,
-    "resolves": 23
+    "denies": 1,
+    "resolves": 4
   }
 }

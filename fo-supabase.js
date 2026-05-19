@@ -4,8 +4,8 @@
 // ③ Replace the two placeholders below with Project URL and anon key
 //    (Settings → API → Project URL / Project API Keys)
 
-const _SUPABASE_URL  = 'https://YOUR_PROJECT_ID.supabase.co';
-const _SUPABASE_KEY  = 'YOUR_ANON_KEY';
+const _SUPABASE_URL  = 'https://zdmhnwxwblpzcjgszqpj.supabase.co';
+const _SUPABASE_KEY  = 'sb_publishable_43z5_LKA-Qht_xXGYTZxKQ_btF-rQGF';
 
 const _configured = !_SUPABASE_URL.includes('YOUR_PROJECT');
 
