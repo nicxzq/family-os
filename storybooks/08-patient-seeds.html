@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>毛毛的种子</title>
+<meta name="description" content="关于「不慌，时间是朋友」的绘本动画。">
+<meta property="og:title" content="毛毛的种子">
+<meta property="og:description" content="关于「不慌，时间是朋友」的绘本动画。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/storybooks/08-patient-seeds">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="毛毛的种子">
+<meta name="twitter:description" content="关于「不慌，时间是朋友」的绘本动画。">
+<meta name="twitter:image" content="https://family.carlxu.cn/og.png">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "LXGW WenKai TC", "LXGW WenKai", serif; background: #FFF8E0; min-height: 100vh; overflow: hidden; }
+  .book { width: 100vw; height: 100vh; position: relative; overflow: hidden; perspective: 1400px; }
+  .top { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 20px 32px; z-index: 20; }
+  .back, .dash-link { text-decoration: none; color: #5C4F3D; font-size: 16px; background: rgba(255,255,255,0.7); padding: 8px 16px; border-radius: 999px; backdrop-filter: blur(8px); }
+  .read-aloud { background: #4B7BA8; color: white; border: 0; padding: 10px 18px; border-radius: 999px; font-family: inherit; font-size: 16px; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,0.1); }
+  .read-aloud:active { transform: translateY(1px); box-shadow: 0 2px 0 rgba(0,0,0,0.1); }
+  .page { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 80px 40px 120px; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; transform-origin: center center; backface-visibility: hidden; }
+  .page.is-active { opacity: 1; pointer-events: auto; }
+  .page[data-bg="cream"] { background: #FFF8E0; }
+  .page[data-bg="peach"] { background: #FBE3D5; }
+  .page[data-bg="mint"] { background: #D7EBC9; }
+  .page[data-bg="sky"] { background: #D7E7F4; }
+  .page[data-bg="yellow"] { background: #FBE39A; }
+  .scene { flex: 1; min-height: 0; position: relative; width: 100%; overflow: hidden; }
+  .scene svg { width: 100%; height: 100%; }
+  .text { flex-shrink: 0; text-align: center; max-width: 100%; }
+  .text h2 { font-size: clamp(24px, 5vw, 38px); line-height: 1.4; color: #2B2419; font-weight: 500; text-wrap: balance; }
+  .text .big { font-size: clamp(32px, 6vw, 52px); line-height: 1.3; color: #4B7BA8; font-weight: 700; margin-top: 12px; }
+  .text .small { font-size: 18px; color: #5C4F3D; margin-top: 16px; line-height: 1.6; }
+  .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.88); border: 0; width: 56px; height: 56px; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,0.1); font-family: inherit; color: #2B2419; z-index: 20; backdrop-filter: blur(4px); }
+  .nav-btn:disabled { opacity: 0.3; pointer-events: none; }
+  .nav-btn:active { transform: translateY(calc(-50% + 1px)); box-shadow: 0 2px 0 rgba(0,0,0,0.1); }
+  #prev { left: 12px; }
+  #next { right: 12px; }
+  .dots-wrap { position: absolute; bottom: 24px; left: 0; right: 0; display: flex; justify-content: center; z-index: 20; }
+  .dots { display: flex; gap: 6px; }
+  .dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(43,36,25,0.2); transition: background 0.3s, transform 0.3s; }
+  .dots span.is-active { background: #4B7BA8; transform: scale(1.4); }
+  .float { animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+  .wiggle { animation: wiggle 2.5s ease-in-out infinite; transform-origin: center bottom; }
+  @keyframes wiggle { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+  .end-card { background: white; padding: 32px; border-radius: 24px; max-width: 480px; box-shadow: 0 8px 0 rgba(0,0,0,0.06), 0 24px 48px -16px rgba(0,0,0,0.2); text-align: center; }
+  .end-card h2 { font-size: 28px; color: #4B7BA8; margin-bottom: 16px; }
+  .end-card p { font-size: 19px; color: #2B2419; line-height: 1.7; margin-bottom: 12px; }
+  .interactive { cursor: pointer; transform-box: fill-box; transform-origin: center center; }
+  .interactive:hover { opacity: 0.9; }
+  .do-bounce { animation: iBounce 0.6s cubic-bezier(0.36,0.07,0.19,0.97) both !important; }
+  @keyframes iBounce { 0% { transform: translateY(0) scale(1); } 25% { transform: translateY(-18px) scale(1.15); } 55% { transform: translateY(-4px) scale(0.96); } 75% { transform: translateY(-8px) scale(1.05); } 100% { transform: translateY(0) scale(1); } }
+  .do-shake { animation: iShake 0.55s ease both !important; }
+  @keyframes iShake { 0%,100% { transform: rotate(0deg); } 18% { transform: rotate(-22deg); } 38% { transform: rotate(18deg); } 58% { transform: rotate(-14deg); } 78% { transform: rotate(9deg); } }
+  .do-wobble { animation: iWobble 0.7s ease both !important; }
+  @keyframes iWobble { 0%,100% { transform: scaleX(1) scaleY(1); } 20% { transform: scaleX(1.25) scaleY(0.75); } 45% { transform: scaleX(0.85) scaleY(1.2); } 65% { transform: scaleX(1.1) scaleY(0.9); } 80% { transform: scaleX(0.96) scaleY(1.04); } }
+  .speech-bubble { position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: white; border-radius: 999px; padding: 6px 16px; font-size: 20px; font-family: "LXGW WenKai TC", serif; box-shadow: 0 3px 0 rgba(0,0,0,0.12); pointer-events: none; white-space: nowrap; z-index: 50; animation: bPop 0.3s ease; }
+  @keyframes bPop { from { transform: translateX(-50%) scale(0); opacity: 0; } to { transform: translateX(-50%) scale(1); opacity: 1; } }
+  /* — page flip — */
+  .flip-out-fwd { animation: fOutFwd 0.45s cubic-bezier(0.4,0,1,1) forwards; pointer-events: none; z-index: 5; opacity: 1; }
+  .flip-in-fwd { animation: fInFwd 0.45s cubic-bezier(0,0,0.6,1) forwards; pointer-events: none; z-index: 4; }
+  .flip-out-bwd { animation: fOutBwd 0.45s cubic-bezier(0.4,0,1,1) forwards; pointer-events: none; z-index: 5; opacity: 1; }
+  .flip-in-bwd { animation: fInBwd 0.45s cubic-bezier(0,0,0.6,1) forwards; pointer-events: none; z-index: 4; }
+  @keyframes fOutFwd { 0% { transform: rotateY(0deg) scale(1); opacity: 1; } 40% { transform: rotateY(-20deg) scale(0.97); opacity: 1; } 100% { transform: rotateY(-90deg) scale(0.93); opacity: 0; } }
+  @keyframes fInFwd { 0% { transform: rotateY(90deg) scale(0.93); opacity: 0; } 60% { transform: rotateY(8deg) scale(0.98); opacity: 1; } 100% { transform: rotateY(0deg) scale(1); opacity: 1; } }
+  @keyframes fOutBwd { 0% { transform: rotateY(0deg) scale(1); opacity: 1; } 40% { transform: rotateY(20deg) scale(0.97); opacity: 1; } 100% { transform: rotateY(90deg) scale(0.93); opacity: 0; } }
+  @keyframes fInBwd { 0% { transform: rotateY(-90deg) scale(0.93); opacity: 0; } 60% { transform: rotateY(-8deg) scale(0.98); opacity: 1; } 100% { transform: rotateY(0deg) scale(1); opacity: 1; } }
+</style>
+</head>
+<body>
+<div class="book">
+  <div class="top">
+    <a class="back" href="../for-youngest.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+    <a href="../dashboard.html" class="dash-link" title="仪表盘">📊</a>
+  </div>
+
+  <div class="page is-active" data-bg="sky" data-text="毛毛种下了一粒种子。她盯着花盆看。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <g transform="translate(235,215)"><rect x="-42" y="15" width="84" height="45" rx="8" fill="#A8826B"/><rect x="-50" y="5" width="100" height="16" rx="8" fill="#8C6B4A"/><circle cx="0" cy="0" r="5" fill="#6FA86D"/></g>
+      <g id="p1-maomao" class="wiggle" transform="translate(145,210)">
+        <ellipse cx="0" cy="10" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/><circle cx="0" cy="-20" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/><circle cx="-6" cy="-23" r="2.8" fill="#2B2419"/><circle cx="6" cy="-23" r="2.8" fill="#2B2419"/><polygon points="0,-16 10,-12 0,-9" fill="#E56B5A"/>
+      </g>
+    </svg></div>
+    <div class="text"><h2>毛毛种下了一粒种子。</h2><p class="small">她盯着花盆看。</p></div>
+  </div>
+
+  <div class="page" data-bg="cream" data-text="第二天早上，什么都没有。毛毛着急了：怎么还没长出来？">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <circle cx="325" cy="70" r="32" fill="#F4C13E"/>
+      <g transform="translate(225,220)"><rect x="-42" y="15" width="84" height="45" rx="8" fill="#A8826B"/><rect x="-50" y="5" width="100" height="16" rx="8" fill="#8C6B4A"/></g>
+      <g id="p2-maomao" transform="translate(140,210)">
+        <ellipse cx="0" cy="10" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/><circle cx="0" cy="-20" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/><circle cx="-6" cy="-23" r="2.8" fill="#2B2419"/><circle cx="6" cy="-23" r="2.8" fill="#2B2419"/><polygon points="0,-16 10,-12 0,-9" fill="#E56B5A"/><path d="M -8,-9 Q 0,-15 8,-9" stroke="#2B2419" stroke-width="1.8" fill="none"/><text x="50" y="-45" font-size="30" fill="#E56B5A">!</text>
+      </g>
+    </svg></div>
+    <div class="text"><h2>第二天早上，什么都没有。</h2><p class="big">怎么还没长出来？</p></div>
+  </div>
+
+  <div class="page" data-bg="peach" data-text="爸爸指着书说：种子在地下做准备呢。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <g id="p3-dad" transform="translate(165,205)">
+        <ellipse cx="0" cy="8" rx="32" ry="36" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/><circle cx="0" cy="-36" r="26" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/><circle cx="-9" cy="-39" r="7" fill="none" stroke="#2B2419" stroke-width="1.6"/><circle cx="9" cy="-39" r="7" fill="none" stroke="#2B2419" stroke-width="1.6"/><line x1="-2" y1="-39" x2="2" y2="-39" stroke="#2B2419" stroke-width="1.6"/><polygon points="0,-28 14,-24 0,-20" fill="#E56B5A"/>
+      </g>
+      <g transform="translate(250,190)"><rect x="-45" y="-35" width="90" height="70" rx="4" fill="#4B7BA8"/><rect x="-38" y="-28" width="76" height="56" fill="white"/><path d="M -28,8 Q 0,-10 28,8" stroke="#6FA86D" stroke-width="3" fill="none"/><circle cx="0" cy="8" r="5" fill="#6FA86D"/></g>
+    </svg></div>
+    <div class="text"><h2>爸爸指着书说：</h2><p class="big">"种子在地下做准备呢。"</p></div>
+  </div>
+
+  <div class="page" data-bg="mint" data-text="一个星期后，一颗小芽钻出来了！">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <g transform="translate(200,220)"><rect x="-42" y="15" width="84" height="45" rx="8" fill="#A8826B"/><rect x="-50" y="5" width="100" height="16" rx="8" fill="#8C6B4A"/><g id="p4-sprout"><line x1="0" y1="5" x2="0" y2="-42" stroke="#6FA86D" stroke-width="5" stroke-linecap="round"/><ellipse cx="-16" cy="-25" rx="16" ry="9" fill="#6FA86D" transform="rotate(-28 -16 -25)"/><ellipse cx="16" cy="-35" rx="16" ry="9" fill="#6FA86D" transform="rotate(28 16 -35)"/></g></g>
+    </svg></div>
+    <div class="text"><h2>一个星期后——</h2><p class="big">一颗小芽钻出来了！</p></div>
+  </div>
+
+  <div class="page" data-bg="yellow" data-text="毛毛每天浇水。它越长越高。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <g id="p5-maomao" class="float" transform="translate(130,210)"><ellipse cx="0" cy="10" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/><circle cx="0" cy="-20" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/><circle cx="-6" cy="-23" r="2.8" fill="#2B2419"/><circle cx="6" cy="-23" r="2.8" fill="#2B2419"/><polygon points="0,-16 10,-12 0,-9" fill="#E56B5A"/></g>
+      <g transform="translate(250,210)"><rect x="-42" y="25" width="84" height="45" rx="8" fill="#A8826B"/><rect x="-50" y="15" width="100" height="16" rx="8" fill="#8C6B4A"/><line x1="0" y1="15" x2="0" y2="-75" stroke="#6FA86D" stroke-width="5" stroke-linecap="round"/><ellipse cx="-22" cy="-42" rx="18" ry="10" fill="#6FA86D" transform="rotate(-28 -22 -42)"/><ellipse cx="22" cy="-58" rx="18" ry="10" fill="#6FA86D" transform="rotate(28 22 -58)"/><text x="-75" y="-28" font-size="24" fill="#4B7BA8">💧</text><text x="-48" y="-54" font-size="20" fill="#4B7BA8">💧</text></g>
+    </svg></div>
+    <div class="text"><h2>毛毛每天浇水。</h2><p class="small">它越长越高。</p></div>
+  </div>
+
+  <div class="page" data-bg="sky" data-text="花开了。毛毛笑了：等待是值得的。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <g transform="translate(245,215)"><rect x="-42" y="25" width="84" height="45" rx="8" fill="#A8826B"/><rect x="-50" y="15" width="100" height="16" rx="8" fill="#8C6B4A"/><line x1="0" y1="15" x2="0" y2="-82" stroke="#6FA86D" stroke-width="5" stroke-linecap="round"/><g transform="translate(0,-92)"><circle cx="0" cy="0" r="9" fill="#F4C13E"/><circle cx="-16" cy="0" r="12" fill="#F4A799"/><circle cx="16" cy="0" r="12" fill="#F4A799"/><circle cx="0" cy="-16" r="12" fill="#F4A799"/><circle cx="0" cy="16" r="12" fill="#F4A799"/></g></g>
+      <g id="p6-maomao" class="float" transform="translate(135,210)"><ellipse cx="0" cy="10" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/><circle cx="0" cy="-20" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/><circle cx="-6" cy="-23" r="2.8" fill="#2B2419"/><circle cx="6" cy="-23" r="2.8" fill="#2B2419"/><polygon points="0,-16 10,-12 0,-9" fill="#E56B5A"/><path d="M -7,-9 Q 0,-4 7,-9" stroke="#2B2419" stroke-width="1.8" fill="none"/></g>
+    </svg></div>
+    <div class="text"><h2>花开了。</h2><p class="big">等待是值得的。</p></div>
+  </div>
+
+  <div class="page" data-bg="cream" data-text="记住：慢慢来，时间是你的朋友。">
+    <div class="end-card"><h2>给小弟弟 🌱</h2><p>记住：</p><p style="font-size: 32px; color: #4B7BA8; font-weight: 700; margin: 16px 0;">慢慢来，</p><p>时间是你的朋友。</p><button class="read-aloud" style="margin-top: 24px;" onclick="goTo(0)">🔄 再讲一遍</button></div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
+</div>
+
+<script src="../fo-utils.js"></script>
+<script>
+  const BOOK_ID = '08-patient-seeds'; const BOOK_TITLE = '毛毛的种子'; const BOOK_TOTAL = 7;
+  function makeInteractive(el, animClass, msg) {
+    if (!el) return;
+    el.classList.add('interactive');
+    el.addEventListener('click', function () {
+      if (el._busy) return;
+      el._busy = true;
+      el.classList.remove(animClass);
+      void el.getBoundingClientRect();
+      el.classList.add(animClass);
+      if (msg) {
+        const scene = el.closest('.scene');
+        const er = el.getBoundingClientRect();
+        const sr = scene.getBoundingClientRect();
+        const cx = er.left + er.width / 2 - sr.left;
+        const cy = Math.max(8, er.top - sr.top - 48);
+        const b = document.createElement('div');
+        b.className = 'speech-bubble';
+        b.textContent = msg;
+        b.style.left = cx + 'px';
+        b.style.top = cy + 'px';
+        b.style.transform = 'translateX(-50%)';
+        scene.appendChild(b);
+        setTimeout(() => b.remove(), 1500);
+      }
+      setTimeout(() => { el.classList.remove(animClass); el._busy = false; }, 750);
+    });
+  }
+  const pages = document.querySelectorAll('.page');
+  const total = pages.length;
+  const dots = document.getElementById('dots');
+  let current = 0;
+  for (let i = 0; i < total; i++) { const d = document.createElement('span'); if (i === 0) d.classList.add('is-active'); dots.appendChild(d); }
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    speechSynthesis.cancel();
+    const dir = idx > current ? 'fwd' : 'bwd';
+    const outClass = dir === 'fwd' ? 'flip-out-fwd' : 'flip-out-bwd';
+    const inClass  = dir === 'fwd' ? 'flip-in-fwd'  : 'flip-in-bwd';
+    const oldPage  = pages[current];
+    const newPage  = pages[idx];
+    newPage.style.opacity = '0';
+    newPage.style.pointerEvents = 'none';
+    oldPage.classList.add(outClass);
+    newPage.classList.add(inClass);
+    function cleanup() {
+      oldPage.classList.remove('is-active', outClass);
+      newPage.classList.remove(inClass);
+      oldPage.style.opacity = '';
+      newPage.style.opacity = '';
+      newPage.style.pointerEvents = '';
+      newPage.classList.add('is-active');
+      current = idx;
+      document.getElementById('prev').disabled = idx === 0;
+      document.getElementById('next').disabled = idx === total - 1;
+      dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx));
+      if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL);
+    }
+    newPage.addEventListener('animationend', cleanup, { once: true });
+  }
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+  document.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') goTo(current - 1); if (e.key === 'ArrowRight') goTo(current + 1); });
+  let _tx = 0;
+  document.addEventListener('touchstart', e => { _tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - _tx; if (Math.abs(dx) > 50) dx < 0 ? goTo(current + 1) : goTo(current - 1); });
+  document.getElementById('readBtn').addEventListener('click', () => {
+    const text = pages[current].dataset.text;
+    if (!text || !window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-CN'; u.rate = 0.85; u.pitch = 1.1;
+    speechSynthesis.speak(u);
+  });
+  document.getElementById('prev').disabled = true;
+  document.getElementById('next').disabled = total === 1;
+  makeInteractive(document.getElementById('p1-maomao'), 'do-wobble', '快长大呀！🌱');
+  makeInteractive(document.getElementById('p2-maomao'), 'do-shake', '怎么还没有⋯ 😤');
+  makeInteractive(document.getElementById('p3-dad'), 'do-bounce', '种子在努力呢 📖');
+  makeInteractive(document.getElementById('p4-sprout'), 'do-bounce', '我来啦！🌱');
+  makeInteractive(document.getElementById('p5-maomao'), 'do-bounce', '加油加油！💧');
+  makeInteractive(document.getElementById('p6-maomao'), 'do-bounce', '等待值得了 🌸');
+  document.addEventListener('DOMContentLoaded', () => { if (window.FO) FO.logHistory(BOOK_ID, BOOK_TITLE); });
+</script>
+</body>
+</html>

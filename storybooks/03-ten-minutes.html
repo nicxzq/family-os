@@ -72,6 +72,48 @@
   /* 语音气泡 */
   .speech-bubble { position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: white; border-radius: 999px; padding: 6px 16px; font-size: 20px; font-family: "LXGW WenKai TC", serif; box-shadow: 0 3px 0 rgba(0, 0, 0, 0.12); pointer-events: none; white-space: nowrap; z-index: 50; animation: bPop 0.3s ease; }
   @keyframes bPop { from { transform: translateX(-50%) scale(0); opacity: 0; } to { transform: translateX(-50%) scale(1); opacity: 1; } }
+
+  /* — page flip — */
+  .book { perspective: 1400px; }
+  .page { transform-origin: center center; backface-visibility: hidden; }
+
+  .flip-out-fwd {
+    animation: fOutFwd 0.45s cubic-bezier(0.4,0,1,1) forwards;
+    pointer-events: none; z-index: 5; opacity: 1;
+  }
+  .flip-in-fwd {
+    animation: fInFwd 0.45s cubic-bezier(0,0,0.6,1) forwards;
+    pointer-events: none; z-index: 4;
+  }
+  .flip-out-bwd {
+    animation: fOutBwd 0.45s cubic-bezier(0.4,0,1,1) forwards;
+    pointer-events: none; z-index: 5; opacity: 1;
+  }
+  .flip-in-bwd {
+    animation: fInBwd 0.45s cubic-bezier(0,0,0.6,1) forwards;
+    pointer-events: none; z-index: 4;
+  }
+
+   fOutFwd {
+    0%   { transform: rotateY(0deg) scale(1);     opacity: 1; }
+    40%  { transform: rotateY(-20deg) scale(0.97); opacity: 1; }
+    100% { transform: rotateY(-90deg) scale(0.93); opacity: 0; }
+  }
+   fInFwd {
+    0%   { transform: rotateY(90deg) scale(0.93);  opacity: 0; }
+    60%  { transform: rotateY(8deg) scale(0.98);   opacity: 1; }
+    100% { transform: rotateY(0deg) scale(1);      opacity: 1; }
+  }
+   fOutBwd {
+    0%   { transform: rotateY(0deg) scale(1);     opacity: 1; }
+    40%  { transform: rotateY(20deg) scale(0.97); opacity: 1; }
+    100% { transform: rotateY(90deg) scale(0.93); opacity: 0; }
+  }
+   fInBwd {
+    0%   { transform: rotateY(-90deg) scale(0.93); opacity: 0; }
+    60%  { transform: rotateY(-8deg) scale(0.98);  opacity: 1; }
+    100% { transform: rotateY(0deg) scale(1);      opacity: 1; }
+  }
 </style>
 </head>
 <body>
@@ -345,13 +387,36 @@
   function goTo(idx) {
     if (idx < 0 || idx >= total) return;
     speechSynthesis.cancel();
-    pages.forEach((p, i) => p.classList.toggle('is-active', i === idx));
-    dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx));
-    current = idx;
-    document.getElementById('prev').disabled = idx === 0;
-    document.getElementById('next').disabled = idx === total - 1;
-    if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL);
+    const dir = idx > current ? 'fwd' : 'bwd';
+    const outClass = dir === 'fwd' ? 'flip-out-fwd' : 'flip-out-bwd';
+    const inClass  = dir === 'fwd' ? 'flip-in-fwd'  : 'flip-in-bwd';
+    const oldPage  = pages[current];
+    const newPage  = pages[idx];
+
+    // prepare new page (hidden, no is-active yet)
+    newPage.style.opacity = '0';
+    newPage.style.pointerEvents = 'none';
+
+    oldPage.classList.add(outClass);
+    newPage.classList.add(inClass);
+
+    function cleanup() {
+      oldPage.classList.remove('is-active', outClass);
+      newPage.classList.remove(inClass);
+      oldPage.style.opacity = '';
+      newPage.style.opacity = '';
+      newPage.style.pointerEvents = '';
+      newPage.classList.add('is-active');
+      current = idx;
+      document.getElementById('prev').disabled = idx === 0;
+      document.getElementById('next').disabled = idx === total - 1;
+      dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx));
+      if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL);
+    }
+
+    newPage.addEventListener('animationend', cleanup, { once: true });
   }
+
   document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
   document.getElementById('next').addEventListener('click', () => goTo(current + 1));
   document.addEventListener('keydown', (e) => {
