@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>饭桌问题集 · 一年 50 个家庭话题</title>
+<meta name="description" content="每周一个话题，让吃饭的时间变成家人的思考时间。">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  .page{padding:0 0 90px}
+  .top-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:10;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:40px}
+  .top-nav a{color:var(--ink-mute);text-decoration:none;font-size:15px}
+  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
+  .nav-member-btn svg{border-radius:50%}
+  .hero{margin-bottom:40px}
+  .hero h1{font-size:clamp(28px,5vw,44px);margin-bottom:10px}
+  .hero p{color:var(--ink-soft);font-size:18px}
+  .featured{background:var(--paper);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:36px;margin-bottom:36px;border-top:6px solid var(--coral)}
+  .featured[data-color="yellow"]{border-top-color:var(--yellow)}
+  .featured[data-color="green"]{border-top-color:var(--green)}
+  .featured[data-color="blue"]{border-top-color:var(--blue)}
+  .featured-meta{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+  .week-badge{display:inline-flex;align-items:center;background:var(--cream-deep);color:var(--ink-mute);border-radius:999px;padding:5px 14px;font-size:14px}
+  .this-week-badge{background:var(--yellow-soft);color:var(--ink-soft);border-radius:999px;padding:5px 14px;font-size:14px;display:none}
+  .theme-tag{display:inline-flex;align-items:center;background:var(--coral-soft);color:var(--ink-soft);border-radius:999px;padding:5px 14px;font-size:14px}
+  .theme-tag[data-color="yellow"]{background:var(--yellow-soft)}
+  .theme-tag[data-color="green"]{background:var(--green-soft)}
+  .theme-tag[data-color="blue"]{background:var(--blue-soft)}
+  .featured h2{font-size:clamp(22px,3.5vw,32px);margin-bottom:24px;line-height:1.55}
+  .prompts{background:var(--cream-deep);border-radius:var(--radius);padding:22px 26px}
+  .prompts-label{font-size:13px;letter-spacing:.14em;color:var(--ink-mute);margin-bottom:14px}
+  .prompts ol{padding-left:20px}
+  .prompts li{color:var(--ink-soft);margin-bottom:10px;font-size:16px;line-height:1.7}
+  .feat-nav{display:flex;align-items:center;justify-content:space-between;margin-top:24px;gap:12px}
+  .feat-btn{border:0;background:var(--cream-deep);color:var(--ink-soft);border-radius:999px;padding:10px 20px;font-family:inherit;font-size:15px;cursor:pointer;transition:background .15s,color .15s}
+  .feat-btn:hover:not(:disabled){background:var(--ink);color:var(--cream)}
+  .feat-btn:disabled{opacity:.35;cursor:default}
+  .week-counter{color:var(--ink-mute);font-size:15px}
+  .all-section{margin-top:52px}
+  .all-section > h2{font-size:20px;color:var(--ink-soft);margin-bottom:24px}
+  .theme-block{margin-bottom:28px}
+  .theme-label{font-size:13px;letter-spacing:.14em;color:var(--ink-mute);margin-bottom:10px}
+  .topic-row{display:flex;flex-wrap:wrap;gap:8px}
+  .topic-chip{display:inline-flex;align-items:center;gap:7px;background:var(--paper);border:2px solid transparent;border-radius:999px;padding:7px 14px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft);transition:border-color .15s,background .15s}
+  .topic-chip:hover{border-color:var(--coral)}
+  .topic-chip[data-color="yellow"]:hover{border-color:var(--yellow)}
+  .topic-chip[data-color="green"]:hover{border-color:var(--green)}
+  .topic-chip[data-color="blue"]:hover{border-color:var(--blue)}
+  .topic-chip.is-active{border-color:var(--coral);background:var(--coral-soft);color:var(--ink)}
+  .topic-chip[data-color="yellow"].is-active{border-color:var(--yellow);background:var(--yellow-soft)}
+  .topic-chip[data-color="green"].is-active{border-color:var(--green);background:var(--green-soft)}
+  .topic-chip[data-color="blue"].is-active{border-color:var(--blue);background:var(--blue-soft)}
+  .chip-num{font-size:12px;color:var(--ink-mute)}
+  @media(max-width:640px){
+    .featured{padding:24px}
+    .prompts{padding:16px 18px}
+    .feat-btn{padding:9px 16px;font-size:14px}
+  }
+</style>
+</head>
+<body>
+<main class="page wrap wrap-narrow">
+  <nav class="top-nav">
+    <a href="index.html">← 家庭操作系统</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+  <header class="hero">
+    <h1>饭桌问题集</h1>
+    <p>每周一个话题，一家人一起想。</p>
+  </header>
+  <div class="featured" id="featured">
+    <div class="featured-meta">
+      <span class="week-badge" id="feat-week"></span>
+      <span class="this-week-badge" id="this-week-badge">本周话题</span>
+      <span class="theme-tag" id="feat-theme"></span>
+    </div>
+    <h2 id="feat-question"></h2>
+    <div class="prompts">
+      <div class="prompts-label">可以接着问</div>
+      <ol id="feat-prompts"></ol>
+    </div>
+    <div class="feat-nav">
+      <button class="feat-btn" id="btn-prev">← 上一周</button>
+      <span class="week-counter" id="week-counter"></span>
+      <button class="feat-btn" id="btn-next">下一周 →</button>
+    </div>
+  </div>
+  <section class="all-section">
+    <h2>全年 50 个话题</h2>
+    <div id="themes-list"></div>
+  </section>
+</main>
+<script src="fo-utils.js"></script>
+<script>
+var TOPICS=[
+  {w:1,theme:'方向',color:'coral',title:'什么算是浪费',q:'什么算是浪费？时间、钱、精力各自的"浪费"是一样的吗？',prompts:['你上周做了哪件事，回头看觉得"浪费"了？','有没有当时觉得浪费、后来发现没浪费的事？','一家人的时间，有哪些是我们都在悄悄浪费的？']},
+  {w:2,theme:'方向',color:'coral',title:'目标没达到算失败吗',q:'如果这学期的目标没达到，是失败了吗？',prompts:['目标和方向有什么区别？','什么叫"虽然没达到目标，但方向还对"？','你有过这样的经历——没成功，但学到了更重要的东西？']},
+  {w:3,theme:'方向',color:'coral',title:'五年后想成为什么样的人',q:'五年后你想成为什么样的人？你现在做的事和那个方向一致吗？',prompts:['那个"未来的你"每天在做什么？','现在哪些事正在靠近那个方向，哪些在偏离？','爸爸妈妈五年前的计划，实现了多少？']},
+  {w:4,theme:'方向',color:'coral',title:'三年后更有价值的事',q:'什么事情，做三年之后会比今天更有价值？',prompts:['你现在学的哪件事，三年后还用得上？','如果每天只选一件事持续做三年，你会选什么？','爸妈有没有坚持做了很多年、现在很感激的事？']},
+  {w:5,theme:'方向',color:'coral',title:'现在"没用"的东西',q:'你现在觉得"没什么用"的东西，十年后可能有用吗？',prompts:['学校里有哪些科目你觉得没用，但爸妈觉得有用？','有没有爸妈当年觉得没用、后来发现有用的事？','怎么判断一件事"长期有没有价值"？']},
+  {w:6,theme:'方向',color:'coral',title:'没有考试还会读书吗',q:'如果学校不考试，你还会读书吗？为什么？',prompts:['你读书是为了什么？','读书的快乐和考试的分数，有联系吗？','爸爸妈妈毕业后，读书的理由和上学时一样吗？']},
+  {w:7,theme:'方向',color:'coral',title:'怎么知道方向对了',q:'你怎么知道自己的方向是对的？有没有什么信号？',prompts:['做哪些事的时候，你会觉得"这感觉对"？','如果有一天发现方向错了，怎么调整？','爸妈有没有中途改变过人生方向？那是什么感觉？']},
+  {w:8,theme:'方向',color:'coral',title:'长期能力和短期成绩',q:'考试分数和长期能力，哪个更重要？能两者兼得吗？',prompts:['有哪些能力，考试考不出来但生活很需要？','学校培养的能力，有哪些是你真正用得上的？','你愿意牺牲一点分数来换取一种能力吗？']},
+  {w:9,theme:'读书',color:'yellow',title:'最近读到的一句话',q:'最近读过的书或文章里，有没有一句话让你记住了？',prompts:['为什么那句话让你记住了？','你觉得作者想说什么？','那句话有没有改变你对某件事的看法？']},
+  {w:10,theme:'读书',color:'yellow',title:'最想找回哪本书',q:'如果家里的书都不见了，你最想先找回哪本？',prompts:['那本书对你来说特别在哪里？','读完那本书之后，你有没有做了什么不一样的事？','你会把那本书推荐给全家人吗？']},
+  {w:11,theme:'读书',color:'yellow',title:'读不懂值不值得硬读',q:'有些书很难读懂，值得硬撑读完吗？什么时候值得、什么时候不值得？',prompts:['你有没有"读不懂但还是读完了"的经历？','读完发现不值得，是浪费还是有收获？','什么时候应该放弃一本书？']},
+  {w:12,theme:'读书',color:'yellow',title:'爸妈小时候怎么学东西',q:'爸爸妈妈小时候有书读吗？那个时候怎么学东西？',prompts:['没有互联网的时候，怎么找信息？','你觉得哪种学习方式更有效，现在还是以前？','你从爸妈的学习方法里能学到什么？']},
+  {w:13,theme:'读书',color:'yellow',title:'读书和看视频学到的不同',q:'读书和看视频，学到的东西有什么本质的不一样？',prompts:['哪种方式更容易记住？哪种更容易理解？','你更适合哪种学习方式？','有没有东西只能通过读书学到，视频说不清楚的？']},
+  {w:14,theme:'读书',color:'yellow',title:'推荐一本书给全家',q:'你会推荐一本书给全家人吗？为什么选这本？',prompts:['这本书，爸爸读了会有什么收获，妈妈读了呢？','全家都读同一本书是什么感觉？','如果全家一起读，你最想讨论哪一部分？']},
+  {w:15,theme:'读书',color:'yellow',title:'读不懂是没准备好吗',q:'读不懂一本书，是说明你没准备好，还是那本书没写好？',prompts:['你有没有"读了几页放弃"的书，后来再读发现懂了？','怎么判断是书的问题还是读者的问题？','有没有一本书，你读了好几遍，每次感受都不同？']},
+  {w:16,theme:'读书',color:'yellow',title:'每天读多少算在读书',q:'每天读多少才算"在读书"？这个问题有标准答案吗？',prompts:['你觉得"一天五分钟"算读书吗？','坚持很重要，还是一次读很多更重要？','家里每个人的"读书习惯"是什么样的？']},
+  {w:17,theme:'一起学',color:'green',title:'你学到爸妈不知道的事',q:'你最近学到了什么，是爸爸妈妈可能不知道的事？',prompts:['爸妈听到之后有什么反应？','有时候孩子比大人懂更多，这正常吗？','你愿意教爸妈什么？']},
+  {w:18,theme:'一起学',color:'green',title:'爸妈说错了你怎么想',q:'爸爸妈妈有没有说错过什么？你当时怎么想的？',prompts:['你当时说出来了吗？为什么说或没说？','大人说错了，孩子应该纠正吗？怎么说比较好？','如果你说错了，你希望家人怎么告诉你？']},
+  {w:19,theme:'一起学',color:'green',title:'被教训和被帮助的区别',q:'有没有被人"教训"过的经历？被教训和被帮助，感觉一样吗？',prompts:['你能说说"教训"和"帮助"的区别吗？','什么样的方式会让你真的听进去？','你会用教训的方式对别人吗？']},
+  {w:20,theme:'一起学',color:'green',title:'你想教爸妈一件事',q:'如果你有机会教爸爸妈妈一件事，你想教什么？',prompts:['你觉得爸妈在哪件事上还有进步空间？','教别人东西的时候，你自己也学得更多吗？','爸妈愿意被孩子教吗？']},
+  {w:21,theme:'一起学',color:'green',title:'家里谁是最好的老师',q:'家里谁是最好的老师？为什么这样觉得？',prompts:['好老师和好爸妈，有什么不同？','不同的问题，你会问家里不同的人吗？','家里有没有人愿意"承认不知道"的？']},
+  {w:22,theme:'一起学',color:'green',title:'"教"和"一起发现"的不同',q:'"教"和"一起发现"，有什么不同？哪种方式让你学得更多？',prompts:['你更喜欢被告知答案，还是自己找到答案？','"一起发现"需要什么条件？','有没有一个问题，你希望全家一起去探索？']},
+  {w:23,theme:'一起学',color:'green',title:'失败后哪种回应有力量',q:'失败的时候，什么样的回应最让你有动力继续？',prompts:['你希望家人怎么对待你的失败？','爸妈失败的时候，你会怎么鼓励他们？','有没有一次失败，事后你觉得反而是好事？']},
+  {w:24,theme:'一起学',color:'green',title:'喜欢问问题还是给答案',q:'你更喜欢问问题，还是给别人答案？为什么？',prompts:['提问题是一种能力吗？','你有没有一个问题，憋在心里很久了？','家里鼓励大家提问吗？']},
+  {w:25,theme:'软技能',color:'blue',title:'和朋友吵架后怎么和好',q:'和朋友吵架之后，你是怎么让关系变好的？',prompts:['和好之后，关系和之前一样吗？有没有更好或更差？','你有没有一次道歉，觉得很难说出口？','什么时候值得主动和好，什么时候不值得？']},
+  {w:26,theme:'软技能',color:'blue',title:'说话有没有分寸',q:'什么叫做"说话有分寸"？能举个例子吗？',prompts:['你有没有说错过话，事后很后悔的？','什么时候要直接说，什么时候要绕一圈说？','爸妈在这方面给你做过好榜样吗？']},
+  {w:27,theme:'软技能',color:'blue',title:'写作有没有帮你想清楚',q:'写作有没有帮过你想清楚一件事？',prompts:['你有写日记或者记录想法的习惯吗？','把一件事写下来，和在脑子里想有什么不同？','爸妈有没有写东西帮助自己思考的习惯？']},
+  {w:28,theme:'软技能',color:'blue',title:'怎么决定信不信任一个人',q:'你怎么决定要不要信任一个人？有没有判断标准？',prompts:['你信任一个人，通常是因为什么？','被信任的感觉和信任别人的感觉，哪种更好？','你有没有信错人的经历，学到了什么？']},
+  {w:29,theme:'软技能',color:'blue',title:'情绪激动时做过后悔的事',q:'情绪激动的时候，你做过后悔的事吗？',prompts:['当时是什么感觉？冷静下来之后呢？','你有没有发现自己"情绪上来前"的信号？','什么方法能让你在情绪激动时慢下来？']},
+  {w:30,theme:'软技能',color:'blue',title:'什么是好的倾听',q:'什么是"好的倾听"？只是安静听就够了吗？',prompts:['你觉得家里谁最会倾听？','你有没有被好好倾听过，当时是什么感觉？','有没有想说的话，但觉得没人听，就没说出口？']},
+  {w:31,theme:'软技能',color:'blue',title:'让别人觉得被理解',q:'你有没有让别人觉得"被理解了"的经历？你是怎么做到的？',prompts:['理解别人和同意别人，有什么区别？','你最近有没有认真理解过一个你不同意的想法？','什么话最能让你感觉被理解？']},
+  {w:32,theme:'软技能',color:'blue',title:'对不熟的人说真实想法',q:'你有没有对不太熟的人说过真实想法？那时是什么感觉？',prompts:['什么情况下你会选择说真话，什么情况下会绕开？','说真话和说有用的话，哪个更难？','爸妈在工作里有多少时候能说真话？']},
+  {w:33,theme:'注意力',color:'coral',title:'今天注意力花在哪里',q:'今天你的注意力花在了哪些地方？值不值？',prompts:['哪件事花了最多注意力，但你觉得不值？','有没有一件事，你觉得花再多注意力都值？','如果注意力是钱，今天你"花"得怎么样？']},
+  {w:34,theme:'注意力',color:'coral',title:'什么最容易打断你',q:'什么东西最容易打断你做重要的事？',prompts:['那个"打断"是主动发生的还是被动的？','你有没有试过阻止它？成功了吗？','家里有没有一个共同的"注意力杀手"？']},
+  {w:35,theme:'注意力',color:'coral',title:'家里哪个习惯在消耗注意力',q:'家里有没有哪个日常习惯在悄悄消耗大家的注意力？',prompts:['你觉得吃饭时看手机怎么样？','家里的人，谁的注意力最容易被消耗？','我们可以一起做一个小改变来保护彼此的注意力吗？']},
+  {w:36,theme:'注意力',color:'coral',title:'刷短视频和读书的区别',q:'你觉得刷短视频和读书有什么本质的区别？',prompts:['哪一个让你更快乐？哪一个让你更有收获？','你有没有发现自己在"假装学习"？','完全不刷短视频，可能吗？代价是什么？']},
+  {w:37,theme:'注意力',color:'coral',title:'一次只做一件事有多难',q:'你能做到"一次只做一件事"吗？什么时候最难？',prompts:['你有没有试过认真"单线"做一件事一小时？感觉怎样？','多线操作什么时候有用，什么时候有害？','爸妈工作时能做到专注吗？']},
+  {w:38,theme:'注意力',color:'coral',title:'最专注的时候周围是什么样',q:'你什么时候最专注？那时候周围是什么样的？',prompts:['你能复制那种"专注状态"吗？','专注需要安静，还是可以在吵闹里专注？','家里有没有一个"专注角"？如果没有，你想设一个吗？']},
+  {w:39,theme:'注意力',color:'coral',title:'手机消失一周会怎样',q:'如果手机消失一周，你的生活会有什么变化？',prompts:['第一天、第三天、第七天，感受会不同吗？','你会用那些时间做什么？','你害怕失去手机吗？为什么？']},
+  {w:40,theme:'注意力',color:'coral',title:'有用的无聊和没用的无聊',q:'"有用的无聊"和"没用的无聊"有区别吗？',prompts:['你上一次感到无聊是什么时候？做了什么？','无聊的时候，好的想法会冒出来吗？','我们家允许彼此"什么都不做地发呆"吗？']},
+  {w:41,theme:'时间',color:'green',title:'不慌把事情做得更好',q:'你有没有因为"不慌"，把一件事做得比预期更好？',prompts:['急和慌有什么不同？','什么情况下，慢下来反而更快？','爸妈有没有因为"慌"而做出后来后悔的决定？']},
+  {w:42,theme:'时间',color:'green',title:'七十岁还用得上吗',q:'你现在学的东西，七十岁还用得上吗？',prompts:['哪些技能是不会"过时"的？','你最想学一个"七十岁还有用"的东西是什么？','爸妈有没有年轻时学的技能，到现在还在用？']},
+  {w:43,theme:'时间',color:'green',title:'着急和认真的区别',q:'着急和认真，有什么区别？可以又认真又不着急吗？',prompts:['你有没有"认真但不着急"地做过一件事？','什么时候你会着急？那是好事还是坏事？','爸妈是着急型还是认真型？你呢？']},
+  {w:44,theme:'时间',color:'green',title:'急着做反而搞砸的事',q:'有没有你急着做、结果反而搞砸的事？',prompts:['那次失败，你学到了什么？','下次同样的情况，你会怎么处理？','爸妈工作里有没有"慢工出细活"的例子？']},
+  {w:45,theme:'时间',color:'green',title:'"慢慢来比较快"的例子',q:'你见过"慢慢来，比较快"的例子吗？',prompts:['在学习上，这句话成立吗？','你有没有因为跳过基础而后来花更多时间补的经历？','家里有没有什么东西，是"慢慢培养"出来的？']},
+  {w:46,theme:'时间',color:'green',title:'把时间当朋友',q:'什么叫做"把时间当朋友"？这和"利用时间"有什么不同？',prompts:['你现在和时间是什么关系？','如果时间是一个人，你们是朋友还是对手？','做哪件事的时候，你会忘记时间的存在？']},
+  {w:47,theme:'时间',color:'green',title:'大人因着急后悔的决定',q:'家里大人有没有因为"太着急"而做了后悔的决定？',prompts:['你当时有没有注意到他们很着急？','那个决定最后怎么了？','你会犯同样的错误吗？你准备怎么避免？']},
+  {w:48,theme:'时间',color:'green',title:'十年后会感谢现在的你',q:'你现在做的事，有哪件是"十年后的你会感谢今天"的？',prompts:['你有没有已经在感谢"过去的自己"做了某件事？','如果十年后的你能给现在的你一个建议，会是什么？','爸妈有没有在感谢年轻时的某个决定？']},
+  {w:49,theme:'时间',color:'green',title:'什么事情不需要快',q:'什么样的事情，根本不需要快？',prompts:['你有没有"慢下来，才真正享受到"的经历？','家里有没有我们可以一起"慢下来"的时刻？','成长这件事，可以急吗？']},
+  {w:50,theme:'时间',color:'green',title:'这一年我们学到了什么',q:'这一年，作为一家人，我们一起学到了什么？',prompts:['你觉得家里的气氛今年有什么变化？','你想感谢家里某个人做过的一件事吗？','明年，你最想和家人一起探索什么？']}
+];
+
+var THEMES_ORDER=['方向','读书','一起学','软技能','注意力','时间'];
+
+function weekOfYear(){
+  var now=new Date(),start=new Date(now.getFullYear(),0,1);
+  var day=Math.floor((now-start)/864e5);
+  return Math.min(50,Math.max(1,Math.floor(day/7)+1));
+}
+
+var thisWeek=weekOfYear(),current=thisWeek-1;
+
+function render(idx){
+  var t=TOPICS[idx];
+  var feat=document.getElementById('featured');
+  feat.dataset.color=t.color;
+  document.getElementById('feat-week').textContent='第 '+t.w+' 周';
+  var badge=document.getElementById('this-week-badge');
+  badge.style.display=(t.w===thisWeek)?'inline-flex':'none';
+  var themeTag=document.getElementById('feat-theme');
+  themeTag.textContent=t.theme;
+  themeTag.dataset.color=t.color;
+  document.getElementById('feat-question').textContent=t.q;
+  var ol=document.getElementById('feat-prompts');
+  ol.innerHTML=t.prompts.map(function(p){return '<li>'+p+'</li>';}).join('');
+  document.getElementById('week-counter').textContent=t.w+' / 50';
+  document.getElementById('btn-prev').disabled=idx===0;
+  document.getElementById('btn-next').disabled=idx===49;
+  document.querySelectorAll('.topic-chip').forEach(function(c){
+    c.classList.toggle('is-active',parseInt(c.dataset.w,10)===t.w);
+  });
+  current=idx;
+}
+
+document.getElementById('btn-prev').onclick=function(){go(current-1);};
+document.getElementById('btn-next').onclick=function(){go(current+1);};
+
+function go(idx){
+  if(idx<0||idx>49)return;
+  render(idx);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+var themesList=document.getElementById('themes-list');
+THEMES_ORDER.forEach(function(theme){
+  var topics=TOPICS.filter(function(t){return t.theme===theme;});
+  var block=document.createElement('div');
+  block.className='theme-block';
+  block.innerHTML='<div class="theme-label">'+theme+'</div><div class="topic-row">'+
+    topics.map(function(t){
+      return '<button class="topic-chip" data-color="'+t.color+'" data-w="'+t.w+'">'+
+        '<span class="chip-num">W'+t.w+'</span>'+
+        '<span>'+t.title+'</span>'+
+        '</button>';
+    }).join('')+
+  '</div>';
+  themesList.appendChild(block);
+});
+
+document.querySelectorAll('.topic-chip').forEach(function(btn){
+  btn.onclick=function(){go(parseInt(btn.dataset.w,10)-1);};
+});
+
+render(current);
+
+(function(){
+  var m=window.FO&&FO.getMember&&FO.getMember(),el=document.getElementById('nav-member-btn');
+  if(m){el.innerHTML=FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>';el.onclick=function(){location.href='dashboard.html';};}
+  else{el.innerHTML='<span>登录</span>';el.onclick=function(){location.href='login.html';};}
+})();
+</script>
+</body>
+</html>
