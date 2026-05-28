@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>化学厨房 · 游戏</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  .nav-member-btn { display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft); }
+  .nav-member-btn svg { border-radius:50%; }
+  .game-nav { position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px; }
+  .back-link { text-decoration:none;color:var(--ink-mute);font-size:15px; }
+  .wrap { max-width:760px;margin:0 auto;padding:0 20px 80px; }
+
+  .game-hero { text-align:center;margin-bottom:36px; }
+  .game-hero h1 { font-size:clamp(28px,5vw,42px);margin-bottom:10px; }
+  .game-hero .sub { color:var(--ink-soft);font-size:17px;line-height:1.6; }
+
+  /* Element tiles */
+  .elements-label { font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:12px; }
+  .elements-grid { display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px; }
+  .elem-tile {
+    width:80px;height:80px;border-radius:var(--radius);background:var(--cream-deep);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    cursor:pointer;border:2px solid transparent;transition:all .2s;user-select:none;
+    box-shadow:var(--shadow-soft);
+  }
+  .elem-tile:hover { transform:translateY(-2px);box-shadow:var(--shadow-card); }
+  .elem-tile.selected { background:var(--yellow-soft);border-color:var(--yellow);transform:translateY(-3px); }
+  .elem-symbol { font-size:28px;font-weight:700;color:var(--ink);line-height:1; }
+  .elem-num { font-size:11px;color:var(--ink-mute);margin-top:2px; }
+  .elem-name { font-size:10px;color:var(--ink-soft); }
+
+  .synth-row { display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap; }
+  .synth-btn {
+    background:var(--green);color:var(--paper);border:0;border-radius:999px;
+    padding:14px 32px;font-family:inherit;font-size:16px;cursor:pointer;
+    box-shadow:0 3px 0 rgba(43,36,25,0.15);transition:transform .15s;font-weight:700;
+  }
+  .synth-btn:hover { transform:translateY(-2px); }
+  .synth-btn:active { transform:translateY(1px); }
+  .clear-btn {
+    background:var(--cream-deep);color:var(--ink-soft);border:0;border-radius:999px;
+    padding:14px 20px;font-family:inherit;font-size:15px;cursor:pointer;
+  }
+  .selected-display { color:var(--ink-soft);font-size:14px; }
+
+  .result-msg { padding:14px 20px;border-radius:var(--radius);font-size:16px;margin-bottom:20px;display:none; }
+  .result-msg.show { display:block; }
+  .result-msg.success { background:var(--green-soft);color:var(--ink);border-left:4px solid var(--green); }
+  .result-msg.fail { background:var(--cream-deep);color:var(--ink-soft);border-left:4px solid var(--ink-mute); }
+
+  .status-bar { display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap; }
+  .badge { display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:14px;background:var(--cream-deep);color:var(--ink-soft); }
+  .badge.active { background:var(--yellow-soft);color:var(--ink); }
+  .badge.master { background:var(--green-soft);color:var(--ink);font-weight:700; }
+
+  .discoveries-label { font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:12px; }
+  .discoveries-grid { display:grid;gap:12px; }
+  .disc-card {
+    background:var(--paper);border-radius:var(--radius);box-shadow:var(--shadow-card);
+    padding:16px 20px;border-left:4px solid var(--green);
+    display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;
+    animation:slideIn .35s ease;
+  }
+  @keyframes slideIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+  .disc-emoji { font-size:36px;line-height:1; }
+  .disc-name { font-size:18px;font-weight:700;margin-bottom:3px; }
+  .disc-formula { font-size:13px;color:var(--ink-mute);margin-bottom:5px; }
+  .disc-fact { font-size:14px;color:var(--ink-soft); }
+  .empty-state { text-align:center;padding:32px;color:var(--ink-mute);font-size:15px; }
+</style>
+</head>
+<body style="background:var(--cream);min-height:100vh;font-family:'LXGW WenKai TC',serif;color:var(--ink);">
+<div class="wrap">
+  <nav class="game-nav">
+    <a class="back-link" href="index.html">← 游戏库</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <div class="game-hero">
+    <div style="font-size:52px;margin-bottom:8px;">🧪</div>
+    <h1>化学厨房</h1>
+    <p class="sub">选择元素，点击「合成！」<br>发现隐藏在生活里的化合物。</p>
+  </div>
+
+  <p class="elements-label">ELEMENTS · 选择元素（可多选）</p>
+  <div class="elements-grid" id="elements-grid"></div>
+
+  <div class="synth-row">
+    <button class="synth-btn" onclick="synthesize()">合成！⚗️</button>
+    <button class="clear-btn" onclick="clearSelection()">清空选择</button>
+    <span class="selected-display" id="selected-display">已选：无</span>
+  </div>
+
+  <div class="result-msg" id="result-msg"></div>
+
+  <div class="status-bar">
+    <span class="badge" id="badge-novice">化学新手 🧪</span>
+    <span class="badge" id="badge-master">化学大师 🏆</span>
+    <span style="margin-left:auto;font-size:14px;color:var(--ink-mute);" id="count-display">已发现 0 / 8</span>
+  </div>
+
+  <p class="discoveries-label">DISCOVERIES · 发现记录</p>
+  <div class="discoveries-grid" id="discoveries-grid">
+    <div class="empty-state">还没有发现。试着把元素组合起来！</div>
+  </div>
+</div>
+
+<script src="../fo-utils.js"></script>
+<script>
+var gameId = 'g21-chemistry';
+
+var ELEMENTS = [
+  {sym:'H', num:1, name:'氢'},
+  {sym:'O', num:8, name:'氧'},
+  {sym:'C', num:6, name:'碳'},
+  {sym:'N', num:7, name:'氮'},
+  {sym:'Na', num:11, name:'钠'},
+  {sym:'Cl', num:17, name:'氯'},
+  {sym:'Ca', num:20, name:'钙'},
+  {sym:'Fe', num:26, name:'铁'},
+];
+
+// key = sorted element symbols joined by '+'
+var RECIPES = {
+  'H+O':   {name:'水', formula:'H₂O', emoji:'🌊', fact:'你发现了水！地球70%都是它，生命之源。'},
+  'Cl+Na': {name:'食盐', formula:'NaCl', emoji:'🧂', fact:'你发现了盐！厨房里最重要的调味料，也是维持生命的电解质。'},
+  'C+O':   {name:'二氧化碳', formula:'CO₂', emoji:'🫧', fact:'你发现了二氧化碳！植物用它来光合作用生长，我们呼出的就是它。'},
+  'Ca+O':  {name:'氧化钙', formula:'CaO', emoji:'🏛️', fact:'你发现了石灰！古代建筑的黏合剂，遇水会剧烈放热。'},
+  'H+N':   {name:'氨气', formula:'NH₃', emoji:'💊', fact:'你发现了氨！很多化肥都含有它，农业生产不可缺少。'},
+  'Fe+O':  {name:'氧化铁', formula:'Fe₂O₃', emoji:'🦺', fact:'你发现了铁锈！铁遇到湿气和氧气就会生锈，这是氧化反应。'},
+  'C+H':   {name:'甲烷', formula:'CH₄', emoji:'🔥', fact:'你发现了甲烷！天然气的主要成分，也是沼气的来源。'},
+  'N+O':   {name:'二氧化氮', formula:'NO₂', emoji:'⚡', fact:'你发现了二氧化氮！雷电能制造它，工业上用来制造硝酸。'},
+};
+
+var selected = [];
+var discovered = {};
+
+try {
+  var saved = JSON.parse(localStorage.getItem('fo_chem_discovered') || '{}');
+  discovered = saved;
+} catch(e) {}
+
+function renderElements() {
+  var grid = document.getElementById('elements-grid');
+  grid.innerHTML = '';
+  ELEMENTS.forEach(function(el) {
+    var tile = document.createElement('div');
+    tile.className = 'elem-tile' + (selected.indexOf(el.sym) >= 0 ? ' selected' : '');
+    tile.innerHTML = '<span class="elem-symbol">' + el.sym + '</span><span class="elem-name">' + el.name + '</span><span class="elem-num">' + el.num + '</span>';
+    tile.onclick = function() { toggleElem(el.sym); };
+    grid.appendChild(tile);
+  });
+}
+
+function toggleElem(sym) {
+  var idx = selected.indexOf(sym);
+  if (idx >= 0) selected.splice(idx, 1);
+  else selected.push(sym);
+  updateSelectedDisplay();
+  renderElements();
+}
+
+function updateSelectedDisplay() {
+  var el = document.getElementById('selected-display');
+  if (selected.length === 0) { el.textContent = '已选：无'; return; }
+  el.textContent = '已选：' + selected.join(' + ');
+}
+
+function clearSelection() {
+  selected = [];
+  updateSelectedDisplay();
+  renderElements();
+  hideResult();
+}
+
+function makeKey(syms) {
+  return syms.slice().sort().join('+');
+}
+
+function synthesize() {
+  if (selected.length < 2) {
+    showResult('请至少选择两种元素再合成！', false);
+    return;
+  }
+  var key = makeKey(selected);
+  var recipe = RECIPES[key];
+  if (!recipe) {
+    showResult('❓ 这个组合还没发现！试试别的？（提示：从最简单的开始）', false);
+    return;
+  }
+  if (discovered[key]) {
+    showResult('✅ ' + recipe.emoji + ' ' + recipe.name + '（' + recipe.formula + '）已经发现过啦！', true);
+    return;
+  }
+  discovered[key] = recipe;
+  try { localStorage.setItem('fo_chem_discovered', JSON.stringify(discovered)); } catch(e) {}
+  showResult('🎉 ' + recipe.emoji + ' 成功！你发现了' + recipe.name + '（' + recipe.formula + '）！', true);
+  clearSelection();
+  renderDiscoveries();
+  updateStatus();
+}
+
+function showResult(msg, success) {
+  var el = document.getElementById('result-msg');
+  el.textContent = msg;
+  el.className = 'result-msg show ' + (success ? 'success' : 'fail');
+}
+
+function hideResult() {
+  document.getElementById('result-msg').className = 'result-msg';
+}
+
+function renderDiscoveries() {
+  var grid = document.getElementById('discoveries-grid');
+  var keys = Object.keys(discovered);
+  if (keys.length === 0) {
+    grid.innerHTML = '<div class="empty-state">还没有发现。试着把元素组合起来！</div>';
+    return;
+  }
+  grid.innerHTML = '';
+  keys.forEach(function(key) {
+    var r = discovered[key];
+    var card = document.createElement('div');
+    card.className = 'disc-card';
+    card.innerHTML =
+      '<div class="disc-emoji">' + r.emoji + '</div>' +
+      '<div><div class="disc-name">' + r.name + '</div>' +
+      '<div class="disc-formula">' + r.formula + '</div>' +
+      '<div class="disc-fact">' + r.fact + '</div></div>';
+    grid.appendChild(card);
+  });
+}
+
+function updateStatus() {
+  var count = Object.keys(discovered).length;
+  document.getElementById('count-display').textContent = '已发现 ' + count + ' / 8';
+  var novice = document.getElementById('badge-novice');
+  var master = document.getElementById('badge-master');
+  if (count >= 4) novice.className = 'badge active';
+  if (count >= 8) {
+    master.className = 'badge master';
+    markDone();
+  }
+}
+
+function markDone() {
+  var a = [];
+  try { a = JSON.parse(localStorage.getItem('fo_games_done') || '[]'); } catch(e) {}
+  if (a.indexOf(gameId) < 0) { a.push(gameId); localStorage.setItem('fo_games_done', JSON.stringify(a)); }
+}
+
+// Init
+renderElements();
+renderDiscoveries();
+updateStatus();
+
+(function(){
+  var m = window.FO && FO.getMember(), el = document.getElementById('nav-member-btn');
+  if (!el) return;
+  if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick = function(){ location.href='../dashboard.html'; }; }
+  else { el.innerHTML = '<span>登录</span>'; el.onclick = function(){ location.href='../login.html'; }; }
+})();
+</script>
+</body>
+</html>

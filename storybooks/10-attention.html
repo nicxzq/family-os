@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>毛毛的注意力</title>
+<meta name="description" content="关于「保护 彼此的 注意力」的绘本动画。">
+<meta property="og:title" content="毛毛的注意力">
+<meta property="og:description" content="关于「保护 彼此的 注意力」的绘本动画。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/storybooks/10-attention">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "LXGW WenKai TC", "LXGW WenKai", serif; background: #FFF8E0; min-height: 100vh; overflow: hidden; }
+  .book { width: 100vw; height: 100vh; position: relative; overflow: hidden; perspective: 1400px; }
+  .top { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 20px 32px; z-index: 20; }
+  .back, .dash-link { text-decoration: none; color: #5C4F3D; font-size: 16px; background: rgba(255,255,255,0.7); padding: 8px 16px; border-radius: 999px; backdrop-filter: blur(8px); }
+  .read-aloud { background: #4B7BA8; color: white; border: 0; padding: 10px 18px; border-radius: 999px; font-family: inherit; font-size: 16px; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,0.1); }
+  .read-aloud:active { transform: translateY(1px); }
+  .page { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 80px 40px 120px; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; backface-visibility: hidden; }
+  .page.is-active { opacity: 1; pointer-events: auto; }
+  .page[data-bg="cream"] { background: #FFF8E0; }
+  .page[data-bg="peach"] { background: #FBE3D5; }
+  .page[data-bg="mint"] { background: #D7EBC9; }
+  .page[data-bg="sky"] { background: #D7E7F4; }
+  .page[data-bg="yellow"] { background: #FBE39A; }
+  .scene { flex: 1; min-height: 0; position: relative; width: 100%; overflow: hidden; }
+  .scene svg { width: 100%; height: 100%; }
+  .text { flex-shrink: 0; text-align: center; max-width: 100%; }
+  .text h2 { font-size: clamp(24px, 5vw, 38px); line-height: 1.4; color: #2B2419; font-weight: 500; text-wrap: balance; }
+  .text .big { font-size: clamp(28px, 5.5vw, 46px); line-height: 1.3; color: #4B7BA8; font-weight: 700; margin-top: 12px; }
+  .text .small { font-size: 18px; color: #5C4F3D; margin-top: 16px; line-height: 1.6; }
+  .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.88); border: 0; width: 56px; height: 56px; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,0.1); font-family: inherit; color: #2B2419; z-index: 20; backdrop-filter: blur(4px); }
+  .nav-btn:disabled { opacity: 0.3; pointer-events: none; }
+  .nav-btn:active { transform: translateY(calc(-50% + 1px)); }
+  #prev { left: 12px; } #next { right: 12px; }
+  .dots-wrap { position: absolute; bottom: 24px; left: 0; right: 0; display: flex; justify-content: center; z-index: 20; }
+  .dots { display: flex; gap: 6px; }
+  .dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(43,36,25,0.2); transition: background 0.3s, transform 0.3s; }
+  .dots span.is-active { background: #4B7BA8; transform: scale(1.4); }
+  .float { animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+  .wiggle { animation: wiggle 2.5s ease-in-out infinite; transform-origin: center bottom; }
+  @keyframes wiggle { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+  .end-card { background: white; padding: 32px; border-radius: 24px; max-width: 480px; box-shadow: 0 8px 0 rgba(0,0,0,0.06), 0 24px 48px -16px rgba(0,0,0,0.2); text-align: center; }
+  .end-card h2 { font-size: 28px; color: #4B7BA8; margin-bottom: 16px; }
+  .end-card p { font-size: 19px; color: #2B2419; line-height: 1.7; margin-bottom: 12px; }
+  .interactive { cursor: pointer; transform-box: fill-box; transform-origin: center center; }
+  .do-bounce { animation: iBounce 0.6s cubic-bezier(0.36,0.07,0.19,0.97) both !important; }
+  @keyframes iBounce { 0% { transform: translateY(0) scale(1); } 25% { transform: translateY(-18px) scale(1.15); } 55% { transform: translateY(-4px) scale(0.96); } 75% { transform: translateY(-8px) scale(1.05); } 100% { transform: translateY(0) scale(1); } }
+  .do-shake { animation: iShake 0.55s ease both !important; }
+  @keyframes iShake { 0%,100% { transform: rotate(0deg); } 18% { transform: rotate(-22deg); } 38% { transform: rotate(18deg); } 58% { transform: rotate(-14deg); } 78% { transform: rotate(9deg); } }
+  .do-wobble { animation: iWobble 0.7s ease both !important; }
+  @keyframes iWobble { 0%,100% { transform: scaleX(1) scaleY(1); } 20% { transform: scaleX(1.25) scaleY(0.75); } 45% { transform: scaleX(0.85) scaleY(1.2); } 65% { transform: scaleX(1.1) scaleY(0.9); } 80% { transform: scaleX(0.96) scaleY(1.04); } }
+  .speech-bubble { position: absolute; background: white; border-radius: 999px; padding: 6px 16px; font-size: 20px; font-family: "LXGW WenKai TC", serif; box-shadow: 0 3px 0 rgba(0,0,0,0.12); pointer-events: none; white-space: nowrap; z-index: 50; animation: bPop 0.3s ease; }
+  @keyframes bPop { from { transform: translateX(-50%) scale(0); opacity: 0; } to { transform: translateX(-50%) scale(1); opacity: 1; } }
+  .flip-out-fwd { animation: fOutFwd 0.4s cubic-bezier(0.4,0,1,1) forwards; pointer-events: none; z-index: 5; opacity: 1; transform-origin: left center; }
+  .flip-in-fwd  { animation: fInFwd 0.4s cubic-bezier(0,0,0.6,1) forwards; pointer-events: none; z-index: 4; transform-origin: right center; }
+  .flip-out-bwd { animation: fOutBwd 0.4s cubic-bezier(0.4,0,1,1) forwards; pointer-events: none; z-index: 5; opacity: 1; transform-origin: right center; }
+  .flip-in-bwd  { animation: fInBwd 0.4s cubic-bezier(0,0,0.6,1) forwards; pointer-events: none; z-index: 4; transform-origin: left center; }
+  @keyframes fOutFwd { 0% { transform: rotateY(0deg); opacity: 1; } 100% { transform: rotateY(-80deg); opacity: 0; } }
+  @keyframes fInFwd  { 0% { transform: rotateY(80deg); opacity: 0; } 100% { transform: rotateY(0deg); opacity: 1; } }
+  @keyframes fOutBwd { 0% { transform: rotateY(0deg); opacity: 1; } 100% { transform: rotateY(80deg); opacity: 0; } }
+  @keyframes fInBwd  { 0% { transform: rotateY(-80deg); opacity: 0; } 100% { transform: rotateY(0deg); opacity: 1; } }
+</style>
+</head>
+<body>
+<div class="book">
+  <div class="top">
+    <a class="back" href="../for-youngest.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+    <a href="../dashboard.html" class="dash-link" title="仪表盘">📊</a>
+  </div>
+
+  <!-- Page 1: 毛毛在画画 -->
+  <div class="page is-active" data-bg="sky" data-text="毛毛正在专心画一幅大画。她的眼睛一眨不眨。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <!-- Easel frame -->
+      <g transform="translate(250,180)">
+        <!-- canvas frame -->
+        <rect x="-50" y="-62" width="100" height="78" rx="4" fill="white" stroke="#A8826B" stroke-width="3"/>
+        <!-- painting: mountains + sun -->
+        <polygon points="0,-54 -20,-30 20,-30" fill="#4B7BA8"/>
+        <polygon points="-22,-54 -42,-30 -2,-30" fill="#A8C2DE"/>
+        <circle cx="30" cy="-50" r="10" fill="#F4C13E"/>
+        <rect x="-46" y="-30" width="92" height="12" rx="2" fill="#6FA86D"/>
+        <!-- easel legs -->
+        <line x1="-50" y1="16" x2="-58" y2="56" stroke="#A8826B" stroke-width="4" stroke-linecap="round"/>
+        <line x1="50" y1="16" x2="58" y2="56" stroke="#A8826B" stroke-width="4" stroke-linecap="round"/>
+        <line x1="0" y1="16" x2="0" y2="56" stroke="#A8826B" stroke-width="4" stroke-linecap="round"/>
+      </g>
+      <!-- Maomao at easel (float) -->
+      <g id="p1-maomao" class="float" transform="translate(165,215)">
+        <ellipse cx="0" cy="10" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="0" cy="-20" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="-6" cy="-23" r="2.8" fill="#2B2419"/>
+        <circle cx="6" cy="-23" r="2.8" fill="#2B2419"/>
+        <polygon points="0,-16 10,-12 0,-9" fill="#E56B5A"/>
+        <!-- holding brush (arm-like line) -->
+        <line x1="18" y1="0" x2="48" y2="-20" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+        <line x1="48" y1="-20" x2="55" y2="-28" stroke="#4B7BA8" stroke-width="3" stroke-linecap="round"/>
+      </g>
+      <!-- concentration sparkles -->
+      <text x="90" y="90" font-size="18" fill="#F4C13E" opacity="0.8">✦</text>
+      <text x="110" y="70" font-size="12" fill="#F4C13E" opacity="0.6">✦</text>
+    </svg></div>
+    <div class="text"><h2>毛毛正在专心画一幅大画。</h2><p class="small">她的眼睛一眨不眨。</p></div>
+  </div>
+
+  <!-- Page 2: 妈妈进来打扰 -->
+  <div class="page" data-bg="peach" data-text="妈妈走进来：毛毛，喝水了！毛毛的画笔停了。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <!-- Easel (unfinished painting, broken line) -->
+      <g transform="translate(275,175)">
+        <rect x="-45" y="-58" width="90" height="72" rx="4" fill="white" stroke="#A8826B" stroke-width="3"/>
+        <polygon points="0,-50 -18,-28 18,-28" fill="#4B7BA8"/>
+        <!-- broken stroke (interrupted) -->
+        <path d="M -38,-20 L 5,-20" stroke="#E56B5A" stroke-width="3" stroke-linecap="round" stroke-dasharray="4,3"/>
+        <line x1="-45" y1="14" x2="-52" y2="50" stroke="#A8826B" stroke-width="4" stroke-linecap="round"/>
+        <line x1="45" y1="14" x2="52" y2="50" stroke="#A8826B" stroke-width="4" stroke-linecap="round"/>
+      </g>
+      <!-- Mom (larger chick with bow) -->
+      <g id="p2-mom" transform="translate(100,210)">
+        <ellipse cx="0" cy="8" rx="28" ry="30" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="0" cy="-26" r="22" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="-7" cy="-29" r="3.2" fill="#2B2419"/>
+        <circle cx="7" cy="-29" r="3.2" fill="#2B2419"/>
+        <polygon points="0,-22 12,-17 0,-13" fill="#E56B5A"/>
+        <!-- bow on head -->
+        <g transform="translate(0,-50)">
+          <ellipse cx="-8" cy="0" rx="8" ry="5" fill="#F4A799" transform="rotate(-20)"/>
+          <ellipse cx="8" cy="0" rx="8" ry="5" fill="#F4A799" transform="rotate(20)"/>
+          <circle cx="0" cy="0" r="4" fill="#E56B5A"/>
+        </g>
+        <!-- water cup -->
+        <g transform="translate(28,0)">
+          <rect x="-8" y="-12" width="16" height="18" rx="3" fill="#A8C2DE"/>
+          <text x="0" y="-14" font-size="14" text-anchor="middle">💧</text>
+        </g>
+      </g>
+      <!-- Maomao stopped brush down -->
+      <g id="p2-maomao" transform="translate(195,218)">
+        <ellipse cx="0" cy="10" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="0" cy="-20" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="-6" cy="-23" r="2.8" fill="#2B2419"/>
+        <circle cx="6" cy="-23" r="2.8" fill="#2B2419"/>
+        <polygon points="0,-16 10,-12 0,-9" fill="#E56B5A"/>
+        <!-- brush hanging down -->
+        <line x1="18" y1="4" x2="28" y2="25" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+        <line x1="28" y1="25" x2="30" y2="34" stroke="#4B7BA8" stroke-width="3" stroke-linecap="round"/>
+      </g>
+      <!-- speech bubble from mom -->
+      <g transform="translate(148,140)">
+        <rect x="-42" y="-18" width="84" height="34" rx="10" fill="white" stroke="#F4A799" stroke-width="1.5"/>
+        <polygon points="-8,16 8,16 -18,30" fill="white" stroke="#F4A799" stroke-width="1.5"/>
+        <text x="0" y="4" font-size="13" text-anchor="middle" fill="#2B2419">喝水了！</text>
+      </g>
+    </svg></div>
+    <div class="text"><h2>妈妈走进来：</h2><p class="big">"毛毛，喝水了！"</p></div>
+  </div>
+
+  <!-- Page 3: 弟弟来了 -->
+  <div class="page" data-bg="yellow" data-text="弟弟跑进来：姐姐，来玩！毛毛叹了口气。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <!-- running tiny brother -->
+      <g id="p3-brother" transform="translate(90,228)">
+        <ellipse cx="0" cy="8" rx="14" ry="16" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="0" cy="-12" r="12" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="-4" cy="-14" r="2" fill="#2B2419"/>
+        <circle cx="4" cy="-14" r="2" fill="#2B2419"/>
+        <polygon points="0,-10 7,-7 0,-5" fill="#E56B5A"/>
+        <!-- running legs -->
+        <line x1="-6" y1="22" x2="-14" y2="38" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+        <line x1="6" y1="22" x2="16" y2="32" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+        <!-- arms spread -->
+        <line x1="-12" y1="4" x2="-26" y2="-4" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+        <line x1="12" y1="4" x2="26" y2="6" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+      </g>
+      <!-- speech from brother -->
+      <g transform="translate(145,155)">
+        <rect x="-38" y="-18" width="76" height="32" rx="10" fill="white" stroke="#FBE39A" stroke-width="1.5"/>
+        <polygon points="-10,14 10,14 -20,28" fill="white" stroke="#FBE39A" stroke-width="1.5"/>
+        <text x="0" y="3" font-size="13" text-anchor="middle" fill="#2B2419">来玩嘛！</text>
+      </g>
+      <!-- Maomao sigh (drooping brush, resigned) -->
+      <g id="p3-maomao" transform="translate(240,218)">
+        <ellipse cx="0" cy="10" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="0" cy="-20" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <!-- half-closed tired eyes -->
+        <path d="M -9,-24 L -4,-24" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+        <path d="M 4,-24 L 9,-24" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+        <polygon points="0,-16 10,-12 0,-9" fill="#E56B5A"/>
+        <!-- flat mouth -->
+        <path d="M -5,-10 L 5,-10" stroke="#2B2419" stroke-width="1.8" stroke-linecap="round"/>
+        <!-- brush hanging further down -->
+        <line x1="18" y1="6" x2="30" y2="32" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+        <!-- sigh dots -->
+        <text x="-30" y="-30" font-size="16" fill="#8C7C66">…</text>
+      </g>
+    </svg></div>
+    <div class="text"><h2>弟弟跑进来：</h2><p class="big">"姐姐，来玩！"</p></div>
+  </div>
+
+  <!-- Page 4: 爸爸悄悄退出去 -->
+  <div class="page" data-bg="cream" data-text="爸爸来了——他悄悄看了看，轻轻退出去，没有打扰。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <!-- doorframe on right -->
+      <rect x="290" y="100" width="90" height="180" rx="4" fill="#F1E8D0" stroke="#A8826B" stroke-width="2"/>
+      <rect x="300" y="110" width="70" height="160" rx="2" fill="#FBE3D5"/>
+      <circle cx="304" cy="195" r="5" fill="#A8826B"/>
+      <!-- Dad tiptoeing (glasses, finger on lips) -->
+      <g id="p4-dad" transform="translate(248,215)">
+        <ellipse cx="0" cy="8" rx="30" ry="34" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="0" cy="-34" r="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <!-- glasses -->
+        <circle cx="-8" cy="-37" r="6.5" fill="none" stroke="#2B2419" stroke-width="1.6"/>
+        <circle cx="8" cy="-37" r="6.5" fill="none" stroke="#2B2419" stroke-width="1.6"/>
+        <line x1="-1.5" y1="-37" x2="1.5" y2="-37" stroke="#2B2419" stroke-width="1.6"/>
+        <polygon points="0,-27 13,-22 0,-18" fill="#E56B5A"/>
+        <!-- finger to lips shh -->
+        <line x1="20" y1="-20" x2="32" y2="-30" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="32" cy="-30" r="4" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.2"/>
+        <!-- tiptoe feet -->
+        <ellipse cx="-14" cy="44" rx="8" ry="4" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.2"/>
+        <ellipse cx="14" cy="42" rx="8" ry="4" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.2"/>
+      </g>
+      <!-- shh text -->
+      <g transform="translate(170,140)">
+        <rect x="-22" y="-14" width="44" height="26" rx="8" fill="white" stroke="#B5D4A8" stroke-width="1.5"/>
+        <text x="0" y="4" font-size="14" text-anchor="middle" fill="#6FA86D" font-weight="700">Shh</text>
+      </g>
+    </svg></div>
+    <div class="text"><h2>爸爸来了——</h2><p class="small">他悄悄看了看，<br>轻轻退出去，没有打扰。</p></div>
+  </div>
+
+  <!-- Page 5: 毛毛画完了 -->
+  <div class="page" data-bg="mint" data-text="毛毛终于画完了！她抬起头——好满足！">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <!-- completed painting displayed proudly -->
+      <g transform="translate(270,165)">
+        <rect x="-55" y="-68" width="110" height="86" rx="4" fill="white" stroke="#6FA86D" stroke-width="3"/>
+        <!-- mountain scene -->
+        <polygon points="0,-60 -25,-30 25,-30" fill="#4B7BA8"/>
+        <polygon points="-28,-60 -52,-30 -4,-30" fill="#A8C2DE"/>
+        <circle cx="36" cy="-56" r="11" fill="#F4C13E"/>
+        <rect x="-50" y="-30" width="100" height="14" rx="2" fill="#6FA86D"/>
+        <!-- completed checkmark -->
+        <circle cx="38" cy="-58" r="10" fill="#6FA86D" opacity="0.9"/>
+        <path d="M 32,-58 L 37,-53 L 44,-63" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- easel legs -->
+        <line x1="-55" y1="18" x2="-64" y2="58" stroke="#A8826B" stroke-width="4" stroke-linecap="round"/>
+        <line x1="55" y1="18" x2="64" y2="58" stroke="#A8826B" stroke-width="4" stroke-linecap="round"/>
+      </g>
+      <!-- Happy floating Maomao -->
+      <g id="p5-maomao" class="float" transform="translate(148,222)">
+        <ellipse cx="0" cy="10" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="0" cy="-20" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="-6" cy="-23" r="2.8" fill="#2B2419"/>
+        <circle cx="6" cy="-23" r="2.8" fill="#2B2419"/>
+        <polygon points="0,-16 10,-12 0,-9" fill="#E56B5A"/>
+        <!-- big smile -->
+        <path d="M -7,-10 Q 0,-3 7,-10" stroke="#2B2419" stroke-width="2" fill="none"/>
+        <!-- arms up proud -->
+        <line x1="-18" y1="2" x2="-32" y2="-14" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+        <line x1="18" y1="2" x2="32" y2="-14" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+      </g>
+      <!-- star sparkles -->
+      <text x="75" y="130" font-size="20" fill="#F4C13E">★</text>
+      <text x="340" y="120" font-size="16" fill="#F4C13E">★</text>
+      <text x="95" y="105" font-size="13" fill="#F4C13E">★</text>
+    </svg></div>
+    <div class="text"><h2>毛毛终于画完了！</h2><p class="big">好——满足！</p></div>
+  </div>
+
+  <!-- Page 6: 爸爸的话 -->
+  <div class="page" data-bg="sky" data-text="爸爸说：你在做重要的事，谁都不应该打断你。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <!-- painting on wall -->
+      <g transform="translate(320,155)">
+        <rect x="-38" y="-48" width="76" height="62" rx="4" fill="white" stroke="#A8826B" stroke-width="2"/>
+        <polygon points="0,-42 -16,-20 16,-20" fill="#4B7BA8"/>
+        <circle cx="24" cy="-38" r="8" fill="#F4C13E"/>
+        <rect x="-34" y="-20" width="68" height="10" rx="2" fill="#6FA86D"/>
+      </g>
+      <!-- Dad and Maomao face to face -->
+      <g id="p6-dad" transform="translate(145,210)">
+        <ellipse cx="0" cy="8" rx="30" ry="34" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="0" cy="-34" r="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="-8" cy="-37" r="6.5" fill="none" stroke="#2B2419" stroke-width="1.6"/>
+        <circle cx="8" cy="-37" r="6.5" fill="none" stroke="#2B2419" stroke-width="1.6"/>
+        <line x1="-1.5" y1="-37" x2="1.5" y2="-37" stroke="#2B2419" stroke-width="1.6"/>
+        <polygon points="0,-27 13,-22 0,-18" fill="#E56B5A"/>
+        <path d="M -8,-21 Q 0,-16 8,-21" stroke="#2B2419" stroke-width="1.8" fill="none"/>
+      </g>
+      <g transform="translate(240,220)">
+        <ellipse cx="0" cy="10" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="0" cy="-20" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="-6" cy="-23" r="2.8" fill="#2B2419"/>
+        <circle cx="6" cy="-23" r="2.8" fill="#2B2419"/>
+        <polygon points="0,-16 10,-12 0,-9" fill="#E56B5A"/>
+        <path d="M -5,-10 Q 0,-5 5,-10" stroke="#2B2419" stroke-width="1.8" fill="none"/>
+      </g>
+      <!-- speech bubble from dad -->
+      <g transform="translate(192,130)">
+        <rect x="-72" y="-22" width="144" height="40" rx="10" fill="white" stroke="#A8C2DE" stroke-width="1.5"/>
+        <polygon points="-10,18 10,18 -5,32" fill="white" stroke="#A8C2DE" stroke-width="1.5"/>
+        <text x="0" y="-5" font-size="11" text-anchor="middle" fill="#2B2419">你在做重要的事——</text>
+        <text x="0" y="13" font-size="11" text-anchor="middle" fill="#2B2419">谁都不应该打断你。</text>
+      </g>
+    </svg></div>
+    <div class="text"><h2>爸爸说：</h2><p class="small">"你在做重要的事，<br>谁都不应该打断你。"</p></div>
+  </div>
+
+  <!-- Page 7: 家里的规矩 -->
+  <div class="page" data-bg="yellow" data-text="我们家有一条规矩：专心的时候，谁都不打扰谁。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <!-- three chicks each doing their own thing -->
+      <!-- Maomao painting (left) -->
+      <g transform="translate(80,215)">
+        <ellipse cx="0" cy="10" rx="18" ry="20" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.3"/>
+        <circle cx="0" cy="-16" r="15" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.3"/>
+        <circle cx="-5" cy="-19" r="2.2" fill="#2B2419"/>
+        <circle cx="5" cy="-19" r="2.2" fill="#2B2419"/>
+        <polygon points="0,-13 8,-10 0,-7" fill="#E56B5A"/>
+        <line x1="14" y1="2" x2="26" y2="-12" stroke="#2B2419" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- mini easel -->
+        <g transform="translate(34,-18)">
+          <rect x="-14" y="-18" width="28" height="22" rx="2" fill="white" stroke="#A8826B" stroke-width="1.5"/>
+          <polygon points="0,-14 -8,-4 8,-4" fill="#4B7BA8"/>
+          <circle cx="8" cy="-12" r="3" fill="#F4C13E"/>
+        </g>
+      </g>
+      <!-- Mom reading (center) -->
+      <g transform="translate(200,218)">
+        <ellipse cx="0" cy="8" rx="22" ry="25" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.3"/>
+        <circle cx="0" cy="-20" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.3"/>
+        <circle cx="-5" cy="-22" r="2.5" fill="#2B2419"/>
+        <circle cx="5" cy="-22" r="2.5" fill="#2B2419"/>
+        <polygon points="0,-16 9,-12 0,-9" fill="#E56B5A"/>
+        <!-- bow -->
+        <ellipse cx="-6" cy="-40" rx="6" ry="4" fill="#F4A799" transform="rotate(-20 -6 -40)"/>
+        <ellipse cx="6" cy="-40" rx="6" ry="4" fill="#F4A799" transform="rotate(20 6 -40)"/>
+        <circle cx="0" cy="-40" r="3.5" fill="#E56B5A"/>
+        <!-- book held open -->
+        <g transform="translate(0,5)">
+          <rect x="-18" y="-4" width="36" height="22" rx="2" fill="#4B7BA8"/>
+          <line x1="0" y1="-4" x2="0" y2="18" stroke="white" stroke-width="1.5"/>
+          <rect x="-14" y="0" width="10" height="12" fill="#A8C2DE" opacity="0.5"/>
+          <rect x="4" y="0" width="10" height="12" fill="#A8C2DE" opacity="0.5"/>
+        </g>
+      </g>
+      <!-- Dad writing (right) -->
+      <g transform="translate(325,215)">
+        <ellipse cx="0" cy="8" rx="24" ry="28" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.3"/>
+        <circle cx="0" cy="-28" r="20" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.3"/>
+        <circle cx="-6" cy="-31" r="5.5" fill="none" stroke="#2B2419" stroke-width="1.4"/>
+        <circle cx="6" cy="-31" r="5.5" fill="none" stroke="#2B2419" stroke-width="1.4"/>
+        <line x1="-0.5" y1="-31" x2="0.5" y2="-31" stroke="#2B2419" stroke-width="1.4"/>
+        <polygon points="0,-22 11,-18 0,-14" fill="#E56B5A"/>
+        <!-- notebook + pen -->
+        <g transform="translate(0,8)">
+          <rect x="-16" y="-4" width="32" height="22" rx="2" fill="#FBE39A" stroke="#F4C13E" stroke-width="1"/>
+          <line x1="-10" y1="4" x2="10" y2="4" stroke="#8C7C66" stroke-width="1.2"/>
+          <line x1="-10" y1="10" x2="6" y2="10" stroke="#8C7C66" stroke-width="1.2"/>
+          <line x1="18" y1="-2" x2="28" y2="-14" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+        </g>
+      </g>
+      <!-- 🔕 symbol in center top -->
+      <g transform="translate(200,90)">
+        <circle cx="0" cy="0" r="30" fill="white" stroke="#4B7BA8" stroke-width="2"/>
+        <text x="0" y="12" font-size="30" text-anchor="middle">🔕</text>
+      </g>
+    </svg></div>
+    <div class="text"><h2 id="p7-family">我们家的规矩：</h2><p class="big">专心时，谁都不打扰谁。</p></div>
+  </div>
+
+  <!-- End card -->
+  <div class="page" data-bg="cream" data-text="专心做事的时候——谁都不打扰谁。">
+    <div class="end-card">
+      <h2>给小弟弟 🔕</h2>
+      <p>我们家的规矩：</p>
+      <p style="font-size: 26px; color: #4B7BA8; font-weight: 700; margin: 16px 0; line-height: 1.4;">"专心做事的时候——<br>谁都不打扰谁。"</p>
+      <button class="read-aloud" style="margin-top: 24px;" onclick="goTo(0)">🔄 再讲一遍</button>
+    </div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
+</div>
+
+<script src="../fo-utils.js"></script>
+<script>
+  const BOOK_ID = '10-attention'; const BOOK_TITLE = '毛毛的注意力'; const BOOK_TOTAL = 7;
+  function makeInteractive(el, animClass, msg) {
+    if (!el) return;
+    el.classList.add('interactive');
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', function () {
+      if (el._busy) return; el._busy = true;
+      el.classList.remove(animClass); void el.getBoundingClientRect(); el.classList.add(animClass);
+      if (msg) {
+        const scene = el.closest('.scene') || document.body;
+        const er = el.getBoundingClientRect(), sr = scene.getBoundingClientRect();
+        const b = document.createElement('div');
+        b.className = 'speech-bubble'; b.textContent = msg;
+        b.style.left = (er.left + er.width/2 - sr.left) + 'px';
+        b.style.top = Math.max(8, er.top - sr.top - 48) + 'px';
+        b.style.transform = 'translateX(-50%)';
+        scene.appendChild(b); setTimeout(() => b.remove(), 1500);
+      }
+      setTimeout(() => { el.classList.remove(animClass); el._busy = false; }, 750);
+    });
+  }
+  const pages = document.querySelectorAll('.page'), total = pages.length;
+  const dotsEl = document.getElementById('dots'); let current = 0;
+  for (let i = 0; i < total; i++) { const d = document.createElement('span'); if (i === 0) d.classList.add('is-active'); dotsEl.appendChild(d); }
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    speechSynthesis.cancel();
+    if (idx === current) {
+      pages.forEach((p, i) => { p.classList.toggle('is-active', i === idx); p.classList.remove('flip-out-fwd','flip-in-fwd','flip-out-bwd','flip-in-bwd'); p.style.opacity=''; p.style.pointerEvents=''; });
+      current = idx; document.getElementById('prev').disabled = idx === 0; document.getElementById('next').disabled = idx === total-1;
+      dotsEl.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx));
+      if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL); return;
+    }
+    const dir = idx > current ? 'fwd' : 'bwd';
+    const outClass = dir==='fwd'?'flip-out-fwd':'flip-out-bwd', inClass = dir==='fwd'?'flip-in-fwd':'flip-in-bwd';
+    const oldPage = pages[current], newPage = pages[idx];
+    newPage.style.opacity='0'; newPage.style.pointerEvents='none';
+    oldPage.classList.add(outClass); newPage.classList.add(inClass);
+    function cleanup() {
+      oldPage.classList.remove('is-active', outClass); newPage.classList.remove(inClass);
+      oldPage.style.opacity=''; newPage.style.opacity=''; newPage.style.pointerEvents='';
+      newPage.classList.add('is-active'); current = idx;
+      document.getElementById('prev').disabled = idx === 0; document.getElementById('next').disabled = idx === total-1;
+      dotsEl.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx));
+      if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL);
+    }
+    newPage.addEventListener('animationend', cleanup, { once: true });
+  }
+  document.getElementById('prev').addEventListener('click', () => goTo(current-1));
+  document.getElementById('next').addEventListener('click', () => goTo(current+1));
+  document.addEventListener('keydown', e => { if (e.key==='ArrowLeft') goTo(current-1); if (e.key==='ArrowRight') goTo(current+1); });
+  let _tx = 0;
+  document.addEventListener('touchstart', e => { _tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - _tx; if (Math.abs(dx)>50) dx<0?goTo(current+1):goTo(current-1); });
+  document.getElementById('readBtn').addEventListener('click', () => {
+    const text = pages[current].dataset.text;
+    if (!text || !window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang='zh-CN'; u.rate=0.85; u.pitch=1.1; speechSynthesis.speak(u);
+  });
+  goTo(0);
+  makeInteractive(document.getElementById('p1-maomao'), 'do-wobble', '认真画画中 🎨');
+  makeInteractive(document.getElementById('p2-mom'), 'do-bounce', '喝水了！💧');
+  makeInteractive(document.getElementById('p2-maomao'), 'do-shake', '又被打断了 😔');
+  makeInteractive(document.getElementById('p3-brother'), 'do-bounce', '姐姐来玩！🏃');
+  makeInteractive(document.getElementById('p3-maomao'), 'do-wobble', '唉……🙄');
+  makeInteractive(document.getElementById('p4-dad'), 'do-bounce', 'Shh～不打扰 🤫');
+  makeInteractive(document.getElementById('p5-maomao'), 'do-bounce', '画完啦！🎉');
+  makeInteractive(document.getElementById('p6-dad'), 'do-bounce', '专注是最重要的 ✨');
+  document.addEventListener('DOMContentLoaded', () => { if (window.FO) FO.logHistory(BOOK_ID, BOOK_TITLE); });
+</script>
+</body>
+</html>

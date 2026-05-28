@@ -392,13 +392,23 @@
     </section>
 
     <section class="progress-section">
-      <h2 class="section-title">📚 阅读进度</h2>
+      <h2 class="section-title" id="progress-toggle" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;">📚 阅读进度 <span id="progress-chevron" style="font-size:18px;transition:transform 0.3s;">▾</span></h2>
       <div id="progress-list" class="book-progress-list"></div>
     </section>
 
     <section class="history-section">
       <h2 class="section-title">🕐 最近阅读</h2>
       <div id="history-list" class="history-list"></div>
+    </section>
+
+    <section class="games-section" style="margin-top:18px;background:rgba(255,255,255,0.66);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-card);backdrop-filter:blur(8px);">
+      <h2 class="section-title" id="games-toggle" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;margin:0 0 16px;">
+        🎮 答题库进度 <span id="games-chevron" style="font-size:18px;transition:transform 0.3s;">▾</span>
+      </h2>
+      <div id="games-body">
+        <div id="games-summary" style="margin-bottom:12px;color:var(--ink-soft);font-size:15px;"></div>
+        <div id="games-grid" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+      </div>
     </section>
 
     <section id="family-section" class="family-section" hidden>
@@ -454,7 +464,9 @@
     { id: '05-why-why', title: '为什么', href: 'storybooks/05-why-why.html', color: 'green', total: 5 },
     { id: '06-the-direction', title: '毛毛的路', href: 'storybooks/06-the-direction.html', color: 'yellow', total: 5 },
     { id: '07-soft-skills', title: '毛毛的谢谢', href: 'storybooks/07-soft-skills.html', color: 'green', total: 7 },
-    { id: '08-patient-seeds', title: '毛毛的种子', href: 'storybooks/08-patient-seeds.html', color: 'blue', total: 7 }
+    { id: '08-patient-seeds', title: '毛毛的种子', href: 'storybooks/08-patient-seeds.html', color: 'blue', total: 7 },
+    { id: '09-good-direction', title: '毛毛的好方向', href: 'storybooks/09-good-direction.html', color: 'coral', total: 7 },
+    { id: '10-attention', title: '毛毛的注意力', href: 'storybooks/10-attention.html', color: 'blue', total: 7 }
   ];
   const COLOR_VAR = { coral: 'var(--coral)', blue: 'var(--blue)', green: 'var(--green)', yellow: 'var(--yellow)' };
 
@@ -677,6 +689,66 @@
     renderHistory();
     renderFamily();
     renderEditor();
+
+    // Collapsible progress section
+    var progressOpen = true;
+    document.getElementById('progress-toggle').addEventListener('click', function() {
+      progressOpen = !progressOpen;
+      document.getElementById('progress-list').style.display = progressOpen ? '' : 'none';
+      document.getElementById('progress-chevron').style.transform = progressOpen ? 'rotate(0deg)' : 'rotate(-90deg)';
+    });
+
+    // Games progress
+    var ALL_GAMES = [
+      {id:'g01-direction',label:'方向 vs 目标',color:'coral'},
+      {id:'g02-compound',label:'时间的魔法',color:'yellow'},
+      {id:'g03-responsibility',label:'这是谁的事',color:'green'},
+      {id:'g04-soft-skills',label:'软技能地图',color:'blue'},
+      {id:'g05-attention',label:'注意力卫士',color:'coral'},
+      {id:'g06-dilemma',label:'两难题',color:'yellow'},
+      {id:'g07-reading',label:'阅读侦探',color:'green'},
+      {id:'g08-letter',label:'未来信件',color:'blue'},
+      {id:'g09-growth',label:'成长地图',color:'coral'},
+      {id:'g10-questions',label:'提问高手',color:'yellow'},
+      {id:'g11-calm',label:'不慌实验室',color:'blue'},
+      {id:'g12-express',label:'表达工坊',color:'coral'},
+      {id:'g13-learn',label:'学习解剖室',color:'yellow'},
+      {id:'g14-bias',label:'思维陷阱',color:'green'},
+      {id:'g15-together',label:'共学密码',color:'blue'},
+      {id:'g16-empathy',label:'换位思考',color:'coral'},
+      {id:'g17-info',label:'信息鉴别',color:'yellow'},
+      {id:'g18-longterm',label:'长期主义',color:'green'},
+      {id:'g19-habit',label:'习惯实验室',color:'coral'},
+      {id:'g20-connect',label:'知识连接',color:'blue'},
+      {id:'g21-chemistry',label:'化学厨房',color:'green'},
+      {id:'g22-physics',label:'物理弹弓',color:'yellow'}
+    ];
+    var gameColorVarMap = {coral:'var(--coral)',yellow:'var(--yellow)',green:'var(--green)',blue:'var(--blue)'};
+    function renderGames() {
+      var done = [];
+      try { done = JSON.parse(localStorage.getItem('fo_games_done') || '[]'); } catch(e) {}
+      var doneCount = ALL_GAMES.filter(function(g){ return done.indexOf(g.id) >= 0; }).length;
+      document.getElementById('games-summary').textContent = '已完成 ' + doneCount + ' / ' + ALL_GAMES.length + ' 个';
+      var grid = document.getElementById('games-grid');
+      grid.innerHTML = '';
+      ALL_GAMES.forEach(function(game) {
+        var isDone = done.indexOf(game.id) >= 0;
+        var pill = document.createElement('a');
+        pill.href = '/games/' + game.id + '.html';
+        pill.title = game.label;
+        pill.style.cssText = 'display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:999px;font-size:13px;text-decoration:none;font-family:inherit;transition:opacity 0.2s;' +
+          (isDone ? 'background:' + gameColorVarMap[game.color] + ';color:#FFFDF6;' : 'background:var(--cream-deep);color:var(--ink-mute);');
+        pill.textContent = (isDone ? '✓ ' : '') + game.label;
+        grid.appendChild(pill);
+      });
+    }
+    renderGames();
+    var gamesOpen = true;
+    document.getElementById('games-toggle').addEventListener('click', function() {
+      gamesOpen = !gamesOpen;
+      document.getElementById('games-body').style.display = gamesOpen ? '' : 'none';
+      document.getElementById('games-chevron').style.transform = gamesOpen ? 'rotate(0deg)' : 'rotate(-90deg)';
+    });
   })();
 </script>
 </body>
