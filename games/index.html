@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>游戏库 · 十二岁的思辨场</title>
-<meta name="description" content="给十二岁的你：20 个独立思辨小游戏。">
+<meta name="description" content="给十二岁的你：4 类独立小游戏。">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../styles.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,26 +16,58 @@
   .games-page { padding:0 0 90px; }
   .games-nav { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; position:sticky; top:0; z-index:10; background:var(--paper); box-shadow:var(--shadow-soft); border-radius:var(--radius); padding:10px 14px; margin-bottom:40px; }
   .games-nav a { color:var(--ink-mute); text-decoration:none; font-size:15px; }
-  .games-hero { margin-bottom:34px; }
+  .games-hero { margin-bottom:24px; }
   .games-hero h1 { margin-bottom:12px; }
   .games-hero p { color:var(--ink-soft); font-size:20px; }
-  .summary { display:inline-flex; align-items:center; gap:10px; background:var(--paper); border-radius:999px; padding:9px 18px; box-shadow:var(--shadow-soft); color:var(--ink-soft); margin:8px 0 34px; }
+  .summary { display:inline-flex; align-items:center; gap:10px; background:var(--paper); border-radius:999px; padding:9px 18px; box-shadow:var(--shadow-soft); color:var(--ink-soft); margin:8px 0 28px; }
   .summary-dot { width:10px; height:10px; border-radius:50%; background:var(--green); }
-  .game-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:18px; }
-  .game-card { display:block; text-decoration:none; background:var(--paper); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow-card); border-left:5px solid var(--coral); transition:transform .2s ease, border-color .2s ease; min-height:170px; }
+
+  /* Category tabs */
+  .cat-tabs { display:flex; gap:8px; margin-bottom:28px; flex-wrap:wrap; }
+  .cat-tab { display:inline-flex; align-items:center; gap:6px; padding:10px 20px; border:2px solid transparent; border-radius:999px; background:var(--paper); color:var(--ink-soft); font:inherit; font-size:15px; cursor:pointer; box-shadow:var(--shadow-soft); transition:all .2s; }
+  .cat-tab:hover { border-color:var(--ink-mute); }
+  .cat-tab.is-active { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .cat-count { background:rgba(255,255,255,.2); border-radius:999px; padding:1px 7px; font-size:12px; }
+  .cat-tab:not(.is-active) .cat-count { background:var(--cream-deep); color:var(--ink-mute); }
+  .cat-panel { display:none; }
+  .cat-panel.is-active { display:block; }
+  .panel-desc { color:var(--ink-soft); font-size:16px; margin-bottom:24px; }
+
+  /* Booklet cards for Q&A */
+  .booklet-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:14px; max-width:800px; }
+  @media (max-width:600px) { .booklet-grid { grid-template-columns:repeat(3,1fr); gap:10px; } }
+  .booklet-card { display:flex; flex-direction:column; align-items:center; text-align:center; text-decoration:none; background:var(--paper); border-radius:var(--radius); padding:18px 12px 14px; box-shadow:var(--shadow-card); border-top:4px solid var(--coral); transition:transform .2s ease; min-height:140px; position:relative; }
+  .booklet-card:hover { transform:translateY(-3px); }
+  .booklet-card[data-color="yellow"] { border-top-color:var(--yellow); }
+  .booklet-card[data-color="green"]  { border-top-color:var(--green); }
+  .booklet-card[data-color="blue"]   { border-top-color:var(--blue); }
+  .booklet-icon { font-size:32px; margin-bottom:8px; line-height:1; }
+  .booklet-num { position:absolute; top:8px; left:10px; font-size:11px; color:var(--ink-mute); letter-spacing:.1em; }
+  .booklet-title { font-size:13px; font-weight:700; color:var(--ink); line-height:1.4; margin-bottom:4px; }
+  .booklet-done { font-size:11px; color:var(--green); margin-top:auto; }
+  .booklet-todo { font-size:11px; color:var(--ink-mute); margin-top:auto; }
+
+  /* Science / code / multi game cards */
+  .game-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:14px; }
+  .game-card { display:block; text-decoration:none; background:var(--paper); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-card); border-left:5px solid var(--coral); transition:transform .2s ease; }
   .game-card:hover { transform:translateY(-3px); }
   .game-card[data-color="yellow"] { border-left-color:var(--yellow); }
-  .game-card[data-color="green"] { border-left-color:var(--green); }
-  .game-card[data-color="blue"] { border-left-color:var(--blue); }
-  .card-top { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
-  .badge { display:inline-flex; align-items:center; justify-content:center; min-width:48px; height:32px; border-radius:999px; background:var(--cream); color:var(--ink-mute); font-size:14px; letter-spacing:.1em; }
-  .status { color:var(--ink-mute); font-size:14px; }
-  .status.is-done { color:var(--green); }
-  .game-card h2 { font-size:24px; margin-bottom:8px; }
-  .game-card p { color:var(--ink-soft); font-size:16px; }
-  @media (max-width: 760px) {
-    .game-grid { grid-template-columns:1fr; }
-  }
+  .game-card[data-color="green"]  { border-left-color:var(--green); }
+  .game-card[data-color="blue"]   { border-left-color:var(--blue); }
+  .game-card.is-stub { opacity:.75; cursor:default; }
+  .game-card.is-stub:hover { transform:none; }
+  .card-top { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:12px; }
+  .card-icon { font-size:28px; }
+  .card-status { font-size:13px; color:var(--ink-mute); }
+  .card-status.is-done { color:var(--green); }
+  .game-card h2 { font-size:17px; margin-bottom:4px; color:var(--ink); }
+  .stub-label { font-size:12px; color:var(--ink-mute); }
+
+  /* Sub-sections in science panel */
+  .sci-section { margin-bottom:40px; }
+  .sci-label { font-size:14px; letter-spacing:.12em; color:var(--ink-mute); margin-bottom:16px; font-weight:700; }
+
+  @media (max-width:760px) { .game-grid { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -48,48 +80,164 @@
     <h1>游戏库 · 十二岁的思辨场</h1>
     <p>挑一个，独立玩，没人监考。</p>
   </header>
-  <div class="summary"><span class="summary-dot"></span><span id="done-summary">已完成 0 / 20 个</span></div>
-  <section class="game-grid" id="game-grid" aria-label="游戏目录"></section>
+  <div class="summary"><span class="summary-dot"></span><span id="done-summary">正在加载…</span></div>
+
+  <!-- Category Tabs -->
+  <nav class="cat-tabs" role="tablist">
+    <button role="tab" class="cat-tab is-active" data-cat="qa">🗣 问答类 <span class="cat-count">20</span></button>
+    <button role="tab" class="cat-tab" data-cat="science">🔬 科学类 <span class="cat-count">20</span></button>
+    <button role="tab" class="cat-tab" data-cat="code">🧩 程序类 <span class="cat-count">3</span></button>
+    <button role="tab" class="cat-tab" data-cat="multi">🌐 多学科 <span class="cat-count">4</span></button>
+  </nav>
+
+  <!-- Q&A Panel -->
+  <section id="panel-qa" class="cat-panel is-active" role="tabpanel">
+    <p class="panel-desc">思辨与人生 · 20 个独立小游戏</p>
+    <div class="booklet-grid" id="qa-grid"></div>
+  </section>
+
+  <!-- Science Panel -->
+  <section id="panel-science" class="cat-panel" role="tabpanel">
+    <p class="panel-desc">物理 · 化学 · 自然规律</p>
+    <div class="sci-section">
+      <div class="sci-label">🧪 化学</div>
+      <div class="game-grid" id="chem-grid"></div>
+    </div>
+    <div class="sci-section">
+      <div class="sci-label">⚡ 物理</div>
+      <div class="game-grid" id="phys-grid"></div>
+    </div>
+  </section>
+
+  <!-- Programming Panel -->
+  <section id="panel-code" class="cat-panel" role="tabpanel">
+    <p class="panel-desc">代码 · 算法 · 逻辑思维</p>
+    <div class="game-grid" id="code-grid"></div>
+  </section>
+
+  <!-- Multi-discipline Panel -->
+  <section id="panel-multi" class="cat-panel" role="tabpanel">
+    <p class="panel-desc">跨学科 · 综合挑战</p>
+    <div class="game-grid" id="multi-grid"></div>
+  </section>
 </main>
 
 <script src="../fo-utils.js"></script>
 <script>
-  var games = [
-    ['g01-direction', '方向 vs 目标', '你追的，是哪一种？', 'coral', '/games/g01-direction.html'],
-    ['g02-compound', '时间的魔法', '复利是什么感觉？', 'yellow', '/games/g02-compound.html'],
-    ['g03-responsibility', '这是谁的事？', '一道关于责任的题', 'green', '/games/g03-responsibility.html'],
-    ['g04-soft-skills', '软技能地图', '看不见的能力，最值钱', 'blue', '/games/g04-soft-skills.html'],
-    ['g05-attention', '注意力卫士', '保护你最贵的资源', 'coral', '/games/g05-attention.html'],
-    ['g06-dilemma', '两难题', '没有标准答案，只有你的答案', 'yellow', '/games/g06-dilemma.html'],
-    ['g07-reading', '阅读侦探', '从一段话里找到黄金', 'green', '/games/g07-reading.html'],
-    ['g08-letter', '未来信件', '写给十年后的你', 'blue', '/games/g08-letter.html'],
-    ['g09-growth', '成长地图', '你在哪里？要去哪里？', 'coral', '/games/g09-growth.html'],
-    ['g10-questions', '提问高手', '好问题比好答案更难', 'yellow', '/games/g10-questions.html'],
-    ['g11-calm', '不慌实验室', '遇到难事，先别慌', 'blue', '/games/g11-calm.html'],
-    ['g12-express', '表达工坊', '把复杂的事说清楚', 'coral', '/games/g12-express.html'],
-    ['g13-learn', '学习解剖室', '你是怎么学东西的？', 'yellow', '/games/g13-learn.html'],
-    ['g14-bias', '思维陷阱', '大脑会骗你', 'green', '/games/g14-bias.html'],
-    ['g15-together', '共学密码', '一起学，比竞争更强', 'blue', '/games/g15-together.html'],
-    ['g16-empathy', '换位思考', '站在别人的角度看', 'coral', '/games/g16-empathy.html'],
-    ['g17-info', '信息鉴别', '不是所有信息都可信', 'yellow', '/games/g17-info.html'],
-    ['g18-longterm', '长期主义', '今天的小牺牲，明天的大收益', 'green', '/games/g18-longterm.html'],
-    ['g19-habit', '习惯实验室', '小习惯如何改变一个人', 'coral', '/games/g19-habit.html'],
-    ['g20-connect', '知识连接', '把学到的东西串起来', 'blue', '/games/g20-connect.html'],
-    ['g21-chemistry', '化学厨房', '点击合成，发现隐藏化合物', 'green', '/games/g21-chemistry.html'],
-    ['g22-physics', '物理弹弓', '角度×力度=完美命中', 'yellow', '/games/g22-physics.html']
-    ];
+  var qaGames = [
+    ['g01-direction','方向 vs 目标','🧭','coral','/games/g01-direction.html'],
+    ['g02-compound','时间的魔法','⏰','yellow','/games/g02-compound.html'],
+    ['g03-responsibility','这是谁的事？','⚖️','green','/games/g03-responsibility.html'],
+    ['g04-soft-skills','软技能地图','🎯','blue','/games/g04-soft-skills.html'],
+    ['g05-attention','注意力卫士','🛡️','coral','/games/g05-attention.html'],
+    ['g06-dilemma','两难题','🔀','yellow','/games/g06-dilemma.html'],
+    ['g07-reading','阅读侦探','🔍','green','/games/g07-reading.html'],
+    ['g08-letter','未来信件','✉️','blue','/games/g08-letter.html'],
+    ['g09-growth','成长地图','🗺️','coral','/games/g09-growth.html'],
+    ['g10-questions','提问高手','❓','yellow','/games/g10-questions.html'],
+    ['g11-calm','不慌实验室','🌊','blue','/games/g11-calm.html'],
+    ['g12-express','表达工坊','💬','coral','/games/g12-express.html'],
+    ['g13-learn','学习解剖室','🔬','yellow','/games/g13-learn.html'],
+    ['g14-bias','思维陷阱','🧠','green','/games/g14-bias.html'],
+    ['g15-together','共学密码','🤝','blue','/games/g15-together.html'],
+    ['g16-empathy','换位思考','💭','coral','/games/g16-empathy.html'],
+    ['g17-info','信息鉴别','📡','yellow','/games/g17-info.html'],
+    ['g18-longterm','长期主义','🌱','green','/games/g18-longterm.html'],
+    ['g19-habit','习惯实验室','🔄','coral','/games/g19-habit.html'],
+    ['g20-connect','知识连接','🔗','blue','/games/g20-connect.html'],
+  ];
+
+  var chemGames = [
+    ['g21-chemistry','化学厨房','⚗️','green','/games/g21-chemistry.html',true],
+    ['g23-chemistry-elements','元素探险','🧪','green','/games/g23-chemistry-elements.html',false],
+    ['g24-chemistry-acids','酸碱侦探','🌡️','green','/games/g24-chemistry-acids.html',false],
+    ['g25-chemistry-bonds','化学键拼图','🔗','green','/games/g25-chemistry-bonds.html',false],
+    ['g26-chemistry-organic','有机物工厂','🌿','green','/games/g26-chemistry-organic.html',false],
+    ['g27-chemistry-solution','溶液实验室','💧','green','/games/g27-chemistry-solution.html',false],
+    ['g28-chemistry-redox','氧化还原','⚡','green','/games/g28-chemistry-redox.html',false],
+    ['g29-chemistry-electro','电化学','🔋','green','/games/g29-chemistry-electro.html',false],
+    ['g30-chemistry-balance','方程式配平','⚖️','green','/games/g30-chemistry-balance.html',false],
+    ['g31-chemistry-burn','燃烧密室','🔥','green','/games/g31-chemistry-burn.html',false],
+  ];
+
+  var physGames = [
+    ['g22-physics','物理弹弓','🎯','blue','/games/g22-physics.html',true],
+    ['g32-physics-circuit','电路实验室','💡','blue','/games/g32-physics-circuit.html',false],
+    ['g33-physics-optics','光路迷宫','🔭','blue','/games/g33-physics-optics.html',false],
+    ['g34-physics-newton','牛顿三定律','🍎','blue','/games/g34-physics-newton.html',false],
+    ['g35-physics-magnet','磁力对决','🧲','blue','/games/g35-physics-magnet.html',false],
+    ['g36-physics-sound','声波探索','🔊','blue','/games/g36-physics-sound.html',false],
+    ['g37-physics-heat','热传导','🌡️','blue','/games/g37-physics-heat.html',false],
+    ['g38-physics-lever','杠杆原理','⚖️','blue','/games/g38-physics-lever.html',false],
+    ['g39-physics-gravity','星球引力','🪐','blue','/games/g39-physics-gravity.html',false],
+    ['g40-physics-wave','波动叠加','〰️','blue','/games/g40-physics-wave.html',false],
+  ];
+
+  var codeGames = [
+    ['g41-blocks','代码积木','🧱','coral','/games/g41-blocks.html',true],
+    ['g42-maze-algo','迷宫算法','🗺️','yellow','/games/g42-maze-algo.html',false],
+    ['g43-pattern-draw','图案绘制','🎨','green','/games/g43-pattern-draw.html',false],
+  ];
+
+  var multiGames = [
+    ['g44-history','历史侦探','🏛️','coral','/games/g44-history-detective.html',false],
+    ['g45-geo','地图寻宝','🗺️','yellow','/games/g45-geo-treasure.html',false],
+    ['g46-words','文字密码','📝','green','/games/g46-words-cipher.html',false],
+    ['g47-math-art','数学画廊','🔢','blue','/games/g47-math-art.html',false],
+  ];
+
   function doneList() {
     try { return JSON.parse(localStorage.getItem('fo_games_done') || '[]'); } catch(e) { return []; }
   }
+
+  function buildQA(done) {
+    return qaGames.map(function(g, i) {
+      var isDone = done.indexOf(g[0]) >= 0;
+      return '<a class="booklet-card" data-color="'+g[3]+'" href="'+g[4]+'">' +
+        '<span class="booklet-num">'+(i+1 < 10 ? '0'+(i+1) : i+1)+'</span>' +
+        '<span class="booklet-icon">'+g[2]+'</span>' +
+        '<span class="booklet-title">'+g[1]+'</span>' +
+        (isDone ? '<span class="booklet-done">✓ 完成</span>' : '<span class="booklet-todo">○ 未开始</span>') +
+        '</a>';
+    }).join('');
+  }
+
+  function buildSciCard(g, done) {
+    var isDone = done.indexOf(g[0]) >= 0;
+    var isLive = g[5];
+    var cls = 'game-card' + (isLive ? '' : ' is-stub');
+    var href = isLive ? ' href="'+g[4]+'"' : '';
+    var tag = isLive ? 'a' : 'div';
+    return '<'+tag+' class="'+cls+'" data-color="'+g[3]+'"'+href+'>' +
+      '<div class="card-top"><span class="card-icon">'+g[2]+'</span>' +
+      (isLive ? '<span class="card-status'+(isDone?' is-done':'')+'">'+( isDone?'✓ 完成':'▶ 开始')+'</span>' :
+                '<span class="card-status">🚧 即将推出</span>') +
+      '</div>' +
+      '<h2>'+g[1]+'</h2>' +
+      '</'+tag+'>';
+  }
+
   (function(){
     var done = doneList();
-    document.getElementById('done-summary').textContent = '已完成 ' + done.length + ' / 20 个';
-    document.getElementById('game-grid').innerHTML = games.map(function(game, idx){
-      var isDone = done.indexOf(game[0]) >= 0;
-      return '<a class="game-card" data-color="' + game[3] + '" href="' + game[4] + '">' +
-        '<div class="card-top"><span class="badge">' + String(idx + 1).padStart(2, '0') + '</span><span class="status ' + (isDone ? 'is-done' : '') + '">' + (isDone ? '✓ done' : '○ not started') + '</span></div>' +
-        '<h2>' + game[1] + '</h2><p>' + game[2] + '</p></a>';
-    }).join('');
+    var qaCount = done.filter(function(id){ return id.startsWith('g0') || id.startsWith('g1') || id.startsWith('g2'); }).length;
+    document.getElementById('done-summary').textContent = '已完成 ' + done.length + ' 个游戏';
+    document.getElementById('qa-grid').innerHTML = buildQA(done);
+    document.getElementById('chem-grid').innerHTML = chemGames.map(function(g){ return buildSciCard(g, done); }).join('');
+    document.getElementById('phys-grid').innerHTML = physGames.map(function(g){ return buildSciCard(g, done); }).join('');
+    document.getElementById('code-grid').innerHTML = codeGames.map(function(g){ return buildSciCard(g, done); }).join('');
+    document.getElementById('multi-grid').innerHTML = multiGames.map(function(g){ return buildSciCard(g, done); }).join('');
+
+    // Tab switching
+    document.querySelectorAll('.cat-tab').forEach(function(tab){
+      tab.addEventListener('click', function(){
+        document.querySelectorAll('.cat-tab').forEach(function(t){ t.classList.remove('is-active'); });
+        document.querySelectorAll('.cat-panel').forEach(function(p){ p.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+        document.getElementById('panel-'+tab.dataset.cat).classList.add('is-active');
+      });
+    });
+
+    // Member button
     var m = window.FO ? FO.getMember() : null;
     var el = document.getElementById('nav-member-btn');
     if (m) {
