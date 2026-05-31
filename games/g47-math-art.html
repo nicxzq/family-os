@@ -14,57 +14,287 @@
   .nav-member-btn svg{border-radius:50%}
   .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px}
   .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px}
-  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px}
-  .game-hero{text-align:center;margin-bottom:36px}
+  .page{max-width:720px;margin:0 auto;padding:0 20px 80px}
+  .game-hero{text-align:center;margin-bottom:32px}
   .game-hero .emoji{font-size:64px;display:block;margin-bottom:16px}
   .game-hero h1{font-size:clamp(28px,5vw,42px);margin-bottom:10px}
   .game-hero .sub{color:var(--ink-soft);font-size:17px;line-height:1.6}
-  .teaser{background:var(--paper);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-card);margin-bottom:24px}
-  .teaser h2{font-size:14px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:16px}
-  .teaser ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
-  .teaser li{display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--ink-soft);line-height:1.6}
-  .teaser li::before{content:"→";color:var(--coral);flex-shrink:0;margin-top:2px}
-  .coming-soon{background:var(--cream-deep);border-radius:var(--radius);padding:20px 24px;text-align:center;font-size:18px;color:var(--ink-mute);margin-bottom:28px;border:2px dashed var(--ink-mute)}
-  .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-  .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
-  .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
-  .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
-  .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
+  .gallery-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+  .gtab{border:2px solid transparent;background:var(--paper);border-radius:999px;padding:9px 16px;font:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft);transition:all .2s}
+  .gtab:hover{border-color:var(--ink-mute)}
+  .gtab.is-active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .exhibit{display:none}
+  .exhibit.is-active{display:block}
+  .canvas-wrap{background:var(--cream-deep);border-radius:var(--radius);padding:16px;margin-bottom:18px;display:flex;justify-content:center;align-items:center}
+  canvas{border-radius:12px;display:block;max-width:100%}
+  .ctrl-row{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+  .ctrl-label{font-size:14px;color:var(--ink-soft);white-space:nowrap}
+  input[type=range]{flex:1;min-width:100px;accent-color:var(--coral)}
+  .ctrl-val{font-size:15px;font-weight:700;color:var(--coral);min-width:42px;text-align:right}
+  .info-card{background:var(--paper);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow-card);margin-bottom:16px}
+  .info-card h2{font-size:18px;margin-bottom:10px;color:var(--ink)}
+  .info-card p{font-size:15px;line-height:1.85;color:var(--ink-soft);margin-bottom:12px}
+  .cross-links{display:flex;flex-wrap:wrap;gap:7px}
+  .cross-tag{font-size:12px;background:var(--cream-deep);border-radius:999px;padding:4px 11px;color:var(--ink-mute)}
+  .reveal-btn{border:0;background:var(--cream-deep);color:var(--ink);border-radius:999px;padding:10px 18px;font:inherit;font-size:14px;cursor:pointer;margin-bottom:14px}
+  .reveal-box{display:none;border-left:4px solid var(--green);background:var(--cream-deep);border-radius:var(--radius);padding:18px 20px;font-size:15px;line-height:1.85;color:var(--ink-soft);margin-bottom:16px}
+  .reveal-box.is-shown{display:block}
+  .visit-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+  .visit-dot{width:10px;height:10px;border-radius:50%;background:var(--cream-deep);transition:background .3s;flex-shrink:0}
+  .visit-dot.seen{background:var(--green)}
+  .visit-hint{font-size:13px;color:var(--ink-mute)}
+  .done-banner{display:none;background:var(--yellow);border-radius:var(--radius);padding:16px 20px;text-align:center;font-size:15px;font-weight:700;color:var(--ink);margin-top:24px}
+  .done-banner.is-shown{display:block}
 </style>
 </head>
 <body>
-<main class="wrap">
+<main class="page">
   <nav class="game-nav">
     <a class="back-link" href="index.html">← 游戏库</a>
     <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
   </nav>
   <header class="game-hero">
-    <span class="emoji">🔢</span>
+    <span class="emoji">🎨</span>
     <h1>数学画廊</h1>
-    <p class="sub">雪花、贝壳、树枝——大自然用数学画画，你也可以。</p>
+    <p class="sub">雪花、贝壳、向日葵——大自然用数学画画。动手调参数，看懂背后的规律。</p>
   </header>
-  <section class="teaser">
-    <h2>这个游戏里，你将会…</h2>
-    <ul>
-      <li>用黄金比例螺旋设计图案</li>
-      <li>生成科赫雪花分形</li>
-      <li>探索斐波那契数列出现在植物中的规律</li>
-    </ul>
-  </section>
-  <div class="coming-soon">🚧 即将推出 · 敬请期待</div>
-  <p class="section-label">知识预习</p>
-  <div class="concepts">
-    <div class="concept-card"><h3>黄金比例</h3><p>约1.618，自然界的美学公式</p></div>
-    <div class="concept-card"><h3>分形</h3><p>自相似的无限细节</p></div>
-    <div class="concept-card"><h3>斐波那契数列</h3><p>1,1,2,3,5,8,13…每项是前两项之和</p></div>
+  <div class="visit-row">
+    <span class="visit-dot" id="vd-fib"></span>
+    <span class="visit-dot" id="vd-koch"></span>
+    <span class="visit-dot" id="vd-sun"></span>
+    <span class="visit-dot" id="vd-rose"></span>
+    <span class="visit-hint">探索全部四件展品可解锁画廊</span>
   </div>
+  <nav class="gallery-tabs">
+    <button class="gtab is-active" data-tab="fib">🌀 斐波那契螺旋</button>
+    <button class="gtab" data-tab="koch">❄️ 科赫雪花</button>
+    <button class="gtab" data-tab="sun">🌻 向日葵种子</button>
+    <button class="gtab" data-tab="rose">🌹 数学玫瑰</button>
+  </nav>
+
+  <!-- Fibonacci -->
+  <div class="exhibit is-active" id="ex-fib">
+    <div class="canvas-wrap"><canvas id="cv-fib" width="440" height="320"></canvas></div>
+    <div class="info-card">
+      <h2>斐波那契螺旋</h2>
+      <p>数列 1, 1, 2, 3, 5, 8, 13, 21… 每项都是前两项之和。把这些数字当边长，依次拼出正方形，在每个正方形里画四分之一圆弧——就出现了与鹦鹉螺贝壳截面几乎一样的螺旋线。</p>
+      <div class="cross-links">
+        <span class="cross-tag">数学：递推数列</span>
+        <span class="cross-tag">生物：贝壳生长曲线</span>
+        <span class="cross-tag">艺术：黄金分割构图</span>
+        <span class="cross-tag">植物：松果螺旋规律</span>
+      </div>
+    </div>
+    <button class="reveal-btn" onclick="toggleReveal('fib')">🔍 更深的秘密</button>
+    <div class="reveal-box" id="rev-fib">相邻两项的比值——13/8=1.625，21/13≈1.615，55/34≈1.618——越来越接近黄金比例 φ≈1.618。φ 是方程 x²=x+1 的正数解，出现在古希腊建筑柱子比例、松果螺旋数（8条和13条，正好是相邻斐波那契数）中。不过，并非所有"发现黄金比例"的说法都严谨——其中有些只是人类的确认偏误，看到想要的就认定它在那里，你能分辨哪些是真的吗？</div>
+  </div>
+
+  <!-- Koch -->
+  <div class="exhibit" id="ex-koch">
+    <div class="ctrl-row">
+      <span class="ctrl-label">迭代次数</span>
+      <input type="range" id="koch-depth" min="0" max="5" value="3" oninput="document.getElementById('koch-val').textContent=this.value;drawKoch()">
+      <span class="ctrl-val" id="koch-val">3</span>
+    </div>
+    <div class="canvas-wrap"><canvas id="cv-koch" width="440" height="400"></canvas></div>
+    <div class="info-card">
+      <h2>科赫雪花</h2>
+      <p>每次把每条边的中间三分之一换成向外突出的等边三角形——重复这个操作。把滑块拉到 0 看起点；推到 5 看终点。注意边数如何爆炸式增长。</p>
+      <div class="cross-links">
+        <span class="cross-tag">数学：无穷级数与极限</span>
+        <span class="cross-tag">物理：海岸线悖论</span>
+        <span class="cross-tag">自然：雪花结晶对称性</span>
+        <span class="cross-tag">计算机：分形图形学</span>
+      </div>
+    </div>
+    <button class="reveal-btn" onclick="toggleReveal('koch')">🔍 更深的秘密</button>
+    <div class="reveal-box" id="rev-koch">科赫雪花是著名"分形"：每次迭代周长乘以 4/3，趋向无穷；但面积每次增加越来越小的量，收敛到有限值。结论：无穷的边界，有限的面积。英国海岸线到底有多长？越精细的尺子量出来越长，原因与此相同——这就是曼德布罗特（分形之父）提出的"海岸线悖论"。维数介于 1 和 2 之间的"分数维"是现代混沌理论的基础。</div>
+  </div>
+
+  <!-- Sunflower -->
+  <div class="exhibit" id="ex-sun">
+    <div class="ctrl-row">
+      <span class="ctrl-label">每颗种子旋转角度</span>
+      <input type="range" id="sun-angle" min="130" max="145" value="137.5" step="0.1" oninput="document.getElementById('sun-val').textContent=this.value+'°';drawSun()">
+      <span class="ctrl-val" id="sun-val">137.5°</span>
+    </div>
+    <div class="canvas-wrap"><canvas id="cv-sun" width="440" height="440"></canvas></div>
+    <div class="info-card">
+      <h2>向日葵种子排列</h2>
+      <p>向日葵花盘里，每颗种子比上一颗旋转约 137.5°（黄金角）。这个角度让种子排列最紧密、不留空隙。把滑块移到 135° 或 140°，看看会出现什么破绽。</p>
+      <div class="cross-links">
+        <span class="cross-tag">生物：植物叶序（互生叶片）</span>
+        <span class="cross-tag">数学：无理数与最优填充</span>
+        <span class="cross-tag">进化：自然选择的优化结果</span>
+      </div>
+    </div>
+    <button class="reveal-btn" onclick="toggleReveal('sun')">🔍 更深的秘密</button>
+    <div class="reveal-box" id="rev-sun">黄金角 ≈ 137.508° = 360° × (1 − 1/φ)。关键在于：φ 是"最难被有理数近似"的无理数。因此以 137.5° 旋转的种子，任意两颗永远不会落在同一射线上，确保最大填充密度。稍微偏离（如 137° 或 138°），种子就出现明显"辐射缝"。向日葵、菊花、松果、凤梨的螺旋数几乎都是相邻斐波那契数对（8与13，13与21……）。</div>
+  </div>
+
+  <!-- Rose -->
+  <div class="exhibit" id="ex-rose">
+    <div class="ctrl-row">
+      <span class="ctrl-label">花瓣参数 n =</span>
+      <input type="range" id="rose-n" min="1" max="8" value="3" step="1" oninput="document.getElementById('rose-val').textContent=this.value;drawRose()">
+      <span class="ctrl-val" id="rose-val">3</span>
+    </div>
+    <div class="canvas-wrap"><canvas id="cv-rose" width="440" height="440"></canvas></div>
+    <div class="info-card">
+      <h2>数学玫瑰曲线</h2>
+      <p>公式只有一行：r = cos(n·θ)。其中 r 是到中心的距离，θ 是角度。n 是奇数时有 n 片花瓣，n 是偶数时有 2n 片——拖动滑块验证这个规律。</p>
+      <div class="cross-links">
+        <span class="cross-tag">数学：极坐标方程</span>
+        <span class="cross-tag">艺术：图案与对称设计</span>
+        <span class="cross-tag">工程：天线辐射图案</span>
+        <span class="cross-tag">物理：旋转波形叠加</span>
+      </div>
+    </div>
+    <button class="reveal-btn" onclick="toggleReveal('rose')">🔍 更深的秘密</button>
+    <div class="reveal-box" id="rev-rose">玫瑰曲线 r = cos(nθ) 用"极坐标"描述——不是"x 向右走多远"，而是"从中心出发，转到角度 θ，走 r 远"。把 cos 换成 sin，图案旋转 90°/n。把 n 换成分数（比如 3/2），会出现需要绕两圈才能画完的更复杂玫瑰。这类曲线是工程中天线方向图、机械凸轮轮廓、芯片光刻图案的数学基础。</div>
+  </div>
+
+  <div class="done-banner" id="done-banner">🎨 恭喜！四件展品全部探索完毕，画廊已解锁。</div>
 </main>
+
 <script src="../fo-utils.js"></script>
 <script>
-  var m = window.FO ? FO.getMember() : null;
-  var el = document.getElementById('nav-member-btn');
-  if(m){ el.innerHTML = FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>'; el.onclick=function(){location.href='../dashboard.html'}; }
-  else { el.innerHTML='<span>登录</span>'; el.onclick=function(){location.href='../login.html'}; }
+var visited={fib:true};
+function markVisited(id){
+  visited[id]=true;
+  ['fib','koch','sun','rose'].forEach(function(k){if(visited[k])document.getElementById('vd-'+k).classList.add('seen');});
+  if(Object.keys(visited).length>=4){
+    document.getElementById('done-banner').classList.add('is-shown');
+    var done=JSON.parse(localStorage.getItem('fo_games_done')||'[]');
+    if(done.indexOf('g47-math-art')<0){done.push('g47-math-art');localStorage.setItem('fo_games_done',JSON.stringify(done));}
+  }
+}
+markVisited('fib');
+
+document.querySelectorAll('.gtab').forEach(function(btn){
+  btn.onclick=function(){
+    var tab=btn.dataset.tab;
+    document.querySelectorAll('.gtab').forEach(function(b){b.classList.remove('is-active');});
+    document.querySelectorAll('.exhibit').forEach(function(e){e.classList.remove('is-active');});
+    btn.classList.add('is-active');
+    document.getElementById('ex-'+tab).classList.add('is-active');
+    markVisited(tab);
+    if(tab==='fib')drawFib();
+    else if(tab==='koch')drawKoch();
+    else if(tab==='sun')drawSun();
+    else if(tab==='rose')drawRose();
+  };
+});
+
+function toggleReveal(id){document.getElementById('rev-'+id).classList.toggle('is-shown');}
+
+var C={coral:'#E56B5A',yellow:'#F4C13E',green:'#6FA86D',blue:'#4B7BA8',coralSoft:'#F4A799',yellowSoft:'#FBE39A',greenSoft:'#B5D4A8',blueSoft:'#A8C2DE',ink:'#2B2419',inkMute:'#8C7C66'};
+
+// ── Fibonacci spiral ──
+function drawFib(){
+  var cv=document.getElementById('cv-fib'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  // layout: 6 squares in 13×8 unit grid
+  var sc=Math.min((W-40)/13,(H-40)/8),ox=(W-13*sc)/2,oy=(H-8*sc)/2;
+  var sqs=[{c:0,r:0,s:8,col:C.blue},{c:8,r:0,s:5,col:C.green},{c:8,r:5,s:3,col:C.yellow},{c:11,r:5,s:2,col:C.coral},{c:11,r:7,s:1,col:C.blueSoft},{c:12,r:7,s:1,col:C.greenSoft}];
+  sqs.forEach(function(sq){
+    var px=ox+sq.c*sc,py=oy+sq.r*sc,ps=sq.s*sc;
+    ctx.fillStyle=sq.col+'30';ctx.strokeStyle=sq.col;ctx.lineWidth=2;
+    ctx.beginPath();ctx.rect(px,py,ps,ps);ctx.fill();ctx.stroke();
+    if(ps>22){ctx.fillStyle=sq.col;ctx.font='bold '+Math.min(ps*.28,28)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(sq.s,px+ps/2,py+ps/2);}
+  });
+  // logarithmic spiral overlay (golden spiral approximation)
+  var phi=(1+Math.sqrt(5))/2,b=Math.log(phi)/(Math.PI/2);
+  // convergence point near center of the two 1×1 squares
+  var conX=ox+12.62*sc,conY=oy+7.75*sc;
+  // outermost point: top-left of 8×8 square
+  var endX=ox,endY=oy;
+  var outerAngle=Math.atan2(endY-conY,endX-conX);
+  var outerDist=Math.sqrt((endX-conX)*(endX-conX)+(endY-conY)*(endY-conY));
+  var thetaRange=3.5*Math.PI;
+  var a=outerDist/Math.exp(b*thetaRange);
+  ctx.beginPath();ctx.strokeStyle=C.ink;ctx.lineWidth=2.5;ctx.lineCap='round';
+  var first=true;
+  for(var t=0;t<=thetaRange;t+=0.02){
+    var r=a*Math.exp(b*t),ang=outerAngle-thetaRange+t;
+    var px2=conX+r*Math.cos(ang),py2=conY+r*Math.sin(ang);
+    if(first){ctx.moveTo(px2,py2);first=false;}else ctx.lineTo(px2,py2);
+  }
+  ctx.stroke();
+}
+
+// ── Koch snowflake ──
+function kochSub(pts){
+  var next=[];
+  for(var i=0;i<pts.length;i++){
+    var p1=pts[i],p2=pts[(i+1)%pts.length];
+    var dx=p2[0]-p1[0],dy=p2[1]-p1[1];
+    var a=[p1[0]+dx/3,p1[1]+dy/3],c=[p1[0]+2*dx/3,p1[1]+2*dy/3];
+    var cos60=0.5,sin60=Math.sqrt(3)/2;
+    var mx=(a[0]+c[0])/2,my=(a[1]+c[1])/2;
+    var rx=a[0]-mx,ry=a[1]-my;
+    var bx=mx+rx*cos60-ry*(-sin60),by=my+rx*(-sin60)+ry*cos60;
+    next.push(p1,a,[bx,by],c);
+  }
+  return next;
+}
+function drawKoch(){
+  var cv=document.getElementById('cv-koch'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  var depth=parseInt(document.getElementById('koch-depth').value);
+  var r=Math.min(W,H)*0.38,cx=W/2,cy=H/2+r*0.1;
+  var pts=[[cx,cy-r],[cx+r*Math.sin(2*Math.PI/3),cy-r*Math.cos(2*Math.PI/3)],[cx+r*Math.sin(4*Math.PI/3),cy-r*Math.cos(4*Math.PI/3)]];
+  for(var d=0;d<depth;d++)pts=kochSub(pts);
+  ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+  for(var i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);
+  ctx.closePath();
+  ctx.fillStyle=C.blueSoft+'88';ctx.strokeStyle=C.blue;ctx.lineWidth=depth>3?1:1.5;
+  ctx.fill();ctx.stroke();
+  ctx.fillStyle=C.inkMute;ctx.font='13px sans-serif';ctx.textAlign='center';
+  ctx.fillText('迭代 '+depth+' 次 · 边数 '+(3*Math.pow(4,depth))+' 条',cx,H-14);
+}
+
+// ── Sunflower phyllotaxis ──
+function drawSun(){
+  var cv=document.getElementById('cv-sun'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  var angleDeg=parseFloat(document.getElementById('sun-angle').value);
+  var angleRad=angleDeg*Math.PI/180,cx=W/2,cy=H/2,N=500;
+  var scR=Math.min(W,H)*0.47/Math.sqrt(N),dotR=scR*0.52;
+  for(var n=1;n<=N;n++){
+    var r=scR*Math.sqrt(n),th=n*angleRad;
+    var x=cx+r*Math.cos(th),y=cy+r*Math.sin(th);
+    var t=n/N;
+    var red=Math.round(75+(229-75)*(1-t)),grn=Math.round(123+(107-123)*(1-t)),blu=Math.round(168+(90-168)*(1-t));
+    ctx.beginPath();ctx.arc(x,y,Math.max(dotR,1.5),0,Math.PI*2);
+    ctx.fillStyle='rgb('+red+','+grn+','+blu+')';ctx.fill();
+  }
+}
+
+// ── Rose curve ──
+function drawRose(){
+  var cv=document.getElementById('cv-rose'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  var n=parseInt(document.getElementById('rose-n').value);
+  var r=Math.min(W,H)*0.42,cx=W/2,cy=H/2;
+  var palette=[C.coral,C.yellow,C.green,C.blue,C.coralSoft,C.yellowSoft,C.greenSoft,C.blueSoft];
+  var col=palette[(n-1)%palette.length];
+  ctx.beginPath();
+  for(var i=0;i<=1200;i++){
+    var theta=(i/1200)*2*Math.PI,rr=r*Math.cos(n*theta);
+    var x=cx+rr*Math.cos(theta),y=cy+rr*Math.sin(theta);
+    if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.fillStyle=col+'55';ctx.strokeStyle=col;ctx.lineWidth=2;ctx.fill();ctx.stroke();
+  var petals=n%2===0?2*n:n;
+  ctx.fillStyle=C.inkMute;ctx.font='14px sans-serif';ctx.textAlign='center';
+  ctx.fillText('r = cos('+n+'θ) · '+petals+'片花瓣',cx,H-14);
+}
+
+drawFib();
+
+(function(){var m=window.FO&&FO.getMember(),el=document.getElementById('nav-member-btn');if(m){el.innerHTML=FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>';el.onclick=function(){location.href='../dashboard.html'};}else{el.innerHTML='<span>登录</span>';el.onclick=function(){location.href='../login.html'};}})();
 </script>
 </body>
 </html>

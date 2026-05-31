@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>地图寻宝 · 游戏</title>
+<title>地图寻宝 · 多学科挑战</title>
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,26 +14,62 @@
   .nav-member-btn svg{border-radius:50%}
   .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px}
   .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px}
-  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px}
+  .page{max-width:720px;margin:0 auto;padding:0 20px 80px}
   .game-hero{text-align:center;margin-bottom:36px}
   .game-hero .emoji{font-size:64px;display:block;margin-bottom:16px}
   .game-hero h1{font-size:clamp(28px,5vw,42px);margin-bottom:10px}
   .game-hero .sub{color:var(--ink-soft);font-size:17px;line-height:1.6}
-  .teaser{background:var(--paper);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-card);margin-bottom:24px}
-  .teaser h2{font-size:14px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:16px}
-  .teaser ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
-  .teaser li{display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--ink-soft);line-height:1.6}
-  .teaser li::before{content:"→";color:var(--coral);flex-shrink:0;margin-top:2px}
-  .coming-soon{background:var(--cream-deep);border-radius:var(--radius);padding:20px 24px;text-align:center;font-size:18px;color:var(--ink-mute);margin-bottom:28px;border:2px dashed var(--ink-mute)}
-  .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-  .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
-  .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
-  .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
-  .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
+  .trail{display:flex;align-items:center;justify-content:center;margin-bottom:36px;padding:0 8px}
+  .trail-step{display:flex;flex-direction:column;align-items:center}
+  .trail-dot{width:38px;height:38px;border-radius:50%;background:var(--cream-deep);display:flex;align-items:center;justify-content:center;font-size:18px;border:3px solid transparent;transition:all .3s}
+  .trail-dot.is-active{background:var(--paper);border-color:var(--coral);box-shadow:0 0 0 4px var(--coral-soft)}
+  .trail-dot.is-done{background:var(--yellow);border-color:var(--yellow)}
+  .trail-line{flex:1;height:3px;background:var(--cream-deep);min-width:16px;max-width:60px;transition:background .4s}
+  .trail-line.is-done{background:var(--yellow)}
+  .clue-card{display:none;background:var(--paper);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:28px;margin-bottom:20px}
+  .clue-card.is-active{display:block}
+  .clue-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px}
+  .clue-tags{display:flex;gap:6px;flex-wrap:wrap}
+  .tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px}
+  .tag-geo{background:var(--blue-soft);color:var(--blue)}
+  .tag-math{background:var(--coral-soft);color:var(--coral)}
+  .tag-history{background:var(--yellow-soft);color:var(--ink-soft)}
+  .tag-science{background:var(--green-soft);color:var(--green)}
+  .tag-culture{background:var(--cream-deep);color:var(--ink-mute)}
+  .clue-num{font-size:12px;color:var(--ink-mute);white-space:nowrap;padding-top:4px}
+  .clue-story{background:var(--cream);border-radius:var(--radius);padding:16px 18px;margin-bottom:18px;font-size:15px;line-height:1.85;color:var(--ink-soft)}
+  .clue-q{font-size:20px;font-weight:700;margin-bottom:18px;line-height:1.5;color:var(--ink)}
+  .options{display:grid;gap:10px;margin-bottom:16px}
+  .option{border:2px solid transparent;background:var(--cream);border-radius:14px;padding:14px 16px;font:inherit;font-size:16px;text-align:left;cursor:pointer;color:var(--ink);transition:all .15s;line-height:1.4}
+  .option:hover{border-color:var(--blue);background:var(--blue-soft)}
+  .option.is-correct{border-color:var(--green);background:var(--green-soft);pointer-events:none}
+  .option.is-wrong{border-color:var(--coral);background:var(--coral-soft);pointer-events:none;opacity:.75}
+  .option.is-disabled{pointer-events:none;opacity:.45}
+  .hint-btn{border:0;background:none;font:inherit;font-size:14px;color:var(--ink-mute);cursor:pointer;padding:2px 0;text-decoration:underline dotted;margin-bottom:10px}
+  .hint-box{display:none;background:var(--yellow-soft);border-radius:var(--radius);padding:14px 16px;font-size:14px;line-height:1.7;margin-bottom:14px;color:var(--ink-soft)}
+  .hint-box.is-shown{display:block}
+  .explanation{display:none;border-left:4px solid var(--green);background:var(--cream-deep);border-radius:var(--radius);padding:18px 20px;margin-bottom:20px;line-height:1.85;font-size:15px;color:var(--ink-soft)}
+  .explanation.is-shown{display:block}
+  .exp-title{font-weight:700;color:var(--ink);margin-bottom:8px;font-size:15px}
+  .exp-links{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+  .exp-link{font-size:12px;background:var(--paper);border-radius:999px;padding:4px 11px;color:var(--ink-mute)}
+  .next-btn{display:none;border:0;background:var(--ink);color:var(--paper);border-radius:999px;padding:12px 24px;font:inherit;font-size:16px;font-weight:700;cursor:pointer}
+  .next-btn.is-shown{display:inline-flex}
+  .result-screen{display:none;text-align:center;padding:40px 20px}
+  .result-screen.is-active{display:block}
+  .treasure-icon{font-size:80px;display:block;margin-bottom:20px;animation:bob .9s ease-in-out infinite alternate}
+  @keyframes bob{from{transform:translateY(0)}to{transform:translateY(-14px)}}
+  .result-screen h2{font-size:32px;margin-bottom:12px}
+  .result-screen p{color:var(--ink-soft);font-size:17px;line-height:1.7;max-width:480px;margin:0 auto 28px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:360px;margin:0 auto 28px}
+  .stat{background:var(--paper);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-card)}
+  .stat-n{font-size:28px;font-weight:700;color:var(--coral)}
+  .stat-l{font-size:13px;color:var(--ink-mute);margin-top:2px}
+  .replay-btn{border:0;background:var(--cream-deep);color:var(--ink);border-radius:999px;padding:12px 26px;font:inherit;font-size:16px;cursor:pointer}
 </style>
 </head>
 <body>
-<main class="wrap">
+<main class="page">
   <nav class="game-nav">
     <a class="back-link" href="index.html">← 游戏库</a>
     <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
@@ -41,30 +77,38 @@
   <header class="game-hero">
     <span class="emoji">🗺️</span>
     <h1>地图寻宝</h1>
-    <p class="sub">经度和纬度是地球的坐标系，掌握它你就能找到世界上任何一个地方。</p>
+    <p class="sub">六条线索，六门学科——解开谜题，找到宝藏。</p>
   </header>
-  <section class="teaser">
-    <h2>这个游戏里，你将会…</h2>
-    <ul>
-      <li>用经纬度坐标锁定城市</li>
-      <li>计算两点之间的球面距离</li>
-      <li>根据气候线索猜测地理位置</li>
-    </ul>
-  </section>
-  <div class="coming-soon">🚧 即将推出 · 敬请期待</div>
-  <p class="section-label">知识预习</p>
-  <div class="concepts">
-    <div class="concept-card"><h3>经纬度</h3><p>经度0°在英国格林尼治，纬度0°在赤道</p></div>
-    <div class="concept-card"><h3>比例尺</h3><p>地图上1cm代表实地多远</p></div>
-    <div class="concept-card"><h3>时区</h3><p>经度每15°一个时区</p></div>
+  <div class="trail" id="trail"></div>
+  <div id="clues"></div>
+  <div class="result-screen" id="result">
+    <span class="treasure-icon">🏆</span>
+    <h2>宝藏到手了！</h2>
+    <p>你跨越地理、数学、历史、科学、生物和文化，用知识解开了六条线索。真正的宝藏，是能把不同学科连起来看世界的眼光。</p>
+    <div class="stats" id="stats"></div>
+    <button class="replay-btn" onclick="startGame()">再探一次 →</button>
   </div>
 </main>
 <script src="../fo-utils.js"></script>
 <script>
-  var m = window.FO ? FO.getMember() : null;
-  var el = document.getElementById('nav-member-btn');
-  if(m){ el.innerHTML = FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>'; el.onclick=function(){location.href='../dashboard.html'}; }
-  else { el.innerHTML='<span>登录</span>'; el.onclick=function(){location.href='../login.html'}; }
+var CLUES=[
+  {tags:[['地理','tag-geo'],['数学','tag-math']],story:'上海的经度是东经 121.4°。地球被 360 条经线均分，每隔 15° 为一个时区，中国整体使用"东八区"。',q:'用计算验证：东经 121.4° 对应哪个时区（东几区）？',options:['东六区（+6小时）','东七区（+7小时）','东八区（+8小时）','东九区（+9小时）'],correct:2,hint:'把经度差除以每时区 15°：121.4 ÷ 15 ≈ ？，四舍五入到整数。',exp:'121.4 ÷ 15 ≈ 8.09 → 东八区 ✓。同一时刻，伦敦是正午 12:00，北京已是晚上 20:00。时区系统让全球 180 多个国家用统一的"时间语言"协调。',links:['数学：除法与近似','地理：时区划分原理','生活：跨国视频会议时差']},
+  {tags:[['地理','tag-geo'],['历史','tag-history']],story:'明朝郑和（1371—1433）率领当时世界最大的船队，七次出海，从中国东南沿海出发，经马六甲海峡，抵达非洲东岸。那时，哥伦布尚未出生。',q:'郑和下西洋的航线主要穿越哪片大洋？',options:['太平洋','印度洋','大西洋','北冰洋'],correct:1,hint:'看地图：东非、阿拉伯半岛、印度西海岸——这些地方围绕着哪片大洋？',exp:'郑和船队横跨印度洋，经东南亚、斯里兰卡、印度、阿拉伯半岛，最远到达今肯尼亚沿岸。郑和最大宝船长约 130 米，而同时代欧洲最大船只才 25 米——这是亚洲航海力量的历史顶峰。',links:['历史：明代大航海','地理：印度洋轮廓','文化：海上丝绸之路']},
+  {tags:[['地理','tag-geo'],['科学','tag-science']],story:'新加坡、厄瓜多尔、肯尼亚都在赤道附近，全年气温 25—32℃，几乎没有春夏秋冬之分。',q:'赤道地区全年炎热的根本原因是什么？',options:['赤道离太阳更近','阳光直射，单位面积热量集中','赤道上方没有云遮挡','地球自转快产生热量'],correct:1,hint:'用手电筒垂直照和斜着照同一张纸——哪种情况光斑更小、更亮、更集中？',exp:'赤道附近太阳近乎直射头顶，光线与地面夹角接近 90°，同样的光能集中在最小面积，所以热。越靠近两极光线越倾斜，热量被"摊"到更大面积，温度就低。这个原理也是太阳能板安装角度计算的核心。',links:['物理：入射角与能量密度','地理：气候带划分','天文：地球黄赤交角']},
+  {tags:[['地理','tag-geo'],['生物','tag-science']],story:'1835 年，达尔文乘"小猎犬号"到访太平洋东部的一组孤立火山岛。他发现不同岛屿的雀鸟喙形各异，从而发展出自然选择理论。',q:'加拉帕戈斯群岛今天属于哪个国家？',options:['秘鲁','哥伦比亚','厄瓜多尔','巴西'],correct:2,hint:'这个国家的西班牙语名称"Ecuador"就是"赤道"的意思，因为赤道穿过它的国土。',exp:'厄瓜多尔（Ecuador = 赤道）正好位于赤道上。加拉帕戈斯群岛距大陆约 900 公里，长期隔绝使物种独立演化，达尔文在这里的观察成为《物种起源》的关键证据。',links:['生物：自然选择理论','地理：孤立岛屿与物种分化','科学史：小猎犬号之旅']},
+  {tags:[['地理','tag-geo'],['数学','tag-math']],story:'北京位于北纬约 40°，赤道是 0°，北极点是 90°。从赤道到北极的距离约等于地球周长（约 40000 公里）的四分之一。',q:'用比例估算：北京到赤道大约多远？',options:['约 2200 公里','约 4400 公里','约 8000 公里','约 11000 公里'],correct:1,hint:'北京纬度 40° 占"赤道到北极 90°"的比例是 40/90。赤道到北极 ≈ 10000 公里。',exp:'40 ÷ 90 × 10000 ≈ 4444 公里，选 4400 公里 ✓。这种用纬度比例估算真实距离的方法，是古代水手没有 GPS 时跨越大洋的基本数学。',links:['数学：比例与估算','地理：纬度与球面距离','导航：古代天文定位']},
+  {tags:[['地理','tag-geo'],['文化','tag-culture']],story:'俄罗斯是世界面积最大的国家，领土从东欧延伸到太平洋沿岸，东西跨度约 9000 公里。同一时刻，莫斯科的人吃早饭，远东的符拉迪沃斯托克已接近深夜。',q:'俄罗斯一共横跨多少个时区？',options:['7 个','9 个','11 个','15 个'],correct:2,hint:'俄罗斯东西经度差约 170°，每 15° 一个时区：170 ÷ 15 ≈ ?',exp:'俄罗斯横跨 11 个时区，东西两端相差 10 个小时——同一个国家，早饭和深夜同时存在。这造成铁路时刻表、广播新闻都要专门处理不同时区的问题。',links:['地理：世界时区分布','数学：除法估算','文化：跨时区国家的协调挑战']}
+];
+var state;
+function buildTrail(){var h='';for(var i=0;i<CLUES.length;i++){if(i>0)h+='<div class="trail-line" id="tl-'+i+'"></div>';h+='<div class="trail-step"><div class="trail-dot" id="td-'+i+'">'+(i===CLUES.length-1?'🏆':'📍')+'</div></div>';}document.getElementById('trail').innerHTML=h;}
+function buildClues(){var h='';CLUES.forEach(function(c,i){var tags=c.tags.map(function(t){return'<span class="tag '+t[1]+'">'+t[0]+'</span>';}).join('');var opts=c.options.map(function(o,j){return'<button class="option" data-idx="'+j+'">'+o+'</button>';}).join('');var links=c.links.map(function(l){return'<span class="exp-link">🔗 '+l+'</span>';}).join('');h+='<div class="clue-card" id="cc-'+i+'"><div class="clue-header"><div class="clue-tags">'+tags+'</div><span class="clue-num">线索 '+(i+1)+' / '+CLUES.length+'</span></div><div class="clue-story">'+c.story+'</div><div class="clue-q">'+c.q+'</div><div class="options" id="opts-'+i+'">'+opts+'</div><button class="hint-btn" onclick="showHint('+i+')">💡 需要提示</button><div class="hint-box" id="hb-'+i+'">'+c.hint+'</div><div class="explanation" id="ex-'+i+'"><div class="exp-title">✅ 解说</div>'+c.exp+'<div class="exp-links">'+links+'</div></div><button class="next-btn" id="nb-'+i+'" onclick="advance('+i+')">'+(i<CLUES.length-1?'下一条线索 →':'揭开宝藏 🏆')+'</button></div>';});document.getElementById('clues').innerHTML=h;CLUES.forEach(function(c,i){document.getElementById('opts-'+i).querySelectorAll('.option').forEach(function(btn){btn.onclick=function(){answer(i,+btn.dataset.idx);};});});}
+function showHint(i){document.getElementById('hb-'+i).classList.add('is-shown');state.hints++;}
+function answer(i,idx){var c=CLUES[i];document.getElementById('opts-'+i).querySelectorAll('.option').forEach(function(btn,j){if(j===c.correct)btn.classList.add('is-correct');else if(j===idx)btn.classList.add('is-wrong');else btn.classList.add('is-disabled');});if(idx!==c.correct)state.wrong++;document.getElementById('ex-'+i).classList.add('is-shown');document.getElementById('nb-'+i).classList.add('is-shown');}
+function advance(i){document.getElementById('cc-'+i).classList.remove('is-active');document.getElementById('td-'+i).className='trail-dot is-done';if(i>0)document.getElementById('tl-'+i).classList.add('is-done');var next=i+1;if(next>=CLUES.length){showResult();return;}if(next>0)document.getElementById('tl-'+next).classList.add('is-done');document.getElementById('td-'+next).className='trail-dot is-active';document.getElementById('cc-'+next).classList.add('is-active');state.current=next;scrollTo({top:0,behavior:'smooth'});}
+function showResult(){document.getElementById('result').classList.add('is-active');var correct=CLUES.length-state.wrong;document.getElementById('stats').innerHTML='<div class="stat"><div class="stat-n">'+correct+'</div><div class="stat-l">答对线索</div></div><div class="stat"><div class="stat-n">'+state.wrong+'</div><div class="stat-l">答错次数</div></div><div class="stat"><div class="stat-n">'+state.hints+'</div><div class="stat-l">用了提示</div></div>';var done=JSON.parse(localStorage.getItem('fo_games_done')||'[]');if(done.indexOf('g45-geo')<0){done.push('g45-geo');localStorage.setItem('fo_games_done',JSON.stringify(done));}scrollTo({top:0,behavior:'smooth'});}
+function startGame(){state={current:0,wrong:0,hints:0};document.getElementById('result').classList.remove('is-active');buildTrail();buildClues();document.getElementById('td-0').className='trail-dot is-active';document.getElementById('cc-0').classList.add('is-active');}
+startGame();
+(function(){var m=window.FO&&FO.getMember(),el=document.getElementById('nav-member-btn');if(m){el.innerHTML=FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>';el.onclick=function(){location.href='../dashboard.html'};}else{el.innerHTML='<span>登录</span>';el.onclick=function(){location.href='../login.html'};}})();
 </script>
 </body>
 </html>
