@@ -54,6 +54,14 @@ All shared tokens and components live in `styles.css`. Each page links it with `
 
 **Layout conventions:** `.wrap` (max 1080px) / `.wrap-narrow` (max 720px); cards use `.idea`, `.person`, `.book` with `--shadow-card` and `--radius`/`--radius-lg`. Color accents on cards use `data-color="coral|yellow|green|blue"`.
 
+**UI tokenization rules:**
+- Do not use hardcoded visual values in HTML, JSX, or JavaScript. This includes spacing, radii, colors, font sizes, shadows, and fixed UI dimensions.
+- Move visual declarations out of inline `style` attributes and into classes.
+- Reuse tokens from `styles.css` first. Use spacing tokens for values such as `8px`, context-appropriate spacing or radius tokens for small values such as `6px`, and `--radius-full` for pill radii such as `999px` or `9999px`.
+- If the token catalog does not contain an appropriate value, add a clearly named shared or semantic token to `styles.css` instead of retaining a literal.
+- Keep JavaScript focused on behavior. When JavaScript must read a visual value, resolve it from a CSS custom property.
+- Before finishing UI work, re-run the `ui-tokenize` check and ensure it reports no hardcoded UI values in the changed files.
+
 ### Content Source
 
 All content is grounded in Li Xiaolai (李笑来) materials in `uploads/`. The six core principles are:

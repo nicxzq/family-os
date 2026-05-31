@@ -10,68 +10,75 @@
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles.css">
 <style>
-  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
-  .nav-member-btn svg{border-radius:50%}
-  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px}
-  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px}
-  .page{max-width:720px;margin:0 auto;padding:0 20px 80px}
-  .game-hero{text-align:center;margin-bottom:28px}
-  .game-hero .emoji{font-size:56px;display:block;margin-bottom:12px}
-  .game-hero h1{font-size:clamp(26px,5vw,40px);margin-bottom:8px}
-  .game-hero .sub{color:var(--ink-soft);font-size:16px;line-height:1.6}
-  .visit-row{display:flex;align-items:center;gap:10px;margin-bottom:28px;flex-wrap:wrap}
-  .visit-dot{width:10px;height:10px;border-radius:50%;background:var(--cream-deep);transition:background .3s;flex-shrink:0}
+  .nav-member-btn{display:inline-flex;align-items:center;gap:var(--space-md);background:var(--paper);border:0;border-radius:var(--radius-full);padding:var(--space-sm) var(--space-2xl) var(--space-sm) var(--space-sm);font-family:inherit;font-size:var(--font-size-ui);cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
+  .nav-member-btn svg{border-radius:var(--radius-circle)}
+  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:var(--space-2xl);background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:var(--space-lg) var(--space-2xl);margin-bottom:var(--space-9xl)}
+  .back-link{text-decoration:none;color:var(--ink-mute);font-size:var(--font-size-body-sm)}
+  .page{max-width:var(--size-content-narrow);margin:0 auto;padding:0 var(--space-5xl) var(--size-chart)}
+  .game-hero{text-align:center;margin-bottom:var(--space-8xl)}
+  .game-hero .emoji{font-size:var(--font-size-emoji);display:block;margin-bottom:var(--space-xl)}
+  .game-hero h1{font-size:clamp(var(--font-size-hero-sm),var(--font-size-hero-fluid),var(--font-size-hero));margin-bottom:var(--space-md)}
+  .game-hero .sub{color:var(--ink-soft);font-size:var(--font-size-body);line-height:1.6}
+  .visit-row{display:flex;align-items:center;gap:var(--space-lg);margin-bottom:var(--space-8xl);flex-wrap:wrap}
+  .visit-dot{width:var(--space-lg);height:var(--space-lg);border-radius:var(--radius-circle);background:var(--cream-deep);transition:background .3s;flex-shrink:0}
   .visit-dot.done{background:var(--green)}
-  .visit-hint{font-size:13px;color:var(--ink-mute)}
-  .ctabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
-  .ctab{border:2px solid transparent;background:var(--paper);border-radius:999px;padding:9px 18px;font:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft);transition:all .2s;display:flex;align-items:center;gap:6px}
+  .visit-hint{font-size:var(--font-size-note);color:var(--ink-mute)}
+  .ctabs{display:flex;gap:var(--space-md);flex-wrap:wrap;margin-bottom:var(--space-7xl)}
+  .ctab{border:var(--size-border) solid transparent;background:var(--paper);border-radius:var(--radius-full);padding:var(--space-tab-y) var(--space-4xl);font:inherit;font-size:var(--font-size-ui);cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft);transition:all .2s;display:flex;align-items:center;gap:var(--space-sm)}
   .ctab:hover{border-color:var(--ink-mute)}
   .ctab.is-active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  .ctab .badge{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.4}
+  .ctab .badge{width:var(--space-md);height:var(--space-md);border-radius:var(--radius-circle);background:currentColor;opacity:.4}
   .ctab.solved .badge{opacity:1;background:var(--green)}
-  .ctab.is-active.solved .badge{background:#7fffab}
+  .ctab.is-active.solved .badge{background:var(--green-soft)}
   .panel{display:none}
   .panel.is-active{display:block}
-  .panel-head{background:var(--paper);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow-card);margin-bottom:20px}
-  .panel-head h2{font-size:17px;color:var(--ink);margin-bottom:6px}
-  .panel-head p{font-size:14px;color:var(--ink-mute);line-height:1.6}
-  .cipher-box{background:var(--cream-deep);border-radius:var(--radius);padding:18px 20px;margin-bottom:16px;font-family:monospace;font-size:18px;letter-spacing:.12em;color:var(--ink);text-align:center;line-height:2}
-  .cipher-label{font-size:12px;color:var(--ink-mute);margin-bottom:4px;letter-spacing:.1em}
-  .decoded-box{background:var(--paper);border-radius:var(--radius);padding:18px 20px;margin-bottom:16px;font-family:monospace;font-size:18px;letter-spacing:.12em;text-align:center;line-height:2;box-shadow:var(--shadow-card);min-height:62px;transition:color .2s}
+  .panel-head{background:var(--paper);border-radius:var(--radius);padding:var(--space-5xl) var(--space-6xl);box-shadow:var(--shadow-card);margin-bottom:var(--space-5xl)}
+  .panel-head h2{font-size:var(--font-size-body-lg);color:var(--ink);margin-bottom:var(--space-sm)}
+  .panel-head p{font-size:var(--font-size-ui);color:var(--ink-mute);line-height:1.6}
+  .cipher-box{background:var(--cream-deep);border-radius:var(--radius);padding:var(--space-4xl) var(--space-5xl);margin-bottom:var(--space-3xl);font-family:monospace;font-size:var(--font-size-title-sm);letter-spacing:.12em;color:var(--ink);text-align:center;line-height:2}
+  .cipher-label{font-size:var(--font-size-caption);color:var(--ink-mute);margin-bottom:var(--space-xs);letter-spacing:.1em}
+  .decoded-box{background:var(--paper);border-radius:var(--radius);padding:var(--space-4xl) var(--space-5xl);margin-bottom:var(--space-3xl);font-family:monospace;font-size:var(--font-size-title-sm);letter-spacing:.12em;text-align:center;line-height:2;box-shadow:var(--shadow-card);min-height:var(--size-decoded-box-min);transition:color .2s}
   .decoded-box.correct{color:var(--green);font-weight:700}
-  .ctrl-row{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap}
-  .ctrl-label{font-size:14px;color:var(--ink-soft);white-space:nowrap}
-  input[type=range]{flex:1;min-width:100px;accent-color:var(--coral)}
-  .ctrl-val{font-size:16px;font-weight:700;color:var(--coral);min-width:36px;text-align:right}
-  .confirm-btn{border:0;background:var(--green);color:var(--paper);border-radius:999px;padding:12px 28px;font:inherit;font-size:15px;cursor:pointer;transition:opacity .2s}
+  .ctrl-row{display:flex;align-items:center;gap:var(--space-2xl);margin-bottom:var(--space-3xl);flex-wrap:wrap}
+  .ctrl-label{font-size:var(--font-size-ui);color:var(--ink-soft);white-space:nowrap}
+  input[type=range]{flex:1;min-width:var(--size-control-min);accent-color:var(--coral)}
+  .ctrl-val{font-size:var(--font-size-body);font-weight:700;color:var(--coral);min-width:var(--size-control-value);text-align:right}
+  .confirm-btn{border:0;background:var(--green);color:var(--paper);border-radius:var(--radius-full);padding:var(--space-xl) var(--space-8xl);font:inherit;font-size:var(--font-size-body-sm);cursor:pointer;transition:opacity .2s}
   .confirm-btn:disabled{opacity:.35;cursor:default}
-  .freq-chart{display:flex;align-items:flex-end;gap:3px;height:80px;margin-bottom:12px;background:var(--cream-deep);border-radius:var(--radius);padding:10px 12px}
-  .freq-bar{flex:1;background:var(--blue-soft);border-radius:4px 4px 0 0;transition:height .3s;position:relative;min-width:6px}
-  .freq-bar-label{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--ink-mute);font-family:monospace}
-  .quiz-q{background:var(--paper);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow-card);margin-bottom:14px}
-  .quiz-q .q-text{font-size:15px;color:var(--ink);line-height:1.7;margin-bottom:12px}
-  .quiz-opts{display:flex;gap:8px;flex-wrap:wrap}
-  .quiz-opt{border:2px solid var(--cream-deep);background:var(--cream-deep);border-radius:999px;padding:8px 18px;font:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);transition:all .2s}
+  .freq-chart{display:flex;align-items:flex-end;gap:var(--space-chart-gap);height:var(--size-chart);margin-bottom:var(--space-xl);background:var(--cream-deep);border-radius:var(--radius);padding:var(--space-lg) var(--space-xl)}
+  .freq-bar{flex:1;height:calc(var(--freq-bar-units) * var(--space-sm));background:var(--blue-soft);border-radius:var(--radius-xs) var(--radius-xs) 0 0;transition:height .3s;position:relative;min-width:var(--space-sm)}
+  .freq-bar-label{position:absolute;bottom:calc(-1 * var(--space-4xl));left:50%;transform:translateX(-50%);font-size:var(--font-size-xs);color:var(--ink-mute);font-family:monospace}
+  .quiz-q{background:var(--paper);border-radius:var(--radius);padding:var(--space-3xl) var(--space-4xl);box-shadow:var(--shadow-card);margin-bottom:var(--space-2xl)}
+  .quiz-q .q-text{font-size:var(--font-size-body-sm);color:var(--ink);line-height:1.7;margin-bottom:var(--space-xl)}
+  .quiz-opts{display:flex;gap:var(--space-md);flex-wrap:wrap}
+  .quiz-opt{border:var(--size-border) solid var(--cream-deep);background:var(--cream-deep);border-radius:var(--radius-full);padding:var(--space-md) var(--space-4xl);font:inherit;font-size:var(--font-size-ui);cursor:pointer;color:var(--ink-soft);transition:all .2s}
   .quiz-opt:hover{border-color:var(--ink-mute)}
   .quiz-opt.correct{background:var(--green);border-color:var(--green);color:var(--paper)}
   .quiz-opt.wrong{background:var(--coral);border-color:var(--coral);color:var(--paper)}
   .quiz-opt.dim{opacity:.4}
-  .quiz-explain{display:none;margin-top:10px;font-size:13px;color:var(--ink-soft);line-height:1.7;padding:10px 12px;background:var(--cream-deep);border-radius:10px}
+  .quiz-explain{display:none;margin-top:var(--space-lg);font-size:var(--font-size-note);color:var(--ink-soft);line-height:1.7;padding:var(--space-lg) var(--space-xl);background:var(--cream-deep);border-radius:var(--radius-md)}
   .quiz-explain.show{display:block}
-  .morse-q{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card);margin-bottom:14px}
-  .morse-code{font-family:monospace;font-size:20px;letter-spacing:.2em;color:var(--blue);margin-bottom:12px;text-align:center}
-  .morse-ref{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-  .morse-letter{font-size:11px;background:var(--cream-deep);border-radius:6px;padding:4px 8px;font-family:monospace;color:var(--ink-mute)}
-  .morse-input{width:100%;box-sizing:border-box;border:2px solid var(--cream-deep);border-radius:12px;padding:10px 14px;font:inherit;font-size:16px;font-family:monospace;letter-spacing:.12em;color:var(--ink);background:var(--cream-deep);outline:none;text-transform:uppercase;transition:border-color .2s}
+  .section-note{font-size:var(--font-size-ui);color:var(--ink-soft);margin-bottom:var(--space-lg)}
+  .section-scroll{overflow-x:auto}
+  .section-spacer{height:var(--space-6xl)}
+  .cipher-note{font-size:var(--font-size-note);color:var(--ink-mute);margin-bottom:var(--space-3xl)}
+  .morse-label{font-size:var(--font-size-note);color:var(--ink-mute);margin-bottom:var(--space-md)}
+  .morse-spacer{margin-bottom:var(--space-5xl)}
+  .morse-description{font-size:var(--font-size-note);color:var(--ink-mute);margin-bottom:var(--space-lg)}
+  .morse-q{background:var(--paper);border-radius:var(--radius);padding:var(--space-4xl) var(--space-5xl);box-shadow:var(--shadow-card);margin-bottom:var(--space-2xl)}
+  .morse-code{font-family:monospace;font-size:var(--font-size-title);letter-spacing:.2em;color:var(--blue);margin-bottom:var(--space-xl);text-align:center}
+  .morse-ref{display:flex;flex-wrap:wrap;gap:var(--space-sm);margin-bottom:var(--space-xl)}
+  .morse-letter{font-size:var(--font-size-sm);background:var(--cream-deep);border-radius:var(--radius-sm);padding:var(--space-xs) var(--space-md);font-family:monospace;color:var(--ink-mute)}
+  .morse-input{width:100%;box-sizing:border-box;border:var(--size-border) solid var(--cream-deep);border-radius:var(--radius-card-inner);padding:var(--space-lg) var(--space-2xl);font:inherit;font-size:var(--font-size-body);font-family:monospace;letter-spacing:.12em;color:var(--ink);background:var(--cream-deep);outline:none;text-transform:uppercase;transition:border-color .2s}
   .morse-input:focus{border-color:var(--blue)}
   .morse-input.correct{border-color:var(--green);background:var(--green-soft)}
   .morse-input.wrong{border-color:var(--coral)}
-  .morse-check-btn{margin-top:8px;border:0;background:var(--ink);color:var(--paper);border-radius:999px;padding:10px 22px;font:inherit;font-size:14px;cursor:pointer}
-  .morse-hint{font-size:13px;color:var(--ink-mute);margin-top:8px;line-height:1.6;display:none}
+  .morse-check-btn{margin-top:var(--space-md);border:0;background:var(--ink);color:var(--paper);border-radius:var(--radius-full);padding:var(--space-lg) var(--space-6xl);font:inherit;font-size:var(--font-size-ui);cursor:pointer}
+  .morse-hint{font-size:var(--font-size-note);color:var(--ink-mute);margin-top:var(--space-md);line-height:1.6;display:none}
   .morse-hint.show{display:block}
-  .case-done{display:none;padding:14px 18px;background:var(--green);color:var(--paper);border-radius:var(--radius);font-size:15px;margin-bottom:14px}
+  .case-done{display:none;padding:var(--space-2xl) var(--space-4xl);background:var(--green);color:var(--paper);border-radius:var(--radius);font-size:var(--font-size-body-sm);margin-bottom:var(--space-2xl)}
   .case-done.show{display:block}
-  .done-banner{display:none;background:var(--yellow);border-radius:var(--radius);padding:18px 22px;text-align:center;font-size:16px;font-weight:700;color:var(--ink);margin-top:24px}
+  .done-banner{display:none;background:var(--yellow);border-radius:var(--radius);padding:var(--space-4xl) var(--space-6xl);text-align:center;font-size:var(--font-size-body);font-weight:700;color:var(--ink);margin-top:var(--space-7xl)}
   .done-banner.show{display:block}
 </style>
 </head>
@@ -121,10 +128,10 @@
       <h2>&#128202; 频率分析</h2>
       <p>英语中字母出现的频率有规律：E 最多，其次是 T、A、O。利用这个规律，即使不知道密钥，也能找到突破口！</p>
     </div>
-    <p style="font-size:14px;color:var(--ink-soft);margin-bottom:10px">密文各字母出现频率（从高到低）：</p>
-    <div style="overflow-x:auto"><div class="freq-chart" id="freq-chart"></div></div>
-    <div style="height:22px"></div>
-    <p style="font-size:13px;color:var(--ink-mute);margin-bottom:16px">密文：WLPH LV BRXU IULHQG</p>
+    <p class="section-note">密文各字母出现频率（从高到低）：</p>
+    <div class="section-scroll"><div class="freq-chart" id="freq-chart"></div></div>
+    <div class="section-spacer"></div>
+    <p class="cipher-note">密文：WLPH LV BRXU IULHQG</p>
     <div class="quiz-q" id="fq-0">
       <div class="q-text">密文中 <strong>LV</strong> 是一个两字母单词。英语最常见的两字母单词是 <strong>IS</strong>。若 LV=IS，则 L(第12位) - I(第9位) = 位移量是？</div>
       <div class="quiz-opts">
@@ -133,7 +140,7 @@
         <button class="quiz-opt" onclick="answerFQ(0,'5')">5</button>
         <button class="quiz-opt" onclick="answerFQ(0,'7')">7</button>
       </div>
-      <div class="quiz-explain show" id="fqexp-0" style="display:none">&#9989; L 排第 12，I 排第 9，差值 3。用两字母单词作为突破口，是频率分析之外另一个强力线索。</div>
+      <div class="quiz-explain" id="fqexp-0">&#9989; L 排第 12，I 排第 9，差值 3。用两字母单词作为突破口，是频率分析之外另一个强力线索。</div>
     </div>
     <div class="quiz-q" id="fq-1">
       <div class="q-text">密文中 <strong>H</strong> 出现了 2 次。英语中最常见的字母是 <strong>E</strong>（约12.7%）。若 H=E，则 H(第8位) - E(第5位) = 位移量是？与上题吻合吗？</div>
@@ -142,7 +149,7 @@
         <button class="quiz-opt" onclick="answerFQ(1,'4')">4，不吻合</button>
         <button class="quiz-opt" onclick="answerFQ(1,'6')">6，不吻合</button>
       </div>
-      <div class="quiz-explain" id="fqexp-1" style="display:none">&#9989; H(8) - E(5) = 3，与两字母单词法得出的 3 完全吻合！两条线索交叉验证，位移量确认为 3。</div>
+      <div class="quiz-explain" id="fqexp-1">&#9989; H(8) - E(5) = 3，与两字母单词法得出的 3 完全吻合！两条线索交叉验证，位移量确认为 3。</div>
     </div>
     <div class="quiz-q" id="fq-2">
       <div class="q-text">用位移量 3 解密 WLPH LV BRXU IULHQG，得到的原文是？</div>
@@ -151,7 +158,7 @@
         <button class="quiz-opt" onclick="answerFQ(2,'WHEN IS GOOD ENOUGH')">WHEN IS GOOD ENOUGH</button>
         <button class="quiz-opt" onclick="answerFQ(2,'TAKE IS YOUR FINGER')">TAKE IS YOUR FINGER</button>
       </div>
-      <div class="quiz-explain" id="fqexp-2" style="display:none">&#9989; TIME IS YOUR FRIEND！这正是"时间是你的朋友"——李笑来书中反复强调的核心观念。</div>
+      <div class="quiz-explain" id="fqexp-2">&#9989; TIME IS YOUR FRIEND！这正是"时间是你的朋友"——李笑来书中反复强调的核心观念。</div>
     </div>
     <div class="case-done" id="done-freq">&#127894; 频率分析完成！你掌握了密码学最基础的攻击手段。</div>
   </div>
@@ -161,33 +168,33 @@
       <h2>&#128225; 摩斯电码解读</h2>
       <p>摩斯电码用"点（·）"和"划（—）"表示字母，1830 年代发明，曾是全球通信主要方式。解读下面四条电码，输入对应英文。</p>
     </div>
-    <p style="font-size:13px;color:var(--ink-mute);margin-bottom:8px">字母对照：</p>
+    <p class="morse-label">字母对照：</p>
     <div class="morse-ref" id="morse-ref"></div>
-    <div style="margin-bottom:20px"></div>
+    <div class="morse-spacer"></div>
     <div class="morse-q">
       <div class="morse-code">... --- ...</div>
-      <p style="font-size:13px;color:var(--ink-mute);margin-bottom:10px">最著名的国际求救信号，三个字母。</p>
+      <p class="morse-description">最著名的国际求救信号，三个字母。</p>
       <input class="morse-input" id="mi-0" placeholder="输入解码结果（英文大写）" oninput="checkMorse(0)" maxlength="10">
       <div class="morse-hint" id="mh-0">提示：... = S，--- = O</div>
       <button class="morse-check-btn" onclick="showMorseHint(0)">查看提示</button>
     </div>
     <div class="morse-q">
       <div class="morse-code">- .. -- .</div>
-      <p style="font-size:13px;color:var(--ink-mute);margin-bottom:10px">四个字母，意思是"时间"。</p>
+      <p class="morse-description">四个字母，意思是"时间"。</p>
       <input class="morse-input" id="mi-1" placeholder="输入解码结果（英文大写）" oninput="checkMorse(1)" maxlength="10">
       <div class="morse-hint" id="mh-1">提示：- = T，.. = I，-- = M，. = E</div>
       <button class="morse-check-btn" onclick="showMorseHint(1)">查看提示</button>
     </div>
     <div class="morse-q">
       <div class="morse-code">.-. . .- -..</div>
-      <p style="font-size:13px;color:var(--ink-mute);margin-bottom:10px">四个字母，意思是"阅读"。</p>
+      <p class="morse-description">四个字母，意思是"阅读"。</p>
       <input class="morse-input" id="mi-2" placeholder="输入解码结果（英文大写）" oninput="checkMorse(2)" maxlength="10">
       <div class="morse-hint" id="mh-2">提示：.-. = R，. = E，.- = A，-.. = D</div>
       <button class="morse-check-btn" onclick="showMorseHint(2)">查看提示</button>
     </div>
     <div class="morse-q">
       <div class="morse-code">-... --- --- -.- ...</div>
-      <p style="font-size:13px;color:var(--ink-mute);margin-bottom:10px">五个字母，意思是"书籍"（复数）。</p>
+      <p class="morse-description">五个字母，意思是"书籍"（复数）。</p>
       <input class="morse-input" id="mi-3" placeholder="输入解码结果（英文大写）" oninput="checkMorse(3)" maxlength="10">
       <div class="morse-hint" id="mh-3">提示：-... = B，--- = O，-.- = K，... = S</div>
       <button class="morse-check-btn" onclick="showMorseHint(3)">查看提示</button>
@@ -249,7 +256,7 @@ updateCaesar();
   var maxN=pairs[0].n,chart=document.getElementById('freq-chart');
   pairs.forEach(function(p){
     var bar=document.createElement('div');bar.className='freq-bar';
-    bar.style.height=Math.round(p.n/maxN*56)+'px';
+    bar.style.setProperty('--freq-bar-units',p.n/maxN*9);
     bar.innerHTML='<span class="freq-bar-label">'+p.l+'</span>';
     chart.appendChild(bar);
   });
@@ -265,7 +272,7 @@ function answerFQ(idx,val){
     else if(b.textContent.trim()===val)b.classList.add('wrong');
     else b.classList.add('dim');
   });
-  document.getElementById('fqexp-'+idx).style.display='block';
+  document.getElementById('fqexp-'+idx).classList.add('show');
   if(fqDone.every(Boolean)&&!solved.freq)setTimeout(function(){markSolved('freq');},400);
 }
 

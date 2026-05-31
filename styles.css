@@ -20,8 +20,67 @@
 
   --shadow-soft: 0 2px 0 rgba(43, 36, 25, 0.08);
   --shadow-card: 0 4px 0 rgba(43, 36, 25, 0.06), 0 12px 32px -16px rgba(43, 36, 25, 0.18);
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-card-inner: 12px;
   --radius: 18px;
   --radius-lg: 28px;
+  --radius-full: 999px;
+  --radius-circle: 50%;
+
+  --space-2xs: 2px;
+  --space-chart-gap: 3px;
+  --space-xs: 4px;
+  --space-sm: 6px;
+  --space-tag-gap: 7px;
+  --space-md: 8px;
+  --space-tab-y: 9px;
+  --space-lg: 10px;
+  --space-tag-x: 11px;
+  --space-xl: 12px;
+  --space-2xl: 14px;
+  --space-3xl: 16px;
+  --space-4xl: 18px;
+  --space-5xl: 20px;
+  --space-6xl: 22px;
+  --space-7xl: 24px;
+  --space-8xl: 28px;
+  --space-9xl: 32px;
+  --space-10xl: 36px;
+  --space-page-bottom: 80px;
+
+  --font-size-xs: 10px;
+  --font-size-sm: 11px;
+  --font-size-caption: 12px;
+  --font-size-note: 13px;
+  --font-size-ui: 14px;
+  --font-size-body-sm: 15px;
+  --font-size-body: 16px;
+  --font-size-body-lg: 17px;
+  --font-size-title-sm: 18px;
+  --font-size-title: 20px;
+  --font-size-hero-sm: 26px;
+  --font-size-hero-md: 28px;
+  --font-size-hero: 40px;
+  --font-size-hero-lg: 42px;
+  --font-size-emoji: 56px;
+  --font-size-emoji-lg: 64px;
+  --font-size-hero-fluid: 5vw;
+
+  --size-border: 2px;
+  --size-border-accent: 4px;
+  --size-dot: 8px;
+  --size-status-dot: 10px;
+  --size-timeline-marker: 26px;
+  --size-control-min: 100px;
+  --size-control-value: 36px;
+  --size-control-value-lg: 42px;
+  --size-chart: 80px;
+  --size-chart-bar-min: 6px;
+  --size-decoded-box-min: 62px;
+  --size-card-min: 58px;
+  --size-content-narrow: 720px;
 }
 
 * {
