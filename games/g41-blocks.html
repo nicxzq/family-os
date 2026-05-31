@@ -15,6 +15,7 @@
   body{overflow:hidden;font-family:'LXGW WenKai TC',var(--font-serif);background:var(--cream);color:var(--ink)}
   .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft);flex-shrink:0}
   .nav-member-btn svg{border-radius:50%}
+  /* height:100dvh locks the page to one screen */
   .game-wrap{height:100dvh;display:flex;flex-direction:column;max-width:1160px;margin:0 auto;padding:12px 20px;gap:10px}
   .game-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;flex-shrink:0}
   .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px;flex-shrink:0}
@@ -64,12 +65,15 @@
   .action{border:0;border-radius:999px;padding:10px 16px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;box-shadow:var(--shadow-soft)}
   .clear{background:var(--cream-deep);color:var(--ink-soft)}
   .run{background:var(--ink);color:var(--paper)}
+  /* stage-head is absolute — takes zero layout height */
   .stage-panel{display:flex;flex-direction:column;min-height:0;position:relative}
-  .stage-head{margin-bottom:10px;flex-shrink:0}
-  .stage-head h2{font-size:18px;margin:0;color:var(--ink)}
-  .stage-head p{margin:3px 0 0;color:var(--ink-soft);font-size:13px}
+  .stage-head{position:absolute;top:0;left:0;right:0;padding:10px 16px 14px;z-index:6;pointer-events:none;
+    background:linear-gradient(to bottom,color-mix(in srgb,var(--paper) 92%,transparent) 55%,transparent)}
+  .stage-head h2{font-size:15px;margin:0;color:var(--ink)}
+  .stage-head p{margin:2px 0 0;color:var(--ink-soft);font-size:12px}
+  /* grid fills full panel; min(100%, calc(100dvh - overhead)) guarantees true square */
   .grid-shell-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
-  .grid-shell{position:relative;width:100%;max-height:100%;aspect-ratio:1;background:var(--cream-deep);border-radius:var(--radius);padding:10px;box-shadow:var(--shadow-soft)}
+  .grid-shell{position:relative;width:min(100%,calc(100dvh - 140px));aspect-ratio:1;background:var(--cream-deep);border-radius:var(--radius);padding:10px;box-shadow:var(--shadow-soft)}
   .maze{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,1fr);gap:5px;width:100%;height:100%}
   .cell{border-radius:10px;background:var(--cream);display:grid;place-items:center;font-size:26px;position:relative}
   .cell.wall{background:var(--ink)}
@@ -91,6 +95,7 @@
     .layout{grid-template-columns:1fr;gap:10px;padding-bottom:10px}
     .stage-panel{order:-1;min-height:0}
     .grid-shell-wrap{flex:none;height:min(calc(100vw - 20px),300px)}
+    .grid-shell{width:100%;height:100%;aspect-ratio:unset}
     .result{bottom:8px;width:calc(100% - 20px)}
   }
 </style>
