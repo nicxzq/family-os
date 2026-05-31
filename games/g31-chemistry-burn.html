@@ -1,70 +1,11 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>燃烧密室 · 游戏</title>
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles.css">
-<style>
-  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
-  .nav-member-btn svg{border-radius:50%}
-  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px}
-  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px}
-  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px}
-  .game-hero{text-align:center;margin-bottom:36px}
-  .game-hero .emoji{font-size:64px;display:block;margin-bottom:16px}
-  .game-hero h1{font-size:clamp(28px,5vw,42px);margin-bottom:10px}
-  .game-hero .sub{color:var(--ink-soft);font-size:17px;line-height:1.6}
-  .teaser{background:var(--paper);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-card);margin-bottom:24px}
-  .teaser h2{font-size:14px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:16px}
-  .teaser ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
-  .teaser li{display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--ink-soft);line-height:1.6}
-  .teaser li::before{content:"→";color:var(--coral);flex-shrink:0;margin-top:2px}
-  .coming-soon{background:var(--cream-deep);border-radius:var(--radius);padding:20px 24px;text-align:center;font-size:18px;color:var(--ink-mute);margin-bottom:28px;border:2px dashed var(--ink-mute)}
-  .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-  .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
-  .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
-  .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
-  .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
-</style>
-</head>
-<body>
-<main class="wrap">
-  <nav class="game-nav">
-    <a class="back-link" href="index.html">← 游戏库</a>
-    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
-  </nav>
-  <header class="game-hero">
-    <span class="emoji">🔥</span>
-    <h1>燃烧密室</h1>
-    <p class="sub">火是什么？为什么有些东西燃烧，有些不燃？灭火器里藏着什么秘密？</p>
-  </header>
-  <section class="teaser">
-    <h2>这个游戏里，你将会…</h2>
-    <ul>
-      <li>点燃三角形——找到燃烧的三个条件</li>
-      <li>移除一个条件看火焰如何熄灭</li>
-      <li>设计最高效的灭火方案</li>
-    </ul>
-  </section>
-  <div class="coming-soon">🚧 即将推出 · 敬请期待</div>
-  <p class="section-label">知识预习</p>
-  <div class="concepts">
-    <div class="concept-card"><h3>燃烧三要素</h3><p>可燃物+氧气+着火点</p></div>
-    <div class="concept-card"><h3>灭火原理</h3><p>隔离、降温、隔绝氧气</p></div>
-    <div class="concept-card"><h3>爆炸极限</h3><p>气体浓度的危险区间</p></div>
-  </div>
-</main>
-<script src="../fo-utils.js"></script>
-<script>
-  var m = window.FO ? FO.getMember() : null;
-  var el = document.getElementById('nav-member-btn');
-  if(m){ el.innerHTML = FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>'; el.onclick=function(){location.href='../dashboard.html'}; }
-  else { el.innerHTML='<span>登录</span>'; el.onclick=function(){location.href='../login.html'}; }
-</script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>燃烧密室 · 游戏</title><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css"><link rel="stylesheet" href="chem-challenge.css"></head><body>
+<main class="chem-page"><nav class="chem-nav"><a class="chem-back" href="index.html">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+<header class="chem-hero"><span class="chem-emoji">🔥</span><h1>燃烧密室</h1><p class="chem-sub">找到燃烧三要素，再选择正确的灭火方式逃出密室。</p></header>
+<div class="chem-progress" id="chem-progress"></div><section class="chem-card" id="chem-card"></section><section class="chem-result" id="chem-result"></section></main>
+<script src="../fo-utils.js"></script><script>
+window.CHEM_GAME={id:'g31-chemistry-burn',badge:'消防策略师徽章 🔥',result:'你已经掌握燃烧三要素，并能根据场景选择隔离、降温或隔绝氧气。',
+stages:[
+{type:'multi',title:'点燃三角形',prompt:'燃烧通常需要哪些条件同时存在？',options:['可燃物','氧气','达到着火点','食盐'],answer:[0,1,2],success:'可燃物、氧气和达到着火点构成燃烧三要素。',retry:'少一个关键条件，火焰就无法持续。'},
+{type:'choice',title:'油锅起火',prompt:'炒菜时油锅着火，最合适的处理方式是？',options:['立刻倒水','盖上锅盖并关闭火源','端着锅跑出去','继续加热'],answer:[1],success:'锅盖隔绝氧气，关闭火源停止加热。油锅起火不能泼水。',retry:'优先隔绝氧气，并停止继续加热。'},
+{type:'choice',title:'纸箱着火',prompt:'纸箱刚刚起火，在确保安全且没有带电设备时，用水灭火主要移除了哪个条件？',options:['降低温度','增加氧气','增加可燃物','提高着火点'],answer:[0],success:'水吸收热量，使温度降到着火点以下。',retry:'想想水带走了什么。'}]};
+</script><script src="chem-challenge.js"></script></body></html>

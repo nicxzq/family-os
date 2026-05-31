@@ -5,6 +5,7 @@
   --cream: #F8F2E2;
   --cream-deep: #F1E8D0;
   --paper: #FFFDF6;
+  --paper-translucent: rgba(255, 255, 255, 0.2);
   --ink: #2B2419;
   --ink-soft: #5C4F3D;
   --ink-mute: #8C7C66;
@@ -20,6 +21,7 @@
 
   --shadow-soft: 0 2px 0 rgba(43, 36, 25, 0.08);
   --shadow-card: 0 4px 0 rgba(43, 36, 25, 0.06), 0 12px 32px -16px rgba(43, 36, 25, 0.18);
+  --shadow-button: 0 3px 0 rgba(43, 36, 25, 0.15);
   --radius-xs: 4px;
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -48,7 +50,9 @@
   --space-8xl: 28px;
   --space-9xl: 32px;
   --space-10xl: 36px;
+  --space-section: 40px;
   --space-page-bottom: 80px;
+  --space-page-bottom-lg: 90px;
 
   --font-size-xs: 10px;
   --font-size-sm: 11px;
@@ -60,16 +64,22 @@
   --font-size-body-lg: 17px;
   --font-size-title-sm: 18px;
   --font-size-title: 20px;
+  --font-size-icon: 28px;
+  --font-size-icon-lg: 32px;
+  --font-size-icon-xl: 36px;
   --font-size-hero-sm: 26px;
   --font-size-hero-md: 28px;
   --font-size-hero: 40px;
   --font-size-hero-lg: 42px;
   --font-size-emoji: 56px;
+  --font-size-emoji-md: 52px;
   --font-size-emoji-lg: 64px;
   --font-size-hero-fluid: 5vw;
 
   --size-border: 2px;
+  --size-hairline: 1px;
   --size-border-accent: 4px;
+  --size-border-card: 5px;
   --size-dot: 8px;
   --size-status-dot: 10px;
   --size-timeline-marker: 26px;
@@ -80,7 +90,13 @@
   --size-chart-bar-min: 6px;
   --size-decoded-box-min: 62px;
   --size-card-min: 58px;
+  --size-booklet-min: 150px;
+  --size-booklet-height: 140px;
+  --size-grid-card-min: 220px;
+  --size-content-medium: 760px;
   --size-content-narrow: 720px;
+  --size-content-wide: 800px;
+  --size-element-tile: 80px;
 }
 
 * {
@@ -158,6 +174,20 @@ p {
 
 a {
   color: inherit;
+}
+
+/* Shared responsive breakpoints cannot be expressed through CSS custom properties. */
+@media (max-width: 600px) {
+  .games-page .booklet-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+  }
+}
+
+@media (max-width: 760px) {
+  .games-page .game-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ===== 顶部导航 ===== */

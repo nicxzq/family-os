@@ -1,70 +1,11 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>方程式配平 · 游戏</title>
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles.css">
-<style>
-  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
-  .nav-member-btn svg{border-radius:50%}
-  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px}
-  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px}
-  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px}
-  .game-hero{text-align:center;margin-bottom:36px}
-  .game-hero .emoji{font-size:64px;display:block;margin-bottom:16px}
-  .game-hero h1{font-size:clamp(28px,5vw,42px);margin-bottom:10px}
-  .game-hero .sub{color:var(--ink-soft);font-size:17px;line-height:1.6}
-  .teaser{background:var(--paper);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-card);margin-bottom:24px}
-  .teaser h2{font-size:14px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:16px}
-  .teaser ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
-  .teaser li{display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--ink-soft);line-height:1.6}
-  .teaser li::before{content:"→";color:var(--coral);flex-shrink:0;margin-top:2px}
-  .coming-soon{background:var(--cream-deep);border-radius:var(--radius);padding:20px 24px;text-align:center;font-size:18px;color:var(--ink-mute);margin-bottom:28px;border:2px dashed var(--ink-mute)}
-  .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-  .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
-  .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
-  .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
-  .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
-</style>
-</head>
-<body>
-<main class="wrap">
-  <nav class="game-nav">
-    <a class="back-link" href="index.html">← 游戏库</a>
-    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
-  </nav>
-  <header class="game-hero">
-    <span class="emoji">⚖️</span>
-    <h1>方程式配平</h1>
-    <p class="sub">化学方程式两边的原子必须相等——这是宇宙的守恒法则。</p>
-  </header>
-  <section class="teaser">
-    <h2>这个游戏里，你将会…</h2>
-    <ul>
-      <li>数原子、找差异、添系数</li>
-      <li>用观察法快速配平简单方程式</li>
-      <li>掌握氧化还原方程式的配平技巧</li>
-    </ul>
-  </section>
-  <div class="coming-soon">🚧 即将推出 · 敬请期待</div>
-  <p class="section-label">知识预习</p>
-  <div class="concepts">
-    <div class="concept-card"><h3>质量守恒</h3><p>反应前后总质量不变</p></div>
-    <div class="concept-card"><h3>化学计量数</h3><p>方程式前面的系数</p></div>
-    <div class="concept-card"><h3>最小公倍数法</h3><p>配平技巧</p></div>
-  </div>
-</main>
-<script src="../fo-utils.js"></script>
-<script>
-  var m = window.FO ? FO.getMember() : null;
-  var el = document.getElementById('nav-member-btn');
-  if(m){ el.innerHTML = FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>'; el.onclick=function(){location.href='../dashboard.html'}; }
-  else { el.innerHTML='<span>登录</span>'; el.onclick=function(){location.href='../login.html'}; }
-</script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>方程式配平 · 游戏</title><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css"><link rel="stylesheet" href="chem-challenge.css"></head><body>
+<main class="chem-page"><nav class="chem-nav"><a class="chem-back" href="index.html">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+<header class="chem-hero"><span class="chem-emoji">⚖️</span><h1>方程式配平</h1><p class="chem-sub">反应前后的原子必须一样多，这是质量守恒。</p></header>
+<div class="chem-progress" id="chem-progress"></div><section class="chem-card" id="chem-card"></section><section class="chem-result" id="chem-result"></section></main>
+<script src="../fo-utils.js"></script><script>
+window.CHEM_GAME={id:'g30-chemistry-balance',badge:'守恒法则徽章 ⚖️',result:'你已经能通过数原子和添加化学计量数配平基础方程式。',
+stages:[
+{type:'choice',title:'先数原子',prompt:'方程式 H₂ + O₂ → H₂O 的右侧有几个氧原子？',options:['一个','两个','三个','四个'],answer:[0],success:'每个 H₂O 分子中有一个氧原子，所以当前右侧少一个氧。',retry:'没有下标就表示一个原子。'},
+{type:'choice',title:'配平水',prompt:'哪组系数能配平 H₂ + O₂ → H₂O？',options:['1，1，1','2，1，2','1，2，1','2，2，1'],answer:[1],success:'2H₂ + O₂ → 2H₂O，两边都有四个 H 和两个 O。',retry:'先让氧原子数量相等，再检查氢。'},
+{type:'choice',title:'配平氧化铁',prompt:'哪组系数能配平 Fe + O₂ → Fe₂O₃？',options:['1，1，1','2，1，1','4，3，2','3，2，1'],answer:[2],success:'4Fe + 3O₂ → 2Fe₂O₃，两边都有四个 Fe 和六个 O。',retry:'氧原子数量需要同时是 2 和 3 的倍数。'}]};
+</script><script src="chem-challenge.js"></script></body></html>

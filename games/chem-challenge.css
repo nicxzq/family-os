@@ -1,0 +1,38 @@
+.chem-page{max-width:var(--size-content-narrow);margin:0 auto;padding:0 var(--space-5xl) var(--space-page-bottom)}
+.chem-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:var(--space-2xl);background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:var(--space-lg) var(--space-2xl);margin-bottom:var(--space-9xl)}
+.chem-back{text-decoration:none;color:var(--ink-mute);font-size:var(--font-size-body-sm)}
+.nav-member-btn{display:inline-flex;align-items:center;gap:var(--space-md);background:var(--paper);border:0;border-radius:var(--radius-full);padding:var(--space-sm) var(--space-2xl) var(--space-sm) var(--space-sm);font-family:inherit;font-size:var(--font-size-ui);cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
+.nav-member-btn svg{border-radius:var(--radius-circle)}
+.chem-hero{text-align:center;margin-bottom:var(--space-8xl)}
+.chem-emoji{display:block;font-size:var(--font-size-emoji);margin-bottom:var(--space-xl)}
+.chem-hero h1{font-size:clamp(var(--font-size-hero-sm),var(--font-size-hero-fluid),var(--font-size-hero));margin-bottom:var(--space-md)}
+.chem-sub{color:var(--ink-soft);font-size:var(--font-size-body);line-height:1.6}
+.chem-progress{display:flex;align-items:center;gap:var(--space-md);margin-bottom:var(--space-7xl)}
+.chem-progress-dot{width:var(--size-dot);height:var(--size-dot);border-radius:var(--radius-circle);background:var(--cream-deep)}
+.chem-progress-dot.is-active{background:var(--yellow)}
+.chem-progress-dot.is-done{background:var(--green)}
+.chem-progress-label{margin-left:var(--space-xs);color:var(--ink-mute);font-size:var(--font-size-note)}
+.chem-card{background:var(--paper);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:var(--space-7xl);margin-bottom:var(--space-5xl)}
+.chem-stage{font-size:var(--font-size-note);letter-spacing:.12em;color:var(--ink-mute);margin-bottom:var(--space-lg)}
+.chem-card h2{font-size:var(--font-size-title);line-height:1.45;margin-bottom:var(--space-xl)}
+.chem-prompt{color:var(--ink-soft);font-size:var(--font-size-body-sm);margin-bottom:var(--space-3xl)}
+.chem-options{display:grid;gap:var(--space-lg)}
+.chem-option{width:100%;text-align:left;border:var(--size-border) solid var(--cream-deep);background:var(--cream);border-radius:var(--radius-card-inner);padding:var(--space-xl) var(--space-3xl);font:inherit;font-size:var(--font-size-body-sm);color:var(--ink);cursor:pointer;transition:all .2s}
+.chem-option:hover{border-color:var(--green)}
+.chem-option.is-selected{border-color:var(--blue);background:var(--blue-soft)}
+.chem-option.is-correct{border-color:var(--green);background:var(--green-soft)}
+.chem-option.is-wrong{border-color:var(--coral);background:var(--coral-soft)}
+.chem-option:disabled{cursor:default}
+.chem-action{margin-top:var(--space-3xl);border:0;border-radius:var(--radius-full);padding:var(--space-lg) var(--space-5xl);background:var(--ink);color:var(--paper);font:inherit;font-size:var(--font-size-body-sm);cursor:pointer}
+.chem-action:disabled{opacity:.4;cursor:default}
+.chem-feedback{display:none;margin-top:var(--space-3xl);padding:var(--space-xl) var(--space-2xl);border-radius:var(--radius-card-inner);font-size:var(--font-size-body-sm);line-height:1.7}
+.chem-feedback.is-shown{display:block}
+.chem-feedback.is-correct{background:var(--green-soft);color:var(--ink)}
+.chem-feedback.is-wrong{background:var(--coral-soft);color:var(--ink)}
+.chem-next{display:none;margin-top:var(--space-3xl);border:0;border-radius:var(--radius-full);padding:var(--space-lg) var(--space-5xl);background:var(--green);color:var(--paper);font:inherit;font-size:var(--font-size-body-sm);cursor:pointer}
+.chem-next.is-shown{display:inline-flex}
+.chem-result{display:none;background:var(--yellow-soft);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:var(--space-7xl);text-align:center}
+.chem-result.is-shown{display:block}
+.chem-result h2{font-size:var(--font-size-title);margin-bottom:var(--space-xl)}
+.chem-result p{color:var(--ink-soft);font-size:var(--font-size-body);margin-bottom:var(--space-3xl)}
+.chem-result a{display:inline-flex;text-decoration:none;border-radius:var(--radius-full);padding:var(--space-lg) var(--space-5xl);background:var(--ink);color:var(--paper);font-size:var(--font-size-body-sm)}

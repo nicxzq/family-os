@@ -61,6 +61,10 @@
   .tl-year.show{color:var(--coral)}
   .submit-btn{border:0;background:var(--ink);color:var(--paper);border-radius:var(--radius-full);padding:var(--space-xl) var(--space-8xl);font:inherit;font-size:var(--font-size-body-sm);cursor:pointer;margin-bottom:var(--space-2xl);transition:opacity .2s}
   .submit-btn:disabled{opacity:.4;cursor:default}
+  .tl-actions{display:flex;gap:var(--space-lg);flex-wrap:wrap;margin-bottom:var(--space-2xl)}
+  .tl-actions .submit-btn{margin-bottom:0}
+  .reset-btn{border:var(--size-border) solid var(--cream-deep);background:var(--paper);color:var(--ink-soft);border-radius:var(--radius-full);padding:var(--space-xl) var(--space-5xl);font:inherit;font-size:var(--font-size-body-sm);cursor:pointer;transition:opacity .2s}
+  .reset-btn:disabled{opacity:.4;cursor:default}
   .tl-msg{display:none;padding:var(--space-2xl) var(--space-4xl);border-radius:var(--radius);font-size:var(--font-size-body-sm);line-height:1.7;margin-bottom:var(--space-2xl)}
   .tl-msg.show{display:block}
   .tl-msg.ok{background:var(--green);color:var(--paper)}
@@ -179,7 +183,10 @@
         <div><div class="tl-title">凯撒遇刺于罗马</div><div class="tl-year" id="tlyear-4">公元前 ? 年</div></div>
       </div>
     </div>
-    <button class="submit-btn" id="tl-submit" onclick="checkTL()" disabled>提交顺序</button>
+    <div class="tl-actions">
+      <button class="submit-btn" id="tl-submit" onclick="checkTL()" disabled>提交顺序</button>
+      <button class="reset-btn" id="tl-reset" onclick="resetTL()">重置顺序</button>
+    </div>
     <div class="tl-msg" id="tl-msg"></div>
     <div class="case-done" id="done-tl">&#127894; 时间线排列正确！</div>
   </div>
@@ -251,19 +258,36 @@ function answerTF(idx,playerChoseTrue){
   if(tfDone.every(Boolean)&&!solved.tf)setTimeout(function(){markSolved('tf');},400);
 }
 
-var tlYears=[551,334,221,138,44],tlOrder=[],tlDone=false;
+var tlYears=[551,334,221,138,44],tlOrder=[],tlDone=false,tlLocked=false,tlRetryTimer=null;
+function updateTLControls(){
+  document.getElementById('tl-submit').disabled=tlDone||tlLocked||tlOrder.length<5;
+  document.getElementById('tl-reset').disabled=tlDone||tlLocked;
+}
+function resetTL(){
+  if(tlDone||tlLocked)return;
+  if(tlRetryTimer){clearTimeout(tlRetryTimer);tlRetryTimer=null;}
+  tlOrder=[];
+  for(var i=0;i<5;i++){
+    document.getElementById('tlev-'+i).classList.remove('sel','ok','err');
+    document.getElementById('tlnum-'+i).textContent='?';
+    var yr=document.getElementById('tlyear-'+i);
+    yr.classList.remove('show');yr.textContent='公元前 ? 年';
+  }
+  var msg=document.getElementById('tl-msg');
+  msg.className='tl-msg';msg.textContent='';
+  updateTLControls();
+}
 function selectTL(evIdx){
-  if(tlDone)return;
+  if(tlDone||tlLocked)return;
   var el=document.getElementById('tlev-'+evIdx);
-  if(el.classList.contains('ok'))return;
   var pos=tlOrder.indexOf(evIdx);
   if(pos>=0){tlOrder.splice(pos,1);el.classList.remove('sel');}
   else{tlOrder.push(evIdx);el.classList.add('sel');}
   for(var i=0;i<5;i++){var p=tlOrder.indexOf(i);document.getElementById('tlnum-'+i).textContent=p>=0?p+1:'?';}
-  document.getElementById('tl-submit').disabled=(tlOrder.length<5);
+  updateTLControls();
 }
 function checkTL(){
-  if(tlDone)return;
+  if(tlDone||tlLocked||tlOrder.length<5)return;
   var correct=true;
   for(var i=0;i<5;i++){
     var evIdx=tlOrder[i];
@@ -274,14 +298,14 @@ function checkTL(){
   var msg=document.getElementById('tl-msg');msg.classList.add('show');
   if(correct){
     tlDone=true;msg.className='tl-msg show ok';
-    msg.textContent='&#9989; 完全正确！孔子 &#8594; 亚历山大 &#8594; 秦始皇 &#8594; 张骞 &#8594; 凯撒，五百年的世界史尽在眼前。';
-    document.getElementById('tl-submit').disabled=true;
+    msg.textContent='✅ 完全正确！孔子 → 亚历山大 → 秦始皇 → 张骞 → 凯撒，五百年的世界史尽在眼前。';
+    updateTLControls();
     if(!solved.tl)setTimeout(function(){markSolved('tl');},400);
   } else {
-    msg.className='tl-msg show err';msg.textContent='&#10060; 有些顺序不对，年份已显示。取消错误的选项后重试。';
-    setTimeout(function(){
-      for(var i=0;i<5;i++){var e=document.getElementById('tlev-'+i);if(e.classList.contains('err')){e.classList.remove('err','sel');var p=tlOrder.indexOf(i);if(p>=0)tlOrder.splice(p,1);document.getElementById('tlnum-'+i).textContent='?';}}
-      document.getElementById('tl-submit').disabled=(tlOrder.length<5);msg.classList.remove('show');
+    tlLocked=true;updateTLControls();
+    msg.className='tl-msg show err';msg.textContent='❌ 有些顺序不对，年份将显示 2 秒。稍后请重新排序。';
+    tlRetryTimer=setTimeout(function(){
+      tlLocked=false;tlRetryTimer=null;resetTL();
     },2000);
   }
 }

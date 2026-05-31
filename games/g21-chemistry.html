@@ -10,72 +10,74 @@
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles.css">
 <style>
-  .nav-member-btn { display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft); }
-  .nav-member-btn svg { border-radius:50%; }
-  .game-nav { position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px; }
-  .back-link { text-decoration:none;color:var(--ink-mute);font-size:15px; }
-  .wrap { max-width:760px;margin:0 auto;padding:0 20px 80px; }
+  .nav-member-btn { display:inline-flex;align-items:center;gap:var(--space-md);background:var(--paper);border:0;border-radius:var(--radius-full);padding:var(--space-sm) var(--space-2xl) var(--space-sm) var(--space-sm);font-family:inherit;font-size:var(--font-size-ui);cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft); }
+  .nav-member-btn svg { border-radius:var(--radius-circle); }
+  .game-nav { position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:var(--space-2xl);background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:var(--space-lg) var(--space-2xl);margin-bottom:var(--space-9xl); }
+  .back-link { text-decoration:none;color:var(--ink-mute);font-size:var(--font-size-body-sm); }
+  .wrap { max-width:var(--size-content-medium);margin:0 auto;padding:0 var(--space-5xl) var(--space-page-bottom); }
 
-  .game-hero { text-align:center;margin-bottom:36px; }
-  .game-hero h1 { font-size:clamp(28px,5vw,42px);margin-bottom:10px; }
-  .game-hero .sub { color:var(--ink-soft);font-size:17px;line-height:1.6; }
+  .game-hero { text-align:center;margin-bottom:var(--space-10xl); }
+  .game-hero-icon { font-size:var(--font-size-emoji-md);margin-bottom:var(--space-md); }
+  .game-hero h1 { font-size:clamp(var(--font-size-hero-md),var(--font-size-hero-fluid),var(--font-size-hero-lg));margin-bottom:var(--space-lg); }
+  .game-hero .sub { color:var(--ink-soft);font-size:var(--font-size-body-lg);line-height:1.6; }
 
   /* Element tiles */
-  .elements-label { font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:12px; }
-  .elements-grid { display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px; }
+  .elements-label { font-size:var(--font-size-note);letter-spacing:.12em;color:var(--ink-mute);margin-bottom:var(--space-xl); }
+  .elements-grid { display:flex;flex-wrap:wrap;gap:var(--space-lg);margin-bottom:var(--space-5xl); }
   .elem-tile {
-    width:80px;height:80px;border-radius:var(--radius);background:var(--cream-deep);
+    width:var(--size-element-tile);height:var(--size-element-tile);border-radius:var(--radius);background:var(--cream-deep);
     display:flex;flex-direction:column;align-items:center;justify-content:center;
-    cursor:pointer;border:2px solid transparent;transition:all .2s;user-select:none;
+    cursor:pointer;border:var(--size-border) solid transparent;transition:all .2s;user-select:none;
     box-shadow:var(--shadow-soft);
   }
-  .elem-tile:hover { transform:translateY(-2px);box-shadow:var(--shadow-card); }
-  .elem-tile.selected { background:var(--yellow-soft);border-color:var(--yellow);transform:translateY(-3px); }
-  .elem-symbol { font-size:28px;font-weight:700;color:var(--ink);line-height:1; }
-  .elem-num { font-size:11px;color:var(--ink-mute);margin-top:2px; }
-  .elem-name { font-size:10px;color:var(--ink-soft); }
+  .elem-tile:hover { transform:translateY(calc(-1 * var(--space-2xs)));box-shadow:var(--shadow-card); }
+  .elem-tile.selected { background:var(--yellow-soft);border-color:var(--yellow);transform:translateY(calc(-1 * var(--space-chart-gap))); }
+  .elem-symbol { font-size:var(--font-size-icon);font-weight:700;color:var(--ink);line-height:1; }
+  .elem-num { font-size:var(--font-size-sm);color:var(--ink-mute);margin-top:var(--space-2xs); }
+  .elem-name { font-size:var(--font-size-xs);color:var(--ink-soft); }
 
-  .synth-row { display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap; }
+  .synth-row { display:flex;align-items:center;gap:var(--space-xl);margin-bottom:var(--space-7xl);flex-wrap:wrap; }
   .synth-btn {
-    background:var(--green);color:var(--paper);border:0;border-radius:999px;
-    padding:14px 32px;font-family:inherit;font-size:16px;cursor:pointer;
-    box-shadow:0 3px 0 rgba(43,36,25,0.15);transition:transform .15s;font-weight:700;
+    background:var(--green);color:var(--paper);border:0;border-radius:var(--radius-full);
+    padding:var(--space-2xl) var(--space-9xl);font-family:inherit;font-size:var(--font-size-body);cursor:pointer;
+    box-shadow:var(--shadow-button);transition:transform .15s;font-weight:700;
   }
-  .synth-btn:hover { transform:translateY(-2px); }
-  .synth-btn:active { transform:translateY(1px); }
+  .synth-btn:hover { transform:translateY(calc(-1 * var(--space-2xs))); }
+  .synth-btn:active { transform:translateY(var(--size-hairline)); }
   .clear-btn {
-    background:var(--cream-deep);color:var(--ink-soft);border:0;border-radius:999px;
-    padding:14px 20px;font-family:inherit;font-size:15px;cursor:pointer;
+    background:var(--cream-deep);color:var(--ink-soft);border:0;border-radius:var(--radius-full);
+    padding:var(--space-2xl) var(--space-5xl);font-family:inherit;font-size:var(--font-size-body-sm);cursor:pointer;
   }
-  .selected-display { color:var(--ink-soft);font-size:14px; }
+  .selected-display { color:var(--ink-soft);font-size:var(--font-size-ui); }
 
-  .result-msg { padding:14px 20px;border-radius:var(--radius);font-size:16px;margin-bottom:20px;display:none; }
+  .result-msg { padding:var(--space-2xl) var(--space-5xl);border-radius:var(--radius);font-size:var(--font-size-body);margin-bottom:var(--space-5xl);display:none; }
   .result-msg.show { display:block; }
-  .result-msg.success { background:var(--green-soft);color:var(--ink);border-left:4px solid var(--green); }
-  .result-msg.fail { background:var(--cream-deep);color:var(--ink-soft);border-left:4px solid var(--ink-mute); }
+  .result-msg.success { background:var(--green-soft);color:var(--ink);border-left:var(--size-border-accent) solid var(--green); }
+  .result-msg.fail { background:var(--cream-deep);color:var(--ink-soft);border-left:var(--size-border-accent) solid var(--ink-mute); }
 
-  .status-bar { display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap; }
-  .badge { display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:14px;background:var(--cream-deep);color:var(--ink-soft); }
+  .status-bar { display:flex;align-items:center;gap:var(--space-xl);margin-bottom:var(--space-5xl);flex-wrap:wrap; }
+  .badge { display:inline-flex;align-items:center;gap:var(--space-sm);padding:var(--space-sm) var(--space-2xl);border-radius:var(--radius-full);font-size:var(--font-size-ui);background:var(--cream-deep);color:var(--ink-soft); }
   .badge.active { background:var(--yellow-soft);color:var(--ink); }
   .badge.master { background:var(--green-soft);color:var(--ink);font-weight:700; }
+  .count-display { margin-left:auto;font-size:var(--font-size-ui);color:var(--ink-mute); }
 
-  .discoveries-label { font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:12px; }
-  .discoveries-grid { display:grid;gap:12px; }
+  .discoveries-label { font-size:var(--font-size-note);letter-spacing:.12em;color:var(--ink-mute);margin-bottom:var(--space-xl); }
+  .discoveries-grid { display:grid;gap:var(--space-xl); }
   .disc-card {
     background:var(--paper);border-radius:var(--radius);box-shadow:var(--shadow-card);
-    padding:16px 20px;border-left:4px solid var(--green);
-    display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;
+    padding:var(--space-3xl) var(--space-5xl);border-left:var(--size-border-accent) solid var(--green);
+    display:grid;grid-template-columns:auto 1fr;gap:var(--space-3xl);align-items:center;
     animation:slideIn .35s ease;
   }
-  @keyframes slideIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-  .disc-emoji { font-size:36px;line-height:1; }
-  .disc-name { font-size:18px;font-weight:700;margin-bottom:3px; }
-  .disc-formula { font-size:13px;color:var(--ink-mute);margin-bottom:5px; }
-  .disc-fact { font-size:14px;color:var(--ink-soft); }
-  .empty-state { text-align:center;padding:32px;color:var(--ink-mute);font-size:15px; }
+  @keyframes slideIn { from{opacity:0;transform:translateY(var(--space-xl))} to{opacity:1;transform:translateY(0)} }
+  .disc-emoji { font-size:var(--font-size-icon-xl);line-height:1; }
+  .disc-name { font-size:var(--font-size-title-sm);font-weight:700;margin-bottom:var(--space-chart-gap); }
+  .disc-formula { font-size:var(--font-size-note);color:var(--ink-mute);margin-bottom:var(--space-xs); }
+  .disc-fact { font-size:var(--font-size-ui);color:var(--ink-soft); }
+  .empty-state { text-align:center;padding:var(--space-9xl);color:var(--ink-mute);font-size:var(--font-size-body-sm); }
 </style>
 </head>
-<body style="background:var(--cream);min-height:100vh;font-family:'LXGW WenKai TC',serif;color:var(--ink);">
+<body>
 <div class="wrap">
   <nav class="game-nav">
     <a class="back-link" href="index.html">← 游戏库</a>
@@ -83,7 +85,7 @@
   </nav>
 
   <div class="game-hero">
-    <div style="font-size:52px;margin-bottom:8px;">🧪</div>
+    <div class="game-hero-icon">🧪</div>
     <h1>化学厨房</h1>
     <p class="sub">选择元素，点击「合成！」<br>发现隐藏在生活里的化合物。</p>
   </div>
@@ -102,7 +104,7 @@
   <div class="status-bar">
     <span class="badge" id="badge-novice">化学新手 🧪</span>
     <span class="badge" id="badge-master">化学大师 🏆</span>
-    <span style="margin-left:auto;font-size:14px;color:var(--ink-mute);" id="count-display">已发现 0 / 8</span>
+    <span class="count-display" id="count-display">已发现 0 / 8</span>
   </div>
 
   <p class="discoveries-label">DISCOVERIES · 发现记录</p>
@@ -201,7 +203,9 @@ function synthesize() {
   discovered[key] = recipe;
   try { localStorage.setItem('fo_chem_discovered', JSON.stringify(discovered)); } catch(e) {}
   showResult('🎉 ' + recipe.emoji + ' 成功！你发现了' + recipe.name + '（' + recipe.formula + '）！', true);
-  clearSelection();
+  selected = [];
+  updateSelectedDisplay();
+  renderElements();
   renderDiscoveries();
   updateStatus();
 }

@@ -721,7 +721,21 @@
       {id:'g19-habit',label:'习惯实验室',color:'coral'},
       {id:'g20-connect',label:'知识连接',color:'blue'},
       {id:'g21-chemistry',label:'化学厨房',color:'green'},
-      {id:'g22-physics',label:'物理弹弓',color:'yellow'}
+      {id:'g22-physics',label:'物理弹弓',color:'yellow'},
+      {id:'g23-chemistry-elements',label:'元素探险',color:'green'},
+      {id:'g24-chemistry-acids',label:'酸碱侦探',color:'green'},
+      {id:'g25-chemistry-bonds',label:'化学键拼图',color:'green'},
+      {id:'g26-chemistry-organic',label:'有机物工厂',color:'green'},
+      {id:'g27-chemistry-solution',label:'溶液实验室',color:'green'},
+      {id:'g28-chemistry-redox',label:'氧化还原',color:'green'},
+      {id:'g29-chemistry-electro',label:'电化学',color:'green'},
+      {id:'g30-chemistry-balance',label:'方程式配平',color:'green'},
+      {id:'g31-chemistry-burn',label:'燃烧密室',color:'green'},
+      {id:'g41-blocks',label:'代码积木',color:'coral'},
+      {id:'g44-history-detective',label:'历史侦探',color:'coral',href:'/games/g44-history-detective.html'},
+      {id:'g45-geo',label:'地图寻宝',color:'yellow',href:'/games/g45-geo-treasure.html'},
+      {id:'g46-words-cipher',label:'文字密码',color:'green',href:'/games/g46-words-cipher.html'},
+      {id:'g47-math-art',label:'数学画廊',color:'blue'}
     ];
     var gameColorVarMap = {coral:'var(--coral)',yellow:'var(--yellow)',green:'var(--green)',blue:'var(--blue)'};
     function renderGames() {
@@ -734,7 +748,7 @@
       ALL_GAMES.forEach(function(game) {
         var isDone = done.indexOf(game.id) >= 0;
         var pill = document.createElement('a');
-        pill.href = '/games/' + game.id + '.html';
+        pill.href = game.href || '/games/' + game.id + '.html';
         pill.title = game.label;
         pill.style.cssText = 'display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:999px;font-size:13px;text-decoration:none;font-family:inherit;transition:opacity 0.2s;' +
           (isDone ? 'background:' + gameColorVarMap[game.color] + ';color:#FFFDF6;' : 'background:var(--cream-deep);color:var(--ink-mute);');

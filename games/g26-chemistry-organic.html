@@ -1,70 +1,11 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>有机物工厂 · 游戏</title>
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles.css">
-<style>
-  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
-  .nav-member-btn svg{border-radius:50%}
-  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px}
-  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px}
-  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px}
-  .game-hero{text-align:center;margin-bottom:36px}
-  .game-hero .emoji{font-size:64px;display:block;margin-bottom:16px}
-  .game-hero h1{font-size:clamp(28px,5vw,42px);margin-bottom:10px}
-  .game-hero .sub{color:var(--ink-soft);font-size:17px;line-height:1.6}
-  .teaser{background:var(--paper);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-card);margin-bottom:24px}
-  .teaser h2{font-size:14px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:16px}
-  .teaser ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
-  .teaser li{display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--ink-soft);line-height:1.6}
-  .teaser li::before{content:"→";color:var(--coral);flex-shrink:0;margin-top:2px}
-  .coming-soon{background:var(--cream-deep);border-radius:var(--radius);padding:20px 24px;text-align:center;font-size:18px;color:var(--ink-mute);margin-bottom:28px;border:2px dashed var(--ink-mute)}
-  .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-  .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
-  .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
-  .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
-  .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
-</style>
-</head>
-<body>
-<main class="wrap">
-  <nav class="game-nav">
-    <a class="back-link" href="index.html">← 游戏库</a>
-    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
-  </nav>
-  <header class="game-hero">
-    <span class="emoji">🌿</span>
-    <h1>有机物工厂</h1>
-    <p class="sub">碳元素是有机物的骨架，它能连成链、环，建造出生命的材料。</p>
-  </header>
-  <section class="teaser">
-    <h2>这个游戏里，你将会…</h2>
-    <ul>
-      <li>搭建甲烷、乙烯、苯的模型</li>
-      <li>区分烷烃、烯烃、炔烃</li>
-      <li>认识生活中的有机物（塑料、乙醇、葡萄糖）</li>
-    </ul>
-  </section>
-  <div class="coming-soon">🚧 即将推出 · 敬请期待</div>
-  <p class="section-label">知识预习</p>
-  <div class="concepts">
-    <div class="concept-card"><h3>碳的四价</h3><p>能连4个键</p></div>
-    <div class="concept-card"><h3>同系物</h3><p>相差CH₂的一组分子</p></div>
-    <div class="concept-card"><h3>官能团</h3><p>决定性质的原子团</p></div>
-  </div>
-</main>
-<script src="../fo-utils.js"></script>
-<script>
-  var m = window.FO ? FO.getMember() : null;
-  var el = document.getElementById('nav-member-btn');
-  if(m){ el.innerHTML = FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>'; el.onclick=function(){location.href='../dashboard.html'}; }
-  else { el.innerHTML='<span>登录</span>'; el.onclick=function(){location.href='../login.html'}; }
-</script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>有机物工厂 · 游戏</title><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css"><link rel="stylesheet" href="chem-challenge.css"></head><body>
+<main class="chem-page"><nav class="chem-nav"><a class="chem-back" href="index.html">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+<header class="chem-hero"><span class="chem-emoji">🌿</span><h1>有机物工厂</h1><p class="chem-sub">碳能连成链、环和网，建造出生命材料。</p></header>
+<div class="chem-progress" id="chem-progress"></div><section class="chem-card" id="chem-card"></section><section class="chem-result" id="chem-result"></section></main>
+<script src="../fo-utils.js"></script><script>
+window.CHEM_GAME={id:'g26-chemistry-organic',badge:'碳骨架设计师徽章 🌿',result:'你已经认识碳的四价、烷烃系列和常见有机物。',
+stages:[
+{type:'choice',title:'碳的四只手',prompt:'甲烷 CH₄ 中，一个碳原子与几个氢原子相连？',options:['一个','两个','三个','四个'],answer:[3],success:'碳通常形成四个键，甲烷是最简单的有机物。',retry:'数一数 CH₄ 中 H 的下标。'},
+{type:'choice',title:'识别碳碳双键',prompt:'乙烯 C₂H₄ 含有碳碳双键。它属于哪一类有机物？',options:['烷烃','烯烃','炔烃','盐'],answer:[1],success:'含碳碳双键的烃叫烯烃；乙烯可用于制造塑料。',retry:'类别名称中的“烯”对应碳碳双键。'},
+{type:'multi',title:'生活中的有机物',prompt:'选出有机物。',options:['乙醇 C₂H₅OH','葡萄糖 C₆H₁₂O₆','食盐 NaCl','水 H₂O'],answer:[0,1],success:'乙醇和葡萄糖都有碳骨架，是常见有机物。',retry:'在这组物质里，寻找带碳骨架的分子。'}]};
+</script><script src="chem-challenge.js"></script></body></html>

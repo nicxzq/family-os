@@ -1,70 +1,11 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>溶液实验室 · 游戏</title>
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles.css">
-<style>
-  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
-  .nav-member-btn svg{border-radius:50%}
-  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px}
-  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px}
-  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px}
-  .game-hero{text-align:center;margin-bottom:36px}
-  .game-hero .emoji{font-size:64px;display:block;margin-bottom:16px}
-  .game-hero h1{font-size:clamp(28px,5vw,42px);margin-bottom:10px}
-  .game-hero .sub{color:var(--ink-soft);font-size:17px;line-height:1.6}
-  .teaser{background:var(--paper);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-card);margin-bottom:24px}
-  .teaser h2{font-size:14px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:16px}
-  .teaser ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
-  .teaser li{display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--ink-soft);line-height:1.6}
-  .teaser li::before{content:"→";color:var(--coral);flex-shrink:0;margin-top:2px}
-  .coming-soon{background:var(--cream-deep);border-radius:var(--radius);padding:20px 24px;text-align:center;font-size:18px;color:var(--ink-mute);margin-bottom:28px;border:2px dashed var(--ink-mute)}
-  .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-  .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
-  .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
-  .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
-  .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
-</style>
-</head>
-<body>
-<main class="wrap">
-  <nav class="game-nav">
-    <a class="back-link" href="index.html">← 游戏库</a>
-    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
-  </nav>
-  <header class="game-hero">
-    <span class="emoji">💧</span>
-    <h1>溶液实验室</h1>
-    <p class="sub">一勺糖放进水里就消失了？不，它只是藏起来了。</p>
-  </header>
-  <section class="teaser">
-    <h2>这个游戏里，你将会…</h2>
-    <ul>
-      <li>调配不同浓度的溶液</li>
-      <li>观察溶解度随温度的变化</li>
-      <li>结晶实验——让消失的固体重新出现</li>
-    </ul>
-  </section>
-  <div class="coming-soon">🚧 即将推出 · 敬请期待</div>
-  <p class="section-label">知识预习</p>
-  <div class="concepts">
-    <div class="concept-card"><h3>溶质与溶剂</h3><p>溶解的和溶解它的</p></div>
-    <div class="concept-card"><h3>溶解度</h3><p>100g溶剂最多溶多少</p></div>
-    <div class="concept-card"><h3>饱和溶液</h3><p>溶满了就不溶了</p></div>
-  </div>
-</main>
-<script src="../fo-utils.js"></script>
-<script>
-  var m = window.FO ? FO.getMember() : null;
-  var el = document.getElementById('nav-member-btn');
-  if(m){ el.innerHTML = FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>'; el.onclick=function(){location.href='../dashboard.html'}; }
-  else { el.innerHTML='<span>登录</span>'; el.onclick=function(){location.href='../login.html'}; }
-</script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>溶液实验室 · 游戏</title><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css"><link rel="stylesheet" href="chem-challenge.css"></head><body>
+<main class="chem-page"><nav class="chem-nav"><a class="chem-back" href="index.html">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+<header class="chem-hero"><span class="chem-emoji">💧</span><h1>溶液实验室</h1><p class="chem-sub">糖放进水里没有消失，它只是均匀地藏在水中。</p></header>
+<div class="chem-progress" id="chem-progress"></div><section class="chem-card" id="chem-card"></section><section class="chem-result" id="chem-result"></section></main>
+<script src="../fo-utils.js"></script><script>
+window.CHEM_GAME={id:'g27-chemistry-solution',badge:'溶液调配师徽章 💧',result:'你已经能辨认溶质与溶剂，并理解浓度、饱和和结晶。',
+stages:[
+{type:'choice',title:'谁藏进了谁',prompt:'把糖加入水中并搅拌。糖和水分别是什么？',options:['糖是溶质，水是溶剂','水是溶质，糖是溶剂','两者都是溶剂','两者都不是'],answer:[0],success:'被溶解的是溶质，溶解它的是溶剂。',retry:'想想是谁被分散到另一种物质中。'},
+{type:'choice',title:'浓度比较',prompt:'同样多的水中，哪一杯糖水更浓？',options:['加入一勺糖','加入三勺糖','两杯一样浓','无法比较'],answer:[1],success:'溶剂相同时，溶质越多，溶液越浓。',retry:'水量相同，只需要比较糖的量。'},
+{type:'sequence',title:'让晶体回来',prompt:'把结晶实验步骤按顺序排列。',options:['冷却溶液','加热水并溶解更多固体','观察晶体析出'],answer:[1,0,2],success:'热水溶解更多固体，冷却后多余溶质会结晶析出。',retry:'先配制热的浓溶液，再让温度下降。'}]};
+</script><script src="chem-challenge.js"></script></body></html>

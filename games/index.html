@@ -11,63 +11,61 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:999px; padding:6px 14px 6px 6px; font-size:14px; cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
-  .nav-member-btn svg { border-radius:50%; }
-  .games-page { padding:0 0 90px; }
-  .games-nav { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; position:sticky; top:0; z-index:10; background:var(--paper); box-shadow:var(--shadow-soft); border-radius:var(--radius); padding:10px 14px; margin-bottom:40px; }
-  .games-nav a { color:var(--ink-mute); text-decoration:none; font-size:15px; }
-  .games-hero { margin-bottom:24px; }
-  .games-hero h1 { margin-bottom:12px; }
-  .games-hero p { color:var(--ink-soft); font-size:20px; }
-  .summary { display:inline-flex; align-items:center; gap:10px; background:var(--paper); border-radius:999px; padding:9px 18px; box-shadow:var(--shadow-soft); color:var(--ink-soft); margin:8px 0 28px; }
-  .summary-dot { width:10px; height:10px; border-radius:50%; background:var(--green); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:var(--space-md); background:var(--paper); border:0; border-radius:var(--radius-full); padding:var(--space-sm) var(--space-2xl) var(--space-sm) var(--space-sm); font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+  .nav-member-btn svg { border-radius:var(--radius-circle); }
+  .games-page { padding:0 0 var(--space-page-bottom-lg); }
+  .games-nav { display:flex; align-items:center; justify-content:space-between; gap:var(--space-xl); flex-wrap:wrap; position:sticky; top:0; z-index:10; background:var(--paper); box-shadow:var(--shadow-soft); border-radius:var(--radius); padding:var(--space-lg) var(--space-2xl); margin-bottom:var(--space-section); }
+  .games-nav a { color:var(--ink-mute); text-decoration:none; font-size:var(--font-size-body-sm); }
+  .games-hero { margin-bottom:var(--space-7xl); }
+  .games-hero h1 { margin-bottom:var(--space-xl); }
+  .games-hero p { color:var(--ink-soft); font-size:var(--font-size-title); }
+  .summary { display:inline-flex; align-items:center; gap:var(--space-lg); background:var(--paper); border-radius:var(--radius-full); padding:var(--space-tab-y) var(--space-4xl); box-shadow:var(--shadow-soft); color:var(--ink-soft); margin:var(--space-md) 0 var(--space-8xl); }
+  .summary-dot { width:var(--size-status-dot); height:var(--size-status-dot); border-radius:var(--radius-circle); background:var(--green); }
 
   /* Category tabs */
-  .cat-tabs { display:flex; gap:8px; margin-bottom:28px; flex-wrap:wrap; }
-  .cat-tab { display:inline-flex; align-items:center; gap:6px; padding:10px 20px; border:2px solid transparent; border-radius:999px; background:var(--paper); color:var(--ink-soft); font:inherit; font-size:15px; cursor:pointer; box-shadow:var(--shadow-soft); transition:all .2s; }
+  .cat-tabs { display:flex; gap:var(--space-md); margin-bottom:var(--space-8xl); flex-wrap:wrap; }
+  .cat-tab { display:inline-flex; align-items:center; gap:var(--space-sm); padding:var(--space-lg) var(--space-5xl); border:var(--size-border) solid transparent; border-radius:var(--radius-full); background:var(--paper); color:var(--ink-soft); font:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-soft); transition:all .2s; }
   .cat-tab:hover { border-color:var(--ink-mute); }
   .cat-tab.is-active { background:var(--ink); color:var(--paper); border-color:var(--ink); }
-  .cat-count { background:rgba(255,255,255,.2); border-radius:999px; padding:1px 7px; font-size:12px; }
+  .cat-count { background:var(--paper-translucent); border-radius:var(--radius-full); padding:var(--size-hairline) var(--space-tag-gap); font-size:var(--font-size-caption); }
   .cat-tab:not(.is-active) .cat-count { background:var(--cream-deep); color:var(--ink-mute); }
   .cat-panel { display:none; }
   .cat-panel.is-active { display:block; }
-  .panel-desc { color:var(--ink-soft); font-size:16px; margin-bottom:24px; }
+  .panel-desc { color:var(--ink-soft); font-size:var(--font-size-body); margin-bottom:var(--space-7xl); }
 
   /* Booklet cards for Q&A */
-  .booklet-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:14px; max-width:800px; }
-  @media (max-width:600px) { .booklet-grid { grid-template-columns:repeat(3,1fr); gap:10px; } }
-  .booklet-card { display:flex; flex-direction:column; align-items:center; text-align:center; text-decoration:none; background:var(--paper); border-radius:var(--radius); padding:18px 12px 14px; box-shadow:var(--shadow-card); border-top:4px solid var(--coral); transition:transform .2s ease; min-height:140px; position:relative; }
-  .booklet-card:hover { transform:translateY(-3px); }
+  .booklet-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(var(--size-booklet-min), 1fr)); gap:var(--space-2xl); max-width:var(--size-content-wide); }
+  .booklet-card { display:flex; flex-direction:column; align-items:center; text-align:center; text-decoration:none; background:var(--paper); border-radius:var(--radius); padding:var(--space-4xl) var(--space-xl) var(--space-2xl); box-shadow:var(--shadow-card); border-top:var(--size-border-accent) solid var(--coral); transition:transform .2s ease; min-height:var(--size-booklet-height); position:relative; }
+  .booklet-card:hover { transform:translateY(calc(-1 * var(--space-chart-gap))); }
   .booklet-card[data-color="yellow"] { border-top-color:var(--yellow); }
   .booklet-card[data-color="green"]  { border-top-color:var(--green); }
   .booklet-card[data-color="blue"]   { border-top-color:var(--blue); }
-  .booklet-icon { font-size:32px; margin-bottom:8px; line-height:1; }
-  .booklet-num { position:absolute; top:8px; left:10px; font-size:11px; color:var(--ink-mute); letter-spacing:.1em; }
-  .booklet-title { font-size:13px; font-weight:700; color:var(--ink); line-height:1.4; margin-bottom:4px; }
-  .booklet-done { font-size:11px; color:var(--green); margin-top:auto; }
-  .booklet-todo { font-size:11px; color:var(--ink-mute); margin-top:auto; }
+  .booklet-icon { font-size:var(--font-size-icon-lg); margin-bottom:var(--space-md); line-height:1; }
+  .booklet-num { position:absolute; top:var(--space-md); left:var(--space-lg); font-size:var(--font-size-sm); color:var(--ink-mute); letter-spacing:.1em; }
+  .booklet-title { font-size:var(--font-size-note); font-weight:700; color:var(--ink); line-height:1.4; margin-bottom:var(--space-xs); }
+  .booklet-done { font-size:var(--font-size-sm); color:var(--green); margin-top:auto; }
+  .booklet-todo { font-size:var(--font-size-sm); color:var(--ink-mute); margin-top:auto; }
 
   /* Science / code / multi game cards */
-  .game-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:14px; }
-  .game-card { display:block; text-decoration:none; background:var(--paper); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-card); border-left:5px solid var(--coral); transition:transform .2s ease; }
-  .game-card:hover { transform:translateY(-3px); }
+  .game-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(var(--size-grid-card-min),1fr)); gap:var(--space-2xl); }
+  .game-card { display:block; text-decoration:none; background:var(--paper); border-radius:var(--radius); padding:var(--space-5xl); box-shadow:var(--shadow-card); border-left:var(--size-border-card) solid var(--coral); transition:transform .2s ease; }
+  .game-card:hover { transform:translateY(calc(-1 * var(--space-chart-gap))); }
   .game-card[data-color="yellow"] { border-left-color:var(--yellow); }
   .game-card[data-color="green"]  { border-left-color:var(--green); }
   .game-card[data-color="blue"]   { border-left-color:var(--blue); }
   .game-card.is-stub { opacity:.75; cursor:default; }
   .game-card.is-stub:hover { transform:none; }
-  .card-top { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:12px; }
-  .card-icon { font-size:28px; }
-  .card-status { font-size:13px; color:var(--ink-mute); }
+  .card-top { display:flex; align-items:center; justify-content:space-between; gap:var(--space-md); margin-bottom:var(--space-xl); }
+  .card-icon { font-size:var(--font-size-icon); }
+  .card-status { font-size:var(--font-size-note); color:var(--ink-mute); }
   .card-status.is-done { color:var(--green); }
-  .game-card h2 { font-size:17px; margin-bottom:4px; color:var(--ink); }
-  .stub-label { font-size:12px; color:var(--ink-mute); }
+  .game-card h2 { font-size:var(--font-size-body-lg); margin-bottom:var(--space-xs); color:var(--ink); }
+  .stub-label { font-size:var(--font-size-caption); color:var(--ink-mute); }
 
   /* Sub-sections in science panel */
-  .sci-section { margin-bottom:40px; }
-  .sci-label { font-size:14px; letter-spacing:.12em; color:var(--ink-mute); margin-bottom:16px; font-weight:700; }
+  .sci-section { margin-bottom:var(--space-section); }
+  .sci-label { font-size:var(--font-size-ui); letter-spacing:.12em; color:var(--ink-mute); margin-bottom:var(--space-3xl); font-weight:700; }
 
-  @media (max-width:760px) { .game-grid { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -149,15 +147,15 @@
 
   var chemGames = [
     ['g21-chemistry','化学厨房','⚗️','green','/games/g21-chemistry.html',true],
-    ['g23-chemistry-elements','元素探险','🧪','green','/games/g23-chemistry-elements.html',false],
-    ['g24-chemistry-acids','酸碱侦探','🌡️','green','/games/g24-chemistry-acids.html',false],
-    ['g25-chemistry-bonds','化学键拼图','🔗','green','/games/g25-chemistry-bonds.html',false],
-    ['g26-chemistry-organic','有机物工厂','🌿','green','/games/g26-chemistry-organic.html',false],
-    ['g27-chemistry-solution','溶液实验室','💧','green','/games/g27-chemistry-solution.html',false],
-    ['g28-chemistry-redox','氧化还原','⚡','green','/games/g28-chemistry-redox.html',false],
-    ['g29-chemistry-electro','电化学','🔋','green','/games/g29-chemistry-electro.html',false],
-    ['g30-chemistry-balance','方程式配平','⚖️','green','/games/g30-chemistry-balance.html',false],
-    ['g31-chemistry-burn','燃烧密室','🔥','green','/games/g31-chemistry-burn.html',false],
+    ['g23-chemistry-elements','元素探险','🧪','green','/games/g23-chemistry-elements.html',true],
+    ['g24-chemistry-acids','酸碱侦探','🌡️','green','/games/g24-chemistry-acids.html',true],
+    ['g25-chemistry-bonds','化学键拼图','🔗','green','/games/g25-chemistry-bonds.html',true],
+    ['g26-chemistry-organic','有机物工厂','🌿','green','/games/g26-chemistry-organic.html',true],
+    ['g27-chemistry-solution','溶液实验室','💧','green','/games/g27-chemistry-solution.html',true],
+    ['g28-chemistry-redox','氧化还原','⚡','green','/games/g28-chemistry-redox.html',true],
+    ['g29-chemistry-electro','电化学','🔋','green','/games/g29-chemistry-electro.html',true],
+    ['g30-chemistry-balance','方程式配平','⚖️','green','/games/g30-chemistry-balance.html',true],
+    ['g31-chemistry-burn','燃烧密室','🔥','green','/games/g31-chemistry-burn.html',true],
   ];
 
   var physGames = [
@@ -180,9 +178,9 @@
   ];
 
   var multiGames = [
-    ['g44-history','历史侦探','🏛️','coral','/games/g44-history-detective.html',true],
+    ['g44-history-detective','历史侦探','🏛️','coral','/games/g44-history-detective.html',true],
     ['g45-geo','地图寻宝','🗺️','yellow','/games/g45-geo-treasure.html',true],
-    ['g46-words','文字密码','📝','green','/games/g46-words-cipher.html',true],
+    ['g46-words-cipher','文字密码','📝','green','/games/g46-words-cipher.html',true],
     ['g47-math-art','数学画廊','🔢','blue','/games/g47-math-art.html',true],
   ];
 

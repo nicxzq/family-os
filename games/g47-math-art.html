@@ -235,15 +235,15 @@ function drawFib(){
   var first=true;
   for(var i=N-1;i>=0;i--){
     var sq=squares[i],s=sq.s,d=sq.dir;
-    var cx,cy,sa,ea,acw;
-    if(d==='init')  {cx=sq.x;   cy=sq.y+s; sa=0;     ea=-PI/2; acw=true;}
-    else if(d==='right'){cx=sq.x+s; cy=sq.y+s; sa=-PI/2; ea=PI;    acw=true;}
-    else if(d==='up')  {cx=sq.x+s; cy=sq.y;   sa=PI;    ea=PI/2;  acw=true;}
-    else if(d==='left'){cx=sq.x;   cy=sq.y;   sa=PI/2;  ea=0;     acw=true;}
-    else               {cx=sq.x+s; cy=sq.y;   sa=PI/2;  ea=PI;    acw=false;}
+    var cx,cy,sa,ea;
+    if(d==='init')       {cx=sq.x+s; cy=sq.y;   sa=PI/2;  ea=PI;}
+    else if(d==='right') {cx=sq.x;   cy=sq.y;   sa=0;     ea=PI/2;}
+    else if(d==='up')    {cx=sq.x;   cy=sq.y+s; sa=-PI/2; ea=0;}
+    else if(d==='left')  {cx=sq.x+s; cy=sq.y+s; sa=PI;    ea=3*PI/2;}
+    else                 {cx=sq.x+s; cy=sq.y;   sa=PI/2;  ea=PI;}
     var gcx=gx(cx),gcy=gy(cy),gr=s*sc;
     if(first){ctx.moveTo(gcx+gr*Math.cos(sa),gcy+gr*Math.sin(sa));first=false;}
-    ctx.arc(gcx,gcy,gr,sa,ea,acw);
+    ctx.arc(gcx,gcy,gr,sa,ea);
   }
   ctx.stroke();
   ctx.fillStyle=C.inkMute;ctx.font=cssToken('--font-size-note')+' sans-serif';ctx.textAlign='center';

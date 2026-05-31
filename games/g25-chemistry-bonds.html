@@ -1,70 +1,11 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>化学键拼图 · 游戏</title>
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles.css">
-<style>
-  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
-  .nav-member-btn svg{border-radius:50%}
-  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px}
-  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px}
-  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px}
-  .game-hero{text-align:center;margin-bottom:36px}
-  .game-hero .emoji{font-size:64px;display:block;margin-bottom:16px}
-  .game-hero h1{font-size:clamp(28px,5vw,42px);margin-bottom:10px}
-  .game-hero .sub{color:var(--ink-soft);font-size:17px;line-height:1.6}
-  .teaser{background:var(--paper);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-card);margin-bottom:24px}
-  .teaser h2{font-size:14px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:16px}
-  .teaser ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
-  .teaser li{display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--ink-soft);line-height:1.6}
-  .teaser li::before{content:"→";color:var(--coral);flex-shrink:0;margin-top:2px}
-  .coming-soon{background:var(--cream-deep);border-radius:var(--radius);padding:20px 24px;text-align:center;font-size:18px;color:var(--ink-mute);margin-bottom:28px;border:2px dashed var(--ink-mute)}
-  .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-  .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
-  .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
-  .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
-  .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
-</style>
-</head>
-<body>
-<main class="wrap">
-  <nav class="game-nav">
-    <a class="back-link" href="index.html">← 游戏库</a>
-    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
-  </nav>
-  <header class="game-hero">
-    <span class="emoji">🔗</span>
-    <h1>化学键拼图</h1>
-    <p class="sub">原子单独存在很孤单，它们喜欢手牵手——这就是化学键。</p>
-  </header>
-  <section class="teaser">
-    <h2>这个游戏里，你将会…</h2>
-    <ul>
-      <li>拖动电子配对形成共价键</li>
-      <li>给离子配对形成离子化合物</li>
-      <li>观察分子的3D立体结构</li>
-    </ul>
-  </section>
-  <div class="coming-soon">🚧 即将推出 · 敬请期待</div>
-  <p class="section-label">知识预习</p>
-  <div class="concepts">
-    <div class="concept-card"><h3>共价键</h3><p>共享电子对</p></div>
-    <div class="concept-card"><h3>离子键</h3><p>正负离子吸引</p></div>
-    <div class="concept-card"><h3>化学式</h3><p>元素符号+数字下标</p></div>
-  </div>
-</main>
-<script src="../fo-utils.js"></script>
-<script>
-  var m = window.FO ? FO.getMember() : null;
-  var el = document.getElementById('nav-member-btn');
-  if(m){ el.innerHTML = FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>'; el.onclick=function(){location.href='../dashboard.html'}; }
-  else { el.innerHTML='<span>登录</span>'; el.onclick=function(){location.href='../login.html'}; }
-</script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>化学键拼图 · 游戏</title><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css"><link rel="stylesheet" href="chem-challenge.css"></head><body>
+<main class="chem-page"><nav class="chem-nav"><a class="chem-back" href="index.html">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+<header class="chem-hero"><span class="chem-emoji">🔗</span><h1>化学键拼图</h1><p class="chem-sub">原子通过共享或转移电子连接起来，这就是化学键。</p></header>
+<div class="chem-progress" id="chem-progress"></div><section class="chem-card" id="chem-card"></section><section class="chem-result" id="chem-result"></section></main>
+<script src="../fo-utils.js"></script><script>
+window.CHEM_GAME={id:'g25-chemistry-bonds',badge:'化学键工程师徽章 🔗',result:'你已经能区分共价键、离子键，并从原子数量识别化学式。',
+stages:[
+{type:'choice',title:'共享电子',prompt:'两个氢原子各拿出一个电子形成 H₂，它们之间是什么键？',options:['共价键','离子键','金属键','没有化学键'],answer:[0],success:'两个氢原子共享一对电子，形成共价键。',retry:'关键词是“共享电子对”。'},
+{type:'choice',title:'正负吸引',prompt:'钠把一个电子交给氯后形成 Na⁺ 和 Cl⁻。NaCl 中主要是什么键？',options:['共价键','离子键','氢键','没有化学键'],answer:[1],success:'带相反电荷的离子相互吸引，形成离子键。',retry:'正离子和负离子之间存在静电吸引。'},
+{type:'choice',title:'观察分子形状',prompt:'H₂O 表示两个氢原子与一个氧原子相连。水分子的空间形状更接近哪一种？',options:['直线形','折线形','正方形','完整圆环'],answer:[1],success:'水分子不是直线，而是折线形。化学键方向会影响分子空间结构。',retry:'氧原子周围的电子对会让两个 O—H 键形成夹角。'}]};
+</script><script src="chem-challenge.js"></script></body></html>
