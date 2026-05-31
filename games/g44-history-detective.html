@@ -14,57 +14,297 @@
   .nav-member-btn svg{border-radius:50%}
   .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px}
   .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px}
-  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px}
-  .game-hero{text-align:center;margin-bottom:36px}
-  .game-hero .emoji{font-size:64px;display:block;margin-bottom:16px}
-  .game-hero h1{font-size:clamp(28px,5vw,42px);margin-bottom:10px}
-  .game-hero .sub{color:var(--ink-soft);font-size:17px;line-height:1.6}
-  .teaser{background:var(--paper);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-card);margin-bottom:24px}
-  .teaser h2{font-size:14px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:16px}
-  .teaser ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
-  .teaser li{display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--ink-soft);line-height:1.6}
-  .teaser li::before{content:"→";color:var(--coral);flex-shrink:0;margin-top:2px}
-  .coming-soon{background:var(--cream-deep);border-radius:var(--radius);padding:20px 24px;text-align:center;font-size:18px;color:var(--ink-mute);margin-bottom:28px;border:2px dashed var(--ink-mute)}
-  .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-  .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
-  .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
-  .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
-  .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
+  .page{max-width:720px;margin:0 auto;padding:0 20px 80px}
+  .game-hero{text-align:center;margin-bottom:28px}
+  .game-hero .emoji{font-size:56px;display:block;margin-bottom:12px}
+  .game-hero h1{font-size:clamp(26px,5vw,40px);margin-bottom:8px}
+  .game-hero .sub{color:var(--ink-soft);font-size:16px;line-height:1.6}
+  .visit-row{display:flex;align-items:center;gap:10px;margin-bottom:28px;flex-wrap:wrap}
+  .visit-dot{width:10px;height:10px;border-radius:50%;background:var(--cream-deep);transition:background .3s;flex-shrink:0}
+  .visit-dot.done{background:var(--green)}
+  .visit-hint{font-size:13px;color:var(--ink-mute)}
+  .ctabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+  .ctab{border:2px solid transparent;background:var(--paper);border-radius:999px;padding:9px 18px;font:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft);transition:all .2s;display:flex;align-items:center;gap:6px}
+  .ctab:hover{border-color:var(--ink-mute)}
+  .ctab.is-active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .ctab .badge{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.4}
+  .ctab.solved .badge{opacity:1;background:var(--green)}
+  .ctab.is-active.solved .badge{background:#7fffab}
+  .panel{display:none}
+  .panel.is-active{display:block}
+  .panel-head{background:var(--paper);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow-card);margin-bottom:20px}
+  .panel-head h2{font-size:17px;color:var(--ink);margin-bottom:6px}
+  .panel-head p{font-size:14px;color:var(--ink-mute);line-height:1.6}
+  .tf-q{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card);margin-bottom:14px}
+  .tf-stmt{font-size:16px;color:var(--ink);line-height:1.7;margin-bottom:12px}
+  .tf-btns{display:flex;gap:10px}
+  .tf-btn{flex:1;border:2px solid var(--cream-deep);background:var(--cream-deep);border-radius:999px;padding:10px 0;font:inherit;font-size:15px;cursor:pointer;color:var(--ink-soft);transition:all .2s}
+  .tf-btn:hover:not(:disabled){border-color:var(--ink-mute)}
+  .tf-btn.is-correct{background:var(--green);border-color:var(--green);color:var(--paper)}
+  .tf-btn.is-wrong{background:var(--coral);border-color:var(--coral);color:var(--paper)}
+  .tf-btn.is-dim{opacity:.4}
+  .tf-explain{display:none;margin-top:12px;font-size:14px;color:var(--ink-soft);line-height:1.7;padding:12px 14px;background:var(--cream-deep);border-radius:12px}
+  .tf-explain.show{display:block}
+  .tl-hint{font-size:13px;color:var(--ink-mute);margin-bottom:14px}
+  .tl-events{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+  .tl-ev{background:var(--paper);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow-card);cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .2s;user-select:none;border:2px solid transparent}
+  .tl-ev:hover{border-color:var(--cream-deep)}
+  .tl-ev.sel{border-color:var(--blue);background:var(--cream-deep)}
+  .tl-ev.ok{border-color:var(--green);cursor:default}
+  .tl-ev.err{border-color:var(--coral)}
+  .tl-num{width:26px;height:26px;border-radius:50%;background:var(--cream-deep);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--ink-mute);flex-shrink:0;transition:all .2s}
+  .tl-ev.sel .tl-num{background:var(--blue);color:var(--paper)}
+  .tl-ev.ok .tl-num{background:var(--green);color:var(--paper)}
+  .tl-ev.err .tl-num{background:var(--coral);color:var(--paper)}
+  .tl-title{font-size:15px;color:var(--ink);font-weight:500}
+  .tl-year{font-size:13px;color:var(--ink-mute);transition:color .3s}
+  .tl-year.show{color:var(--coral)}
+  .submit-btn{border:0;background:var(--ink);color:var(--paper);border-radius:999px;padding:12px 28px;font:inherit;font-size:15px;cursor:pointer;margin-bottom:14px;transition:opacity .2s}
+  .submit-btn:disabled{opacity:.4;cursor:default}
+  .tl-msg{display:none;padding:14px 18px;border-radius:var(--radius);font-size:15px;line-height:1.7;margin-bottom:14px}
+  .tl-msg.show{display:block}
+  .tl-msg.ok{background:var(--green);color:var(--paper)}
+  .tl-msg.err{background:var(--coral-soft);color:var(--ink)}
+  .ew-status{font-size:14px;color:var(--ink-mute);margin-bottom:12px}
+  .ew-cols{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+  .ew-col-label{font-size:13px;color:var(--ink-mute);letter-spacing:.08em;text-align:center}
+  .ew-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+  .ew-card{background:var(--paper);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow-card);cursor:pointer;font-size:14px;color:var(--ink-soft);line-height:1.6;border:2px solid transparent;transition:all .2s;min-height:58px;display:flex;align-items:center}
+  .ew-card:hover{border-color:var(--ink-mute)}
+  .ew-card.sel{border-color:var(--blue);background:var(--cream-deep);color:var(--ink)}
+  .ew-card.matched{border-color:var(--green);background:var(--green);color:var(--paper);cursor:default}
+  .ew-card.flash{border-color:var(--coral);background:var(--coral-soft)}
+  .case-done{display:none;padding:14px 18px;background:var(--green);color:var(--paper);border-radius:var(--radius);font-size:15px;margin-bottom:14px}
+  .case-done.show{display:block}
+  .done-banner{display:none;background:var(--yellow);border-radius:var(--radius);padding:18px 22px;text-align:center;font-size:16px;font-weight:700;color:var(--ink);margin-top:24px}
+  .done-banner.show{display:block}
 </style>
 </head>
 <body>
-<main class="wrap">
+<main class="page">
   <nav class="game-nav">
-    <a class="back-link" href="index.html">← 游戏库</a>
+    <a class="back-link" href="index.html">&#8592; 游戏库</a>
     <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
   </nav>
   <header class="game-hero">
-    <span class="emoji">🏛️</span>
+    <span class="emoji">&#127963;</span>
     <h1>历史侦探</h1>
-    <p class="sub">历史不只是背年份，它是一连串的因果——找到线索，还原真相。</p>
+    <p class="sub">历史不只是背年份，它是一连串的因果&#8212;&#8212;找到线索，还原真相。</p>
   </header>
-  <section class="teaser">
-    <h2>这个游戏里，你将会…</h2>
-    <ul>
-      <li>分析史料判断事件的真假</li>
-      <li>用时间线找出因果关系</li>
-      <li>比较东西方同一时期发生了什么</li>
-    </ul>
-  </section>
-  <div class="coming-soon">🚧 即将推出 · 敬请期待</div>
-  <p class="section-label">知识预习</p>
-  <div class="concepts">
-    <div class="concept-card"><h3>一手资料</h3><p>亲历者留下的记录</p></div>
-    <div class="concept-card"><h3>因果逻辑</h3><p>什么条件导致了什么结果</p></div>
-    <div class="concept-card"><h3>历史解释</h3><p>史料+推理=结论</p></div>
+  <div class="visit-row">
+    <span class="visit-dot" id="vd-tf"></span>
+    <span class="visit-dot" id="vd-tl"></span>
+    <span class="visit-dot" id="vd-ew"></span>
+    <span class="visit-hint">破解三个案件解锁侦探徽章</span>
   </div>
+  <nav class="ctabs">
+    <button class="ctab is-active" data-panel="tf"><span class="badge"></span>案件一：真假史料</button>
+    <button class="ctab" data-panel="tl"><span class="badge"></span>案件二：时间线排序</button>
+    <button class="ctab" data-panel="ew"><span class="badge"></span>案件三：东西方同步</button>
+  </nav>
+
+  <div class="panel is-active" id="panel-tf">
+    <div class="panel-head">
+      <h2>&#128220; 真假史料鉴定</h2>
+      <p>以下五条说法，有真有假。点击你认为正确的答案，看看历史认知有没有误区。</p>
+    </div>
+    <div class="tf-q" id="tfq-0">
+      <div class="tf-stmt">郑和第七次下西洋（1431年启程）时，哥伦布尚未出生。</div>
+      <div class="tf-btns">
+        <button class="tf-btn" onclick="answerTF(0,true)">&#10003; 正确</button>
+        <button class="tf-btn" onclick="answerTF(0,false)">&#10007; 错误</button>
+      </div>
+      <div class="tf-explain" id="tfexp-0">&#9989; 正确！哥伦布生于 1451 年，郑和 1431 年已扬帆——中国的"大航海"比欧洲早了数十年。</div>
+    </div>
+    <div class="tf-q" id="tfq-1">
+      <div class="tf-stmt">中国四大发明——造纸、印刷、火药、指南针——全部在宋朝完成发明。</div>
+      <div class="tf-btns">
+        <button class="tf-btn" onclick="answerTF(1,true)">&#10003; 正确</button>
+        <button class="tf-btn" onclick="answerTF(1,false)">&#10007; 错误</button>
+      </div>
+      <div class="tf-explain" id="tfexp-1">&#10060; 错误！造纸术由东汉蔡伦改良（约 105 年），指南针雏形最早见于战国时期。四大发明跨越了一千多年，宋朝只是集大成。</div>
+    </div>
+    <div class="tf-q" id="tfq-2">
+      <div class="tf-stmt">牛顿发表《自然哲学的数学原理》（1687 年）时，清朝处于康熙年间。</div>
+      <div class="tf-btns">
+        <button class="tf-btn" onclick="answerTF(2,true)">&#10003; 正确</button>
+        <button class="tf-btn" onclick="answerTF(2,false)">&#10007; 错误</button>
+      </div>
+      <div class="tf-explain" id="tfexp-2">&#9989; 正确！康熙在位 1661—1722 年，1687 年正是他主政期间。康熙本人也热爱数学，曾向传教士学习西洋几何。</div>
+    </div>
+    <div class="tf-q" id="tfq-3">
+      <div class="tf-stmt">达·芬奇（1452—1519）与哥伦布（1451—1506）是同一时代的人。</div>
+      <div class="tf-btns">
+        <button class="tf-btn" onclick="answerTF(3,true)">&#10003; 正确</button>
+        <button class="tf-btn" onclick="answerTF(3,false)">&#10007; 错误</button>
+      </div>
+      <div class="tf-explain" id="tfexp-3">&#9989; 正确！两人几乎同年出生，都活跃在文艺复兴盛期。达·芬奇比哥伦布多活了 13 年，可能读过哥伦布发现新大陆的报道。</div>
+    </div>
+    <div class="tf-q" id="tfq-4">
+      <div class="tf-stmt">西罗马帝国灭亡（476 年）和中国南北朝时期（420—589 年）发生在同一个世纪。</div>
+      <div class="tf-btns">
+        <button class="tf-btn" onclick="answerTF(4,true)">&#10003; 正确</button>
+        <button class="tf-btn" onclick="answerTF(4,false)">&#10007; 错误</button>
+      </div>
+      <div class="tf-explain" id="tfexp-4">&#9989; 正确！476 年和 420 年都在公元 5 世纪。东西方帝国同时面临分裂动荡，历史的巧合，何其相似。</div>
+    </div>
+    <div class="case-done" id="done-tf">&#127894; 真假史料全部鉴定完毕！</div>
+  </div>
+
+  <div class="panel" id="panel-tl">
+    <div class="panel-head">
+      <h2>&#9201; 时间线侦探</h2>
+      <p>下面五个历史事件顺序被打乱了。请按<strong>从早到晚</strong>的时间顺序依次点击，给每个事件编号。</p>
+    </div>
+    <p class="tl-hint">&#128161; 这五件事都发生在公元前（BC），年份数字越大反而越早。</p>
+    <div class="tl-events" id="tl-events">
+      <div class="tl-ev" id="tlev-0" onclick="selectTL(0)">
+        <div class="tl-num" id="tlnum-0">?</div>
+        <div><div class="tl-title">孔子创立儒家</div><div class="tl-year" id="tlyear-0">公元前 ? 年</div></div>
+      </div>
+      <div class="tl-ev" id="tlev-1" onclick="selectTL(1)">
+        <div class="tl-num" id="tlnum-1">?</div>
+        <div><div class="tl-title">亚历山大大帝东征波斯</div><div class="tl-year" id="tlyear-1">公元前 ? 年</div></div>
+      </div>
+      <div class="tl-ev" id="tlev-2" onclick="selectTL(2)">
+        <div class="tl-num" id="tlnum-2">?</div>
+        <div><div class="tl-title">秦始皇统一六国</div><div class="tl-year" id="tlyear-2">公元前 ? 年</div></div>
+      </div>
+      <div class="tl-ev" id="tlev-3" onclick="selectTL(3)">
+        <div class="tl-num" id="tlnum-3">?</div>
+        <div><div class="tl-title">张骞出使西域（开通丝绸之路）</div><div class="tl-year" id="tlyear-3">公元前 ? 年</div></div>
+      </div>
+      <div class="tl-ev" id="tlev-4" onclick="selectTL(4)">
+        <div class="tl-num" id="tlnum-4">?</div>
+        <div><div class="tl-title">凯撒遇刺于罗马</div><div class="tl-year" id="tlyear-4">公元前 ? 年</div></div>
+      </div>
+    </div>
+    <button class="submit-btn" id="tl-submit" onclick="checkTL()" disabled>提交顺序</button>
+    <div class="tl-msg" id="tl-msg"></div>
+    <div class="case-done" id="done-tl">&#127894; 时间线排列正确！</div>
+  </div>
+
+  <div class="panel" id="panel-ew">
+    <div class="panel-head">
+      <h2>&#127760; 东西方同步对照</h2>
+      <p>中国与西方常在同一时期发生重大事件。点击左侧一张卡片，再点击右侧同时代的事件，完成配对（共 4 对）。</p>
+    </div>
+    <p class="ew-status" id="ew-status">已配对：0 / 4</p>
+    <div class="ew-cols">
+      <div class="ew-col-label">&#127464;&#127475; 中国</div>
+      <div class="ew-col-label">&#127760; 西方</div>
+    </div>
+    <div class="ew-grid">
+      <div class="ew-card" id="ew-L0" onclick="selectEW('L',0)">活字印刷术发明（约 1040 年，毕昇）</div>
+      <div class="ew-card" id="ew-R2" onclick="selectEW('R',2)">英法百年战争（1337—1453 年）</div>
+      <div class="ew-card" id="ew-L1" onclick="selectEW('L',1)">成吉思汗建立蒙古帝国（1206 年）</div>
+      <div class="ew-card" id="ew-R0" onclick="selectEW('R',0)">诺曼人征服英格兰（1066 年）</div>
+      <div class="ew-card" id="ew-L2" onclick="selectEW('L',2)">明朝郑和首次下西洋（1405 年）</div>
+      <div class="ew-card" id="ew-R1" onclick="selectEW('R',1)">英国签署大宪章（1215 年）</div>
+      <div class="ew-card" id="ew-L3" onclick="selectEW('L',3)">清朝第一次鸦片战争（1840 年）</div>
+      <div class="ew-card" id="ew-R3" onclick="selectEW('R',3)">欧洲工业革命完成（约 1760—1840 年）</div>
+    </div>
+    <div class="case-done" id="done-ew">&#127894; 东西方同步配对全部正确！</div>
+  </div>
+
+  <div class="done-banner" id="done-banner">&#127885; 侦探徽章已解锁！三个案件全部告破，你是真正的历史侦探！</div>
 </main>
 <script src="../fo-utils.js"></script>
 <script>
-  var m = window.FO ? FO.getMember() : null;
-  var el = document.getElementById('nav-member-btn');
-  if(m){ el.innerHTML = FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>'; el.onclick=function(){location.href='../dashboard.html'}; }
-  else { el.innerHTML='<span>登录</span>'; el.onclick=function(){location.href='../login.html'}; }
+(function(){var m=window.FO&&FO.getMember(),el=document.getElementById('nav-member-btn');
+if(m){el.innerHTML=FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>';el.onclick=function(){location.href='../dashboard.html'};}
+else{el.innerHTML='<span>登录</span>';el.onclick=function(){location.href='../login.html';};}})();
+
+document.querySelectorAll('.ctab').forEach(function(btn){
+  btn.onclick=function(){
+    var p=btn.dataset.panel;
+    document.querySelectorAll('.ctab').forEach(function(b){b.classList.remove('is-active');});
+    document.querySelectorAll('.panel').forEach(function(e){e.classList.remove('is-active');});
+    btn.classList.add('is-active');document.getElementById('panel-'+p).classList.add('is-active');
+  };
+});
+
+var solved={tf:false,tl:false,ew:false};
+function markSolved(id){
+  if(solved[id])return;solved[id]=true;
+  document.getElementById('vd-'+id).classList.add('done');
+  document.querySelector('[data-panel="'+id+'"]').classList.add('solved');
+  document.getElementById('done-'+id).classList.add('show');
+  if(solved.tf&&solved.tl&&solved.ew){
+    document.getElementById('done-banner').classList.add('show');
+    var done=JSON.parse(localStorage.getItem('fo_games_done')||'[]');
+    if(done.indexOf('g44-history-detective')<0){done.push('g44-history-detective');localStorage.setItem('fo_games_done',JSON.stringify(done));}
+  }
+}
+
+var tfCorrect=[true,false,true,true,true],tfDone=new Array(5).fill(false);
+function answerTF(idx,playerChoseTrue){
+  if(tfDone[idx])return;tfDone[idx]=true;
+  var correct=tfCorrect[idx],q=document.getElementById('tfq-'+idx);
+  var btns=q.querySelectorAll('.tf-btn');
+  btns.forEach(function(b){b.disabled=true;});
+  var correctBtn=correct?btns[0]:btns[1];
+  var wrongBtn=correct?btns[1]:btns[0];
+  correctBtn.classList.add('is-correct');wrongBtn.classList.add('is-dim');
+  if(playerChoseTrue!==correct)(playerChoseTrue?btns[0]:btns[1]).classList.add('is-wrong');
+  document.getElementById('tfexp-'+idx).classList.add('show');
+  if(tfDone.every(Boolean)&&!solved.tf)setTimeout(function(){markSolved('tf');},400);
+}
+
+var tlYears=[551,334,221,138,44],tlOrder=[],tlDone=false;
+function selectTL(evIdx){
+  if(tlDone)return;
+  var el=document.getElementById('tlev-'+evIdx);
+  if(el.classList.contains('ok'))return;
+  var pos=tlOrder.indexOf(evIdx);
+  if(pos>=0){tlOrder.splice(pos,1);el.classList.remove('sel');}
+  else{tlOrder.push(evIdx);el.classList.add('sel');}
+  for(var i=0;i<5;i++){var p=tlOrder.indexOf(i);document.getElementById('tlnum-'+i).textContent=p>=0?p+1:'?';}
+  document.getElementById('tl-submit').disabled=(tlOrder.length<5);
+}
+function checkTL(){
+  if(tlDone)return;
+  var correct=true;
+  for(var i=0;i<5;i++){
+    var evIdx=tlOrder[i];
+    var yr=document.getElementById('tlyear-'+evIdx);yr.classList.add('show');yr.textContent='公元前 '+tlYears[evIdx]+' 年';
+    if(evIdx!==i){correct=false;document.getElementById('tlev-'+evIdx).classList.add('err');}
+    else{document.getElementById('tlev-'+evIdx).classList.remove('sel');document.getElementById('tlev-'+evIdx).classList.add('ok');}
+  }
+  var msg=document.getElementById('tl-msg');msg.classList.add('show');
+  if(correct){
+    tlDone=true;msg.className='tl-msg show ok';
+    msg.textContent='&#9989; 完全正确！孔子 &#8594; 亚历山大 &#8594; 秦始皇 &#8594; 张骞 &#8594; 凯撒，五百年的世界史尽在眼前。';
+    document.getElementById('tl-submit').disabled=true;
+    if(!solved.tl)setTimeout(function(){markSolved('tl');},400);
+  } else {
+    msg.className='tl-msg show err';msg.textContent='&#10060; 有些顺序不对，年份已显示。取消错误的选项后重试。';
+    setTimeout(function(){
+      for(var i=0;i<5;i++){var e=document.getElementById('tlev-'+i);if(e.classList.contains('err')){e.classList.remove('err','sel');var p=tlOrder.indexOf(i);if(p>=0)tlOrder.splice(p,1);document.getElementById('tlnum-'+i).textContent='?';}}
+      document.getElementById('tl-submit').disabled=(tlOrder.length<5);msg.classList.remove('show');
+    },2000);
+  }
+}
+
+var ewSel=null,ewMatched=0;
+function selectEW(side,idx){
+  var id=side+idx,el=document.getElementById('ew-'+id);
+  if(el.classList.contains('matched'))return;
+  if(ewSel===null){ewSel=id;el.classList.add('sel');return;}
+  var prevId=ewSel,prevSide=prevId.charAt(0);
+  if(prevSide===side){document.getElementById('ew-'+prevId).classList.remove('sel');ewSel=(prevId===id)?null:id;if(ewSel)el.classList.add('sel');else el.classList.remove('sel');return;}
+  var L=(side==='L')?id:prevId,R=(side==='R')?id:prevId;
+  if(parseInt(L.slice(1))===parseInt(R.slice(1))){
+    [L,R].forEach(function(s){document.getElementById('ew-'+s).classList.remove('sel');document.getElementById('ew-'+s).classList.add('matched');});
+    ewMatched++;ewSel=null;
+    document.getElementById('ew-status').textContent='已配对：'+ewMatched+' / 4';
+    if(ewMatched===4&&!solved.ew)setTimeout(function(){markSolved('ew');},300);
+  } else {
+    var prev=prevId;
+    document.getElementById('ew-'+prev).classList.add('flash');el.classList.add('flash');
+    setTimeout(function(){document.getElementById('ew-'+prev).classList.remove('sel','flash');el.classList.remove('sel','flash');ewSel=null;},700);
+  }
+}
 </script>
 </body>
 </html>

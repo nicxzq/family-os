@@ -74,6 +74,11 @@
 
   <!-- Fibonacci -->
   <div class="exhibit is-active" id="ex-fib">
+    <div class="ctrl-row">
+      <span class="ctrl-label">项数</span>
+      <input type="range" id="fib-n" min="3" max="9" value="6" oninput="document.getElementById('fib-val').textContent=this.value;drawFib()">
+      <span class="ctrl-val" id="fib-val">6</span>
+    </div>
     <div class="canvas-wrap"><canvas id="cv-fib" width="440" height="320"></canvas></div>
     <div class="info-card">
       <h2>斐波那契螺旋</h2>
@@ -192,35 +197,52 @@ var C={coral:'#E56B5A',yellow:'#F4C13E',green:'#6FA86D',blue:'#4B7BA8',coralSoft
 
 // ── Fibonacci spiral ──
 function drawFib(){
-  var cv=document.getElementById('cv-fib'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  var cv=document.getElementById('cv-fib'),ctx=cv.getContext('2d');
+  var N=parseInt(document.getElementById('fib-n').value);
+  var W=cv.width,H=cv.height;
   ctx.clearRect(0,0,W,H);
-  // layout: 6 squares in 13×8 unit grid
-  var sc=Math.min((W-40)/13,(H-40)/8),ox=(W-13*sc)/2,oy=(H-8*sc)/2;
-  var sqs=[{c:0,r:0,s:8,col:C.blue},{c:8,r:0,s:5,col:C.green},{c:8,r:5,s:3,col:C.yellow},{c:11,r:5,s:2,col:C.coral},{c:11,r:7,s:1,col:C.blueSoft},{c:12,r:7,s:1,col:C.greenSoft}];
-  sqs.forEach(function(sq){
-    var px=ox+sq.c*sc,py=oy+sq.r*sc,ps=sq.s*sc;
-    ctx.fillStyle=sq.col+'30';ctx.strokeStyle=sq.col;ctx.lineWidth=2;
+  var fibs=[1,1];
+  for(var i=2;i<N;i++) fibs.push(fibs[i-1]+fibs[i-2]);
+  var squares=[{x:0,y:0,s:1,dir:'init'}];
+  var bx1=0,by1=0,bx2=1,by2=1;
+  var d4=['right','up','left','down'];
+  for(var i=1;i<N;i++){
+    var s=fibs[i],dir=d4[(i-1)%4],sq={s:s,dir:dir,x:0,y:0};
+    if(dir==='right'){sq.x=bx2;sq.y=by2-s;bx2+=s;}
+    else if(dir==='up'){sq.x=bx1;sq.y=by1-s;by1-=s;}
+    else if(dir==='left'){sq.x=bx1-s;sq.y=by1;bx1-=s;}
+    else{sq.x=bx1;sq.y=by2;by2+=s;}
+    squares.push(sq);
+  }
+  var pad=24,tw=bx2-bx1,th=by2-by1;
+  var sc=Math.min((W-2*pad)/tw,(H-2*pad)/th);
+  var ox=(W-tw*sc)/2-bx1*sc,oy=(H-th*sc)/2-by1*sc;
+  function gx(v){return ox+v*sc;} function gy(v){return oy+v*sc;}
+  var cols=[C.blue,C.green,C.yellow,C.coral,C.blueSoft,C.greenSoft,C.yellowSoft,C.coralSoft];
+  squares.forEach(function(sq,idx){
+    var px=gx(sq.x),py=gy(sq.y),ps=sq.s*sc,col=cols[idx%cols.length];
+    ctx.fillStyle=col+'30';ctx.strokeStyle=col;ctx.lineWidth=1.5;
     ctx.beginPath();ctx.rect(px,py,ps,ps);ctx.fill();ctx.stroke();
-    if(ps>22){ctx.fillStyle=sq.col;ctx.font='bold '+Math.min(ps*.28,28)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(sq.s,px+ps/2,py+ps/2);}
+    if(ps>18){ctx.fillStyle=col;ctx.font='bold '+Math.min(ps*.3,24)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(fibs[idx],px+ps/2,py+ps/2);}
   });
-  // logarithmic spiral overlay (golden spiral approximation)
-  var phi=(1+Math.sqrt(5))/2,b=Math.log(phi)/(Math.PI/2);
-  // convergence point near center of the two 1×1 squares
-  var conX=ox+12.62*sc,conY=oy+7.75*sc;
-  // outermost point: top-left of 8×8 square
-  var endX=ox,endY=oy;
-  var outerAngle=Math.atan2(endY-conY,endX-conX);
-  var outerDist=Math.sqrt((endX-conX)*(endX-conX)+(endY-conY)*(endY-conY));
-  var thetaRange=3.5*Math.PI;
-  var a=outerDist/Math.exp(b*thetaRange);
-  ctx.beginPath();ctx.strokeStyle=C.ink;ctx.lineWidth=2.5;ctx.lineCap='round';
+  var PI=Math.PI;
+  ctx.beginPath();ctx.strokeStyle=C.ink;ctx.lineWidth=Math.max(1.5,3.5-N*0.3);ctx.lineCap='round';
   var first=true;
-  for(var t=0;t<=thetaRange;t+=0.02){
-    var r=a*Math.exp(b*t),ang=outerAngle-thetaRange+t;
-    var px2=conX+r*Math.cos(ang),py2=conY+r*Math.sin(ang);
-    if(first){ctx.moveTo(px2,py2);first=false;}else ctx.lineTo(px2,py2);
+  for(var i=N-1;i>=0;i--){
+    var sq=squares[i],s=sq.s,d=sq.dir;
+    var cx,cy,sa,ea,acw;
+    if(d==='init')  {cx=sq.x;   cy=sq.y+s; sa=0;     ea=-PI/2; acw=true;}
+    else if(d==='right'){cx=sq.x+s; cy=sq.y+s; sa=-PI/2; ea=PI;    acw=true;}
+    else if(d==='up')  {cx=sq.x+s; cy=sq.y;   sa=PI;    ea=PI/2;  acw=true;}
+    else if(d==='left'){cx=sq.x;   cy=sq.y;   sa=PI/2;  ea=0;     acw=true;}
+    else               {cx=sq.x+s; cy=sq.y;   sa=PI/2;  ea=PI;    acw=false;}
+    var gcx=gx(cx),gcy=gy(cy),gr=s*sc;
+    if(first){ctx.moveTo(gcx+gr*Math.cos(sa),gcy+gr*Math.sin(sa));first=false;}
+    ctx.arc(gcx,gcy,gr,sa,ea,acw);
   }
   ctx.stroke();
+  ctx.fillStyle=C.inkMute;ctx.font='13px sans-serif';ctx.textAlign='center';
+  ctx.fillText(fibs.join(', ')+(N>=9?', ...':''),W/2,H-6);
 }
 
 // ── Koch snowflake ──
