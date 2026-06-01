@@ -89,6 +89,56 @@
       "timestamp": "2026-05-19T13:21:29.837Z",
       "status": "pending",
       "tempName": "__proposed.xlPageBottomPadding"
+    },
+    {
+      "id": "prop_2026-06-01_010",
+      "value": "#FBE3D5",
+      "intent": "storybook-page-background-peach",
+      "proposedTokenName": "color.storybook-page-background-peach",
+      "callerFile": null,
+      "timestamp": "2026-06-01T14:53:56.873Z",
+      "status": "pending",
+      "tempName": "__proposed.storybookPageBackgroundPeach"
+    },
+    {
+      "id": "prop_2026-06-01_011",
+      "value": "#D7EBC9",
+      "intent": "storybook-page-background-mint",
+      "proposedTokenName": "color.storybook-page-background-mint",
+      "callerFile": null,
+      "timestamp": "2026-06-01T14:53:57.056Z",
+      "status": "pending",
+      "tempName": "__proposed.storybookPageBackgroundMint"
+    },
+    {
+      "id": "prop_2026-06-01_012",
+      "value": "#D7E7F4",
+      "intent": "storybook-page-background-sky",
+      "proposedTokenName": "color.storybook-page-background-sky",
+      "callerFile": null,
+      "timestamp": "2026-06-01T14:53:57.715Z",
+      "status": "pending",
+      "tempName": "__proposed.storybookPageBackgroundSky"
+    },
+    {
+      "id": "prop_2026-06-01_013",
+      "value": "rgba(255,255,255,0.7)",
+      "intent": "glass-overlay-nav-bar",
+      "proposedTokenName": "color.glass-overlay-nav-bar",
+      "callerFile": null,
+      "timestamp": "2026-06-01T14:53:58.894Z",
+      "status": "pending",
+      "tempName": "__proposed.glassOverlayNavBar"
+    },
+    {
+      "id": "prop_2026-06-01_014",
+      "value": "rgba(255,255,255,0.88)",
+      "intent": "glass-overlay-nav-button",
+      "proposedTokenName": "color.glass-overlay-nav-button",
+      "callerFile": null,
+      "timestamp": "2026-06-01T14:53:59.356Z",
+      "status": "pending",
+      "tempName": "__proposed.glassOverlayNavButton"
     }
   ]
 }

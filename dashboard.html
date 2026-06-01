@@ -26,6 +26,18 @@
     --shadow-soft:0 2px 0 rgba(43,36,25,0.08);
     --radius:18px;
     --radius-lg:28px;
+    --radius-md:10px;
+    --radius-circle:50%;
+    --paper:#FFFDF6;
+    --space-xs:4px;
+    --space-md:8px;
+    --space-lg:10px;
+    --space-xl:12px;
+    --font-size-xs:10px;
+    --font-size-sm:11px;
+    --font-size-caption:12px;
+    --size-border-card:5px;
+    --shelf-book-min-w:130px;
   }
   * { box-sizing: border-box; }
   body {
@@ -70,8 +82,7 @@
   }
   .member-pill svg { border-radius: 50%; }
   .hero-member,
-  .progress-section,
-  .history-section,
+  .bookshelf-section,
   .family-section,
   .quick-links,
   .edit-profile,
@@ -125,7 +136,45 @@
   .history-list,
   .family-list {
     display: grid;
-    gap: 12px;
+    gap: var(--radius-card-inner);
+  }
+  .bookshelf {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--shelf-book-min-w), 1fr));
+    gap: var(--space-xl);
+  }
+  .shelf-book {
+    background: var(--paper);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--ink);
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    display: block;
+    transition: opacity 0.15s;
+  }
+  .shelf-book:hover { opacity: 0.85; }
+  .shelf-top { height: var(--size-border-card); }
+  .shelf-body { padding: var(--space-md); }
+  .shelf-title { font-size: var(--font-size-caption); font-weight: 700; line-height: 1.3; margin-bottom: var(--space-chart-gap); color: var(--ink); }
+  .shelf-meta { font-size: var(--font-size-sm); color: var(--ink-mute); }
+  .shelf-time { font-size: var(--font-size-xs); color: var(--ink-mute); margin-top: var(--space-2xs); }
+  .shelf-check {
+    position: absolute;
+    top: var(--space-xs);
+    right: var(--space-xs);
+    background: var(--green);
+    color: var(--paper);
+    border-radius: var(--radius-circle);
+    width: var(--radius);
+    height: var(--radius);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
   }
   .book-progress-card {
     display: grid;
@@ -391,14 +440,9 @@
       <div id="hero-stats" class="hero-stats"></div>
     </section>
 
-    <section class="progress-section">
-      <h2 class="section-title" id="progress-toggle" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;">📚 阅读进度 <span id="progress-chevron" style="font-size:18px;transition:transform 0.3s;">▾</span></h2>
-      <div id="progress-list" class="book-progress-list"></div>
-    </section>
-
-    <section class="history-section">
-      <h2 class="section-title">🕐 最近阅读</h2>
-      <div id="history-list" class="history-list"></div>
+    <section class="bookshelf-section">
+      <h2 class="section-title">📚 我的书架</h2>
+      <div id="bookshelf" class="bookshelf"></div>
     </section>
 
     <section class="games-section" style="margin-top:18px;background:rgba(255,255,255,0.66);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-card);backdrop-filter:blur(8px);">
@@ -466,7 +510,9 @@
     { id: '07-soft-skills', title: '毛毛的谢谢', href: 'storybooks/07-soft-skills.html', color: 'green', total: 7 },
     { id: '08-patient-seeds', title: '毛毛的种子', href: 'storybooks/08-patient-seeds.html', color: 'blue', total: 7 },
     { id: '09-good-direction', title: '毛毛的好方向', href: 'storybooks/09-good-direction.html', color: 'coral', total: 7 },
-    { id: '10-attention', title: '毛毛的注意力', href: 'storybooks/10-attention.html', color: 'blue', total: 7 }
+    { id: '10-attention', title: '毛毛的注意力', href: 'storybooks/10-attention.html', color: 'blue', total: 7 },
+    { id: '11-new-friend', title: '毛毛的软技能', href: 'storybooks/11-new-friend.html', color: 'green', total: 7 },
+    { id: '12-learn-together', title: '毛毛共学记', href: 'storybooks/12-learn-together.html', color: 'yellow', total: 7 }
   ];
   const COLOR_VAR = { coral: 'var(--coral)', blue: 'var(--blue)', green: 'var(--green)', yellow: 'var(--yellow)' };
 
@@ -513,49 +559,31 @@
         '已读 ' + getCompletedCount(member) + ' 本 · 共 ' + getReadPages(member) + ' 页';
     }
 
-    function renderProgress() {
-      var list = document.getElementById('progress-list');
+    function renderBookshelf() {
+      var shelf = document.getElementById('bookshelf');
       var progress = FO.getProgress(member.id);
-      list.innerHTML = '';
-      BOOKS.forEach(function (book) {
-        var rec = progress[book.id] || { pages: [], completed: false, last: 0 };
-        var started = rec.pages.length > 0;
-        var currentPage = started ? (Math.min(rec.last + 1, book.total)) : 0;
-        var statusText = rec.completed ? '✓ 完成' : (started ? '进行中' : '未开始');
+      var sorted = BOOKS.slice().sort(function (a, b) {
+        var ta = (progress[a.id] && progress[a.id].lastTs) || 0;
+        var tb = (progress[b.id] && progress[b.id].lastTs) || 0;
+        if (ta !== tb) return tb - ta;
+        return BOOKS.indexOf(a) - BOOKS.indexOf(b);
+      });
+      shelf.innerHTML = '';
+      sorted.forEach(function (book) {
+        var rec = progress[book.id] || { pages: [], completed: false, last: 0, lastTs: 0 };
+        var lastTs = rec.lastTs || 0;
         var card = document.createElement('a');
-        card.className = 'book-progress-card';
+        card.className = 'shelf-book' + (rec.completed ? ' is-done' : '');
         card.href = book.href;
         card.innerHTML =
-          '<div class="book-strip" style="background:' + COLOR_VAR[book.color] + ';"></div>' +
-          '<div class="book-main">' +
-            '<strong>' + book.title + '</strong>' +
-            '<progress value="' + rec.pages.length + '" max="' + book.total + '"></progress>' +
-            '<div class="book-meta">第 ' + currentPage + '/' + book.total + ' 页</div>' +
+          '<div class="shelf-top" style="background:' + COLOR_VAR[book.color] + '"></div>' +
+          '<div class="shelf-body">' +
+            '<div class="shelf-title">' + book.title + '</div>' +
+            '<div class="shelf-meta">' + rec.pages.length + '/' + book.total + ' 页</div>' +
+            (lastTs ? '<div class="shelf-time">' + FO.formatTimeAgo(lastTs) + '</div>' : '') +
           '</div>' +
-          '<div class="status-badge ' + (rec.completed ? 'done' : 'idle') + '">' +
-            statusText +
-          '</div>';
-        list.appendChild(card);
-      });
-    }
-
-    function renderHistory() {
-      var list = document.getElementById('history-list');
-      var history = FO.getHistory(member.id, 20);
-      list.innerHTML = '';
-      if (!history.length) {
-        list.innerHTML = '<p class="empty">还没有阅读记录，从第一本开始吧！</p>';
-        return;
-      }
-      history.forEach(function (item) {
-        var book = BOOKS.find(function (b) { return b.id === item.bookId; });
-        var dotColor = book ? COLOR_VAR[book.color] : 'var(--yellow)';
-        var row = document.createElement('div');
-        row.className = 'history-item';
-        row.innerHTML =
-          '<div class="history-left"><span class="history-dot" style="background:' + dotColor + ';"></span><strong>' + item.title + '</strong></div>' +
-          '<span class="history-time">' + FO.formatTimeAgo(item.ts) + '</span>';
-        list.appendChild(row);
+          (rec.completed ? '<div class="shelf-check">✓</div>' : '');
+        shelf.appendChild(card);
       });
     }
 
@@ -653,8 +681,7 @@
       FO.updateMember(member);
       FO.setMember(member);
       renderHero();
-      renderProgress();
-      renderHistory();
+      renderBookshelf();
       renderFamily();
       renderEditor();
     });
@@ -685,18 +712,9 @@
     });
 
     renderHero();
-    renderProgress();
-    renderHistory();
+    renderBookshelf();
     renderFamily();
     renderEditor();
-
-    // Collapsible progress section
-    var progressOpen = true;
-    document.getElementById('progress-toggle').addEventListener('click', function() {
-      progressOpen = !progressOpen;
-      document.getElementById('progress-list').style.display = progressOpen ? '' : 'none';
-      document.getElementById('progress-chevron').style.transform = progressOpen ? 'rotate(0deg)' : 'rotate(-90deg)';
-    });
 
     // Games progress
     var ALL_GAMES = [
