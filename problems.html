@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>真实问题库 · 好的家庭教育</title>
+<meta name="description" content="六个原则对应的真实家庭场景：公开方法层脱敏可复用，私密实例层仅家人可见。">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .problems-page { padding: 0 0 var(--space-page-bottom-lg, 120px); }
+  .problems-nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; position: sticky; top: 0; z-index: 10; background: var(--paper); box-shadow: var(--shadow-soft); border-radius: var(--radius); padding: 10px 20px; margin-bottom: 48px; }
+  .problems-nav a { color: var(--ink-mute); text-decoration: none; font-size: 14px; }
+  .problems-hero { margin-bottom: 64px; }
+  .problems-hero h1 { margin-bottom: 12px; }
+  .problems-hero .hero-desc { color: var(--ink-soft); font-size: 16px; line-height: 1.8; max-width: 600px; }
+  .problems-privacy-note { display: inline-flex; align-items: center; gap: 8px; background: var(--yellow-soft); color: var(--ink-soft); border-radius: var(--radius); padding: 10px 16px; font-size: 13px; margin-bottom: 48px; }
+
+  /* ── 主题分组 ── */
+  .problem-group { margin-bottom: 64px; }
+  .problem-group-title { font-size: 13px; letter-spacing: .08em; color: var(--ink-mute); padding: 6px 12px; background: var(--cream); border-radius: var(--radius-full, 999px); display: inline-block; margin-bottom: 20px; }
+
+  /* ── 问题卡片 ── */
+  .problem-card { background: var(--paper); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); overflow: hidden; margin-bottom: 20px; }
+  .problem-card-head { display: flex; align-items: center; gap: 12px; padding: 20px 24px 16px; border-bottom: 1px solid var(--cream); }
+  .problem-no { font-size: 11px; letter-spacing: .08em; color: var(--ink-mute); }
+  .problem-tag-public { font-size: 11px; letter-spacing: .06em; background: var(--green-soft); color: var(--green); border-radius: var(--radius-full, 999px); padding: 2px 10px; }
+  .problem-title { font-size: 17px; font-weight: 600; color: var(--ink); flex: 1; line-height: 1.5; }
+  .problem-public { padding: 0 24px 20px; }
+  .problem-row { display: grid; grid-template-columns: 80px 1fr; gap: 8px 16px; padding: 14px 0; border-bottom: 1px solid var(--cream); }
+  .problem-row:last-child { border-bottom: none; }
+  .problem-row-label { font-size: 12px; font-weight: 600; color: var(--ink-mute); letter-spacing: .06em; padding-top: 2px; }
+  .problem-row-val { font-size: 15px; color: var(--ink); line-height: 1.7; }
+  .problem-pact { display: flex; align-items: flex-start; gap: 10px; background: var(--cream); border-radius: var(--radius); padding: 12px 16px; margin-top: 16px; }
+  .problem-pact-icon { font-size: 16px; flex-shrink: 0; }
+  .problem-pact-text { font-size: 14px; color: var(--ink-soft); line-height: 1.65; }
+  .problem-pact-text strong { color: var(--ink); }
+
+  /* ── 私密层 ── */
+  .problem-private { padding: 16px 24px; background: var(--cream); border-top: 1px solid var(--cream-deep, #EDE6D0); }
+  .problem-private-locked { display: flex; align-items: center; gap: 10px; color: var(--ink-mute); font-size: 13px; }
+  .problem-private-unlocked { font-size: 14px; color: var(--ink-soft); line-height: 1.7; }
+  .problem-private-unlocked .private-instance { background: var(--paper); border-radius: var(--radius); padding: 12px 14px; margin-top: 10px; font-size: 14px; color: var(--ink); line-height: 1.65; }
+
+  @media (max-width: 600px) {
+    .problem-row { grid-template-columns: 1fr; gap: 4px; }
+    .problem-row-label { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="problems-page">
+  <nav class="problems-nav">
+    <a href="index.html">← 家庭操作系统</a>
+    <span id="nav-login-hint" style="font-size:13px; color:var(--ink-mute);"></span>
+  </nav>
+
+  <div class="wrap wrap-narrow">
+    <div class="section-eyebrow">问题库</div>
+    <div class="problems-hero">
+      <h1>我们家的真实问题库</h1>
+      <p class="hero-desc">六条原则对应的真实场景：以前怎么处理、错在哪、今后怎么处理、一句话家庭约定。<br>公开层已脱敏，任何家庭都可能遇到。私密层仅家人登录后可见。</p>
+    </div>
+
+    <div class="problems-privacy-note">
+      🔒 公开层 = 脱敏通用模式 · 私密层 = 你家的具体实例（仅家人可见）
+    </div>
+
+    <div id="problems-container"></div>
+  </div>
+</div>
+
+<script src="/fo-utils.js"></script>
+<script src="/problems-data.js"></script>
+<script>
+(function () {
+  var member = window.FO ? FO.getMember() : null;
+
+  // 登录提示
+  var hint = document.getElementById('nav-login-hint');
+  if (hint) {
+    if (member) {
+      hint.textContent = '👤 ' + member.name + ' · 私密层可见';
+    } else {
+      hint.innerHTML = '<a href="login.html" style="color:var(--blue)">登录查看私密层</a>';
+    }
+  }
+
+  // 按主题分组
+  var groups = {};
+  PROBLEMS.forEach(function (p) {
+    if (!groups[p.theme]) groups[p.theme] = [];
+    groups[p.theme].push(p);
+  });
+
+  var container = document.getElementById('problems-container');
+  if (!container) return;
+
+  Object.keys(groups).forEach(function (theme) {
+    var groupEl = document.createElement('div');
+    groupEl.className = 'problem-group';
+    groupEl.innerHTML = '<div class="problem-group-title">' + theme + '</div>';
+
+    groups[theme].forEach(function (p) {
+      var pub = p.public;
+      var priv = p.family;
+      var hasPrivate = member && priv && Object.keys(priv).filter(function(k){ return k !== ''; }).length > 0;
+
+      // 私密内容区 HTML
+      var privateHTML;
+      if (!member) {
+        privateHTML =
+          '<div class="problem-private-locked">' +
+            '<span>🔒</span>' +
+            '<span>私密层 · <a href="login.html" style="color:var(--blue)">登录</a>后可见你家的具体实例</span>' +
+          '</div>';
+      } else if (hasPrivate) {
+        var instances = Object.entries(priv)
+          .filter(function(kv){ return kv[0] !== '' && kv[1]; })
+          .map(function(kv){ return '<div class="private-instance">' + kv[1] + '</div>'; })
+          .join('');
+        privateHTML =
+          '<div class="problem-private-unlocked">' +
+            '<span style="font-size:12px;color:var(--ink-mute);">🔓 私密实例（仅你可见）</span>' +
+            instances +
+          '</div>';
+      } else {
+        privateHTML =
+          '<div class="problem-private-locked">' +
+            '<span>📝</span>' +
+            '<span>私密层暂无实例 · 可在 family-changelog.js 或本地笔记中记录</span>' +
+          '</div>';
+      }
+
+      var card = document.createElement('div');
+      card.className = 'problem-card';
+      card.innerHTML =
+        '<div class="problem-card-head">' +
+          '<span class="problem-no">#' + p.no + '</span>' +
+          '<div class="problem-title">' + p.title + '</div>' +
+          '<span class="problem-tag-public">脱敏公开</span>' +
+        '</div>' +
+        '<div class="problem-public">' +
+          '<div class="problem-row">' +
+            '<div class="problem-row-label">典型场景</div>' +
+            '<div class="problem-row-val">' + pub.scene + '</div>' +
+          '</div>' +
+          '<div class="problem-row">' +
+            '<div class="problem-row-label">以前怎么做</div>' +
+            '<div class="problem-row-val">' + pub.before + '</div>' +
+          '</div>' +
+          '<div class="problem-row">' +
+            '<div class="problem-row-label">错在哪</div>' +
+            '<div class="problem-row-val">' + pub.wrong + '</div>' +
+          '</div>' +
+          '<div class="problem-row">' +
+            '<div class="problem-row-label">今后怎么做</div>' +
+            '<div class="problem-row-val">' + pub.after + '</div>' +
+          '</div>' +
+          '<div class="problem-pact">' +
+            '<span class="problem-pact-icon">🤝</span>' +
+            '<div class="problem-pact-text">家庭约定：<strong>' + pub.pact + '</strong></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="problem-private">' + privateHTML + '</div>';
+
+      groupEl.appendChild(card);
+    });
+
+    container.appendChild(groupEl);
+  });
+})();
+</script>
+
+</body>
+</html>

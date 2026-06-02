@@ -44,6 +44,30 @@
 
 ---
 
+## v0.4 · P2 真实问题库（C4）· 2026-06-03
+
+对应方案 **C4（真实问题库 · 双层卡片）**。核心原则：公开方法，私密实例。
+
+### 新增文件
+
+| 文件 | 说明 |
+|---|---|
+| `problems-data.js` | 问题库数据源。结构 `{id, theme, title, no, public:{scene,before,wrong,after,pact}, family:{}}`。`public` 字段脱敏可公开；`family` 字段留本地私密区。 |
+| `problems.html` | 问题列表页（`/problems`）。按六条原则主题分组；每张卡片顶部标"脱敏公开"；登录后显示 `family` 私密实例，未登录显示锁定提示。 |
+| `scripts/check-problems.sh` | CI 黑名单校验。检测 `problems-data.js` 的 public 字段是否含年龄/姓名禁词，命中即非零退出。向数据文件追加内容前运行一次。 |
+
+### `index.html` 改动
+
+- `#coauthor` 区块内追加"真实问题库"入口卡，链接到 `/problems`。
+
+### 使用说明
+
+- **追加新问题**：向 `problems-data.js` 的 `PROBLEMS` 数组追加对象，运行 `bash scripts/check-problems.sh` 确认无禁词，再发布。
+- **记录私密实例**：在 `family` 字段写入具体场景（`instance` 字段），登录家人可见，不公开抓取。
+- **6 条问题**当前均为公开脱敏版；私密层为空占位，等家庭会议后逐步填入。
+
+---
+
 ## v0.3 · P1 家庭共创模块（C3）· 2026-06-02
 
 对应方案 **C3（家庭共创）**。把"爸爸的宣言"变成"有别人笔迹的系统"。
