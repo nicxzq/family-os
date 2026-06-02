@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>好的家庭教育 · 小程序原型</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F8F2E2; --cream-deep:#F1E8D0; --paper:#FFFDF6;
+    --ink:#2B2419; --ink-soft:#5C4F3D; --ink-mute:#8C7C66;
+    --coral:#E56B5A; --coral-soft:#F4A799;
+    --yellow:#F4C13E; --yellow-soft:#FBE39A;
+    --green:#6FA86D; --green-soft:#B5D4A8;
+    --blue:#4B7BA8; --blue-soft:#A8C2DE;
+    --wx-bg:#ededed; /* 微信小程序默认页面底色 */
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:"LXGW WenKai TC","LXGW WenKai","Noto Serif SC","Songti SC",serif;
+    background:
+      radial-gradient(circle at 12% 14%, rgba(229,107,90,.07) 0, transparent 30%),
+      radial-gradient(circle at 88% 86%, rgba(75,123,168,.06) 0, transparent 32%),
+      var(--cream);
+    color:var(--ink);
+    min-height:100%;
+    display:flex; align-items:flex-start; justify-content:center;
+    gap:56px; padding:48px 40px 80px; flex-wrap:wrap;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ============ 左侧：标题 + 阐释面板 ============ */
+  .aside{ width:380px; padding-top:24px; }
+  .aside .eyebrow{
+    font-size:12px; letter-spacing:.22em; color:var(--coral);
+    background:rgba(229,107,90,.09); display:inline-block;
+    padding:6px 13px; border-radius:999px; margin-bottom:20px;
+  }
+  .aside h1{ font-size:34px; line-height:1.22; font-weight:600; margin-bottom:14px; letter-spacing:.01em;}
+  .aside h1 b{ color:var(--coral); font-weight:600;}
+  .aside .lead{ font-size:16px; color:var(--ink-soft); line-height:1.85; margin-bottom:30px;}
+  .note-group{ display:flex; flex-direction:column; gap:14px;}
+  .note{
+    background:var(--paper); border-radius:16px; padding:16px 18px;
+    box-shadow:0 3px 0 rgba(43,36,25,.05), 0 14px 30px -22px rgba(43,36,25,.25);
+    border-left:3px solid var(--coral);
+  }
+  .note:nth-child(2){border-left-color:var(--yellow);}
+  .note:nth-child(3){border-left-color:var(--green);}
+  .note:nth-child(4){border-left-color:var(--blue);}
+  .note:nth-child(5){border-left-color:var(--coral);}
+  .note .lim{ font-size:12.5px; color:var(--ink-mute); letter-spacing:.04em; margin-bottom:5px; display:flex; align-items:center; gap:7px;}
+  .note .lim::before{content:"限制"; font-size:10px; background:var(--ink); color:var(--cream); padding:2px 6px; border-radius:5px; letter-spacing:.05em;}
+  .note .sol{ font-size:14.5px; color:var(--ink); line-height:1.6;}
+  .note .sol b{ color:var(--coral); font-weight:500;}
+  .aside .foot{ margin-top:26px; font-size:13px; color:var(--ink-mute); line-height:1.8;}
+  .aside .foot code{ font-family:"SF Mono",ui-monospace,Menlo,monospace; font-size:12px; background:var(--cream-deep); padding:1px 6px; border-radius:5px; color:var(--ink-soft);}
+
+  /* ============ 右侧：手机 ============ */
+  .stage{ display:flex; flex-direction:column; align-items:center; gap:16px;}
+  .phone{
+    width:375px; height:812px; position:relative;
+    background:#000; border-radius:54px; padding:13px;
+    box-shadow:0 2px 1px rgba(255,255,255,.4) inset, 0 50px 90px -40px rgba(43,36,25,.55), 0 30px 60px -50px rgba(43,36,25,.6);
+  }
+  .screen{
+    position:relative; width:100%; height:100%; border-radius:42px; overflow:hidden;
+    background:var(--cream); display:flex; flex-direction:column;
+  }
+  /* 状态栏 */
+  .statusbar{
+    height:46px; flex:0 0 46px; display:flex; align-items:flex-end; justify-content:space-between;
+    padding:0 28px 6px; font-size:14px; font-weight:600; color:var(--ink);
+    font-family:-apple-system,"SF Pro Text",sans-serif; position:relative; z-index:6;
+  }
+  .statusbar .right{ display:flex; align-items:center; gap:6px; }
+  .sb-ico{display:inline-block;}
+  /* 微信原生导航栏 */
+  .navbar{
+    flex:0 0 44px; height:44px; display:flex; align-items:center; justify-content:center;
+    position:relative; z-index:6; padding:0 14px;
+  }
+  .navbar .title{ font-size:16.5px; font-weight:600; color:var(--ink); letter-spacing:.02em;}
+  .navbar .back{
+    position:absolute; left:12px; top:50%; transform:translateY(-50%);
+    width:32px; height:32px; display:none; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--ink); font-size:22px; line-height:1;
+  }
+  .navbar.has-back .back{ display:flex; }
+  /* 胶囊按钮（小程序必有，无法去除） */
+  .capsule{
+    position:absolute; right:14px; top:50%; transform:translateY(-50%);
+    width:87px; height:32px; border-radius:16px;
+    background:rgba(255,253,246,.6); border:1px solid rgba(43,36,25,.14);
+    display:flex; align-items:center; backdrop-filter:blur(4px);
+  }
+  .capsule .dots{ flex:1; display:flex; align-items:center; justify-content:center; gap:4px;}
+  .capsule .dots i{ width:4px; height:4px; border-radius:50%; background:var(--ink); display:block;}
+  .capsule .sep{ width:1px; height:18px; background:rgba(43,36,25,.18);}
+  .capsule .circle{ flex:1; display:flex; align-items:center; justify-content:center;}
+  .capsule .circle b{ width:13px; height:13px; border:1.6px solid var(--ink); border-radius:50%; display:block; position:relative;}
+  .capsule .circle b::after{content:""; position:absolute; inset:3px; border-radius:50%; border:1.4px solid var(--ink);}
+
+  /* 内容滚动区 */
+  .body{ flex:1; overflow:hidden; position:relative; }
+  .page{ position:absolute; inset:0; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:0 0 22px;}
+  .page::-webkit-scrollbar{ width:0; }
+  .page.hidden{ display:none; }
+
+  /* tabBar */
+  .tabbar{
+    flex:0 0 64px; height:64px; display:flex; align-items:flex-start;
+    padding-top:7px; background:var(--paper); border-top:1px solid rgba(43,36,25,.08);
+    box-shadow:0 -8px 20px -18px rgba(43,36,25,.4); position:relative; z-index:6;
+  }
+  .tabbar.hidden{ display:none; }
+  .tab{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;
+    font-size:11px; color:var(--ink-mute); cursor:pointer; padding-top:2px;
+  }
+  .tab .ico{ width:25px; height:25px; display:flex; align-items:center; justify-content:center;}
+  .tab .ico svg{ width:24px; height:24px; }
+  .tab .ln{ stroke:var(--ink-mute); }
+  .tab .fl{ fill:transparent; }
+  .tab.active{ color:var(--coral); }
+  .tab.active .ln{ stroke:var(--coral); }
+  .tab.active .fl{ fill:rgba(229,107,90,.14); }
+
+  /* ====== 通用页面内容样式 ====== */
+  .ph{ padding:18px 20px 6px; }
+  .ph .kicker{ font-size:11.5px; letter-spacing:.18em; color:var(--coral); margin-bottom:9px; text-transform:uppercase;}
+  .ph h2{ font-size:24px; line-height:1.3; font-weight:600; letter-spacing:.01em; margin-bottom:10px;}
+  .ph .sub{ font-size:13.5px; color:var(--ink-soft); line-height:1.75; }
+  .wrap{ padding:6px 16px 0; }
+
+  /* 首页 hero */
+  .mini-hero{
+    margin:4px 14px 14px; padding:22px 20px; border-radius:22px;
+    background:linear-gradient(150deg,#2B2419,#3a3122); color:var(--cream); position:relative; overflow:hidden;
+  }
+  .mini-hero .tag{ font-size:10px; letter-spacing:.22em; color:rgba(248,242,226,.55); margin-bottom:10px;}
+  .mini-hero h3{ font-size:21px; line-height:1.35; font-weight:600; margin-bottom:8px;}
+  .mini-hero h3 em{ font-style:normal; color:var(--yellow);}
+  .mini-hero p{ font-size:12.5px; color:rgba(248,242,226,.72); line-height:1.7;}
+  .mini-hero .dots{ display:flex; gap:5px; margin-top:14px;}
+  .mini-hero .dots i{ width:8px; height:8px; border-radius:50%; display:block;}
+
+  /* 想法卡列表 */
+  .idea-card{
+    background:var(--paper); border-radius:18px; padding:18px; margin:0 14px 12px;
+    box-shadow:0 3px 0 rgba(43,36,25,.05), 0 16px 32px -26px rgba(43,36,25,.35);
+    cursor:pointer; transition:transform .18s ease; border:1.5px solid transparent;
+  }
+  .idea-card:active{ transform:scale(.985); }
+  .idea-card .num{ display:flex; align-items:center; gap:8px; font-size:12px; color:var(--ink-mute); letter-spacing:.08em; margin-bottom:9px;}
+  .idea-card .num i{ width:9px; height:9px; border-radius:50%; display:block; background:var(--coral);}
+  .idea-card h4{ font-size:17px; line-height:1.4; font-weight:600; margin-bottom:11px;}
+  .idea-card .scene{ font-size:12.5px; color:var(--ink-soft); line-height:1.65; padding:11px 13px; background:var(--cream); border-radius:9px; border-left:3px solid var(--coral);}
+  .idea-card .go{ display:flex; align-items:center; justify-content:space-between; margin-top:13px; font-size:12.5px; color:var(--ink-mute);}
+  .idea-card .go b{ font-weight:500; color:var(--ink);}
+
+  /* 想法详情 */
+  .detail{ padding:6px 20px 10px; }
+  .detail .num{ display:flex; align-items:center; gap:8px; font-size:12px; color:var(--ink-mute); letter-spacing:.08em; margin-bottom:12px;}
+  .detail .num i{ width:10px; height:10px; border-radius:50%; display:block; background:var(--coral);}
+  .detail h2{ font-size:23px; line-height:1.32; font-weight:600; margin-bottom:16px; }
+  .detail .scene{ font-size:14px; color:var(--ink-soft); line-height:1.78; padding:15px 16px; background:var(--paper); border-radius:14px; border-left:3px solid var(--coral); margin-bottom:18px; box-shadow:0 12px 26px -24px rgba(43,36,25,.4);}
+  .detail .key{ font-size:16px; font-weight:500; line-height:1.65; margin-bottom:20px;}
+  .detail .key b{ background:linear-gradient(transparent 58%, rgba(244,193,62,.5) 58%); font-weight:600;}
+  .detail .body p{ font-size:14px; color:var(--ink-soft); line-height:1.95; margin-bottom:13px;}
+  .detail .body b{ color:var(--ink); font-weight:600; background:linear-gradient(transparent 60%, rgba(244,193,62,.35) 60%);}
+  .share-btn{
+    display:flex; align-items:center; justify-content:center; gap:9px; margin:24px 0 4px;
+    height:48px; border-radius:24px; background:var(--ink); color:var(--cream);
+    font-size:15px; font-weight:500; cursor:pointer;
+  }
+  .share-btn.green{ background:#07c160; }
+  .share-btn svg{ width:18px; height:18px; }
+
+  /* 人物卡 */
+  .person-card{
+    display:block; background:var(--paper); border-radius:22px; padding:22px; margin:0 14px 13px;
+    position:relative; overflow:hidden; cursor:pointer;
+    box-shadow:0 3px 0 rgba(43,36,25,.05), 0 16px 32px -26px rgba(43,36,25,.35);
+    transition:transform .18s ease;
+  }
+  .person-card:active{ transform:scale(.985);}
+  .person-card .tag{ font-size:11.5px; letter-spacing:.06em; color:var(--ink-mute); margin-bottom:9px;}
+  .person-card h4{ font-size:18px; line-height:1.4; font-weight:600; margin-bottom:10px; max-width:220px;}
+  .person-card p{ font-size:12.5px; color:var(--ink-soft); line-height:1.7; margin-bottom:15px; max-width:235px;}
+  .person-card .cta{ display:inline-flex; align-items:center; gap:6px; font-size:12.5px; padding:7px 14px; background:var(--cream); border-radius:999px; color:var(--ink);}
+  .person-card .ava{ position:absolute; right:18px; top:18px; width:54px; height:54px;}
+
+  /* 共读 */
+  .book-group{ margin:0 14px 6px; }
+  .book-group .gt{ font-size:13px; color:var(--ink-mute); letter-spacing:.08em; margin:18px 4px 10px; display:flex; align-items:center; gap:8px;}
+  .book-group .gt::before{ content:""; width:18px; height:2px; background:var(--coral); border-radius:2px;}
+  .book{ background:var(--paper); border-radius:13px; padding:14px 16px; margin-bottom:9px; border-left:4px solid var(--coral); box-shadow:0 2px 0 rgba(43,36,25,.04);}
+  .book h5{ font-size:14.5px; font-weight:600; margin-bottom:5px;}
+  .book p{ font-size:12px; color:var(--ink-soft); line-height:1.6;}
+
+  /* 家庭墙 */
+  .poster{
+    margin:10px 22px 0; background:var(--paper); border-radius:14px; padding:24px 22px;
+    aspect-ratio:3/4; display:flex; flex-direction:column; box-shadow:0 18px 40px -28px rgba(43,36,25,.5); border:1px solid rgba(43,36,25,.07);
+  }
+  .poster .pt{ font-size:18px; font-weight:700; letter-spacing:.02em; margin-bottom:3px;}
+  .poster .pe{ font-size:10px; color:var(--ink-mute); letter-spacing:.14em; margin-bottom:20px;}
+  .poster .rules{ display:flex; flex-direction:column; gap:13px; flex:1;}
+  .poster .rules div{ font-size:13.5px; padding-left:12px; border-left:2px solid var(--coral); line-height:1.4;}
+  .poster .rules div:nth-child(2){border-left-color:var(--yellow);}
+  .poster .rules div:nth-child(3){border-left-color:var(--green);}
+  .poster .rules div:nth-child(4){border-left-color:var(--blue);}
+  .poster .rules div:nth-child(5){border-left-color:var(--coral);}
+  .poster .rules div:nth-child(6){border-left-color:var(--yellow);}
+  .poster .rules div b{ font-weight:600; color:var(--coral); margin-right:6px;}
+  .poster .pf{ font-size:10px; color:var(--ink-mute); text-align:center; margin-top:16px;}
+  .wall-actions{ display:flex; gap:11px; margin:18px 22px 0;}
+  .wall-actions .wb{ flex:1; height:46px; border-radius:23px; display:flex; align-items:center; justify-content:center; gap:8px; font-size:14px; cursor:pointer;}
+  .wall-actions .wb.primary{ background:var(--ink); color:var(--cream);}
+  .wall-actions .wb.ghost{ background:transparent; border:1.5px solid var(--ink); color:var(--ink);}
+  .wall-tip{ font-size:11.5px; color:var(--ink-mute); text-align:center; margin:13px 26px 0; line-height:1.7;}
+
+  /* toast */
+  .toast{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%) scale(.9);
+    background:rgba(43,36,25,.9); color:var(--cream); padding:16px 22px; border-radius:14px;
+    font-size:13.5px; display:flex; flex-direction:column; align-items:center; gap:10px;
+    opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; z-index:30; min-width:120px;
+  }
+  .toast.show{ opacity:1; transform:translate(-50%,-50%) scale(1); }
+  .toast .ck{ width:34px; height:34px; border-radius:50%; border:2px solid var(--cream); display:flex; align-items:center; justify-content:center; font-size:18px;}
+
+  .caption{ font-size:12.5px; color:var(--ink-mute); letter-spacing:.04em;}
+  @media (max-width:880px){ .aside{ width:100%; max-width:420px; } }
+</style>
+</head>
+<body>
+
+<!-- ===================== 左侧阐释 ===================== -->
+<aside class="aside">
+  <span class="eyebrow">微信小程序原型 · 个人主体</span>
+  <h1>同一个<b>家庭操作系统</b>，<br>装进微信里。</h1>
+  <p class="lead">个人主体不能用 web-view 套现有网页，所以整套界面按小程序原生组件重做：tabBar 导航、原生胶囊按钮、转发到聊天替代"发网址"、生成海报替代打印。右侧是可点的原型。</p>
+
+  <div class="note-group">
+    <div class="note">
+      <div class="lim">个人主体不能用 web-view</div>
+      <div class="sol">全部 <b>原生页面</b>，底部 tabBar：六条 / 给家人 / 共读 / 家庭墙。</div>
+    </div>
+    <div class="note">
+      <div class="lim">小程序不能打印 A3/A4</div>
+      <div class="sol">家庭墙改为 <b>canvas 生成海报 → 保存到相册</b>。</div>
+    </div>
+    <div class="note">
+      <div class="lim">不能外链 JS、整字库塞不进 2MB 主包</div>
+      <div class="sol">霞鹜文楷用 <b>wx.loadFontFace</b> 从阿里云加载；SVG 装饰转 PNG。</div>
+    </div>
+    <div class="note">
+      <div class="lim">"把网址发给那个人"不成立</div>
+      <div class="sol">每个人物页用 <b>原生转发到聊天</b>，点开即停在对应入口。</div>
+    </div>
+    <div class="note">
+      <div class="lim">代码改动要重新审核</div>
+      <div class="sol">文案走 <b>阿里云接口</b>（备案域名），改内容不发版、下次打开即更新。</div>
+    </div>
+  </div>
+
+  <p class="foot">原型为视觉与交互演示，真实工程用 <code>Taro(React)</code> 编译为小程序；详见随附的<b>《小程序实现方案》</b>。</p>
+</aside>
+
+<!-- ===================== 手机原型 ===================== -->
+<div class="stage">
+  <div class="phone">
+    <div class="screen">
+      <!-- 状态栏 -->
+      <div class="statusbar">
+        <span>20:18</span>
+        <span class="right">
+          <svg class="sb-ico" width="17" height="11" viewBox="0 0 17 11"><g fill="#2B2419"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></g></svg>
+          <svg class="sb-ico" width="16" height="11" viewBox="0 0 16 11"><path d="M8 2.5c2 0 3.8.8 5.1 2L14.6 3C12.9 1.2 10.6.2 8 .2S3.1 1.2 1.4 3l1.5 1.5C4.2 3.3 6 2.5 8 2.5z" fill="#2B2419"/><path d="M8 5.5c1.2 0 2.3.5 3 1.3L12.6 5.3C11.4 4.1 9.8 3.4 8 3.4s-3.4.7-4.6 1.9L5 6.8c.7-.8 1.8-1.3 3-1.3z" fill="#2B2419"/><circle cx="8" cy="9" r="1.6" fill="#2B2419"/></svg>
+          <svg class="sb-ico" width="26" height="12" viewBox="0 0 26 12"><rect x="1" y="1" width="21" height="10" rx="3" fill="none" stroke="#2B2419" stroke-opacity=".5"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="#2B2419"/><rect x="23" y="4" width="2" height="4" rx="1" fill="#2B2419" fill-opacity=".5"/></svg>
+        </span>
+      </div>
+
+      <!-- 导航栏 -->
+      <div class="navbar" id="navbar">
+        <div class="back" id="backBtn">‹</div>
+        <div class="title" id="navTitle">好的家庭教育</div>
+        <div class="capsule">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="sep"></div>
+          <div class="circle"><b></b></div>
+        </div>
+      </div>
+
+      <!-- 内容区 -->
+      <div class="body" id="bodyArea"></div>
+
+      <!-- tabBar -->
+      <div class="tabbar" id="tabbar">
+        <div class="tab active" data-tab="ideas">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><rect class="fl" x="3" y="4" width="18" height="16" rx="2"/><rect class="ln" x="3" y="4" width="18" height="16" rx="2" stroke-width="1.6"/><path class="ln" d="M8 9h8M8 13h5" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <span class="ln-t">六条</span>
+        </div>
+        <div class="tab" data-tab="persons">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><circle class="fl" cx="9" cy="8" r="3.2"/><circle class="ln" cx="9" cy="8" r="3.2" stroke-width="1.6"/><path class="ln" d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke-width="1.6" stroke-linecap="round"/><circle class="ln" cx="17" cy="7" r="2.2" stroke-width="1.6"/><path class="ln" d="M16 13.5c2.6 0 4.5 1.8 4.5 4.5" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <span>给家人</span>
+        </div>
+        <div class="tab" data-tab="books">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path class="fl" d="M4 5c3-1 5 0 8 1V20c-3-1-5-2-8-1V5z"/><path class="ln" d="M12 6c3-1 5-2 8-1v15c-3-1-5 0-8 1m0-15c-3-1-5-2-8-1v15c3-1 5 0 8 1m0-15v15" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span>共读</span>
+        </div>
+        <div class="tab" data-tab="wall">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><rect class="fl" x="4" y="3" width="16" height="18" rx="2"/><rect class="ln" x="4" y="3" width="16" height="18" rx="2" stroke-width="1.6"/><path class="ln" d="M8 8h8M8 12h8M8 16h5" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <span>家庭墙</span>
+        </div>
+      </div>
+
+      <!-- toast -->
+      <div class="toast" id="toast"></div>
+    </div>
+  </div>
+  <div class="caption">点 tabBar 切换 · 点卡片进详情 · "保存到相册"演示打印替代方案</div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>两个站点的下一步 · 评估与改造规约</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #faf6ec;
+    --paper-deep: #f3ecd8;
+    --paper-warm: #fdf9ee;
+    --ink: #2a2620;
+    --body: #3d352a;
+    --muted: #8a7a60;
+    --faint: #bfb094;
+    --faintest: #d8ccae;
+    --rule: #e6dcc5;
+    --rule-soft: #efe8d4;
+    --brick: #b8553a;      /* wiki 强调 */
+    --coral: #d2624c;      /* family 强调 */
+    --ochre: #c79c4b;
+    --forest: #5c7a5e;     /* AI / 未来 */
+    --serif: "Newsreader","Noto Serif SC","Spectral",serif;
+    --sans: "Inter","Noto Sans SC",sans-serif;
+    --mono: "JetBrains Mono",ui-monospace,monospace;
+  }
+  * { box-sizing: border-box }
+  html, body { margin:0; padding:0; background: var(--paper); color: var(--body);
+    font-family: var(--serif); font-size: 16px; line-height: 1.78;
+    background-image: radial-gradient(rgba(170,140,90,.05) 1px, transparent 1px);
+    background-size: 3px 3px;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 860px; margin: 0 auto; padding: 68px 28px 100px; }
+
+  .eyebrow { font-family: var(--sans); font-size: 11px; letter-spacing: .28em;
+    text-transform: uppercase; color: var(--brick); font-weight: 600; margin: 0 0 10px; }
+
+  h1 { font-family: var(--serif); font-weight: 500; font-size: 52px; line-height: 1.1;
+    letter-spacing: -.02em; color: var(--ink); margin: 10px 0 20px; }
+  h1 em { font-style: italic; color: var(--brick); }
+
+  .lede { font-size: 19px; line-height: 1.75; color: var(--body); max-width: 660px; }
+  .lede b { color: var(--ink); font-weight: 600; }
+
+  h2.part { font-family: var(--sans); font-size: 11px; letter-spacing: .26em;
+    text-transform: uppercase; font-weight: 600; margin: 0 0 4px; }
+  h2 .pn { font-family: var(--mono); }
+
+  .part-head { margin: 84px 0 28px; padding-top: 22px; border-top: 2px solid var(--ink); }
+  .part-head h3 { font-family: var(--serif); font-weight: 500; font-size: 34px;
+    line-height: 1.18; letter-spacing: -.015em; color: var(--ink); margin: 6px 0 10px; }
+  .part-head p { color: var(--muted); font-size: 16px; max-width: 640px; margin: 0; }
+
+  h4 { font-family: var(--serif); font-weight: 600; font-size: 22px; color: var(--ink);
+    letter-spacing: -.005em; margin: 44px 0 6px; }
+  h5 { font-family: var(--sans); font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600; margin: 28px 0 8px; }
+
+  p, li { font-size: 16px; line-height: 1.8; color: var(--body); }
+  strong { color: var(--ink); font-weight: 600; }
+  em { font-style: italic; }
+  ul, ol { padding-left: 24px; }
+  li { margin: 5px 0; }
+  li::marker { color: var(--faint); }
+
+  a { color: var(--brick); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  code { font-family: var(--mono); font-size: 13px; background: var(--paper-deep);
+    color: var(--ink); padding: 1px 6px; border-radius: 2px; border: 1px solid var(--rule); }
+  pre { font-family: var(--mono); font-size: 12.5px; background: #2a2620;
+    color: #e9e0cb; padding: 18px 22px; border-radius: 4px;
+    border-left: 3px solid var(--brick); overflow: auto; line-height: 1.65; margin: 16px 0; }
+  pre code { background: transparent; border: 0; padding: 0; color: inherit; }
+  pre .c { color: #8a7a60; }
+  pre .k { color: #d99a6c; }
+  pre .s { color: #9bbd8e; }
+
+  table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14.5px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--rule-soft);
+    vertical-align: top; }
+  th { font-family: var(--sans); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600; border-bottom: 1.5px solid var(--ink); }
+  td { line-height: 1.62; }
+  tr:last-child td { border-bottom: 1px solid var(--rule); }
+
+  /* tags */
+  .tag { font-family: var(--sans); font-size: 10.5px; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; padding: 2px 8px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; }
+  .tag.wiki { background: rgba(184,85,58,.12); color: var(--brick); }
+  .tag.family { background: rgba(210,98,76,.13); color: var(--coral); }
+  .tag.ai { background: rgba(92,122,94,.14); color: var(--forest); }
+  .p0 { background: #b8553a; color: #fff; }
+  .p1 { background: var(--ochre); color: #2a2620; }
+  .p2 { background: var(--paper-deep); color: var(--muted); border: 1px solid var(--rule); }
+
+  /* verdict pills */
+  .v { font-family: var(--sans); font-size: 11px; font-weight: 700; padding: 2px 9px;
+    border-radius: 2px; white-space: nowrap; }
+  .v.yes { background: var(--forest); color: #fff; }
+  .v.partly { background: var(--ochre); color: #2a2620; }
+  .v.plus { background: var(--brick); color: #fff; }
+
+  /* callout */
+  .callout { background: var(--paper-warm); border: 1px solid var(--rule);
+    border-left: 3px solid var(--brick); padding: 18px 22px; margin: 22px 0; border-radius: 0 3px 3px 0; }
+  .callout.risk { border-left-color: var(--coral); background: #fdf3ef; }
+  .callout.ai { border-left-color: var(--forest); }
+  .callout h5 { margin-top: 0; color: var(--ink); }
+  .callout p:last-child { margin-bottom: 0; }
+
+  /* before/after */
+  .ba { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 18px 0;
+    border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+  .ba > div { padding: 16px 20px; }
+  .ba .before { background: var(--paper-deep); border-right: 1px solid var(--rule); }
+  .ba .after { background: var(--paper-warm); }
+  .ba .lbl { font-family: var(--sans); font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+    font-weight: 600; margin-bottom: 8px; }
+  .ba .before .lbl { color: var(--muted); }
+  .ba .after .lbl { color: var(--forest); }
+  .ba .q { font-size: 15.5px; line-height: 1.7; }
+  .ba .before .q { color: var(--muted); }
+  .ba .after .q { color: var(--ink); }
+  @media (max-width: 620px) { .ba { grid-template-columns: 1fr; } .ba .before { border-right: 0; border-bottom: 1px solid var(--rule); } }
+
+  /* codex spec block */
+  .codex { border: 1px solid var(--rule); border-radius: 4px; margin: 20px 0; overflow: hidden; }
+  .codex-head { background: var(--ink); color: var(--paper); font-family: var(--mono);
+    font-size: 11px; letter-spacing: .1em; padding: 9px 18px; text-transform: uppercase; }
+  .codex-body { padding: 8px 22px 14px; background: var(--paper-warm); }
+  .codex-body ul { margin: 10px 0; }
+  .codex-body li { font-size: 14.5px; line-height: 1.7; }
+  .file { font-family: var(--mono); font-size: 12.5px; color: var(--brick); }
+
+  /* module mock */
+  .mock { border: 1px solid var(--rule); border-radius: 6px; background: var(--paper-warm);
+    padding: 26px 28px; margin: 18px 0; }
+  .mock .mk-eyebrow { font-family: var(--sans); font-size: 10.5px; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--brick); font-weight: 600; margin-bottom: 12px; }
+  .mock h6 { font-family: var(--serif); font-size: 24px; font-weight: 600; color: var(--ink);
+    margin: 0 0 14px; letter-spacing: -.01em; }
+  .steps { display: grid; gap: 10px; counter-reset: s; }
+  .step { display: grid; grid-template-columns: 30px 1fr; gap: 14px; align-items: start;
+    padding: 12px 0; border-top: 1px solid var(--rule-soft); }
+  .step:first-child { border-top: 0; }
+  .step .sn { font-family: var(--mono); font-size: 12px; color: #fff; background: var(--brick);
+    width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; }
+  .step .st { font-family: var(--serif); font-weight: 600; color: var(--ink); font-size: 16px; }
+  .step .sd { font-size: 14px; color: var(--muted); margin-top: 2px; line-height: 1.6; }
+
+  /* tier diagram */
+  .tiers { margin: 24px 0; }
+  .tier { border: 1px solid var(--rule); border-radius: 4px; padding: 16px 20px; margin: 10px 0;
+    display: grid; grid-template-columns: 86px 1fr; gap: 18px; align-items: start; }
+  .tier.t0 { background: rgba(92,122,94,.07); border-left: 3px solid var(--forest); }
+  .tier.t1 { background: rgba(210,98,76,.07); border-left: 3px solid var(--coral); }
+  .tier .tl { font-family: var(--mono); font-size: 12px; font-weight: 500; }
+  .tier.t0 .tl { color: var(--forest); }
+  .tier.t1 .tl { color: var(--coral); }
+  .tier .tt { font-family: var(--serif); font-weight: 600; color: var(--ink); font-size: 17px; margin-bottom: 4px; }
+  .tier .td { font-size: 14px; color: var(--body); }
+  .tier .ai-flag { font-family: var(--mono); font-size: 11px; margin-top: 6px; display: inline-block; }
+  .tier.t0 .ai-flag { color: var(--forest); }
+  .tier.t1 .ai-flag { color: var(--coral); }
+
+  .divider { display:flex; justify-content:center; margin: 40px 0; }
+  hr.soft { border: 0; border-top: 1px solid var(--rule); margin: 36px 0; }
+
+  .meta-row { display:flex; gap:14px; font-family: var(--serif); font-style: italic;
+    font-size: 13.5px; color: var(--muted); flex-wrap: wrap; margin: 20px 0 0; }
+  .meta-row b { color: var(--ink); font-style: normal; font-weight: 500; }
+
+  footer { margin-top: 90px; padding-top: 26px; border-top: 1px solid var(--rule);
+    font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--muted);
+    text-align: center; line-height: 1.8; }
+
+  .toc-box { background: var(--paper-warm); border: 1px solid var(--rule); border-radius: 4px;
+    padding: 18px 24px; margin: 34px 0; }
+  .toc-box .eyebrow { margin-bottom: 12px; }
+  .toc-box ol { columns: 2; column-gap: 40px; padding-left: 20px; margin: 0; }
+  .toc-box li { font-size: 14.5px; line-height: 1.85; break-inside: avoid; }
+  @media (max-width: 620px) { .toc-box ol { columns: 1; } }
+
+  @media print {
+    body { background: white; background-image: none; }
+    pre { background: #f5f0e0; color: #2a2620; }
+    a { color: var(--ink); }
+  }
+</style>
+</head>
+<body>
+<main>
+
+<div class="eyebrow">评估 · 改造方案 · Codex 规约 · AI 接口规划</div>
+<h1>两个站点的下一步：<br>从<em>"自己清楚"</em>到<em>"读者带得走"</em>。</h1>
+
+<p class="lede">
+  朋友的判断是对的，而且很关键：现在两个站都是 <b>"你自己很清楚，读者要慢慢猜"</b>。
+  这份文档把他的意见逐条评估，然后给出 <b>wiki 与 family 的具体改造方案</b>、可直接交给 Codex 的实现规约，
+  以及一套 <b>面向 AI 的调用接口规划</b>——它和"隐私分区"是同一件事的两面。
+</p>
+
+<div class="meta-row">
+  <span>站点 · <b>wiki.carlxu.cn / family.carlxu.cn</b></span><span>·</span>
+  <span>最高优先级 · <b>未成年隐私（P0）</b></span><span>·</span>
+  <span>交付物 · <b>规约文档，可交 Codex 落地</b></span>
+</div>
+
+<div class="toc-box">
+  <div class="eyebrow">目录 · Contents</div>
+  <ol>
+    <li><a href="#diag">00 · 一句话诊断与优先级</a></li>
+    <li><a href="#eval">A · 意见逐条评估</a></li>
+    <li><a href="#wiki">B · wiki 改造方案</a></li>
+    <li><a href="#family">C · family 改造方案</a></li>
+    <li><a href="#ai">D · AI 调用接口规划</a></li>
+    <li><a href="#roadmap">E · 落地顺序（P0→P3）</a></li>
+  </ol>
+</div>
+
+<!-- ================= 00 诊断 ================= -->
+<div class="part-head" id="diag">
+  <h2 class="part"><span class="pn">00</span> &nbsp;诊断与优先级</h2>
+  <h3>同一个病：承诺不清。两种药。</h3>
+  <p>两个站都好看、有内容、有理念。缺的不是"做得更多"，而是让人一进门就知道：<strong>看什么、为什么看、看完能带走什么。</strong></p>
+</div>
+
+<p>把朋友的话翻译成产品语言，两个站其实是两条不同的曲线：</p>
+
+<table>
+  <thead><tr><th style="width:34%">站点</th><th>现状</th><th>下一步</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="tag wiki">wiki</span> 个人知识库</td>
+      <td>自我整理：结构完整、主题清晰、有连续性</td>
+      <td>让读者<strong>快速进入 · 快速受益 · 快速复刻</strong></td>
+    </tr>
+    <tr>
+      <td><span class="tag family">family</span> 家庭操作系统</td>
+      <td>温暖、正确、形式好，有传播潜力</td>
+      <td>让家人<strong>愿意一起用</strong>，且<strong>守住未成年隐私</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout risk">
+  <h5 style="color:var(--coral)">最大的风险，先处理它</h5>
+  <p>family 站涉及两个未成年孩子的年龄、习惯、家庭内部约定和具体场景。<strong>这是唯一一个"做错了无法撤回"的问题</strong>——内容一旦被抓取、被转发、被搜索引擎和 AI 收录，就收不回来了。所以隐私分区是 <span class="tag p0">P0</span>，排在所有"好看/好用"之前。它同时也正好是后面 AI 接口的访问边界——一举两得。</p>
+</div>
+
+<h5>优先级总表</h5>
+<table>
+  <thead><tr><th>优先级</th><th>事项</th><th>站点</th><th>为什么是这个级别</th></tr></thead>
+  <tbody>
+    <tr><td><span class="tag p0">P0</span></td><td>隐私分区：公开理念 / 家庭内部分层</td><td><span class="tag family">family</span></td><td>涉及未成年，不可逆，必须最先做</td></tr>
+    <tr><td><span class="tag p0">P0</span></td><td>去掉"满到做不到"的承诺（如"没有批评教育"）</td><td><span class="tag family">family</span></td><td>低成本、高风险规避，和隐私一起做</td></tr>
+    <tr><td><span class="tag p1">P1</span></td><td>首页价值承诺 + "从这里开始"</td><td><span class="tag wiki">wiki</span></td><td>改动小、对"读者进入"提升最大</td></tr>
+    <tr><td><span class="tag p1">P1</span></td><td>家庭共创模块《我们都能改》</td><td><span class="tag family">family</span></td><td>把"爸爸的宣言"扭成"全家的系统"</td></tr>
+    <tr><td><span class="tag p2">P2</span></td><td>《真实问题库》（公开方法 + 私密实例分层）</td><td><span class="tag family">family</span></td><td>升维成"真实有用"，但要配合隐私模型</td></tr>
+    <tr><td><span class="tag p2">P2</span></td><td>"AI 自动化部署"独立产品页</td><td><span class="tag wiki">wiki</span></td><td>传播价值高，但工作量大，可稍后</td></tr>
+    <tr><td><span class="tag p2">P2</span></td><td>AI 调用接口（llms.txt / JSON / MCP）</td><td><span class="tag ai">两站</span></td><td>建立在结构化 + 隐私分区之上，自然排后</td></tr>
+  </tbody>
+</table>
+
+<!-- ================= A 评估 ================= -->
+<div class="part-head" id="eval">
+  <h2 class="part" style="color:var(--ochre)"><span class="pn">A</span> &nbsp;意见逐条评估</h2>
+  <h3>哪些直接采纳，哪些要补一刀。</h3>
+  <p>作为设计/产品视角，我对每条给一个明确判断，并说明理由——尤其是几条需要"在他基础上再进一步"的。</p>
+</div>
+
+<table>
+  <thead><tr><th style="width:30%">意见</th><th style="width:13%">判断</th><th>评估</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="tag wiki">wiki</span> 首页加"价值承诺"</td>
+      <td><span class="v yes">采纳</span></td>
+      <td>对。但他给的版本偏长、偏"简历感"。要再压一句，并把"你能带走什么"提到最前。见 <a href="#b1">B1</a>。</td>
+    </tr>
+    <tr>
+      <td><span class="tag wiki">wiki</span> 加"第一次来从这里开始"</td>
+      <td><span class="v yes">采纳</span></td>
+      <td>这是性价比最高的一处改动。建议做成 3 条路径（读者/复刻者/AI），不是一个按钮。见 <a href="#b2">B2</a>。</td>
+    </tr>
+    <tr>
+      <td><span class="tag wiki">wiki</span> "AI 自动化部署"单独成页</td>
+      <td><span class="v yes">采纳</span></td>
+      <td>同意，且它就是 wiki 当前最强的"可复刻"卖点。补充：把它和 AI 接口页打通，形成"看得懂→抄得走→调得动"的闭环。见 <a href="#b3">B3</a>。</td>
+    </tr>
+    <tr>
+      <td><span class="tag family">family</span> 隐私边界要警惕</td>
+      <td><span class="v plus">采纳并升级为 P0</span></td>
+      <td>这是全案最重要的一条。我把它从"注意"升级成"先做的架构决定"：用<strong>两层隐私模型</strong>替代零散删改。见 <a href="#c1">C1</a>。</td>
+    </tr>
+    <tr>
+      <td><span class="tag family">family</span> 父亲视角太强，加"我们都能改"</td>
+      <td><span class="v yes">采纳</span></td>
+      <td>对，且这条能直接治"爸爸的宣言"这个病。要做成<strong>真有改动记录</strong>的模块，而不是一句口号。见 <a href="#c3">C3</a>。</td>
+    </tr>
+    <tr>
+      <td><span class="tag family">family</span> "没有批评教育"等过度承诺</td>
+      <td><span class="v yes">采纳</span></td>
+      <td>完全同意。承诺要"留有余地、可被孩子反过来引用"。给出改写原则 + 逐句改写。见 <a href="#c2">C2</a>。</td>
+    </tr>
+    <tr>
+      <td><span class="tag family">family</span> 加《真实问题库》</td>
+      <td><span class="v partly">部分采纳</span></td>
+      <td>方向极好（从"温暖正确"到"真实有用"）。但<strong>它恰恰是隐私最敏感的内容</strong>：具体场景=家庭实例。所以必须拆成"公开方法层 + 私密实例层"，不能整块公开。见 <a href="#c4">C4</a>。</td>
+    </tr>
+    <tr>
+      <td>整体：从"自我整理"转向"读者快速受益/复刻"</td>
+      <td><span class="v yes">采纳</span></td>
+      <td>这是贯穿全案的北极星。AI 接口规划（<a href="#ai">D</a>）正是"快速复刻/调用"的终极形态。</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <h5>我唯一要补的一刀</h5>
+  <p>朋友把《真实问题库》和《我们都能改》当成两个"加内容"的建议。我建议把它们和隐私模型<strong>绑成一个架构</strong>来做：先定"哪层公开、哪层私密"，再往里填内容。否则越往里写越真实、越真实越危险——会越做越被动。<strong>先有边界，再有内容。</strong></p>
+</div>
+
+<!-- ================= B wiki ================= -->
+<div class="part-head" id="wiki">
+  <h2 class="part"><span class="pn">B</span> &nbsp;<span class="tag wiki">wiki.carlxu.cn</span></h2>
+  <h3>让读者快速进入、受益、复刻。</h3>
+  <p>三处改动，按性价比排序。每处都给"改什么"+"Codex 怎么落地"。沿用你 <code>handoff.html</code> 里已有的 token 与组件，不引入新体系。</p>
+</div>
+
+<h4 id="b1">B1 · 首页第一句：价值承诺</h4>
+<p>问题不是"没有理念"，而是<strong>理念在第三屏</strong>。第一屏要在 5 秒内回答"这是什么、对我有什么用"。朋友的版本是对的方向，但偏长。压成"一句主张 + 一句你能带走什么"：</p>
+
+<div class="ba">
+  <div class="before">
+    <div class="lbl">现状 · 偏抽象</div>
+    <div class="q">"一个普通人的第二大脑 / 个人知识库"——读者要读完才知道能干嘛。</div>
+  </div>
+  <div class="after">
+    <div class="lbl">改写 · 价值前置</div>
+    <div class="q">我把十年写作、家庭教育、AI 工具和个人成长，整理成<strong>可复用的概念与流程</strong>。<br>你可以当它是<strong>一个普通人用 AI 搭第二大脑的公开样本</strong>——看得懂、抄得走、还能让 AI 直接调用。</div>
+  </div>
+</div>
+
+<h5>两个可选语气（交给你定）</h5>
+<ul>
+  <li><strong>样本型（推荐）</strong>：强调"公开样本/可复刻"——呼应卡帕西式自建系统，吸引同类人。</li>
+  <li><strong>受益型</strong>："这里的每个概念都能直接用在你的写作、育儿和 AI 工作流里。"——更直给，但少了点人格。</li>
+</ul>
+
+<div class="codex">
+  <div class="codex-head">Codex · B1 实现</div>
+  <div class="codex-body">
+    <ul>
+      <li>改 <span class="file">content/pages/home</span> 的 hero <code>lede</code> 段：一句主张 + 一句"你能带走什么"，总长 ≤ 60 字。</li>
+      <li>沿用 handoff 的 <code>--serif</code> hero + <code>--brick</code> 关键词强调；同屏 brick 不超过 5 处（"可复用的概念与流程""公开样本"两处即可）。</li>
+      <li>同步 <code>&lt;meta name="description"&gt;</code> 与 OG 描述为同一句主张，保证分享卡片一致。</li>
+    </ul>
+  </div>
+</div>
+
+<h4 id="b2">B2 · "第一次来，从这里开始"</h4>
+<p>不要做成一个孤零零的按钮。读者进来其实分三种人，给三条清晰的路。放在 hero 正下方、第一屏内：</p>
+
+<div class="mock">
+  <div class="mk-eyebrow">新增模块 · 放在 Hero 下方</div>
+  <h6>第一次来？看你是哪种人 ——</h6>
+  <div class="steps">
+    <div class="step"><div class="sn">1</div><div><div class="st">想读点有用的 → 从 3 个代表作概念进</div><div class="sd">手挑 3 个最成熟、最能代表你的概念（如 富裕指数 / 从倦怠中恢复 / 时间当作朋友），直接给链接。读者 5 分钟就有收获。</div></div></div>
+    <div class="step"><div class="sn">2</div><div><div class="st">想抄这套系统 → 去《如何用 AI 搭这个站》</div><div class="sd">通往 B3 的 AI 自动化部署页。给"复刻者"一条明确的路。</div></div></div>
+    <div class="step"><div class="sn">3</div><div><div class="st">你是 AI / 想让 AI 调用 → 看 llms.txt 与接口</div><div class="sd">通往 D 的 AI 接口。明确告诉机器读者"入口在哪"。</div></div></div>
+  </div>
+</div>
+
+<div class="callout">
+  <h5>为什么是三条而不是一条</h5>
+  <p>"降低门槛"的本质是<strong>替读者做分类</strong>。一个笼统的"开始"按钮，读者还是要猜。三条路各自只服务一种意图，反而更轻——这正是"读者一进来就知道该看什么"。</p>
+</div>
+
+<div class="codex">
+  <div class="codex-head">Codex · B2 实现</div>
+  <div class="codex-body">
+    <ul>
+      <li>新增组件 <span class="file">components/StartHere.astro</span>：3 行 grid，复用 LibraryRow 的行式排版（<code>[序号 30][标题 1fr][一句话说明]</code>），hover 整行 <code>paper-warm</code>，不加卡片阴影。</li>
+      <li>3 个代表概念用 frontmatter 字段 <code>featured: true</code> 标记，首页查询 <code>where featured == true</code> 取前 3，避免硬编码。</li>
+      <li>第 2、3 条分别链到 <code>/about/ai-deploy</code>（B3）与 <code>/llms.txt</code>（D）。</li>
+    </ul>
+  </div>
+</div>
+
+<h4 id="b3">B3 · "用 AI 自动化部署"独立产品页</h4>
+<p>这是 wiki 当前最被低估的资产，也是最能传播的"可复刻"卖点。按朋友给的骨架，补两块让它成为<strong>产品页</strong>而非"关于"页：可复制模版 + AI 可调用入口。</p>
+
+<table>
+  <thead><tr><th style="width:24%">板块</th><th>内容</th><th>形式</th></tr></thead>
+  <tbody>
+    <tr><td>① 起因</td><td>为什么自建、为什么用 AI、解决了什么痛</td><td>一段叙事 + 一句结论</td></tr>
+    <tr><td>② 结构 / 架构图</td><td>Obsidian 写作 → git push → Astro 构建 → Vercel 部署 → 子域</td><td>横向流程图（复用 FlowChart 组件）</td></tr>
+    <tr><td>③ 自动化清单</td><td>每一步谁触发、用什么工具、AI 在哪一环介入</td><td>带 ✓ 的清单表</td></tr>
+    <tr><td>④ 踩坑记录</td><td>真实失败（如"推了 7、8 篇才成功"那种）+ 解法</td><td>问题 / 原因 / 解法 三列表</td></tr>
+    <tr><td>⑤ 可复制模版</td><td>仓库结构、frontmatter 模版、关键 prompt、tokens.css</td><td>代码块 + 一键复制 + GitHub 链接</td></tr>
+    <tr><td>⑥ AI 可调用</td><td>本站内容如何被 AI 读取（接 D）</td><td>llms.txt / JSON 端点说明</td></tr>
+    <tr><td>⑦ 下一步</td><td>路线图：还想自动化什么</td><td>列表，标 <code>planned</code></td></tr>
+  </tbody>
+</table>
+
+<div class="codex">
+  <div class="codex-head">Codex · B3 实现</div>
+  <div class="codex-body">
+    <ul>
+      <li>新页面 <span class="file">pages/about/ai-deploy.astro</span>，路由 <code>/about/ai-deploy</code>；内容用 <span class="file">content/pages/ai-deploy.mdx</span>。</li>
+      <li>架构图复用 handoff §4.8 <code>FlowChart</code>：盒子 <code>rx=2</code>、stroke <code>rule</code>、fill <code>paper-warm</code>、起止节点 brick 浅版。</li>
+      <li>"可复制模版"区每个 <code>&lt;pre&gt;</code> 用 handoff §7 的复制按钮交互（hover 出现、点击变"已复制 ✓"）。</li>
+      <li>把它设为 B2 第 2 条与 home 的入口；并在 footer "关于"分组里列出。</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ================= C family ================= -->
+<div class="part-head" id="family">
+  <h2 class="part" style="color:var(--coral)"><span class="pn">C</span> &nbsp;<span class="tag family">family.carlxu.cn</span></h2>
+  <h3>守住隐私，让全家愿意用。</h3>
+  <p>顺序很重要：<strong>先立隐私边界（C1），再改承诺口径（C2），然后才往里加共创（C3）与真实问题库（C4）。</strong></p>
+</div>
+
+<h4 id="c1">C1 · 隐私分区（P0，最先做）</h4>
+<p>不要用"这句删、那句改"的零散方式——会越改越漏。用一个<strong>两层模型</strong>一次定清楚，之后所有内容都先归层、再决定去哪。</p>
+
+<div class="tiers">
+  <div class="tier t0">
+    <div class="tl">Tier 0<br>公开理念层</div>
+    <div>
+      <div class="tt">任何陌生人看了都不会伤害到家人的东西</div>
+      <div class="td">六条理念、方法论、共读书单、给"普通家庭"的通用做法、对外故事（已脱敏）。这层是站点的"传播面"，也是唯一允许被搜索引擎 / AI 收录的内容。</div>
+      <div class="ai-flag">→ 可公开 · 可被 AI 索引 · 进 llms.txt</div>
+    </div>
+  </div>
+  <div class="tier t1">
+    <div class="tl">Tier 1<br>家庭内部层</div>
+    <div>
+      <div class="tt">只对家人有意义、且可能伤害到孩子的东西</div>
+      <div class="td">孩子的真实年龄/姓名、个人习惯、家庭内部约定、真实冲突场景、家庭会议记录、照片。<strong>默认不公开</strong>：要么放在需要登录/口令的私密区，要么彻底留在本地（Obsidian / 家庭群），站上只放脱敏后的"模式"。</div>
+      <div class="ai-flag">✗ 不公开 · 不被索引 · 永不进任何 AI 接口</div>
+    </div>
+  </div>
+</div>
+
+<h5>具体到现有内容，怎么归层</h5>
+<table>
+  <thead><tr><th>现有内容</th><th>层</th><th>处理</th></tr></thead>
+  <tbody>
+    <tr><td>六条理念、首页、家庭墙</td><td><span class="tag ai">Tier 0</span></td><td>保留公开。这是传播面。</td></tr>
+    <tr><td>"12 岁哥哥""6 岁弟弟"等具体年龄</td><td><span class="tag family">Tier 1</span></td><td>对外改成"给青春期前后的孩子""给学龄前的孩子"，去掉精确年龄。</td></tr>
+    <tr><td>给哥哥的"五条约定"、家庭内部规则</td><td><span class="tag family">Tier 1</span></td><td>移到私密区或改写成通用版；对外只留"我们家有几条约定"这种元信息。</td></tr>
+    <tr><td>真实冲突场景 / 习惯（问题库素材）</td><td><span class="tag family">Tier 1</span></td><td>见 C4：公开"方法"，私密"实例"。</td></tr>
+    <tr><td>孩子的画、家庭会议记录、照片</td><td><span class="tag family">Tier 1</span></td><td>私密区，或仅家人可见。</td></tr>
+  </tbody>
+</table>
+
+<div class="callout risk">
+  <h5 style="color:var(--coral)">技术上至少先做这三件（零成本）</h5>
+  <p>① 全站 <code>robots.txt</code> + 私密页 <code>&lt;meta name="robots" content="noindex,noai,noimageai"&gt;</code>，挡住搜索引擎和爬虫；② 精确年龄→年龄段，姓名→称呼；③ Tier 1 内容若要上线，放在 <code>/private</code> 并加口令（Vercel 的 password protection 或一个简单的边缘函数校验）。<strong>先挡住"被动泄露"，再谈功能。</strong></p>
+</div>
+
+<div class="codex">
+  <div class="codex-head">Codex · C1 实现</div>
+  <div class="codex-body">
+    <ul>
+      <li>给每条内容加 frontmatter 字段 <code>privacy: public | family</code>；构建时 <code>public</code> 进站点地图与 llms.txt，<code>family</code> 排除。</li>
+      <li>新增 <span class="file">public/robots.txt</span>（Allow 公开、Disallow <code>/private</code>）与全局 <code>noai</code> meta 注入私密模板。</li>
+      <li><span class="file">/private/*</span> 路由走口令校验（Vercel Password Protection 或 <span class="file">middleware</span> 校验 cookie）。</li>
+      <li>批量替换：精确年龄 → 年龄段；真实姓名 → 称呼（哥哥/弟弟/妈妈）。</li>
+    </ul>
+  </div>
+</div>
+
+<h4 id="c2">C2 · 去掉"满到做不到"的承诺</h4>
+<p>朋友点名的那句在 <span class="file">for-eldest.html</span> 和 <span class="file">miniapp/storydata.js</span> 里。问题不是这句不好，而是它<strong>把大人架在了一个迟早会塌的台子上</strong>。改写原则：<strong>承诺要留余地，且让孩子有权反过来引用它。</strong></p>
+
+<div class="ba">
+  <div class="before">
+    <div class="lbl">现状 · 满到做不到</div>
+    <div class="q">"二 · 你犯错可以，被指责不行。这家里没有'批评教育'。"</div>
+  </div>
+  <div class="after">
+    <div class="lbl">改写 · 诚实且赋权</div>
+    <div class="q">"二 · 你犯错可以。我们尽量先一起解决问题，而不是先指责你。<strong>如果哪天我们没忍住、先怪了你——你可以提醒我们这条。</strong>"</div>
+  </div>
+</div>
+
+<p>这样改有三个好处：① 承认大人会失控，是诚实的；② 把"监督权"交给孩子，正好呼应 C3 的共创；③ 真的吵了架，这页还站得住——孩子不会觉得"说一套做一套"。</p>
+
+<h5>同类需要体检的表达</h5>
+<ul>
+  <li>"永远 / 从不 / 没有 …" 句式 → 换成"尽量 / 我们努力 / 如果没做到就…"。</li>
+  <li>所有"这家里没有 X"→"这家里我们在练习少用 X"。</li>
+  <li>给孩子的承诺，结尾尽量带一句"你可以监督/提醒我们"。</li>
+</ul>
+
+<div class="codex">
+  <div class="codex-head">Codex · C2 实现</div>
+  <div class="codex-body">
+    <ul>
+      <li>改 <span class="file">for-eldest.html</span> 第 327 行与 <span class="file">miniapp/storydata.js</span> 第 27 行同一句（两处要同步）。</li>
+      <li>全仓 grep 绝对化词：<code>永远 | 从不 | 没有.*教育 | 一定</code>，逐条按上面原则软化。</li>
+      <li>把"你可以提醒我们"做成一个可复用的句末样式（如 <code>.kid-veto</code> 斜体 coral 小字），强化"孩子有否决权"的视觉语言。</li>
+    </ul>
+  </div>
+</div>
+
+<h4 id="c3">C3 · 家庭共创模块《我们每个人都可以改这套系统》</h4>
+<p>治"爸爸的宣言"这个病，靠的不是加一句"欢迎大家参与"，而是<strong>让站上真的有别人的笔迹</strong>。做成一个有<strong>角色 + 改动记录</strong>的模块：</p>
+
+<div class="mock">
+  <div class="mk-eyebrow">新增板块 · 放在首页"家庭墙"之后</div>
+  <h6>这套系统，谁都能改。</h6>
+  <div class="steps">
+    <div class="step"><div class="sn">妈</div><div><div class="st">妈妈可以改任意一条措辞</div><div class="sd">家庭墙的 Tweaks 已经支持改字——把"谁改的"也记下来。</div></div></div>
+    <div class="step"><div class="sn">兄</div><div><div class="st">哥哥可以对任何一条投"反对票"</div><div class="sd">每条理念下留一个"我不同意，因为…"的入口，他的反对意见公开展示（脱敏）。</div></div></div>
+    <div class="step"><div class="sn">弟</div><div><div class="st">弟弟可以画一张画代替一段字</div><div class="sd">用 image-slot 留位，孩子的画就是内容。</div></div></div>
+    <div class="step"><div class="sn">老</div><div><div class="st">爷爷奶奶可以补一句家训</div><div class="sd">"长辈寄语"区，一人一句。</div></div></div>
+    <div class="step"><div class="sn">月</div><div><div class="st">每月家庭会议更新一次</div><div class="sd">页脚显示"上次更新：家庭会议 2026-06"，证明它活着。</div></div></div>
+  </div>
+</div>
+
+<div class="callout">
+  <h5>关键：要有"改动记录"</h5>
+  <p>一个"修订日志"区——<em>"5 月：哥哥反对'非必要不竞争'，他觉得有些事就是要争。保留他的意见。"</em>——比任何"欢迎共创"的口号都有力。它证明这不是爸爸一个人的主张，而是一家人在<strong>持续协商</strong>的系统。这条改动记录本身要走隐私分区：公开"有哪些改动"，敏感细节留 Tier 1。</p>
+</div>
+
+<div class="codex">
+  <div class="codex-head">Codex · C3 实现</div>
+  <div class="codex-body">
+    <ul>
+      <li>新增板块 <span class="file">index.html#coauthor</span>：5 个角色行 + 一个"修订日志"列表。</li>
+      <li>数据放 <span class="file">family-changelog.js</span>（<code>{date, who, change, privacy}</code>），<code>privacy:public</code> 才渲染。</li>
+      <li>每条理念卡片底部加"反对意见"入口；老二用 <code>image-slot.js</code> 占位收画。</li>
+      <li>页脚加"上次更新：家庭会议 YYYY-MM"，从 changelog 最新一条自动取。</li>
+    </ul>
+  </div>
+</div>
+
+<h4 id="c4">C4 · 《我们家的真实问题库》—— 公开方法，私密实例</h4>
+<p>朋友的结构很好：<strong>场景 + 以前怎么处理 + 错在哪 + 今后怎么处理 + 一句话家庭约定</strong>。但"场景"就是家庭实例，是 Tier 1。所以做成<strong>双层卡片</strong>：公开的是可复用的"模式"，私密的是你家的"实例"。</p>
+
+<h5>一条示例（注意公开/私密的切分）</h5>
+<div class="mock">
+  <div class="mk-eyebrow">问题库 · 第 03 条 · 公开方法层</div>
+  <h6>当孩子把事情搞砸了，大人第一反应是指责</h6>
+  <table style="margin-top:4px">
+    <tbody>
+      <tr><td style="width:30%;color:var(--coral)"><strong>典型场景（脱敏）</strong></td><td>孩子打翻 / 弄坏 / 忘记了某件事，现场有点狼狈。</td></tr>
+      <tr><td style="color:var(--coral)"><strong>以前怎么处理</strong></td><td>先来一句"你怎么这么不小心"，情绪上去了，事还没解决。</td></tr>
+      <tr><td style="color:var(--coral)"><strong>错在哪</strong></td><td>用指责代替解决，伤了关系，也没教会他下次怎么做。</td></tr>
+      <tr><td style="color:var(--coral)"><strong>今后怎么处理</strong></td><td>先一起把事收拾了，再平静地问"下次我们怎么做能更稳"。</td></tr>
+      <tr><td style="color:var(--coral)"><strong>一句话家庭约定</strong></td><td>"先解决事，再聊情绪。"</td></tr>
+    </tbody>
+  </table>
+  <p style="margin:14px 0 0;font-size:13px;color:var(--muted);font-style:italic;border-top:1px solid var(--rule);padding-top:12px">
+    🔒 私密层（仅家人可见 / 仅本地）：具体是谁、哪天、原话、孩子当时的反应——这些留在 Tier 1，不上公开站。
+  </p>
+</div>
+
+<div class="callout risk">
+  <h5 style="color:var(--coral)">这是全案最需要克制的地方</h5>
+  <p>越真实越有用，但也越容易写出"指名道姓的脆弱时刻"。规则：<strong>公开层只能出现"任何家庭都可能发生"的脱敏版本；任何能定位到具体孩子、具体某次的细节，一律 Tier 1。</strong>宁可少一点真实，也不要让孩子十年后在搜索引擎里读到自己当年的糗事。</p>
+</div>
+
+<div class="codex">
+  <div class="codex-head">Codex · C4 实现</div>
+  <div class="codex-body">
+    <ul>
+      <li>新内容类型 <span class="file">problem</span>：frontmatter <code>{scene, before, wrong, after, pact, privacy}</code>，public 字段与 family 字段分开存。</li>
+      <li>卡片组件 <span class="file">ProblemCard</span>：默认只渲染 public 五栏；private 区需登录后才注水（fetch <code>/private/problem/[id]</code>）。</li>
+      <li>列表页 <code>/problems</code>，按主题分组；每条顶部标"脱敏公开"。</li>
+      <li>构建校验：problem 的 public 文本里禁止出现姓名 / 年龄 token（CI 里 grep 黑名单，命中即构建失败）。</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ================= D AI ================= -->
+<div class="part-head" id="ai">
+  <h2 class="part" style="color:var(--forest)"><span class="pn">D</span> &nbsp;<span class="tag ai">AI 调用接口规划</span></h2>
+  <h3>内容即数据，隐私分区即访问边界。</h3>
+  <p>"让 AI 能调用"的前提，你已经做对了一半：wiki 内容已经是 <code>concept/process/article</code> 结构化的。剩下的是<strong>把结构暴露成机器可读的入口</strong>，并用 Tier 0/1 当访问控制——所以这一节<strong>必须排在隐私分区之后</strong>。</p>
+</div>
+
+<h5>一句话原则</h5>
+<div class="callout ai">
+  <p><strong>只有 Tier 0（公开理念层）进任何 AI 接口；Tier 1（家庭内部层）永远不进。</strong>AI 接口的访问边界 = 隐私分区的边界。这意味着隐私模型一旦做对，AI 接口几乎是"免费"叠加上去的——这也是为什么先做 C1 是划算的。</p>
+</div>
+
+<h4>D1 · 三层接口，由浅入深</h4>
+<table>
+  <thead><tr><th style="width:20%">层级</th><th>给谁</th><th>形态</th><th>工作量</th></tr></thead>
+  <tbody>
+    <tr><td><strong>① llms.txt</strong></td><td>任何 AI 助手 / 爬虫</td><td>一个纯文本清单，列出站点结构与重要链接（新兴事实标准）</td><td>极小</td></tr>
+    <tr><td><strong>② JSON / RSS</strong></td><td>程序化读取</td><td>每个 concept/process 一个 JSON；全站一个 index；RSS for 文章</td><td>小（构建时生成）</td></tr>
+    <tr><td><strong>③ MCP Server</strong></td><td>Claude / 支持 MCP 的 Agent</td><td>把"搜索概念、取概念、列流程"做成 AI 能主动调用的工具</td><td>中</td></tr>
+  </tbody>
+</table>
+
+<h4>D2 · ① llms.txt（先做这个）</h4>
+<p>放在站点根：<code>wiki.carlxu.cn/llms.txt</code>。让 AI 一眼看懂"这站有什么、入口在哪"。构建时自动生成，只列 <code>privacy:public</code> 的内容。</p>
+<pre><code><span class="c"># carlxu.wiki</span>
+<span class="c">> 一个普通人用 AI 搭建第二大脑的公开样本：可复用的概念与流程。</span>
+
+<span class="k">## 概念 Concepts</span>
+- [富裕指数](https://wiki.carlxu.cn/concept/wealth-index): 衡量"不工作能撑多久"的指标
+- [技能缓存](https://wiki.carlxu.cn/concept/skill-cache): ...
+
+<span class="k">## 流程 Processes</span>
+- [从倦怠中恢复的五个阶段](https://wiki.carlxu.cn/process/recover-from-burnout): ...
+
+<span class="k">## 如何复刻</span>
+- [用 AI 自动化部署这个站](https://wiki.carlxu.cn/about/ai-deploy)
+
+<span class="k">## 机器接口</span>
+- 全量索引: https://wiki.carlxu.cn/api/index.json
+- 单条: https://wiki.carlxu.cn/api/concept/{slug}.json</code></pre>
+
+<h4>D3 · ② JSON 端点</h4>
+<p>构建时为每条公开内容生成静态 JSON（零运行成本，纯静态托管即可）。schema 直接复用你 handoff 里的 frontmatter：</p>
+<pre><code><span class="c">// GET /api/concept/wealth-index.json</span>
+{
+  <span class="k">"type"</span>: <span class="s">"concept"</span>,
+  <span class="k">"slug"</span>: <span class="s">"wealth-index"</span>,
+  <span class="k">"title"</span>: <span class="s">"富裕指数"</span>,
+  <span class="k">"domain"</span>: <span class="s">"财富"</span>,
+  <span class="k">"maturity"</span>: 4,
+  <span class="k">"updated"</span>: <span class="s">"2026-04-07"</span>,
+  <span class="k">"summary"</span>: <span class="s">"一句话定义…"</span>,
+  <span class="k">"body_md"</span>: <span class="s">"## 定义\n…"</span>,
+  <span class="k">"related"</span>: [{ <span class="k">"slug"</span>: <span class="s">"time-as-resource"</span>, <span class="k">"relation"</span>: <span class="s">"基础"</span> }],
+  <span class="k">"privacy"</span>: <span class="s">"public"</span>,
+  <span class="k">"license"</span>: <span class="s">"CC BY-NC-SA 4.0"</span>
+}</code></pre>
+<p>端点清单：<code>/api/index.json</code>（全量轻量列表）、<code>/api/concept/[slug].json</code>、<code>/api/process/[slug].json</code>、<code>/api/search.json</code>（Pagefind 已有索引可复用）。<strong>family 站只暴露一个 <code>/api/principles.json</code>（六条理念，Tier 0），其余一律不暴露。</strong></p>
+
+<h4>D4 · ③ MCP Server（让 Agent 主动调用）</h4>
+<p>当你想让 Claude / 别的 Agent <em>主动</em>"去你的 wiki 里查"，就给它一个 MCP server。三个工具 + 资源足够：</p>
+<pre><code><span class="c">// MCP tools（建议）</span>
+search_concepts(query)        <span class="c">→ 命中的概念/流程列表（仅 public）</span>
+get_concept(slug)             <span class="c">→ 单条全文 JSON</span>
+list_processes(domain?)       <span class="c">→ 流程清单</span>
+
+<span class="c">// MCP resources</span>
+concept://{slug}              <span class="c">→ 可被 Agent 直接引用的资源</span>
+
+<span class="c">// 硬约束（写进 server 的访问层）</span>
+assert(item.privacy === <span class="s">"public"</span>)   <span class="c">// Tier 1 永远取不到</span></code></pre>
+
+<div class="callout ai">
+  <h5>实现路径（最省力）</h5>
+  <p>MCP server 不必新写后端：让它<strong>读你已经生成的静态 JSON</strong>（D3）即可。一个轻量 Node MCP server，内部就是 <code>fetch('/api/...')</code> + 过滤 <code>privacy==public</code>。这样"内容只有一份真相（frontmatter）"，llms.txt、JSON、MCP 都是它的投影，不会各说各话。</p>
+</div>
+
+<h4>D5 · 给"机器读者"的访问控制清单</h4>
+<table>
+  <thead><tr><th>面向</th><th>开放</th><th>关闭</th></tr></thead>
+  <tbody>
+    <tr><td>搜索引擎 / 通用爬虫</td><td>Tier 0 页面（robots Allow）</td><td><code>/private</code>、所有 family Tier 1（noindex + noai）</td></tr>
+    <tr><td>AI 索引（llms.txt）</td><td>wiki 全部公开内容 + family 六条理念</td><td>family 一切内部内容</td></tr>
+    <tr><td>程序化 JSON</td><td>wiki public · family principles</td><td>family problems / changelog 细节 / 约定</td></tr>
+    <tr><td>MCP Agent</td><td>wiki public（带 license 字段）</td><td>family 全部（family 不挂 MCP）</td></tr>
+  </tbody>
+</table>
+
+<div class="codex">
+  <div class="codex-head">Codex · D 实现</div>
+  <div class="codex-body">
+    <ul>
+      <li>构建后处理：遍历 <code>content/*</code>，<code>privacy==public</code> 者输出 <span class="file">/api/*.json</span> 与拼接 <span class="file">/llms.txt</span>、<span class="file">/llms-full.txt</span>。</li>
+      <li>family 仅生成 <span class="file">/api/principles.json</span>；CI 校验 family 产物里不含年龄/姓名 token。</li>
+      <li>MCP server 单独小仓 <span class="file">carlxu-wiki-mcp</span>：三工具，数据源 = 线上静态 JSON，统一过滤 <code>privacy</code>。</li>
+      <li>每个 JSON 带 <code>license</code> 字段（沿用 README 的 CC BY-NC-SA），让 AI 知道引用规则。</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ================= E roadmap ================= -->
+<div class="part-head" id="roadmap">
+  <h2 class="part"><span class="pn">E</span> &nbsp;落地顺序</h2>
+  <h3>先堵风险，再提清晰，最后开放调用。</h3>
+  <p>严格按这个顺序，因为每一步都是下一步的地基——尤其隐私分区，它同时是 family 的安全底座和 AI 接口的访问边界。</p>
+</div>
+
+<table>
+  <thead><tr><th style="width:12%">阶段</th><th>做什么</th><th>站点</th><th>产出</th></tr></thead>
+  <tbody>
+    <tr><td><span class="tag p0">P0</span></td><td>C1 隐私分区 + C2 去过度承诺（robots/noai、年龄脱敏、改写"没有批评教育"）</td><td><span class="tag family">family</span></td><td>风险被堵住，可放心继续</td></tr>
+    <tr><td><span class="tag p1">P1</span></td><td>B1 价值承诺 + B2 从这里开始 · C3 家庭共创模块</td><td><span class="tag wiki">wiki</span> <span class="tag family">family</span></td><td>读者进得来，家人愿意用</td></tr>
+    <tr><td><span class="tag p2">P2</span></td><td>B3 AI 部署产品页 · C4 真实问题库（双层）</td><td><span class="tag wiki">wiki</span> <span class="tag family">family</span></td><td>可复刻、真实有用</td></tr>
+    <tr><td><span class="tag p2">P2+</span></td><td>D 全套 AI 接口（llms.txt → JSON → MCP）</td><td><span class="tag ai">两站</span></td><td>内容可被 AI 调用</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <h5>一句话总结</h5>
+  <p>wiki 要从"自我整理"走向<strong>"看得懂 · 抄得走 · 调得动"</strong>；family 要从"爸爸的家庭教育宣言"走向<strong>"一家人持续协商、且守得住孩子隐私的操作系统"</strong>。两条线最后在 AI 接口处汇合：<strong>把公开的那一层，开放给人和机器；把家人的那一层，永远留给家人。</strong></p>
+</div>
+
+<div class="divider">
+  <svg width="150" height="18" viewBox="0 0 150 18" fill="none" style="opacity:.65">
+    <path d="M2 9c10-3 22 5 34 0s22-7 38-1 24 6 38 1 30-4 34-2"
+      stroke="var(--brick)" stroke-width="1.2" stroke-linecap="round"/>
+    <circle cx="75" cy="9" r="1.6" fill="var(--coral)"/>
+  </svg>
+</div>
+
+<footer>
+  评估 · 改造方案 · Codex 实现规约 · AI 接口规划<br>
+  这一份本身就是可交给 Codex 落地的清单——遇到模棱两可，<em>默认更克制、更保护孩子</em>。
+</footer>
+
+</main>
+</body>
+</html>

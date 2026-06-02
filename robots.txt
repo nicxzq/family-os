@@ -1,0 +1,14 @@
+# family.carlxu.cn · robots
+# Tier 0（公开理念层）允许收录；Tier 1（家庭内部层）与原型一律屏蔽。
+
+User-agent: *
+Allow: /
+Disallow: /private/
+Disallow: /miniapp/
+
+# 给孩子的直发页面：可直接分享，但不进搜索引擎/AI 索引（详见各页 meta noindex,noai）
+Disallow: /for-eldest
+Disallow: /for-youngest
+Disallow: /storybooks/
+
+Sitemap: https://family.carlxu.cn/sitemap.xml
