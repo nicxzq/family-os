@@ -44,6 +44,35 @@
 
 ---
 
+## v0.5 · P2+ AI 接口（D）· 2026-06-03
+
+对应方案 **D1–D3（llms.txt + /api/principles.json）**。只暴露 Tier 0 公开理念层，隐私边界即访问边界。
+
+### 新增文件
+
+| 文件 | 说明 |
+|---|---|
+| `llms.txt` | 站点根，供 AI 助手/爬虫读取。列出六条原则摘要、API 端点指针、隐私声明。 |
+| `api/principles.json` | 唯一公开 JSON 端点。六条原则结构化数据：id/no/slug/title/subtitle/summary/key_insight/privacy/license。CORS 开放（`*`），1 小时缓存。 |
+
+### 改动文件
+
+| 文件 | 改动 |
+|---|---|
+| `vercel.json` | 新增 `/api/principles.json` CORS + 缓存头；新增 `/llms.txt` 缓存头。 |
+| `robots.txt` | 明确 `Allow: /llms.txt` 与 `Allow: /api/principles.json`；`Disallow: /api/` 屏蔽其余潜在端点。 |
+| `scripts/check-problems.sh` | 扩展校验范围，覆盖 `problems-data.js`、`api/principles.json`、`llms.txt` 三个公开文件。 |
+
+### 访问控制总表
+
+| 面向 | 开放 | 关闭 |
+|---|---|---|
+| 搜索引擎/通用爬虫 | 主页六条理念（Allow） | /private、/miniapp、/for-eldest、/for-youngest、/storybooks |
+| AI 索引（llms.txt） | 六条原则摘要 + API 指针 | 家庭内部一切内容 |
+| 程序化 JSON | `/api/principles.json`（仅此一个端点）| 所有其他 /api/ 路径 |
+
+---
+
 ## v0.4 · P2 真实问题库（C4）· 2026-06-03
 
 对应方案 **C4（真实问题库 · 双层卡片）**。核心原则：公开方法，私密实例。

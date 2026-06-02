@@ -3,8 +3,12 @@
 
 User-agent: *
 Allow: /
+Allow: /llms.txt
+Allow: /api/principles.json
 Disallow: /private/
 Disallow: /miniapp/
+Disallow: /api/
+# 上面 Disallow /api/ 但 Allow /api/principles.json 优先（更具体的规则胜出）
 
 # 给孩子的直发页面：可直接分享，但不进搜索引擎/AI 索引（详见各页 meta noindex,noai）
 Disallow: /for-eldest
