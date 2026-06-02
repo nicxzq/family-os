@@ -44,6 +44,34 @@
 
 ---
 
+## v0.3 · P1 家庭共创模块（C3）· 2026-06-02
+
+对应方案 **C3（家庭共创）**。把"爸爸的宣言"变成"有别人笔迹的系统"。
+
+### 新增文件
+
+- **`family-changelog.js`** — 修订日志数据源。格式 `{date, who, change, privacy, ideaId?}`。`privacy:"public"` 才渲染到主页；`ideaId` 有值时作为对应理念卡的"反对意见"显示。
+
+### `index.html` 改动
+
+| 位置 | 改动 |
+|---|---|
+| `<style>` | 新增 `.coauthor-*`、`.changelog-*`、`.image-slot`、`.idea-objection` 样式 |
+| topnav | 追加"共同创作"链接 → `#coauthor` |
+| 六条理念卡 | 各加 `data-idea-id`（development/reading/learn-together/soft-skills/attention/time）|
+| `</main>` 前 | 新增 `#coauthor` 板块：5 个角色行 + 弟弟画图占位 + 修订日志列表 |
+| `<footer>` | "上次更新"由 JS 自动取 changelog 最新公开条目填充 |
+| `<script>` | 加载 `family-changelog.js`；JS 渲染修订日志、更新页脚、为有 ideaId 的条目注入反对意见卡片 |
+| scroll-spy | ids 数组追加 `'coauthor'` |
+
+### 使用说明
+
+- **记录新改动**：向 `family-changelog.js` 的 `FAMILY_CHANGELOG` 数组追加一条即可，主页自动更新。
+- **记录反对意见**：追加条目时加 `ideaId: 'time'`（对应想法卡），该卡片会自动出现意见标记。
+- **弟弟的画**：把图片放到 `assets/` 并将 `#coauthor` 里 `.image-slot` 替换成 `<img>` 即可。
+
+---
+
 ## v0.1 · 初始建站 · 2026-05 以前
 
 家庭操作系统首版上线，含：主页六条理念、给妻子/哥哥/弟弟/家人朋友的专属页、游戏库（10 款）、共读书架、绘本系列、工具面板（dashboard/piggy-bank/weekly-review/attention-budget）、slides 演示、wall 海报生成器。

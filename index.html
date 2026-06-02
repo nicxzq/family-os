@@ -40,6 +40,27 @@
   @media (max-width: 760px) {
     .tools-grid { grid-template-columns: 1fr; }
   }
+
+  /* ── #coauthor 共同创作 ── */
+  #coauthor { padding: 80px 0; }
+  .coauthor-roles { display: flex; flex-direction: column; gap: 14px; margin: 32px 0; }
+  .coauthor-role { display: flex; align-items: flex-start; gap: 14px; background: var(--paper); border-radius: var(--radius); padding: 18px 22px; box-shadow: var(--shadow-soft); }
+  .coauthor-role-emoji { font-size: 24px; flex-shrink: 0; line-height: 1.4; }
+  .coauthor-role-body { flex: 1; }
+  .coauthor-role-who { font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .coauthor-role-desc { font-size: 14px; color: var(--ink-soft); }
+  .image-slot { border: 2px dashed var(--green-soft); border-radius: var(--radius); padding: 32px; text-align: center; color: var(--ink-mute); font-size: 15px; margin: 8px 0; background: var(--cream); }
+  .image-slot-label { font-size: 13px; margin-bottom: 6px; color: var(--ink-mute); }
+  .changelog-list { list-style: none; padding: 0; margin: 20px 0 0; display: flex; flex-direction: column; gap: 12px; }
+  .changelog-item { display: flex; gap: 14px; align-items: flex-start; }
+  .changelog-meta { display: flex; flex-direction: column; gap: 2px; min-width: 80px; flex-shrink: 0; }
+  .changelog-date { font-size: 12px; color: var(--ink-mute); }
+  .changelog-who { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+  .changelog-change { font-size: 15px; color: var(--ink); line-height: 1.65; }
+
+  /* ── idea 卡片反对意见入口 ── */
+  .idea-objection { margin-top: 10px; padding: 10px 14px; border-radius: var(--radius); background: var(--cream); border-left: 3px solid var(--coral-soft); font-size: 13px; color: var(--ink-soft); }
+  .idea-objection-label { font-size: 11px; letter-spacing: .06em; color: var(--coral); margin-bottom: 3px; }
 </style>
 </head>
 <body>
@@ -57,6 +78,7 @@
       <a href="#weekend">周末幻灯片</a>
       <a href="#rituals">共读清单</a>
       <a href="#wall">家庭墙</a>
+      <a href="#coauthor">共同创作</a>
     </nav>
     <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
   </div>
@@ -105,7 +127,7 @@
       <div class="ideas">
 
         <!-- 1. 发展论 vs 设计论 -->
-        <article class="idea" data-color="coral">
+        <article class="idea" data-color="coral" data-idea-id="development">
           <div class="idea-num"><span class="idea-num-dot"></span>第 1 想法</div>
           <h3>不"设计"孩子，和孩子一起"发展"。</h3>
           <div class="idea-scene">很多家长在孩子三岁的时候就画好了路线图：钢琴、奥数、出国、名校……到孩子十岁，发现根本不在那条路上，全家开始焦虑。</div>
@@ -124,7 +146,7 @@
         </article>
 
         <!-- 2. 持续阅读 -->
-        <article class="idea" data-color="yellow">
+        <article class="idea" data-color="yellow" data-idea-id="reading">
           <div class="idea-num"><span class="idea-num-dot"></span>第 2 想法</div>
           <h3>持续阅读，是这个家最便宜也最重要的习惯。</h3>
           <div class="idea-scene">很多家庭一年花几十万投资在课外班上，却没人愿意花两百元买一本好书——更没人坐下来真的读完。</div>
@@ -142,7 +164,7 @@
         </article>
 
         <!-- 3. 教是最好的学 -->
-        <article class="idea" data-color="green">
+        <article class="idea" data-color="green" data-idea-id="learn-together">
           <div class="idea-num"><span class="idea-num-dot"></span>第 3 想法</div>
           <h3>"教是最好的学"——所以家长才是学得最多的那个。</h3>
           <div class="idea-scene">孩子问"为什么天是蓝的"，你含糊糊地搪塞过去。其实他在送你一个免费补课的机会：当你试着"教明白"他，你自己也才真的弄明白。</div>
@@ -161,7 +183,7 @@
         </article>
 
         <!-- 4. 学习的真相 -->
-        <article class="idea" data-color="blue">
+        <article class="idea" data-color="blue" data-idea-id="soft-skills">
           <div class="idea-num"><span class="idea-num-dot"></span>第 4 想法</div>
           <h3>真正要学的，是学校里不教的那些。</h3>
           <div class="idea-scene">学校里只能用考试衡量"硬技能"——语文数学英语。但走出学校之后，决定一个人能不能过得好的，是判断力、社交、沟通、组织能力。这些没人教，但又最重要。</div>
@@ -180,7 +202,7 @@
         </article>
 
         <!-- 5. 专注 -->
-        <article class="idea" data-color="coral">
+        <article class="idea" data-color="coral" data-idea-id="attention">
           <div class="idea-num"><span class="idea-num-dot"></span>第 5 想法</div>
           <h3>注意力，是家里最贵的东西。</h3>
           <div class="idea-scene">钱可以再赚，时间可以再省，注意力一旦被切碎，就再也凑不回来。短视频、推送、闲聊⋯⋯都在偷孩子（和大人）的注意力。</div>
@@ -198,7 +220,7 @@
         </article>
 
         <!-- 6. 时间当作朋友 -->
-        <article class="idea" data-color="yellow">
+        <article class="idea" data-color="yellow" data-idea-id="time">
           <div class="idea-num"><span class="idea-num-dot"></span>第 6 想法</div>
           <h3>把时间当朋友，不当对手。</h3>
           <div class="idea-scene">"竞争很激烈"——这句话每天都在被说。但真正激烈的不是竞争，是焦虑。一直跟时间赛跑的人，从一开始就在亏本。</div>
@@ -445,12 +467,67 @@
     </div>
   </section>
 
+  <!-- ========== 共同创作 ========== -->
+  <section id="coauthor" style="background: var(--cream-deep);">
+    <div class="wrap">
+      <div class="section-eyebrow">共同创作</div>
+      <h2 class="section-title">我们每个人都可以改这套系统</h2>
+      <p class="section-lead">这不是爸爸一个人的主张。每个家庭成员都有笔迹——改一条措辞、投一票反对、画一张画，都算数。</p>
+
+      <div class="coauthor-roles">
+        <div class="coauthor-role">
+          <div class="coauthor-role-emoji">👩</div>
+          <div class="coauthor-role-body">
+            <div class="coauthor-role-who">妈妈</div>
+            <div class="coauthor-role-desc">可以改任意一条措辞——这个系统不只是爸爸写的。</div>
+          </div>
+        </div>
+        <div class="coauthor-role">
+          <div class="coauthor-role-emoji">👦</div>
+          <div class="coauthor-role-body">
+            <div class="coauthor-role-who">哥哥</div>
+            <div class="coauthor-role-desc">可以对任何一条想法投"我不同意"——意见会记进修订日志。</div>
+          </div>
+        </div>
+        <div class="coauthor-role">
+          <div class="coauthor-role-emoji">🐣</div>
+          <div class="coauthor-role-body">
+            <div class="coauthor-role-who">弟弟</div>
+            <div class="coauthor-role-desc">可以画一张画代替一段字。</div>
+            <div class="image-slot" style="margin-top:10px;">
+              <div class="image-slot-label">弟弟的画 · 留位</div>
+              <div>这里等一幅画。</div>
+            </div>
+          </div>
+        </div>
+        <div class="coauthor-role">
+          <div class="coauthor-role-emoji">👴</div>
+          <div class="coauthor-role-body">
+            <div class="coauthor-role-who">爷爷奶奶</div>
+            <div class="coauthor-role-desc">可以补一句家训——长辈的话也是这个家的一部分。</div>
+          </div>
+        </div>
+        <div class="coauthor-role">
+          <div class="coauthor-role-emoji">👨</div>
+          <div class="coauthor-role-body">
+            <div class="coauthor-role-who">爸爸</div>
+            <div class="coauthor-role-desc">负责把所有人的笔迹整理进来，每次家庭会议后更新。</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin: 40px 0 8px; font-size: 18px;">修订日志</h3>
+      <p style="color: var(--ink-mute); font-size: 14px; margin-bottom: 0;">每次改动都记在这里，证明这不是一成不变的宣言。</p>
+      <ul class="changelog-list" id="family-changelog-list"></ul>
+    </div>
+  </section>
+
 </main>
 
 <footer>
   <div class="wrap wrap-narrow">
-    <p>这是 v1。一个家庭的操作系统，本就要不断升级。</p>
-    <p style="opacity: 0.7;">先从我开始 · 然后是我们 · 最后是这个家</p>
+    <p>这是一个持续升级的家庭操作系统。</p>
+    <p id="footer-last-updated" style="opacity: 0.7;">先从我开始 · 然后是我们 · 最后是这个家</p>
   </div>
 </footer>
 
@@ -463,6 +540,52 @@
   });
 </script>
 <script src="/fo-utils.js"></script>
+<script src="/family-changelog.js"></script>
+<script>
+  (function () {
+    if (typeof FAMILY_CHANGELOG === 'undefined') return;
+
+    // 渲染修订日志
+    var list = document.getElementById('family-changelog-list');
+    if (list) {
+      var public_entries = FAMILY_CHANGELOG.filter(function (e) { return e.privacy === 'public'; });
+      public_entries.forEach(function (e) {
+        var li = document.createElement('li');
+        li.className = 'changelog-item';
+        li.innerHTML =
+          '<div class="changelog-meta">' +
+            '<span class="changelog-date">' + e.date + '</span>' +
+            '<span class="changelog-who">' + e.who + '</span>' +
+          '</div>' +
+          '<div class="changelog-change">' + e.change + '</div>';
+        list.appendChild(li);
+      });
+    }
+
+    // 页脚"上次更新"
+    var public_all = FAMILY_CHANGELOG.filter(function (e) { return e.privacy === 'public'; });
+    if (public_all.length) {
+      var last = public_all[public_all.length - 1];
+      var el = document.getElementById('footer-last-updated');
+      if (el) el.textContent = '上次更新：家庭会议 ' + last.date + ' · ' + last.who;
+    }
+
+    // 为有 ideaId 的条目在对应卡片注入反对意见
+    FAMILY_CHANGELOG.filter(function (e) { return e.privacy === 'public' && e.ideaId; })
+      .forEach(function (e) {
+        var card = document.querySelector('.idea[data-idea-id="' + e.ideaId + '"]');
+        if (!card) return;
+        var toggle = card.querySelector('.idea-toggle');
+        var div = document.createElement('div');
+        div.className = 'idea-objection';
+        div.innerHTML =
+          '<div class="idea-objection-label">来自 ' + e.who + ' 的意见 · ' + e.date + '</div>' +
+          '<div>' + e.change + '</div>';
+        if (toggle) toggle.after(div);
+        else card.appendChild(div);
+      });
+  })();
+</script>
 <script>
   (function(){
     var m = window.FO ? FO.getMember() : null;
@@ -479,7 +602,7 @@
 
   // Scroll-spy: highlight topnav link for the visible section
   (function() {
-    var ids = ['ideas', 'persons', 'tools', 'weekend', 'rituals', 'wall'];
+    var ids = ['ideas', 'persons', 'tools', 'weekend', 'rituals', 'wall', 'coauthor'];
     var links = {};
     ids.forEach(function(id) {
       var a = document.querySelector('.topnav a[href="#' + id + '"]');
