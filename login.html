@@ -812,10 +812,10 @@
 <script>
   // ── 微信按钮 + setup 弹窗 ────────────────────────────────────────────────────
   (function () {
-    // 微信浏览器内才显示微信登录按钮
-    if (FO.isWechat()) {
-      document.getElementById('wechat-section').hidden = false;
-    }
+    // 微信登录暂时隐藏（订阅号不支持 OAuth，待升级服务号后取消注释）
+    // if (FO.isWechat()) {
+    //   document.getElementById('wechat-section').hidden = false;
+    // }
 
     var isSetup = new URLSearchParams(location.search).get('setup') === '1';
     if (!isSetup) return;
