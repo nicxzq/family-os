@@ -74,6 +74,29 @@ window.FO = {
     if (d < 30) return Math.floor(d / 7) + '周前';
     return Math.floor(d / 30) + '个月前';
   },
+  isWechat() {
+    return /MicroMessenger/i.test(navigator.userAgent);
+  },
+  async syncFromSupabase() {
+    if (typeof FO_DB === 'undefined' || !FO_DB.isConfigured()) return;
+    try {
+      const session = await FO_DB.getSession();
+      if (!session) return;
+      const profile = await FO_DB.getProfile(session.user.id);
+      if (!profile) return;
+      const m = {
+        id: session.user.id,
+        name: profile.name,
+        avatar: profile.avatar,
+        color: profile.color,
+        role: profile.role,
+        family_role: profile.family_role || '',
+        joined: Date.now(),
+      };
+      FO.setMember(m);
+      if (!FO.getMembers().find(x => x.id === m.id)) FO.addMember(m);
+    } catch (e) { /* offline */ }
+  },
   avatarSVG(avatar, color, size) {
     size = size || 40;
     const colors = { coral: '#E56B5A', blue: '#4B7BA8', green: '#6FA86D', yellow: '#F4C13E' };

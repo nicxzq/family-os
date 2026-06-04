@@ -168,5 +168,64 @@ window.FO_DB = {
     await c.from('diary_entries').delete().eq('id', id).eq('user_id', session.user.id);
   },
 
+  // ── Contributions ─────────────────────────────────────────────────────────────
+
+  async addContribution({ type, target_id, field, old_value, new_value, summary, privacy }) {
+    const c = this._c(); if (!c) throw new Error('未配置后端');
+    const session = await this.getSession();
+    if (!session) throw new Error('请先登录');
+    const { data, error } = await c
+      .from('contributions')
+      .insert({
+        author_id: session.user.id,
+        type,
+        target_id: target_id || null,
+        field: field || null,
+        old_value: old_value || null,
+        new_value,
+        summary: summary || null,
+        privacy: privacy || 'family',
+      })
+      .select('*,author:profiles(name,family_role,avatar,color)')
+      .single();
+    if (error) throw error;
+    return data;
+  },
+
+  async getContributions({ target_id, type, limit } = {}) {
+    const c = this._c(); if (!c) return [];
+    let q = c
+      .from('contributions')
+      .select('*,author:profiles(name,family_role,avatar,color)')
+      .eq('status', 'published')
+      .order('created_at', { ascending: false });
+    if (target_id) q = q.eq('target_id', target_id);
+    if (type) q = q.eq('type', type);
+    q = q.limit(limit || 100);
+    const { data } = await q;
+    return data || [];
+  },
+
+  // ── Profile update ────────────────────────────────────────────────────────────
+
+  async updateProfile({ name, family_role, avatar, color } = {}) {
+    const c = this._c(); if (!c) throw new Error('未配置后端');
+    const session = await this.getSession();
+    if (!session) throw new Error('请先登录');
+    const updates = {};
+    if (name !== undefined) updates.name = name;
+    if (family_role !== undefined) updates.family_role = family_role;
+    if (avatar !== undefined) updates.avatar = avatar;
+    if (color !== undefined) updates.color = color;
+    const { data, error } = await c
+      .from('profiles')
+      .update(updates)
+      .eq('id', session.user.id)
+      .select()
+      .single();
+    if (error) throw error;
+    return data;
+  },
+
   isConfigured() { return _configured; }
 };

@@ -140,3 +140,58 @@ insert into public.invite_codes (code, label, max_uses) values
   ('FRIEND02',   '朋友邀请码 2',   5),
   ('FRIEND03',   '朋友邀请码 3',   5)
 on conflict (code) do nothing;
+
+-- ── WeChat bindings ───────────────────────────────────────────────────────────
+-- openid → Supabase user_id，仅 service role 可操作（wechat-callback.js 使用）
+
+create table if not exists public.wechat_bindings (
+  openid     text primary key,
+  user_id    uuid not null references public.profiles(id) on delete cascade,
+  created_at timestamptz default now()
+);
+alter table public.wechat_bindings enable row level security;
+-- 不添加面向客户端的 policy；服务端通过 service_role key 直接操作
+
+-- ── Family role（profiles 扩展）────────────────────────────────────────────────
+
+alter table public.profiles
+  add column if not exists family_role text
+    check (family_role in ('爸爸','妈妈','哥哥','弟弟','爷爷','奶奶','其他'));
+
+-- ── Contributions ─────────────────────────────────────────────────────────────
+-- 家庭成员对六条原则的贡献：编辑措辞/发表意见/写家训/画画
+
+create table if not exists public.contributions (
+  id         uuid primary key default gen_random_uuid(),
+  author_id  uuid not null references public.profiles(id) on delete cascade,
+  type       text not null
+               check (type in ('edit','objection','motto','drawing','note')),
+  target_id  text,      -- 原则 id：direction/reading/learn-together/soft-skills/attention/time
+  field      text,      -- 编辑字段：h3（type=edit 时使用）
+  old_value  text,
+  new_value  text not null,
+  summary    text,      -- 一句话描述，用于修订日志显示
+  privacy    text not null default 'family'
+               check (privacy in ('public','family')),
+  status     text not null default 'published'
+               check (status in ('published','archived')),
+  created_at timestamptz default now()
+);
+alter table public.contributions enable row level security;
+
+-- public 对所有人可见；family 仅登录用户可见
+create policy "contributions_select" on public.contributions
+  for select using (
+    privacy = 'public'
+    or (privacy = 'family' and auth.role() = 'authenticated')
+  );
+-- 登录用户可插入自己的贡献
+create policy "contributions_insert_own" on public.contributions
+  for insert with check (auth.uid() = author_id);
+-- 作者或 parent 可 archive
+create policy "contributions_update_own" on public.contributions
+  for update using (auth.uid() = author_id);
+create policy "contributions_update_parent" on public.contributions
+  for update using (
+    exists (select 1 from public.profiles where id = auth.uid() and role = 'parent')
+  );
