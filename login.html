@@ -286,6 +286,45 @@
     color: var(--blue); cursor: pointer;
   }
   .sync-btn:hover { background: var(--blue-soft); }
+
+  /* WeChat 登录按钮 */
+  .wechat-section { margin-bottom: 4px; }
+  .wechat-btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    background: #07C160; color: white; border: 0;
+    border-radius: var(--radius-full); padding: 14px 24px;
+    font: inherit; font-size: 17px; cursor: pointer; width: 100%;
+    box-shadow: var(--shadow-soft); text-decoration: none;
+  }
+  .wechat-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 18px 0 4px; color: var(--ink-mute); font-size: 13px;
+  }
+  .wechat-divider::before, .wechat-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--cream-deep);
+  }
+
+  /* 家庭身份选择（注册 + setup 共用）*/
+  .family-role-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  }
+  .family-role-btn {
+    border: 2px solid var(--cream-deep); border-radius: var(--radius);
+    padding: 10px 6px; font: inherit; font-size: 15px;
+    background: white; cursor: pointer; text-align: center; color: var(--ink);
+  }
+  .family-role-btn.is-selected { background: var(--cream-deep); border-color: var(--coral); }
+
+  /* setup 全屏弹窗（微信首次登录后完善信息）*/
+  .setup-overlay {
+    position: fixed; inset: 0; background: var(--cream); z-index: 200;
+    display: flex; align-items: center; justify-content: center; padding: 24px;
+  }
+  .setup-card {
+    width: 100%; max-width: 480px; background: white;
+    border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: 28px 24px;
+  }
+  .setup-card h2 { margin: 0 0 6px; font-size: 28px; }
 </style>
 </head>
 <body>
@@ -294,6 +333,15 @@
     <a id="back-link" class="back-link" href="index.html" hidden>← 返回</a>
     <h1>家庭成员</h1>
     <p class="subtitle">选择你是谁</p>
+  </div>
+
+  <!-- 微信一键登录（仅微信浏览器内显示）-->
+  <div id="wechat-section" class="wechat-section" hidden>
+    <a href="/api/wechat-login" class="wechat-btn">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M8.7 10.3a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2zm6.1 0a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2zM12 2C6.5 2 2 6 2 11c0 2.8 1.3 5.3 3.4 7l-.9 2.7 3.1-1.6c1.3.5 2.8.8 4.4.8 5.5 0 10-4 10-9S17.5 2 12 2zm5.6 11.6c-.2.5-.9 1-1.6 1.1-.4.1-.9.2-2.8-.6-2.4-1-3.9-3.4-4-3.6-.2-.2-1-1.3-1-2.5 0-1.2.6-1.8 1-2.2s.7-.4.9-.4h.7c.2 0 .5 0 .7.5l1 2.4c.1.2.1.5 0 .7l-.3.4-.4.5c-.1.1-.2.3-.1.5.5.8 1.1 1.5 1.8 2.1.7.5 1.5.9 2.3 1.1.2.1.4 0 .5-.1l.6-.7c.1-.2.3-.2.5-.1l2.3 1.1c.2.1.4.2.5.5z"/></svg>
+      微信一键登录
+    </a>
+    <div class="wechat-divider">或用账号登录</div>
   </div>
 
   <div id="member-grid" class="member-grid"></div>
@@ -388,12 +436,42 @@
             <button type="button" class="role-btn" data-role="friend">🌟 朋友</button>
           </div>
         </div>
+        <div class="field" id="reg-family-role-wrap" hidden>
+          <div class="picker-label">具体身份</div>
+          <div class="family-role-grid" id="reg-family-role-grid"></div>
+        </div>
         <button type="button" id="auth-reg-btn" class="submit-btn">注册 →</button>
         <p id="reg-error" class="error"></p>
       </div>
 
       <button type="button" id="auth-close-btn" class="guest-link" style="display:block;">关闭</button>
     </div>
+  </div>
+</div>
+
+<!-- setup 全屏弹窗：微信首次登录后完善身份信息 -->
+<div id="setup-overlay" class="setup-overlay" hidden>
+  <div class="setup-card">
+    <h2>你好！先认识一下</h2>
+    <p class="subtitle" style="margin:0 0 20px;">选择你在家里的角色，以后也可以改</p>
+    <div class="field">
+      <label for="setup-name">名字</label>
+      <input id="setup-name" class="text-input" type="text" placeholder="叫什么名字？" maxlength="8">
+    </div>
+    <div class="field">
+      <div class="picker-label">我是</div>
+      <div class="family-role-grid" id="setup-role-grid"></div>
+    </div>
+    <div class="field">
+      <div class="picker-label">选头像</div>
+      <div id="setup-avatar-row" class="avatar-row"></div>
+    </div>
+    <div class="field">
+      <div class="picker-label">选颜色</div>
+      <div id="setup-color-row" class="color-row"></div>
+    </div>
+    <button id="setup-submit" class="submit-btn">完成 →</button>
+    <p id="setup-error" class="error"></p>
   </div>
 </div>
 
@@ -662,12 +740,11 @@
         if (!session) return;
         var profile = await FO_DB.getProfile(session.user.id);
         if (!profile) return;
-        var m = { id: session.user.id, name: profile.name, avatar: profile.avatar, color: profile.color, role: profile.role, joined: Date.now() };
+        var m = { id: session.user.id, name: profile.name, avatar: profile.avatar, color: profile.color, role: profile.role, family_role: profile.family_role || '', joined: Date.now() };
         FO.setMember(m);
         if (!FO.getMembers().find(function (x) { return x.id === m.id; })) FO.addMember(m);
         syncBtn.textContent = '✅ ' + profile.name;
         syncStatus.textContent = '数据将自动同步到云端。';
-        // refresh member grid
         var grid = document.getElementById('member-grid');
         if (grid) {
           grid.innerHTML = '';
@@ -682,6 +759,146 @@
           });
         }
       } catch (e) { /* offline / unconfigured */ }
+    })();
+
+    // 注册表单：role 切换时动态更新 family_role 选项
+    var regFamilyRole = '';
+    var familyRoleOptions = {
+      child:  [['哥哥','哥哥'],['弟弟','弟弟']],
+      parent: [['爸爸','爸爸'],['妈妈','妈妈']],
+      friend: [['爷爷','爷爷'],['奶奶','奶奶'],['其他','其他']],
+    };
+    function updateFamilyRoleGrid(role) {
+      var wrap = document.getElementById('reg-family-role-wrap');
+      var grid = document.getElementById('reg-family-role-grid');
+      var opts = familyRoleOptions[role];
+      if (!opts) { wrap.hidden = true; return; }
+      wrap.hidden = false;
+      regFamilyRole = opts[0][0];
+      grid.innerHTML = '';
+      opts.forEach(function (opt) {
+        var btn = document.createElement('button');
+        btn.type = 'button'; btn.className = 'family-role-btn' + (opt[0] === regFamilyRole ? ' is-selected' : '');
+        btn.textContent = opt[1]; btn.dataset.familyRole = opt[0];
+        btn.addEventListener('click', function () {
+          regFamilyRole = opt[0];
+          grid.querySelectorAll('.family-role-btn').forEach(function (b) {
+            b.classList.toggle('is-selected', b.dataset.familyRole === regFamilyRole);
+          });
+        });
+        grid.appendChild(btn);
+      });
+    }
+    document.getElementById('reg-role-row').addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-role]');
+      if (btn) updateFamilyRoleGrid(btn.dataset.role);
+    });
+    updateFamilyRoleGrid('child');
+
+    // 把 family_role 带入注册 meta
+    var origRegBtn = document.getElementById('auth-reg-btn');
+    origRegBtn.addEventListener('click', function () {
+      // family_role 已在 regFamilyRole 变量里，注入到 meta 供注册流程使用
+      // 注册完成后通过 updateProfile 补全
+    }, true);
+  })();
+</script>
+
+<script>
+  // ── 微信按钮 + setup 弹窗 ────────────────────────────────────────────────────
+  (function () {
+    // 微信浏览器内才显示微信登录按钮
+    if (FO.isWechat()) {
+      document.getElementById('wechat-section').hidden = false;
+    }
+
+    var isSetup = new URLSearchParams(location.search).get('setup') === '1';
+    if (!isSetup) return;
+
+    // ?setup=1：等待 Supabase session 后展示角色设置弹窗
+    var avatars = ['chick', 'dad', 'mom', 'star'];
+    var colors  = ['coral', 'blue', 'green', 'yellow'];
+    var familyRoles = ['爸爸','妈妈','哥哥','弟弟','爷爷','奶奶'];
+    var setupSel = { avatar: 'chick', color: 'coral', family_role: '' };
+
+    function renderSetupGrid() {
+      var grid = document.getElementById('setup-role-grid');
+      grid.innerHTML = '';
+      familyRoles.forEach(function (fr) {
+        var btn = document.createElement('button');
+        btn.type = 'button'; btn.className = 'family-role-btn' + (setupSel.family_role === fr ? ' is-selected' : '');
+        btn.textContent = fr; btn.dataset.familyRole = fr;
+        btn.addEventListener('click', function () {
+          setupSel.family_role = fr;
+          renderSetupGrid();
+        });
+        grid.appendChild(btn);
+      });
+    }
+    function renderSetupAvatars() {
+      var row = document.getElementById('setup-avatar-row');
+      row.innerHTML = '';
+      avatars.forEach(function (a) {
+        var btn = document.createElement('button');
+        btn.type = 'button'; btn.className = 'avatar-btn' + (setupSel.avatar === a ? ' is-selected' : '');
+        btn.innerHTML = FO.avatarSVG(a, 'coral', 48);
+        btn.addEventListener('click', function () { setupSel.avatar = a; renderSetupAvatars(); });
+        row.appendChild(btn);
+      });
+    }
+    function renderSetupColors() {
+      var row = document.getElementById('setup-color-row');
+      row.innerHTML = '';
+      colors.forEach(function (c) {
+        var btn = document.createElement('button');
+        btn.type = 'button'; btn.className = 'color-btn' + (setupSel.color === c ? ' is-selected' : '');
+        btn.dataset.color = c; btn.setAttribute('aria-label', c);
+        btn.addEventListener('click', function () { setupSel.color = c; renderSetupColors(); });
+        row.appendChild(btn);
+      });
+    }
+
+    function showSetupOverlay() {
+      renderSetupGrid();
+      renderSetupAvatars();
+      renderSetupColors();
+      document.getElementById('setup-overlay').hidden = false;
+    }
+
+    document.getElementById('setup-submit').addEventListener('click', async function () {
+      var name = document.getElementById('setup-name').value.trim();
+      var errorEl = document.getElementById('setup-error');
+      errorEl.textContent = '';
+      if (!name) { errorEl.textContent = '请先填写名字。'; return; }
+      if (!setupSel.family_role) { errorEl.textContent = '请选择你的身份。'; return; }
+      this.disabled = true; this.textContent = '保存中…';
+      try {
+        // 确定 role（parent/child/friend）
+        var roleMap = { '爸爸':'parent','妈妈':'parent','哥哥':'child','弟弟':'child','爷爷':'friend','奶奶':'friend' };
+        var role = roleMap[setupSel.family_role] || 'friend';
+        await FO_DB.updateProfile({ name: name, family_role: setupSel.family_role, avatar: setupSel.avatar, color: setupSel.color });
+        await FO.syncFromSupabase();
+        location.href = '/';
+      } catch (e) {
+        errorEl.textContent = '保存失败，请重试。';
+        this.disabled = false; this.textContent = '完成 →';
+      }
+    });
+
+    // 等 Supabase session 就绪后显示弹窗
+    (async function () {
+      if (typeof FO_DB === 'undefined' || !FO_DB.isConfigured()) return;
+      var session = await FO_DB.getSession();
+      if (session) { showSetupOverlay(); return; }
+      // 没有 session 则监听 auth 状态变化（magic link 处理中）
+      if (window._supabaseClient) {
+        var sub = window._supabaseClient.auth.onAuthStateChange(function (event, s) {
+          if (event === 'SIGNED_IN' && s) {
+            sub.data.subscription.unsubscribe();
+            showSetupOverlay();
+          }
+        });
+      }
     })();
   })();
 </script>

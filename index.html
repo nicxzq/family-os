@@ -61,6 +61,33 @@
   /* ── idea 卡片反对意见入口 ── */
   .idea-objection { margin-top: 10px; padding: 10px 14px; border-radius: var(--radius); background: var(--cream); border-left: 3px solid var(--coral-soft); font-size: 13px; color: var(--ink-soft); }
   .idea-objection-label { font-size: 11px; letter-spacing: .06em; color: var(--coral); margin-bottom: 3px; }
+
+  /* 共创 CTA 按钮 */
+  .idea-cta-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 2px; }
+  .idea-cta-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    border: 1.5px solid var(--cream-deep); border-radius: var(--radius);
+    padding: 6px 13px; font: inherit; font-size: 13px;
+    color: var(--ink-soft); background: var(--cream); cursor: pointer;
+  }
+  .idea-cta-btn:hover { background: white; }
+  .idea-cta-edit   { border-color: var(--blue-soft);  color: var(--blue); }
+  .idea-cta-object { border-color: var(--coral-soft); color: var(--coral); }
+  .idea-cta-save   { background: var(--coral); color: white; border-color: var(--coral); }
+  .idea-edit-form, .idea-object-form { margin: 10px 0 4px; }
+  .idea-edit-textarea {
+    width: 100%; padding: 10px 12px; resize: vertical; min-height: 72px;
+    border: 2px solid var(--cream-deep); border-radius: var(--radius);
+    font: inherit; font-size: 15px; background: var(--cream); color: var(--ink);
+  }
+  .idea-edit-actions { display: flex; gap: 8px; margin-top: 8px; }
+  .coauthor-role.is-mine { border-left: 3px solid var(--coral); padding-left: 19px; }
+  .motto-form { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .motto-input {
+    flex: 1; min-width: 180px; padding: 10px 12px;
+    border: 2px solid var(--cream-deep); border-radius: var(--radius);
+    font: inherit; font-size: 15px; background: var(--cream); color: var(--ink);
+  }
 </style>
 </head>
 <body>
@@ -475,39 +502,40 @@
       <p class="section-lead">这不是爸爸一个人的主张。每个家庭成员都有笔迹——改一条措辞、投一票反对、画一张画，都算数。</p>
 
       <div class="coauthor-roles">
-        <div class="coauthor-role">
+        <div class="coauthor-role" data-family-role="妈妈">
           <div class="coauthor-role-emoji">👩</div>
           <div class="coauthor-role-body">
             <div class="coauthor-role-who">妈妈</div>
             <div class="coauthor-role-desc">可以改任意一条措辞——这个系统不只是爸爸写的。</div>
           </div>
         </div>
-        <div class="coauthor-role">
+        <div class="coauthor-role" data-family-role="哥哥">
           <div class="coauthor-role-emoji">👦</div>
           <div class="coauthor-role-body">
             <div class="coauthor-role-who">哥哥</div>
             <div class="coauthor-role-desc">可以对任何一条想法投"我不同意"——意见会记进修订日志。</div>
           </div>
         </div>
-        <div class="coauthor-role">
+        <div class="coauthor-role" data-family-role="弟弟">
           <div class="coauthor-role-emoji">🐣</div>
           <div class="coauthor-role-body">
             <div class="coauthor-role-who">弟弟</div>
             <div class="coauthor-role-desc">可以画一张画代替一段字。</div>
-            <div class="image-slot" style="margin-top:10px;">
+            <div id="youngest-drawing-slot" class="image-slot" style="margin-top:10px;">
               <div class="image-slot-label">弟弟的画 · 留位</div>
               <div>这里等一幅画。</div>
             </div>
           </div>
         </div>
-        <div class="coauthor-role">
+        <div class="coauthor-role" data-family-role="爷爷">
           <div class="coauthor-role-emoji">👴</div>
           <div class="coauthor-role-body">
             <div class="coauthor-role-who">爷爷奶奶</div>
             <div class="coauthor-role-desc">可以补一句家训——长辈的话也是这个家的一部分。</div>
+            <div id="motto-form-slot"></div>
           </div>
         </div>
-        <div class="coauthor-role">
+        <div class="coauthor-role" data-family-role="爸爸">
           <div class="coauthor-role-emoji">👨</div>
           <div class="coauthor-role-body">
             <div class="coauthor-role-who">爸爸</div>
@@ -547,6 +575,8 @@
     });
   });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="/fo-supabase.js"></script>
 <script src="/fo-utils.js"></script>
 <script src="/family-changelog.js"></script>
 <script>
@@ -605,6 +635,171 @@
     } else {
       el.innerHTML = '<span>登录</span>';
       el.onclick = function(){ location.href='login.html'; };
+    }
+  })();
+
+  // ── 共创系统：加载贡献、注入 CTA、动态修订日志 ─────────────────────────────
+  (async function () {
+    if (typeof FO === 'undefined' || typeof FO_DB === 'undefined' || !FO_DB.isConfigured()) return;
+    var session = await FO_DB.getSession().catch(function () { return null; });
+    if (!session) return;
+
+    // 同步 profile（含 family_role）到 localStorage
+    await FO.syncFromSupabase();
+    var m = FO.getMember();
+    if (!m) return;
+
+    // 拉取所有贡献
+    var contributions = await FO_DB.getContributions({ limit: 100 }).catch(function () { return []; });
+
+    // ① 把 parent 最新 edit 贡献覆盖到对应卡片 h3
+    var edits = {};
+    contributions.filter(function (c) { return c.type === 'edit' && c.target_id && c.field === 'h3'; })
+      .forEach(function (c) {
+        if (!edits[c.target_id]) edits[c.target_id] = c.new_value;
+      });
+    Object.keys(edits).forEach(function (tid) {
+      var card = document.querySelector('.idea[data-idea-id="' + tid + '"]');
+      if (card) { var h3 = card.querySelector('h3'); if (h3) h3.textContent = edits[tid]; }
+    });
+
+    // ② 把 objection/motto 贡献追加到对应卡片（去重）
+    contributions.filter(function (c) { return c.type === 'objection' && c.target_id; })
+      .forEach(function (c) {
+        var card = document.querySelector('.idea[data-idea-id="' + c.target_id + '"]');
+        if (!card || card.querySelector('[data-cid="' + c.id + '"]')) return;
+        var who = (c.author && c.author.family_role) || (c.author && c.author.name) || '家人';
+        var d = new Date(c.created_at).toLocaleDateString('zh-CN', { year: 'numeric', month: 'short' });
+        var div = document.createElement('div');
+        div.className = 'idea-objection'; div.dataset.cid = c.id;
+        div.innerHTML = '<div class="idea-objection-label">来自 ' + who + ' · ' + d + '</div><div>' + c.new_value + '</div>';
+        var toggle = card.querySelector('.idea-toggle');
+        if (toggle) toggle.before(div); else card.appendChild(div);
+      });
+
+    // ③ 动态修订日志（替换静态渲染结果）
+    var list = document.getElementById('family-changelog-list');
+    if (list && contributions.length > 0) {
+      list.innerHTML = '';
+      contributions.forEach(function (c) {
+        if (c.privacy === 'family' && !session) return;
+        var who = (c.author && c.author.family_role) || (c.author && c.author.name) || c.who || '?';
+        var d = new Date(c.created_at).toLocaleDateString('zh-CN', { year: 'numeric', month: 'short' });
+        var text = c.summary || c.new_value;
+        var li = document.createElement('li');
+        li.className = 'changelog-item';
+        li.innerHTML = '<div class="changelog-meta"><span class="changelog-date">' + d + '</span><span class="changelog-who">' + who + '</span></div><div class="changelog-change">' + text + '</div>';
+        list.appendChild(li);
+      });
+      var last = contributions[0];
+      var lastWho = (last.author && last.author.family_role) || last.who || '?';
+      var lastD = new Date(last.created_at).toLocaleDateString('zh-CN', { year: 'numeric', month: 'short' });
+      var footerEl = document.getElementById('footer-last-updated');
+      if (footerEl) footerEl.textContent = '上次更新：' + lastD + ' · ' + lastWho;
+    }
+
+    // ④ 高亮当前成员对应的共创角色行
+    var fr = m.family_role;
+    if (fr) {
+      var matchRole = fr === '奶奶' ? '爷爷' : fr; // 奶奶和爷爷用同一行
+      var roleRow = document.querySelector('.coauthor-role[data-family-role="' + matchRole + '"]');
+      if (roleRow) roleRow.classList.add('is-mine');
+    }
+
+    // ⑤ 注入 CTA 按钮
+    document.querySelectorAll('.idea[data-idea-id]').forEach(function (card) {
+      var tid = card.dataset.ideaId;
+      var row = document.createElement('div'); row.className = 'idea-cta-row';
+
+      if (m.role === 'parent') {
+        var editBtn = document.createElement('button');
+        editBtn.className = 'idea-cta-btn idea-cta-edit'; editBtn.textContent = '✏ 改一改';
+        editBtn.addEventListener('click', function (e) { e.stopPropagation(); openEditForm(card, m); });
+        row.appendChild(editBtn);
+      }
+      if (m.role === 'child' && m.family_role === '哥哥') {
+        var objBtn = document.createElement('button');
+        objBtn.className = 'idea-cta-btn idea-cta-object'; objBtn.textContent = '💬 说几句';
+        objBtn.addEventListener('click', function (e) { e.stopPropagation(); openObjectForm(card, m); });
+        row.appendChild(objBtn);
+      }
+
+      if (row.children.length) {
+        var toggle = card.querySelector('.idea-toggle');
+        if (toggle) toggle.before(row); else card.appendChild(row);
+      }
+    });
+
+    // ⑥ 爷爷/奶奶：家训表单
+    if (m.role === 'friend') {
+      var slot = document.getElementById('motto-form-slot');
+      if (slot && !slot.querySelector('.motto-form')) {
+        var mf = document.createElement('div'); mf.className = 'motto-form';
+        var inp = document.createElement('input');
+        inp.className = 'motto-input'; inp.placeholder = '写一句家训…'; inp.maxLength = 50;
+        var sb2 = document.createElement('button');
+        sb2.className = 'idea-cta-btn idea-cta-save'; sb2.textContent = '提交';
+        sb2.addEventListener('click', async function () {
+          var txt = inp.value.trim(); if (!txt) return;
+          sb2.disabled = true; sb2.textContent = '…';
+          try {
+            await FO_DB.addContribution({ type: 'motto', new_value: txt, summary: (m.family_role || m.name) + ' 写了一句家训：' + txt, privacy: 'public' });
+            inp.value = ''; sb2.textContent = '已提交 ✓';
+          } catch (e2) { sb2.disabled = false; sb2.textContent = '提交'; }
+        });
+        mf.appendChild(inp); mf.appendChild(sb2);
+        slot.appendChild(mf);
+      }
+    }
+
+    // ── 内联编辑函数 ─────────────────────────────────────────────────────────
+    function openEditForm(card, member) {
+      if (card.querySelector('.idea-edit-form')) return;
+      var h3 = card.querySelector('h3'); var orig = h3.textContent;
+      h3.style.display = 'none';
+      var form = document.createElement('div'); form.className = 'idea-edit-form';
+      form.innerHTML = '<textarea class="idea-edit-textarea"></textarea><div class="idea-edit-actions"></div>';
+      form.querySelector('textarea').value = orig;
+      var acts = form.querySelector('.idea-edit-actions');
+      var saveBtn = document.createElement('button'); saveBtn.className = 'idea-cta-btn idea-cta-save'; saveBtn.textContent = '保存';
+      var cancelBtn = document.createElement('button'); cancelBtn.className = 'idea-cta-btn'; cancelBtn.textContent = '取消';
+      acts.appendChild(saveBtn); acts.appendChild(cancelBtn);
+      h3.after(form);
+      cancelBtn.addEventListener('click', function (e) { e.stopPropagation(); form.remove(); h3.style.display = ''; });
+      saveBtn.addEventListener('click', async function (e) {
+        e.stopPropagation();
+        var nv = form.querySelector('textarea').value.trim();
+        if (!nv || nv === orig) { form.remove(); h3.style.display = ''; return; }
+        saveBtn.disabled = true; saveBtn.textContent = '…';
+        try {
+          await FO_DB.addContribution({ type: 'edit', target_id: card.dataset.ideaId, field: 'h3', old_value: orig, new_value: nv, summary: (member.family_role || member.name) + ' 改了这条的措辞', privacy: 'public' });
+          h3.textContent = nv; form.remove(); h3.style.display = '';
+        } catch (err) { saveBtn.disabled = false; saveBtn.textContent = '保存'; }
+      });
+    }
+
+    function openObjectForm(card, member) {
+      if (card.querySelector('.idea-object-form')) return;
+      var form = document.createElement('div'); form.className = 'idea-object-form';
+      form.innerHTML = '<textarea class="idea-edit-textarea" placeholder="说说你的想法…"></textarea><div class="idea-edit-actions"></div>';
+      var acts = form.querySelector('.idea-edit-actions');
+      var submitBtn = document.createElement('button'); submitBtn.className = 'idea-cta-btn idea-cta-save'; submitBtn.textContent = '提交';
+      var cancelBtn = document.createElement('button'); cancelBtn.className = 'idea-cta-btn'; cancelBtn.textContent = '取消';
+      acts.appendChild(submitBtn); acts.appendChild(cancelBtn);
+      var toggle = card.querySelector('.idea-toggle');
+      if (toggle) toggle.before(form); else card.appendChild(form);
+      cancelBtn.addEventListener('click', function (e) { e.stopPropagation(); form.remove(); });
+      submitBtn.addEventListener('click', async function (e) {
+        e.stopPropagation();
+        var txt = form.querySelector('textarea').value.trim(); if (!txt) return;
+        submitBtn.disabled = true; submitBtn.textContent = '…';
+        try {
+          var c = await FO_DB.addContribution({ type: 'objection', target_id: card.dataset.ideaId, new_value: txt, summary: (member.family_role || member.name) + ' 对这条发表了看法', privacy: 'family' });
+          var div = document.createElement('div'); div.className = 'idea-objection'; div.dataset.cid = c.id;
+          div.innerHTML = '<div class="idea-objection-label">来自 ' + (member.family_role || member.name) + ' · 刚刚</div><div>' + txt + '</div>';
+          form.before(div); form.remove();
+        } catch (err) { submitBtn.disabled = false; submitBtn.textContent = '提交'; }
+      });
     }
   })();
 
