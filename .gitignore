@@ -1,3 +1,4 @@
 uploads/
 .obsidian/
 .tokenize/
+.env*.local
