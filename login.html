@@ -318,15 +318,19 @@
   /* setup 全屏弹窗（微信首次登录后完善信息）*/
   .setup-overlay {
     position: fixed; inset: 0; background: var(--cream); z-index: 200;
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: flex-start; padding: 24px; overflow-y: auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding: 20px 16px 32px;
   }
   .setup-card {
-    width: 100%; max-width: 480px; background: white; flex-shrink: 0;
-    border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: 28px 24px;
-    margin: auto 0;
+    width: 100%; max-width: 480px; background: white;
+    border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: 22px 20px 20px;
+    margin: 0 auto;
   }
-  .setup-card h2 { margin: 0 0 6px; font-size: 28px; }
+  .setup-card h2 { margin: 0 0 18px; font-size: 26px; }
+  .setup-card .field { margin-bottom: 14px; }
+  .setup-card .avatar-btn { width: 52px; height: 52px; }
 </style>
 </head>
 <body>
@@ -454,8 +458,7 @@
 <!-- setup 全屏弹窗：微信首次登录后完善身份信息 -->
 <div id="setup-overlay" class="setup-overlay" hidden>
   <div class="setup-card">
-    <h2>你好！先认识一下</h2>
-    <p class="subtitle" style="margin:0 0 20px;">选择你在家里的角色，以后也可以改</p>
+    <h2>你好！先认识一下 👋</h2>
     <div class="field">
       <label for="setup-name">名字</label>
       <input id="setup-name" class="text-input" type="text" placeholder="叫什么名字？" maxlength="8">
