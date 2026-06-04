@@ -318,11 +318,13 @@
   /* setup 全屏弹窗（微信首次登录后完善信息）*/
   .setup-overlay {
     position: fixed; inset: 0; background: var(--cream); z-index: 200;
-    display: flex; align-items: center; justify-content: center; padding: 24px;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: flex-start; padding: 24px; overflow-y: auto;
   }
   .setup-card {
-    width: 100%; max-width: 480px; background: white;
+    width: 100%; max-width: 480px; background: white; flex-shrink: 0;
     border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: 28px 24px;
+    margin: auto 0;
   }
   .setup-card h2 { margin: 0 0 6px; font-size: 28px; }
 </style>
@@ -707,7 +709,7 @@
         var ok = await FO_DB.checkInviteCode(code);
         if (!ok) { errorEl.textContent = '邀请码无效或已用完。'; return; }
         var cur  = FO.getMember();
-        var meta = { name: cur ? cur.name : '新成员', avatar: cur ? cur.avatar : 'chick', color: cur ? cur.color : 'coral', role: regRole };
+        var meta = { name: cur ? cur.name : '新成员', avatar: cur ? cur.avatar : 'chick', color: cur ? cur.color : 'coral', role: regRole, family_role: regFamilyRole || '' };
         var result = await FO_DB.signUp(email, password, meta);
         // Supabase returns user=null when the email already exists but is unconfirmed
         // (prevents email enumeration; doesn't resend automatically)
@@ -876,7 +878,7 @@
         // 确定 role（parent/child/friend）
         var roleMap = { '爸爸':'parent','妈妈':'parent','哥哥':'child','弟弟':'child','爷爷':'friend','奶奶':'friend' };
         var role = roleMap[setupSel.family_role] || 'friend';
-        await FO_DB.updateProfile({ name: name, family_role: setupSel.family_role, avatar: setupSel.avatar, color: setupSel.color });
+        await FO_DB.updateProfile({ name: name, family_role: setupSel.family_role, role: role, avatar: setupSel.avatar, color: setupSel.color });
         await FO.syncFromSupabase();
         location.href = '/';
       } catch (e) {

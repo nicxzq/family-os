@@ -83,13 +83,14 @@ language plpgsql
 security definer set search_path = public
 as $$
 begin
-  insert into public.profiles (id, name, avatar, color, role)
+  insert into public.profiles (id, name, avatar, color, role, family_role)
   values (
     new.id,
-    coalesce(new.raw_user_meta_data->>'name',   '新成员'),
-    coalesce(new.raw_user_meta_data->>'avatar', 'chick'),
-    coalesce(new.raw_user_meta_data->>'color',  'coral'),
-    coalesce(new.raw_user_meta_data->>'role',   'child')
+    coalesce(new.raw_user_meta_data->>'name',        '新成员'),
+    coalesce(new.raw_user_meta_data->>'avatar',      'chick'),
+    coalesce(new.raw_user_meta_data->>'color',       'coral'),
+    coalesce(new.raw_user_meta_data->>'role',        'child'),
+    coalesce(new.raw_user_meta_data->>'family_role', null)
   );
   return new;
 end;

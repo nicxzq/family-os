@@ -208,13 +208,14 @@ window.FO_DB = {
 
   // ── Profile update ────────────────────────────────────────────────────────────
 
-  async updateProfile({ name, family_role, avatar, color } = {}) {
+  async updateProfile({ name, family_role, role, avatar, color } = {}) {
     const c = this._c(); if (!c) throw new Error('未配置后端');
     const session = await this.getSession();
     if (!session) throw new Error('请先登录');
     const updates = {};
     if (name !== undefined) updates.name = name;
     if (family_role !== undefined) updates.family_role = family_role;
+    if (role !== undefined) updates.role = role;
     if (avatar !== undefined) updates.avatar = avatar;
     if (color !== undefined) updates.color = color;
     const { data, error } = await c
