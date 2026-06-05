@@ -4,8 +4,8 @@
 
   var canvas = document.getElementById('physics-canvas');
   var ctx = canvas.getContext('2d');
-  var W = canvas.width;
-  var H = canvas.height;
+  var W = 720;
+  var H = 360;
   var state = {};
   var running = false;
   var raf = 0;
@@ -15,6 +15,20 @@
   function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
   function lerp(a, b, t){ return a + (b - a) * t; }
   function fmt(v){ return Math.round(v * 10) / 10; }
+
+  function syncCanvasSize(){
+    var box = canvas.getBoundingClientRect();
+    var ratio = window.devicePixelRatio || 1;
+    var cssW = Math.max(280, Math.round(box.width || W));
+    var cssH = Math.max(140, Math.round(cssW / 2));
+    var nextW = Math.round(cssW * ratio);
+    var nextH = Math.round(cssH * ratio);
+    if (canvas.width !== nextW || canvas.height !== nextH) {
+      canvas.width = nextW;
+      canvas.height = nextH;
+    }
+    ctx.setTransform((cssW / W) * ratio, 0, 0, (cssH / H) * ratio, 0, 0);
+  }
 
   function markDone(){
     var a = [];
@@ -42,6 +56,7 @@
     cancelAnimationFrame(raf);
     state = { t: 0, sparks: [], dots: [], heat: [20, 20, 20, 20, 20, 20, 20], waveShift: 0, orbitTrail: [] };
     cfg.controls.forEach(function(c){ state[c.id] = c.value; });
+    syncCanvasSize();
     draw();
     message(cfg.prompt, false);
   }
@@ -72,6 +87,10 @@
     });
     $('run-btn').onclick = run;
     $('reset-btn').onclick = resetState;
+    window.addEventListener('resize', function(){
+      syncCanvasSize();
+      draw();
+    });
 
     var m = window.FO && FO.getMember();
     var el = $('nav-member-btn');
@@ -313,6 +332,7 @@
   }
 
   function draw(){
+    syncCanvasSize();
     state.t++;
     var text = {
       circuit: drawCircuit,
