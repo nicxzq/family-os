@@ -9,62 +9,33 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles.css">
-<style>
-  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
-  .nav-member-btn svg{border-radius:50%}
-  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px}
-  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px}
-  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px}
-  .game-hero{text-align:center;margin-bottom:36px}
-  .game-hero .emoji{font-size:64px;display:block;margin-bottom:16px}
-  .game-hero h1{font-size:clamp(28px,5vw,42px);margin-bottom:10px}
-  .game-hero .sub{color:var(--ink-soft);font-size:17px;line-height:1.6}
-  .teaser{background:var(--paper);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-card);margin-bottom:24px}
-  .teaser h2{font-size:14px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:16px}
-  .teaser ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
-  .teaser li{display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--ink-soft);line-height:1.6}
-  .teaser li::before{content:"→";color:var(--coral);flex-shrink:0;margin-top:2px}
-  .coming-soon{background:var(--cream-deep);border-radius:var(--radius);padding:20px 24px;text-align:center;font-size:18px;color:var(--ink-mute);margin-bottom:28px;border:2px dashed var(--ink-mute)}
-  .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-  .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
-  .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
-  .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
-  .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
-</style>
+<link rel="stylesheet" href="physics-playground.css">
 </head>
 <body>
-<main class="wrap">
-  <nav class="game-nav">
-    <a class="back-link" href="index.html">← 游戏库</a>
-    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
-  </nav>
-  <header class="game-hero">
-    <span class="emoji">🍎</span>
-    <h1>牛顿三定律</h1>
-    <p class="sub">苹果为什么落地？火箭为什么飞天？牛顿的三条定律回答了一切。</p>
-  </header>
-  <section class="teaser">
-    <h2>这个游戏里，你将会…</h2>
-    <ul>
-      <li>给物体施加合力观察加速度变化</li>
-      <li>验证力的作用是相互的</li>
-      <li>设计火箭喷射路径</li>
-    </ul>
-  </section>
-  <div class="coming-soon">🚧 即将推出 · 敬请期待</div>
-  <p class="section-label">知识预习</p>
-  <div class="concepts">
-    <div class="concept-card"><h3>惯性</h3><p>不受力就保持原状</p></div>
-    <div class="concept-card"><h3>F=ma</h3><p>合力越大，加速度越大</p></div>
-    <div class="concept-card"><h3>作用力与反作用力</h3><p>大小相等方向相反</p></div>
-  </div>
+<main class="physics-page">
+  <nav class="physics-nav"><a class="physics-back" href="index.html">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+  <header class="physics-hero"><div id="emoji" class="physics-emoji"></div><div><h1 id="title"></h1><p id="sub" class="physics-sub"></p></div></header>
+  <div class="physics-status"><span id="score" class="physics-pill"></span><span id="badge" class="physics-pill"></span><span id="live" class="physics-pill"></span></div>
+  <section class="physics-stage"><canvas id="physics-canvas" width="720" height="360"></canvas><div id="message" class="physics-message"></div></section>
+  <section class="physics-grid"><div id="controls" class="physics-controls"></div><aside class="physics-brief"><h2 id="concept"></h2><p id="mission"></p><ul id="learn"></ul></aside></section>
 </main>
 <script src="../fo-utils.js"></script>
 <script>
-  var m = window.FO ? FO.getMember() : null;
-  var el = document.getElementById('nav-member-btn');
-  if(m){ el.innerHTML = FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>'; el.onclick=function(){location.href='../dashboard.html'}; }
-  else { el.innerHTML='<span>登录</span>'; el.onclick=function(){location.href='../login.html'}; }
+window.PHYSICS_GAME = {
+  id:'g34-physics-newton', type:'newton', emoji:'🍎', title:'小车加速度',
+  sub:'改变推力、质量和摩擦，观察小车怎样加速。',
+  concept:'F = ma', mission:'目标：让小车获得足够加速度，冲过终点线。',
+  prompt:'按运行前先调参数：推力越大、质量越小、摩擦越小，小车越容易加速。',
+  success:'小车冲过终点！你让合力产生了明显加速度。',
+  tryAgain:'加速度不够。试着增大推力，或减小质量和摩擦。',
+  learn:['力不是速度，力改变的是运动状态。','同样的力推轻车，加速度更大。','摩擦力会抵消一部分推力。'],
+  controls:[
+    {id:'force',label:'推力',min:10,max:90,value:48,unit:'N'},
+    {id:'mass',label:'质量',min:4,max:20,value:12,unit:'kg'},
+    {id:'friction',label:'摩擦',min:0,max:35,value:12,unit:'N'}
+  ]
+};
 </script>
+<script src="physics-playground.js"></script>
 </body>
 </html>

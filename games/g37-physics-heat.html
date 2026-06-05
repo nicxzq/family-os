@@ -9,62 +9,33 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles.css">
-<style>
-  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
-  .nav-member-btn svg{border-radius:50%}
-  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px}
-  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px}
-  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px}
-  .game-hero{text-align:center;margin-bottom:36px}
-  .game-hero .emoji{font-size:64px;display:block;margin-bottom:16px}
-  .game-hero h1{font-size:clamp(28px,5vw,42px);margin-bottom:10px}
-  .game-hero .sub{color:var(--ink-soft);font-size:17px;line-height:1.6}
-  .teaser{background:var(--paper);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-card);margin-bottom:24px}
-  .teaser h2{font-size:14px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:16px}
-  .teaser ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
-  .teaser li{display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--ink-soft);line-height:1.6}
-  .teaser li::before{content:"→";color:var(--coral);flex-shrink:0;margin-top:2px}
-  .coming-soon{background:var(--cream-deep);border-radius:var(--radius);padding:20px 24px;text-align:center;font-size:18px;color:var(--ink-mute);margin-bottom:28px;border:2px dashed var(--ink-mute)}
-  .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-  .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
-  .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
-  .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
-  .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
-</style>
+<link rel="stylesheet" href="physics-playground.css">
 </head>
 <body>
-<main class="wrap">
-  <nav class="game-nav">
-    <a class="back-link" href="index.html">← 游戏库</a>
-    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
-  </nav>
-  <header class="game-hero">
-    <span class="emoji">🌡️</span>
-    <h1>热传导</h1>
-    <p class="sub">为什么铁棒比木棒更烫手？热量是怎么从一个地方跑到另一个地方的？</p>
-  </header>
-  <section class="teaser">
-    <h2>这个游戏里，你将会…</h2>
-    <ul>
-      <li>观察热传导在不同材料中的速度</li>
-      <li>对流实验——水是怎么搅动热量的</li>
-      <li>红外辐射——颜色和表面对散热的影响</li>
-    </ul>
-  </section>
-  <div class="coming-soon">🚧 即将推出 · 敬请期待</div>
-  <p class="section-label">知识预习</p>
-  <div class="concepts">
-    <div class="concept-card"><h3>导热系数</h3><p>金属>液体>气体</p></div>
-    <div class="concept-card"><h3>对流</h3><p>密度差驱动流体运动</p></div>
-    <div class="concept-card"><h3>热辐射</h3><p>不需要介质，能在真空中传播</p></div>
-  </div>
+<main class="physics-page">
+  <nav class="physics-nav"><a class="physics-back" href="index.html">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+  <header class="physics-hero"><div id="emoji" class="physics-emoji"></div><div><h1 id="title"></h1><p id="sub" class="physics-sub"></p></div></header>
+  <div class="physics-status"><span id="score" class="physics-pill"></span><span id="badge" class="physics-pill"></span><span id="live" class="physics-pill"></span></div>
+  <section class="physics-stage"><canvas id="physics-canvas" width="720" height="360"></canvas><div id="message" class="physics-message"></div></section>
+  <section class="physics-grid"><div id="controls" class="physics-controls"></div><aside class="physics-brief"><h2 id="concept"></h2><p id="mission"></p><ul id="learn"></ul></aside></section>
 </main>
 <script src="../fo-utils.js"></script>
 <script>
-  var m = window.FO ? FO.getMember() : null;
-  var el = document.getElementById('nav-member-btn');
-  if(m){ el.innerHTML = FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>'; el.onclick=function(){location.href='../dashboard.html'}; }
-  else { el.innerHTML='<span>登录</span>'; el.onclick=function(){location.href='../login.html'}; }
+window.PHYSICS_GAME = {
+  id:'g37-physics-heat', type:'heat', emoji:'🌡️', title:'热传导',
+  sub:'给金属棒一端加热，看热量一格一格传过去。',
+  concept:'温度差驱动热传导', mission:'目标：让最右端温度超过 52°，完成热量传递。',
+  prompt:'按运行后观察温度数字变化。导热率越高，热量传得越快。',
+  success:'热量传到末端！你让温度差推动了热传导。',
+  tryAgain:'末端还不够热。提高热源或导热率，也可以减少散热。',
+  learn:['热量总是从高温处传向低温处。','金属通常比木头更容易导热。','散热会把能量带到周围环境里。'],
+  controls:[
+    {id:'source',label:'热源温度',min:45,max:120,value:80,unit:'°'},
+    {id:'conductivity',label:'导热率',min:15,max:100,value:48,unit:'%'},
+    {id:'cooling',label:'散热',min:0,max:80,value:35,unit:'%'}
+  ]
+};
 </script>
+<script src="physics-playground.js"></script>
 </body>
 </html>

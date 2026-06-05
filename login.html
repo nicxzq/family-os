@@ -341,11 +341,11 @@
     <p class="subtitle">选择你是谁</p>
   </div>
 
-  <!-- 微信一键登录（仅微信浏览器内显示）-->
-  <div id="wechat-section" class="wechat-section" hidden>
-    <a href="/api/wechat-login" class="wechat-btn">
+  <!-- 微信扫码登录 -->
+  <div id="wechat-section" class="wechat-section">
+    <a href="/api/wechat-open-login" class="wechat-btn">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M8.7 10.3a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2zm6.1 0a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2zM12 2C6.5 2 2 6 2 11c0 2.8 1.3 5.3 3.4 7l-.9 2.7 3.1-1.6c1.3.5 2.8.8 4.4.8 5.5 0 10-4 10-9S17.5 2 12 2zm5.6 11.6c-.2.5-.9 1-1.6 1.1-.4.1-.9.2-2.8-.6-2.4-1-3.9-3.4-4-3.6-.2-.2-1-1.3-1-2.5 0-1.2.6-1.8 1-2.2s.7-.4.9-.4h.7c.2 0 .5 0 .7.5l1 2.4c.1.2.1.5 0 .7l-.3.4-.4.5c-.1.1-.2.3-.1.5.5.8 1.1 1.5 1.8 2.1.7.5 1.5.9 2.3 1.1.2.1.4 0 .5-.1l.6-.7c.1-.2.3-.2.5-.1l2.3 1.1c.2.1.4.2.5.5z"/></svg>
-      微信一键登录
+      微信扫码登录
     </a>
     <div class="wechat-divider">或用账号登录</div>
   </div>
@@ -812,10 +812,7 @@
 <script>
   // ── 微信按钮 + setup 弹窗 ────────────────────────────────────────────────────
   (function () {
-    // 微信登录暂时隐藏（订阅号不支持 OAuth，待升级服务号后取消注释）
-    // if (FO.isWechat()) {
-    //   document.getElementById('wechat-section').hidden = false;
-    // }
+    document.getElementById('wechat-section').hidden = false;
 
     var isSetup = new URLSearchParams(location.search).get('setup') === '1';
     if (!isSetup) return;

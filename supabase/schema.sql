@@ -203,3 +203,18 @@ insert into public.invite_codes (code, label, max_uses) values
   ('FRIEND02',   '朋友邀请码 2',   5),
   ('FRIEND03',   '朋友邀请码 3',   5)
 on conflict (code) do nothing;
+
+-- ── E0-B: WeChat Open Platform bindings by unionid ───────────────────────────
+-- 开放平台扫码登录返回 unionid（跨应用唯一），替代公众号 openid 作为绑定主键。
+
+drop table if exists public.wechat_bindings cascade;
+
+create table if not exists public.wechat_bindings (
+  unionid     text primary key,
+  openid      text,
+  user_id     uuid not null references public.profiles(id) on delete cascade,
+  created_at  timestamptz default now()
+);
+
+alter table public.wechat_bindings enable row level security;
+-- 无面向客户端的 policy，service_role 直接操作
