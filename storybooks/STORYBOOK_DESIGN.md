@@ -71,6 +71,9 @@ Distinguishing feature: tilted head or leaning pose; often drawn mid-action
 - Characters should be centered in their `<g>` so the `transform-origin: center center` works for interactions
 - Wrap each character in `<g id="pN-name">` where N is the page number and name is the role
 - Use `transform="translate(cx,cy)"` on the `<g>` so `(0,0)` is the character's visual center
+- The outer character `<g id="pN-name" transform="translate(cx,cy)">` is the **position layer only**. Never apply click, shake, bounce, wobble, or float CSS transforms directly to this outer group.
+- Interactive animation must run on an inner animation layer. The runtime `makeInteractive()` below creates this layer automatically for existing books; new hand-written SVG may also use `<g id="pN-name" transform="translate(cx,cy)"><g data-interaction-layer>...</g></g>`.
+- If two or more characters are talking on the same page, place all speaking characters in the same SVG viewport with clear horizontal separation. Do not crop one speaker, hide one behind a prop, or place a speech bubble where it covers another speaker's face.
 
 ---
 
@@ -266,34 +269,74 @@ makeInteractive(document.getElementById('pN-name'), 'do-bounce', '话语文字 �
 | `do-wobble` | Squish-stretch (elastic/playful) |
 
 ### Speech bubble positioning
-Bubbles are placed near the character's actual on-screen position — not at a fixed corner:
+Bubbles are placed near the character's actual on-screen position — not at a fixed corner. They must stay inside the `.scene` bounds and multiple bubbles should remain visible without covering each other:
 
 ```js
+function getInteractionLayer(el) {
+  if (!el) return null;
+  if (el._interactionLayer) return el._interactionLayer;
+  const isSvgGroup = el.namespaceURI === 'http://www.w3.org/2000/svg' && el.tagName.toLowerCase() === 'g';
+  if (!isSvgGroup || !el.hasAttribute('transform')) {
+    el._interactionLayer = el;
+    return el;
+  }
+  const layer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  layer.setAttribute('data-interaction-layer', '');
+  if (el.classList.contains('float')) {
+    el.classList.remove('float');
+    layer.classList.add('float');
+    layer.style.animationDelay = el.style.animationDelay || '';
+    el.style.animationDelay = '';
+  }
+  while (el.firstChild) layer.appendChild(el.firstChild);
+  el.appendChild(layer);
+  el._interactionLayer = layer;
+  return layer;
+}
+
+function placeSpeechBubble(scene, el, msg) {
+  const er = el.getBoundingClientRect();
+  const sr = scene.getBoundingClientRect();
+  const b = document.createElement('div');
+  b.className = 'speech-bubble';
+  b.textContent = msg;
+  b.style.maxWidth = Math.max(120, sr.width - 24) + 'px';
+  scene.appendChild(b);
+
+  const br = b.getBoundingClientRect();
+  let left = er.left + er.width / 2 - sr.left;
+  let top = er.top - sr.top - br.height - 10;
+  if (top < 8) top = Math.min(sr.height - br.height - 8, er.bottom - sr.top + 10);
+
+  left = Math.max(12 + br.width / 2, Math.min(sr.width - 12 - br.width / 2, left));
+  const bubbles = Array.from(scene.querySelectorAll('.speech-bubble')).filter(x => x !== b);
+  for (const other of bubbles) {
+    const or = other.getBoundingClientRect();
+    const overlaps = !(left + br.width / 2 < or.left - sr.left || left - br.width / 2 > or.right - sr.left || top + br.height < or.top - sr.top || top > or.bottom - sr.top);
+    if (overlaps) top = Math.min(sr.height - br.height - 8, or.bottom - sr.top + 8);
+  }
+
+  b.style.left = left + 'px';
+  b.style.top = Math.max(8, top) + 'px';
+  b.style.transform = 'translateX(-50%)';
+  setTimeout(() => b.remove(), 1500);
+}
+
 function makeInteractive(el, animClass, msg) {
   if (!el) return;
+  const target = getInteractionLayer(el);
   el.classList.add('interactive');
   el.addEventListener('click', function () {
     if (el._busy) return;
     el._busy = true;
-    el.classList.remove(animClass);
-    void el.getBoundingClientRect();
-    el.classList.add(animClass);
+    target.classList.remove(animClass);
+    void target.getBoundingClientRect();
+    target.classList.add(animClass);
     if (msg) {
       const scene = el.closest('.scene');
-      const er = el.getBoundingClientRect();
-      const sr = scene.getBoundingClientRect();
-      const cx = er.left + er.width / 2 - sr.left;
-      const cy = Math.max(8, er.top - sr.top - 48);
-      const b = document.createElement('div');
-      b.className = 'speech-bubble';
-      b.textContent = msg;
-      b.style.left = cx + 'px';
-      b.style.top  = cy + 'px';
-      b.style.transform = 'translateX(-50%)';
-      scene.appendChild(b);
-      setTimeout(() => b.remove(), 1500);
+      if (scene) placeSpeechBubble(scene, el, msg);
     }
-    setTimeout(() => { el.classList.remove(animClass); el._busy = false; }, 750);
+    setTimeout(() => { target.classList.remove(animClass); el._busy = false; }, 750);
   });
 }
 ```
@@ -307,6 +350,7 @@ Speech bubble CSS — no hardcoded position (set by JS above):
   font-family: "LXGW WenKai TC", serif;
   box-shadow: 0 3px 0 rgba(0,0,0,0.12);
   pointer-events: none; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
   z-index: 50;
   animation: bPop 0.3s ease forwards;
 }
@@ -454,31 +498,74 @@ Replace `{{...}}` placeholders when generating a new book.
 <script>
   const BOOK_ID = '{{SLUG}}'; const BOOK_TITLE = '{{BOOK_TITLE_ZH}}'; const BOOK_TOTAL = {{PAGE_COUNT}};
 
+  function getInteractionLayer(el) {
+    if (!el) return null;
+    if (el._interactionLayer) return el._interactionLayer;
+    const isSvgGroup = el.namespaceURI === 'http://www.w3.org/2000/svg' && el.tagName.toLowerCase() === 'g';
+    if (!isSvgGroup || !el.hasAttribute('transform')) {
+      el._interactionLayer = el;
+      return el;
+    }
+    const layer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    layer.setAttribute('data-interaction-layer', '');
+    if (el.classList.contains('float')) {
+      el.classList.remove('float');
+      layer.classList.add('float');
+      layer.style.animationDelay = el.style.animationDelay || '';
+      el.style.animationDelay = '';
+    }
+    while (el.firstChild) layer.appendChild(el.firstChild);
+    el.appendChild(layer);
+    el._interactionLayer = layer;
+    return layer;
+  }
+
+  function placeSpeechBubble(scene, el, msg) {
+    const er = el.getBoundingClientRect();
+    const sr = scene.getBoundingClientRect();
+    const b = document.createElement('div');
+    b.className = 'speech-bubble';
+    b.textContent = msg;
+    b.style.maxWidth = Math.max(120, sr.width - 24) + 'px';
+    b.style.overflow = 'hidden';
+    b.style.textOverflow = 'ellipsis';
+    b.style.whiteSpace = 'nowrap';
+    scene.appendChild(b);
+
+    const br = b.getBoundingClientRect();
+    let left = er.left + er.width / 2 - sr.left;
+    let top = er.top - sr.top - br.height - 10;
+    if (top < 8) top = Math.min(sr.height - br.height - 8, er.bottom - sr.top + 10);
+    left = Math.max(12 + br.width / 2, Math.min(sr.width - 12 - br.width / 2, left));
+
+    const bubbles = Array.from(scene.querySelectorAll('.speech-bubble')).filter(x => x !== b);
+    for (const other of bubbles) {
+      const or = other.getBoundingClientRect();
+      const overlaps = !(left + br.width / 2 < or.left - sr.left || left - br.width / 2 > or.right - sr.left || top + br.height < or.top - sr.top || top > or.bottom - sr.top);
+      if (overlaps) top = Math.min(sr.height - br.height - 8, or.bottom - sr.top + 8);
+    }
+
+    b.style.left = left + 'px';
+    b.style.top = Math.max(8, top) + 'px';
+    b.style.transform = 'translateX(-50%)';
+    setTimeout(() => b.remove(), 1500);
+  }
+
   function makeInteractive(el, animClass, msg) {
     if (!el) return;
+    const target = getInteractionLayer(el);
     el.classList.add('interactive');
     el.addEventListener('click', function () {
       if (el._busy) return;
       el._busy = true;
-      el.classList.remove(animClass);
-      void el.getBoundingClientRect();
-      el.classList.add(animClass);
+      target.classList.remove(animClass);
+      void target.getBoundingClientRect();
+      target.classList.add(animClass);
       if (msg) {
         const scene = el.closest('.scene');
-        const er = el.getBoundingClientRect();
-        const sr = scene.getBoundingClientRect();
-        const cx = er.left + er.width / 2 - sr.left;
-        const cy = Math.max(8, er.top - sr.top - 48);
-        const b = document.createElement('div');
-        b.className = 'speech-bubble';
-        b.textContent = msg;
-        b.style.left = cx + 'px';
-        b.style.top  = cy + 'px';
-        b.style.transform = 'translateX(-50%)';
-        scene.appendChild(b);
-        setTimeout(() => b.remove(), 1500);
+        if (scene) placeSpeechBubble(scene, el, msg);
       }
-      setTimeout(() => { el.classList.remove(animClass); el._busy = false; }, 750);
+      setTimeout(() => { target.classList.remove(animClass); el._busy = false; }, 750);
     });
   }
 
@@ -549,6 +636,8 @@ Replace `{{...}}` placeholders when generating a new book.
 - [ ] Follows the file naming convention (`NN-slug.html`)
 - [ ] All SVG characters use the standard body/head/eye/beak structure
 - [ ] Characters positioned at `transform="translate(cx,cy)"` so center is (0,0)
+- [ ] Character positioning and animation are separated: the positioned outer `<g>` is not directly animated; `makeInteractive()` animates an inner layer
+- [ ] Pages with two or more speaking characters keep all speakers visible in the same viewport with enough separation for bubbles
 - [ ] Interactive elements have unique `id="pN-name"` matching `makeInteractive` calls
 - [ ] Every page has `data-text` attribute with the TTS narration text
 - [ ] Last page is `end-card` (no `.scene`) with a memorable phrase
@@ -566,4 +655,6 @@ Replace `{{...}}` placeholders when generating a new book.
 | No swipe support | `touchstart`/`touchend` handlers in JS |
 | Scene too small, not filling screen | `.scene { flex:1 }` + SVG `width/height: 100%` |
 | Speech bubble stuck at top-left | Bubble position computed from `getBoundingClientRect()` |
+| Clicked character jumps to top-left | Runtime animates an inner layer, not the outer `transform="translate(...)"` group |
+| Two speakers overlap or cover each other | Keep speakers in the same viewBox with clear spacing; bubble placement clamps to the scene and offsets from existing bubbles |
 | Audio keeps playing after page turn | `speechSynthesis.cancel()` at top of `goTo()` |
