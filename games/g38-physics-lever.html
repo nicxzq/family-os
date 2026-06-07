@@ -9,62 +9,33 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles.css">
-<style>
-  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
-  .nav-member-btn svg{border-radius:50%}
-  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px}
-  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px}
-  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px}
-  .game-hero{text-align:center;margin-bottom:36px}
-  .game-hero .emoji{font-size:64px;display:block;margin-bottom:16px}
-  .game-hero h1{font-size:clamp(28px,5vw,42px);margin-bottom:10px}
-  .game-hero .sub{color:var(--ink-soft);font-size:17px;line-height:1.6}
-  .teaser{background:var(--paper);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-card);margin-bottom:24px}
-  .teaser h2{font-size:14px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:16px}
-  .teaser ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
-  .teaser li{display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--ink-soft);line-height:1.6}
-  .teaser li::before{content:"→";color:var(--coral);flex-shrink:0;margin-top:2px}
-  .coming-soon{background:var(--cream-deep);border-radius:var(--radius);padding:20px 24px;text-align:center;font-size:18px;color:var(--ink-mute);margin-bottom:28px;border:2px dashed var(--ink-mute)}
-  .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-  .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
-  .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
-  .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
-  .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
-</style>
+<link rel="stylesheet" href="physics-playground.css">
 </head>
 <body>
-<main class="wrap">
-  <nav class="game-nav">
-    <a class="back-link" href="index.html">← 游戏库</a>
-    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
-  </nav>
-  <header class="game-hero">
-    <span class="emoji">⚖️</span>
-    <h1>杠杆原理</h1>
-    <p class="sub">阿基米德说：给我一个支点，我能撬动地球。杠杆原理是力学的第一课。</p>
-  </header>
-  <section class="teaser">
-    <h2>这个游戏里，你将会…</h2>
-    <ul>
-      <li>移动砝码找到平衡点</li>
-      <li>用省力杠杆抬起重物</li>
-      <li>识别日常工具里的三类杠杆</li>
-    </ul>
-  </section>
-  <div class="coming-soon">🚧 即将推出 · 敬请期待</div>
-  <p class="section-label">知识预习</p>
-  <div class="concepts">
-    <div class="concept-card"><h3>力矩</h3><p>力×力臂，旋转的能力</p></div>
-    <div class="concept-card"><h3>三类杠杆</h3><p>省力、省距离、改变方向</p></div>
-    <div class="concept-card"><h3>机械效率</h3><p>有用功除以总功×100%</p></div>
-  </div>
+<main class="physics-page">
+  <nav class="physics-nav"><a class="physics-back" href="index.html">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+  <header class="physics-hero"><div id="emoji" class="physics-emoji"></div><div><h1 id="title"></h1><p id="sub" class="physics-sub"></p></div></header>
+  <div class="physics-status"><span id="score" class="physics-pill"></span><span id="badge" class="physics-pill"></span><span id="live" class="physics-pill"></span></div>
+  <section class="physics-stage"><canvas id="physics-canvas" width="720" height="360"></canvas><div id="message" class="physics-message"></div></section>
+  <section class="physics-grid"><div id="controls" class="physics-controls"></div><aside class="physics-brief"><h2 id="concept"></h2><p id="mission"></p><ul id="learn"></ul></aside></section>
 </main>
 <script src="../fo-utils.js"></script>
 <script>
-  var m = window.FO ? FO.getMember() : null;
-  var el = document.getElementById('nav-member-btn');
-  if(m){ el.innerHTML = FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>'; el.onclick=function(){location.href='../dashboard.html'}; }
-  else { el.innerHTML='<span>登录</span>'; el.onclick=function(){location.href='../login.html'}; }
+window.PHYSICS_GAME = {
+  id:'g38-physics-lever', type:'lever', emoji:'⚖️', title:'杠杆原理',
+  sub:'移动支点、改变重量，让跷跷板重新平衡。',
+  concept:'力矩平衡', mission:'目标：让左右力矩接近相等，杠杆保持水平。',
+  prompt:'重量不一定要一样，只要重量 × 力臂 接近就能平衡。',
+  success:'杠杆平衡！你用力矩而不是只看重量解决了问题。',
+  tryAgain:'还不平衡。试着把支点靠近更重的一侧。',
+  learn:['力臂是力到支点的距离。','力矩 = 力 × 力臂。','剪刀、撬棍、跷跷板都利用杠杆。'],
+  controls:[
+    {id:'leftWeight',label:'左侧重量',min:5,max:60,value:32,unit:'kg'},
+    {id:'rightWeight',label:'右侧重量',min:5,max:60,value:24,unit:'kg'},
+    {id:'pivot',label:'支点位置',min:25,max:75,value:50,unit:'%'}
+  ]
+};
 </script>
+<script src="physics-playground.js"></script>
 </body>
 </html>

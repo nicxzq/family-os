@@ -9,62 +9,33 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles.css">
-<style>
-  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
-  .nav-member-btn svg{border-radius:50%}
-  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px}
-  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px}
-  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px}
-  .game-hero{text-align:center;margin-bottom:36px}
-  .game-hero .emoji{font-size:64px;display:block;margin-bottom:16px}
-  .game-hero h1{font-size:clamp(28px,5vw,42px);margin-bottom:10px}
-  .game-hero .sub{color:var(--ink-soft);font-size:17px;line-height:1.6}
-  .teaser{background:var(--paper);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-card);margin-bottom:24px}
-  .teaser h2{font-size:14px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:16px}
-  .teaser ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
-  .teaser li{display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--ink-soft);line-height:1.6}
-  .teaser li::before{content:"→";color:var(--coral);flex-shrink:0;margin-top:2px}
-  .coming-soon{background:var(--cream-deep);border-radius:var(--radius);padding:20px 24px;text-align:center;font-size:18px;color:var(--ink-mute);margin-bottom:28px;border:2px dashed var(--ink-mute)}
-  .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-  .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
-  .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
-  .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
-  .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
-</style>
+<link rel="stylesheet" href="physics-playground.css">
 </head>
 <body>
-<main class="wrap">
-  <nav class="game-nav">
-    <a class="back-link" href="index.html">← 游戏库</a>
-    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
-  </nav>
-  <header class="game-hero">
-    <span class="emoji">🪐</span>
-    <h1>星球引力</h1>
-    <p class="sub">月亮绕着地球转，地球绕着太阳转——是同一个力在控制一切。</p>
-  </header>
-  <section class="teaser">
-    <h2>这个游戏里，你将会…</h2>
-    <ul>
-      <li>调整行星质量看轨道变化</li>
-      <li>发射卫星到正确的轨道高度</li>
-      <li>计算逃逸速度</li>
-    </ul>
-  </section>
-  <div class="coming-soon">🚧 即将推出 · 敬请期待</div>
-  <p class="section-label">知识预习</p>
-  <div class="concepts">
-    <div class="concept-card"><h3>万有引力</h3><p>F=Gm₁m₂/r²</p></div>
-    <div class="concept-card"><h3>轨道速度</h3><p>越高轨道，速度越慢</p></div>
-    <div class="concept-card"><h3>失重</h3><p>自由落体时感受不到重力</p></div>
-  </div>
+<main class="physics-page">
+  <nav class="physics-nav"><a class="physics-back" href="index.html">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+  <header class="physics-hero"><div id="emoji" class="physics-emoji"></div><div><h1 id="title"></h1><p id="sub" class="physics-sub"></p></div></header>
+  <div class="physics-status"><span id="score" class="physics-pill"></span><span id="badge" class="physics-pill"></span><span id="live" class="physics-pill"></span></div>
+  <section class="physics-stage"><canvas id="physics-canvas" width="720" height="360"></canvas><div id="message" class="physics-message"></div></section>
+  <section class="physics-grid"><div id="controls" class="physics-controls"></div><aside class="physics-brief"><h2 id="concept"></h2><p id="mission"></p><ul id="learn"></ul></aside></section>
 </main>
 <script src="../fo-utils.js"></script>
 <script>
-  var m = window.FO ? FO.getMember() : null;
-  var el = document.getElementById('nav-member-btn');
-  if(m){ el.innerHTML = FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>'; el.onclick=function(){location.href='../dashboard.html'}; }
-  else { el.innerHTML='<span>登录</span>'; el.onclick=function(){location.href='../login.html'}; }
+window.PHYSICS_GAME = {
+  id:'g39-physics-gravity', type:'gravity', emoji:'🪐', title:'星球引力',
+  sub:'调节星球质量、轨道高度和发射速度，把卫星送进稳定轨道。',
+  concept:'轨道速度', mission:'目标：让发射速度接近当前轨道所需速度。',
+  prompt:'按运行观察卫星轨迹。速度太小会坠落，太大可能逃逸。',
+  success:'卫星进入稳定轨道！你找到了速度和引力的平衡。',
+  tryAgain:'轨道还不稳定。看画面上的理想速度提示，微调发射速度。',
+  learn:['轨道不是没有重力，而是一直在自由落体。','质量越大，引力越强。','同一星球上，越高的圆轨道速度越低。'],
+  controls:[
+    {id:'planetMass',label:'星球质量',min:20,max:90,value:45,unit:''},
+    {id:'altitude',label:'轨道高度',min:25,max:125,value:70,unit:'km'},
+    {id:'launchSpeed',label:'发射速度',min:25,max:95,value:48,unit:''}
+  ]
+};
 </script>
+<script src="physics-playground.js"></script>
 </body>
 </html>

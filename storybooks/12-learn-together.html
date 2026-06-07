@@ -401,31 +401,74 @@
 <script>
   const BOOK_ID = '12-learn-together'; const BOOK_TITLE = '毛毛共学记'; const BOOK_TOTAL = 7;
 
+  function getInteractionLayer(el) {
+    if (!el) return null;
+    if (el._interactionLayer) return el._interactionLayer;
+    const isSvgGroup = el.namespaceURI === 'http://www.w3.org/2000/svg' && el.tagName.toLowerCase() === 'g';
+    if (!isSvgGroup || !el.hasAttribute('transform')) {
+      el._interactionLayer = el;
+      return el;
+    }
+    const layer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    layer.setAttribute('data-interaction-layer', '');
+    if (el.classList.contains('float')) {
+      el.classList.remove('float');
+      layer.classList.add('float');
+      layer.style.animationDelay = el.style.animationDelay || '';
+      el.style.animationDelay = '';
+    }
+    while (el.firstChild) layer.appendChild(el.firstChild);
+    el.appendChild(layer);
+    el._interactionLayer = layer;
+    return layer;
+  }
+
+  function placeSpeechBubble(scene, el, msg) {
+    const er = el.getBoundingClientRect();
+    const sr = scene.getBoundingClientRect();
+    const b = document.createElement('div');
+    b.className = 'speech-bubble';
+    b.textContent = msg;
+    b.style.maxWidth = Math.max(120, sr.width - 24) + 'px';
+    b.style.overflow = 'hidden';
+    b.style.textOverflow = 'ellipsis';
+    b.style.whiteSpace = 'nowrap';
+    scene.appendChild(b);
+
+    const br = b.getBoundingClientRect();
+    let left = er.left + er.width / 2 - sr.left;
+    let top = er.top - sr.top - br.height - 10;
+    if (top < 8) top = Math.min(sr.height - br.height - 8, er.bottom - sr.top + 10);
+    left = Math.max(12 + br.width / 2, Math.min(sr.width - 12 - br.width / 2, left));
+
+    const bubbles = Array.from(scene.querySelectorAll('.speech-bubble')).filter(x => x !== b);
+    for (const other of bubbles) {
+      const or = other.getBoundingClientRect();
+      const overlaps = !(left + br.width / 2 < or.left - sr.left || left - br.width / 2 > or.right - sr.left || top + br.height < or.top - sr.top || top > or.bottom - sr.top);
+      if (overlaps) top = Math.min(sr.height - br.height - 8, or.bottom - sr.top + 8);
+    }
+
+    b.style.left = left + 'px';
+    b.style.top = Math.max(8, top) + 'px';
+    b.style.transform = 'translateX(-50%)';
+    setTimeout(() => b.remove(), 1500);
+  }
+
   function makeInteractive(el, animClass, msg) {
     if (!el) return;
+    const target = getInteractionLayer(el);
     el.classList.add('interactive');
     el.addEventListener('click', function () {
       if (el._busy) return;
       el._busy = true;
-      el.classList.remove(animClass);
-      void el.getBoundingClientRect();
-      el.classList.add(animClass);
+      target.classList.remove(animClass);
+      void target.getBoundingClientRect();
+      target.classList.add(animClass);
       if (msg) {
         const scene = el.closest('.scene');
-        const er = el.getBoundingClientRect();
-        const sr = scene.getBoundingClientRect();
-        const cx = er.left + er.width / 2 - sr.left;
-        const cy = Math.max(8, er.top - sr.top - 48);
-        const b = document.createElement('div');
-        b.className = 'speech-bubble';
-        b.textContent = msg;
-        b.style.left = cx + 'px';
-        b.style.top = cy + 'px';
-        b.style.transform = 'translateX(-50%)';
-        scene.appendChild(b);
-        setTimeout(() => b.remove(), 1500);
+        if (scene) placeSpeechBubble(scene, el, msg);
       }
-      setTimeout(() => { el.classList.remove(animClass); el._busy = false; }, 750);
+      setTimeout(() => { target.classList.remove(animClass); el._busy = false; }, 750);
     });
   }
 

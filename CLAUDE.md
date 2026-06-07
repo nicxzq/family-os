@@ -62,6 +62,16 @@ All shared tokens and components live in `styles.css`. Each page links it with `
 - Keep JavaScript focused on behavior. When JavaScript must read a visual value, resolve it from a CSS custom property.
 - Before finishing UI work, re-run the `ui-tokenize` check and ensure it reports no hardcoded UI values in the changed files.
 
+### Game UI Standard
+
+Interactive games must follow `docs/GAME_UI_STANDARD.md` by default. The main
+play surface and primary controls should fit in the same viewport whenever
+practical. On desktop, use a workbench layout with the play surface on the left
+and controls on the right. On mobile, keep the play surface and controls
+adjacent in the first viewport, with compact spacing and a smaller canvas so the
+player does not scroll back and forth. Explanatory content is secondary and must
+not push core controls below the fold.
+
 ### Content Source
 
 All content is grounded in Li Xiaolai (李笑来) materials in `uploads/`. The six core principles are:
