@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>贝贝的第一天 · 绘本</title>
+<meta name="description" content="小熊贝贝第一天上幼儿园——关于勇气的故事。">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"LXGW WenKai TC","LXGW WenKai",serif;background:#FFF8E0;min-height:100vh;overflow:hidden;}
+  .book{width:100vw;height:100vh;position:relative;overflow:hidden;}
+  .top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:20px 32px;z-index:20;}
+  .back{text-decoration:none;color:#5C4F3D;font-size:16px;background:rgba(255,255,255,0.7);padding:8px 16px;border-radius:999px;backdrop-filter:blur(8px);}
+  .read-aloud{background:#6FA86D;color:white;border:0;padding:10px 18px;border-radius:999px;font-family:inherit;font-size:16px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.1);}
+  .page{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 40px 120px;opacity:0;pointer-events:none;transition:opacity .6s ease;}
+  .page.is-active{opacity:1;pointer-events:auto;}
+  .page[data-bg="cream"]{background:#FFF8E0;}
+  .page[data-bg="peach"]{background:#FBE3D5;}
+  .page[data-bg="mint"]{background:#D7EBC9;}
+  .page[data-bg="sky"]{background:#D7E7F4;}
+  .page[data-bg="yellow"]{background:#FBE39A;}
+  .page[data-bg="green"]{background:#C8E6C9;}
+  .scene{flex:1;min-height:0;position:relative;width:100%;overflow:hidden;}
+  .scene svg{width:100%;height:100%;}
+  .text{flex-shrink:0;text-align:center;max-width:100%;}
+  .text h2{font-size:clamp(24px,5vw,38px);line-height:1.4;color:#2B2419;font-weight:500;text-wrap:balance;}
+  .text .big{font-size:clamp(32px,6vw,52px);line-height:1.3;color:#6FA86D;font-weight:700;margin-top:12px;}
+  .text .small{font-size:18px;color:#5C4F3D;margin-top:16px;}
+  .nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.88);border:0;width:56px;height:56px;border-radius:50%;font-size:24px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.1);font-family:inherit;color:#2B2419;z-index:20;backdrop-filter:blur(4px);}
+  .nav-btn:disabled{opacity:.3;pointer-events:none;}
+  #prev{left:12px;}#next{right:12px;}
+  .dots-wrap{position:absolute;bottom:24px;left:0;right:0;display:flex;justify-content:center;z-index:20;}
+  .dots{display:flex;gap:6px;}
+  .dots span{width:8px;height:8px;border-radius:50%;background:rgba(43,36,25,.2);transition:background .3s,transform .3s;}
+  .dots span.is-active{background:#6FA86D;transform:scale(1.4);}
+  .float{animation:float 3s ease-in-out infinite;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+  .wiggle{animation:wiggle 2.5s ease-in-out infinite;transform-origin:center bottom;}
+  @keyframes wiggle{0%,100%{transform:rotate(-3deg);}50%{transform:rotate(3deg);}}
+  .do-bounce{animation:iBounce .6s cubic-bezier(.36,.07,.19,.97) both!important;}
+  @keyframes iBounce{0%{transform:translateY(0) scale(1);}25%{transform:translateY(-18px) scale(1.15);}55%{transform:translateY(-4px) scale(.96);}75%{transform:translateY(-8px) scale(1.05);}100%{transform:translateY(0) scale(1);}}
+  .do-shake{animation:iShake .55s ease both!important;}
+  @keyframes iShake{0%,100%{transform:rotate(0);}18%{transform:rotate(-22deg);}38%{transform:rotate(18deg);}58%{transform:rotate(-14deg);}78%{transform:rotate(9deg);}}
+  .do-wobble{animation:iWobble .7s ease both!important;}
+  @keyframes iWobble{0%,100%{transform:scaleX(1) scaleY(1);}20%{transform:scaleX(1.25) scaleY(.75);}45%{transform:scaleX(.85) scaleY(1.2);}65%{transform:scaleX(1.1) scaleY(.9);}80%{transform:scaleX(.96) scaleY(1.04);}}
+  .interactive{cursor:pointer;transform-box:fill-box;transform-origin:center center;}
+  .interactive:hover{opacity:.9;}
+  .speech-bubble{position:absolute;top:0;left:50%;transform:translateX(-50%);background:white;border-radius:999px;padding:6px 16px;font-size:20px;font-family:"LXGW WenKai TC",serif;box-shadow:0 3px 0 rgba(0,0,0,.12);pointer-events:none;white-space:nowrap;z-index:50;animation:bPop .3s ease;}
+  @keyframes bPop{from{transform:translateX(-50%) scale(0);opacity:0;}to{transform:translateX(-50%) scale(1);opacity:1;}}
+  .book{perspective:1400px;}
+  .flip-out-fwd{animation:fOutFwd .4s cubic-bezier(.4,0,1,1) forwards;pointer-events:none;z-index:5;opacity:1;transform-origin:left center;}
+  .flip-in-fwd{animation:fInFwd .4s cubic-bezier(0,0,.6,1) forwards;pointer-events:none;z-index:4;transform-origin:right center;}
+  .flip-out-bwd{animation:fOutBwd .4s cubic-bezier(.4,0,1,1) forwards;pointer-events:none;z-index:5;opacity:1;transform-origin:right center;}
+  .flip-in-bwd{animation:fInBwd .4s cubic-bezier(0,0,.6,1) forwards;pointer-events:none;z-index:4;transform-origin:left center;}
+  @keyframes fOutFwd{0%{transform:rotateY(0);opacity:1;}100%{transform:rotateY(-80deg);opacity:0;}}
+  @keyframes fInFwd{0%{transform:rotateY(80deg);opacity:0;}100%{transform:rotateY(0);opacity:1;}}
+  @keyframes fOutBwd{0%{transform:rotateY(0);opacity:1;}100%{transform:rotateY(80deg);opacity:0;}}
+  @keyframes fInBwd{0%{transform:rotateY(-80deg);opacity:0;}100%{transform:rotateY(0);opacity:1;}}
+  .end-card{background:white;padding:32px;border-radius:24px;max-width:480px;box-shadow:0 8px 0 rgba(0,0,0,.06),0 24px 48px -16px rgba(0,0,0,.2);text-align:center;}
+  .end-card h2{font-size:28px;color:#6FA86D;margin-bottom:16px;}
+  .end-card p{font-size:19px;color:#2B2419;line-height:1.7;margin-bottom:12px;}
+</style>
+</head>
+<body>
+<div class="book">
+  <div class="top">
+    <a class="back" href="../for-middle.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+  </div>
+
+  <!-- Page 1: Beibei is scared -->
+  <div class="page is-active" data-bg="peach" data-text="今天是贝贝第一天上幼儿园。贝贝是一只小熊，他的心里有点害怕——新学校，新老师，还有好多不认识的小朋友。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- School building -->
+        <rect x="80" y="100" width="240" height="150" fill="#A8C2DE" rx="8"/>
+        <rect x="80" y="88" width="240" height="20" fill="#7BAFD4" rx="4"/>
+        <polygon points="200,50 80,88 320,88" fill="#E56B5A" opacity=".8"/>
+        <!-- Door -->
+        <rect x="175" y="185" width="50" height="65" rx="4" fill="#8C6B4A"/>
+        <circle cx="220" cy="218" r="3" fill="#F4C13E"/>
+        <!-- Windows -->
+        <rect x="105" y="120" width="50" height="40" rx="4" fill="#FBE39A" opacity=".8"/>
+        <rect x="245" y="120" width="50" height="40" rx="4" fill="#FBE39A" opacity=".8"/>
+        <text x="200" y="80" text-anchor="middle" font-size="14" fill="white" font-weight="700">幼儿园</text>
+        <!-- Path -->
+        <ellipse cx="200" cy="285" rx="120" ry="20" fill="#B5D4A8" opacity=".5"/>
+        <!-- Beibei (bear) standing nervously -->
+        <g id="p1-bear" class="wiggle" transform="translate(200,250)">
+          <!-- Body -->
+          <ellipse cx="0" cy="0" rx="34" ry="38" fill="#C8966A"/>
+          <!-- Tummy -->
+          <ellipse cx="0" cy="8" rx="20" ry="22" fill="#E8C49A" opacity=".7"/>
+          <!-- Head -->
+          <circle cx="0" cy="-48" r="30" fill="#C8966A"/>
+          <!-- Ears -->
+          <circle cx="-22" cy="-72" r="12" fill="#C8966A"/>
+          <circle cx="-22" cy="-72" r="7" fill="#E8A080"/>
+          <circle cx="22" cy="-72" r="12" fill="#C8966A"/>
+          <circle cx="22" cy="-72" r="7" fill="#E8A080"/>
+          <!-- Worried face -->
+          <circle cx="-10" cy="-52" r="4" fill="#2B2419"/>
+          <circle cx="10" cy="-52" r="4" fill="#2B2419"/>
+          <circle cx="-9" cy="-54" r="1.5" fill="white"/>
+          <ellipse cx="0" cy="-36" rx="8" ry="5" fill="#C87060"/>
+          <!-- Snout -->
+          <ellipse cx="0" cy="-38" rx="10" ry="7" fill="#E8C49A"/>
+          <circle cx="-3" cy="-40" r="2" fill="#8C5A4A"/>
+          <circle cx="3" cy="-40" r="2" fill="#8C5A4A"/>
+          <!-- worried mouth -->
+          <path d="M -6,-32 Q 0,-36 6,-32" stroke="#8C5A4A" stroke-width="2" fill="none"/>
+          <!-- Backpack -->
+          <rect x="18" y="-25" width="22" height="28" rx="5" fill="#6FA86D"/>
+          <rect x="20" y="-28" width="6" height="8" rx="2" fill="#5B8E58"/>
+          <rect x="28" y="-28" width="6" height="8" rx="2" fill="#5B8E58"/>
+        </g>
+        <!-- Sweat drop -->
+        <ellipse cx="240" cy="185" rx="5" ry="7" fill="#A8C2DE" opacity=".7"/>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>今天是<span style="color:#6FA86D">贝贝</span>的第一天。</h2>
+      <p class="small">新学校……新老师……新朋友……<br>贝贝的心里有点害怕。</p>
+    </div>
+  </div>
+
+  <!-- Page 2: Mom's hug -->
+  <div class="page" data-bg="yellow" data-text="妈妈蹲下来，抱了抱贝贝，说：第一次，大家都会有点怕。但是你进去以后，就会发现——里面有好多好玩的！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Warm sunshine -->
+        <circle cx="340" cy="60" r="40" fill="#F4C13E" opacity=".4"/>
+        <circle cx="340" cy="60" r="28" fill="#F4C13E" opacity=".5"/>
+        <!-- Mom bear (bigger) -->
+        <g transform="translate(180,210)">
+          <ellipse cx="0" cy="0" rx="42" ry="46" fill="#C8966A"/>
+          <ellipse cx="0" cy="10" rx="26" ry="28" fill="#E8C49A" opacity=".6"/>
+          <circle cx="0" cy="-52" r="36" fill="#C8966A"/>
+          <circle cx="-26" cy="-80" r="14" fill="#C8966A"/>
+          <circle cx="-26" cy="-80" r="8" fill="#E8A080"/>
+          <circle cx="26" cy="-80" r="14" fill="#C8966A"/>
+          <circle cx="26" cy="-80" r="8" fill="#E8A080"/>
+          <!-- Smiling face -->
+          <path d="M -12,-56 Q -8,-52 -4,-56" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <path d="M 4,-56 Q 8,-52 12,-56" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <ellipse cx="0" cy="-42" rx="10" ry="7" fill="#E8C49A"/>
+          <circle cx="-3" cy="-44" r="2" fill="#8C5A4A"/>
+          <circle cx="3" cy="-44" r="2" fill="#8C5A4A"/>
+          <path d="M -8,-37 Q 0,-32 8,-37" stroke="#8C5A4A" stroke-width="2" fill="none"/>
+          <!-- Arms hugging -->
+          <ellipse cx="-44" cy="-10" rx="14" ry="28" fill="#C8966A" transform="rotate(-20 -44 -10)"/>
+          <ellipse cx="44" cy="-10" rx="14" ry="28" fill="#C8966A" transform="rotate(20 44 -10)"/>
+        </g>
+        <!-- Beibei being hugged -->
+        <g id="p2-bear" transform="translate(235,235)">
+          <ellipse cx="0" cy="0" rx="26" ry="28" fill="#C8966A"/>
+          <ellipse cx="0" cy="6" rx="16" ry="17" fill="#E8C49A" opacity=".7"/>
+          <circle cx="0" cy="-32" r="22" fill="#C8966A"/>
+          <circle cx="-16" cy="-50" r="9" fill="#C8966A"/>
+          <circle cx="-16" cy="-50" r="5" fill="#E8A080"/>
+          <circle cx="16" cy="-50" r="9" fill="#C8966A"/>
+          <circle cx="16" cy="-50" r="5" fill="#E8A080"/>
+          <path d="M -8,-36 Q -4,-32 0,-36" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <path d="M 0,-36 Q 4,-32 8,-36" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <ellipse cx="0" cy="-24" rx="8" ry="5" fill="#E8C49A"/>
+          <circle cx="-2" cy="-25" r="1.5" fill="#8C5A4A"/>
+          <circle cx="2" cy="-25" r="1.5" fill="#8C5A4A"/>
+          <path d="M -5,-20 Q 0,-16 5,-20" stroke="#8C5A4A" stroke-width="1.5" fill="none"/>
+          <!-- Heart -->
+        </g>
+        <text x="200" y="140" text-anchor="middle" font-size="28" fill="#E56B5A">♥</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>妈妈抱了抱贝贝，说：</h2>
+      <p class="big">"第一次，<br>都会有点怕。"</p>
+      <p class="small">进去以后，你就会发现好玩的！</p>
+    </div>
+  </div>
+
+  <!-- Page 3: First friend -->
+  <div class="page" data-bg="mint" data-text="贝贝走进教室——里面有积木，有画笔，还有一只小兔子也在角落里，也是第一天。他们对视了一眼。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Classroom -->
+        <rect x="0" y="220" width="400" height="100" fill="#D7EBC9" opacity=".5"/>
+        <!-- Blocks -->
+        <rect x="60" y="170" width="30" height="30" rx="4" fill="#E56B5A"/>
+        <rect x="92" y="182" width="28" height="18" rx="3" fill="#F4C13E"/>
+        <rect x="60" y="144" width="28" height="26" rx="3" fill="#4B7BA8"/>
+        <!-- Easel -->
+        <line x1="280" y1="120" x2="300" y2="200" stroke="#8C6B4A" stroke-width="3" stroke-linecap="round"/>
+        <line x1="320" y1="120" x2="300" y2="200" stroke="#8C6B4A" stroke-width="3" stroke-linecap="round"/>
+        <rect x="270" y="100" width="60" height="50" rx="4" fill="#FFFDF6" stroke="#8C6B4A" stroke-width="2"/>
+        <!-- Rainbow drawing on easel -->
+        <path d="M275,140 Q300,110 325,140" fill="none" stroke="#E56B5A" stroke-width="3"/>
+        <path d="M278,145 Q300,118 322,145" fill="none" stroke="#F4C13E" stroke-width="2"/>
+        <path d="M281,150 Q300,126 319,150" fill="none" stroke="#6FA86D" stroke-width="2"/>
+        <!-- Beibei entering -->
+        <g id="p3-bear" transform="translate(150,230)" class="float">
+          <ellipse cx="0" cy="0" rx="28" ry="32" fill="#C8966A"/>
+          <ellipse cx="0" cy="6" rx="17" ry="18" fill="#E8C49A" opacity=".7"/>
+          <circle cx="0" cy="-36" r="24" fill="#C8966A"/>
+          <circle cx="-17" cy="-54" r="10" fill="#C8966A"/>
+          <circle cx="-17" cy="-54" r="6" fill="#E8A080"/>
+          <circle cx="17" cy="-54" r="10" fill="#C8966A"/>
+          <circle cx="17" cy="-54" r="6" fill="#E8A080"/>
+          <circle cx="-7" cy="-40" r="3.5" fill="#2B2419"/>
+          <circle cx="7" cy="-40" r="3.5" fill="#2B2419"/>
+          <circle cx="-6" cy="-42" r="1.2" fill="white"/>
+          <circle cx="8" cy="-42" r="1.2" fill="white"/>
+          <ellipse cx="0" cy="-28" rx="8" ry="5" fill="#E8C49A"/>
+          <circle cx="-2" cy="-29" r="1.5" fill="#8C5A4A"/>
+          <circle cx="2" cy="-29" r="1.5" fill="#8C5A4A"/>
+          <path d="M -5,-24 Q 0,-19 5,-24" stroke="#8C5A4A" stroke-width="1.5" fill="none"/>
+        </g>
+        <!-- Little rabbit also alone -->
+        <g id="p3-rabbit" transform="translate(270,235)">
+          <ellipse cx="0" cy="0" rx="22" ry="25" fill="#F0E6E6"/>
+          <ellipse cx="0" cy="5" rx="13" ry="14" fill="white" opacity=".6"/>
+          <circle cx="0" cy="-28" r="18" fill="#F0E6E6"/>
+          <!-- Long ears -->
+          <ellipse cx="-12" cy="-52" rx="6" ry="18" fill="#F0E6E6"/>
+          <ellipse cx="-12" cy="-52" rx="3" ry="14" fill="#E8A0A0" opacity=".5"/>
+          <ellipse cx="12" cy="-52" rx="6" ry="18" fill="#F0E6E6"/>
+          <ellipse cx="12" cy="-52" rx="3" ry="14" fill="#E8A0A0" opacity=".5"/>
+          <circle cx="-6" cy="-32" r="3" fill="#2B2419"/>
+          <circle cx="6" cy="-32" r="3" fill="#2B2419"/>
+          <ellipse cx="0" cy="-22" rx="5" ry="3" fill="#E8A0A0"/>
+          <path d="M -4,-18 Q 0,-14 4,-18" stroke="#8C5A4A" stroke-width="1.5" fill="none"/>
+        </g>
+        <!-- Look arrows -->
+        <line x1="170" y1="215" x2="240" y2="218" stroke="#6FA86D" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+        <line x1="250" y1="218" x2="190" y2="215" stroke="#6FA86D" stroke-width="2" stroke-dasharray="4,3"/>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>教室里有积木、画笔——<br>还有一只<span style="color:#6FA86D">也是第一天的小兔子</span>。</h2>
+      <p class="small">他们对视了一眼……</p>
+    </div>
+  </div>
+
+  <!-- Page 4: They play together -->
+  <div class="page" data-bg="sky" data-text="贝贝鼓起勇气，走过去说：你好，我叫贝贝。小兔子眨了眨眼，说：我叫糖糖。然后她们一起搭起了积木！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Sunshine -->
+        <circle cx="60" cy="70" r="35" fill="#FBE39A" opacity=".5"/>
+        <!-- Big block tower they built -->
+        <rect x="165" y="230" width="30" height="28" rx="3" fill="#E56B5A"/>
+        <rect x="170" y="204" width="26" height="26" rx="3" fill="#F4C13E"/>
+        <rect x="168" y="180" width="28" height="24" rx="3" fill="#6FA86D"/>
+        <rect x="172" y="158" width="22" height="22" rx="3" fill="#4B7BA8"/>
+        <rect x="175" y="138" width="16" height="20" rx="3" fill="#8E44AD" opacity=".7"/>
+        <!-- Beibei happy -->
+        <g id="p4-bear" transform="translate(130,240)" class="float">
+          <ellipse cx="0" cy="0" rx="28" ry="32" fill="#C8966A"/>
+          <ellipse cx="0" cy="6" rx="17" ry="18" fill="#E8C49A" opacity=".7"/>
+          <circle cx="0" cy="-36" r="24" fill="#C8966A"/>
+          <circle cx="-17" cy="-54" r="10" fill="#C8966A"/>
+          <circle cx="-17" cy="-54" r="6" fill="#E8A080"/>
+          <circle cx="17" cy="-54" r="10" fill="#C8966A"/>
+          <circle cx="17" cy="-54" r="6" fill="#E8A080"/>
+          <!-- Happy eyes -->
+          <path d="M -9,-42 Q -5,-38 -1,-42" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <path d="M 1,-42 Q 5,-38 9,-42" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <ellipse cx="0" cy="-28" rx="8" ry="5" fill="#E8C49A"/>
+          <circle cx="-2" cy="-29" r="1.5" fill="#8C5A4A"/>
+          <circle cx="2" cy="-29" r="1.5" fill="#8C5A4A"/>
+          <path d="M -6,-23 Q 0,-17 6,-23" stroke="#8C5A4A" stroke-width="2" fill="none"/>
+          <!-- Arm raised -->
+          <ellipse cx="30" cy="-16" rx="9" ry="20" fill="#C8966A" transform="rotate(30 30 -16)"/>
+        </g>
+        <!-- Rabbit happy -->
+        <g id="p4-rabbit" transform="translate(275,245)" class="float" style="animation-delay:-1s">
+          <ellipse cx="0" cy="0" rx="22" ry="25" fill="#F0E6E6"/>
+          <ellipse cx="0" cy="5" rx="13" ry="14" fill="white" opacity=".6"/>
+          <circle cx="0" cy="-28" r="18" fill="#F0E6E6"/>
+          <ellipse cx="-12" cy="-50" rx="6" ry="18" fill="#F0E6E6"/>
+          <ellipse cx="-12" cy="-50" rx="3" ry="14" fill="#E8A0A0" opacity=".5"/>
+          <ellipse cx="12" cy="-50" rx="6" ry="18" fill="#F0E6E6"/>
+          <ellipse cx="12" cy="-50" rx="3" ry="14" fill="#E8A0A0" opacity=".5"/>
+          <!-- Happy eyes -->
+          <path d="M -8,-33 Q -5,-30 -2,-33" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <path d="M 2,-33 Q 5,-30 8,-33" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <ellipse cx="0" cy="-22" rx="5" ry="3" fill="#E8A0A0"/>
+          <path d="M -4,-18 Q 0,-13 4,-18" stroke="#8C5A4A" stroke-width="2" fill="none"/>
+        </g>
+        <!-- Stars -->
+        <text x="220" y="110" font-size="20" fill="#F4C13E">⭐</text>
+        <text x="80" y="160" font-size="16" fill="#E56B5A">♥</text>
+        <text x="320" y="150" font-size="18" fill="#E56B5A">♥</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>贝贝说：你好，<span style="color:#6FA86D">我叫贝贝</span>。</h2>
+      <p class="big">她们一起搭积木！</p>
+      <p class="small">贝贝不怕了——真的不怕了。</p>
+    </div>
+  </div>
+
+  <!-- Page 5: Going home happy -->
+  <div class="page" data-bg="peach" data-text="放学了，贝贝跑去找妈妈，大声说：妈妈！今天我交了一个新朋友，还搭了一座很高的塔！明天我还要来！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Sunset sky -->
+        <rect x="0" y="0" width="400" height="220" fill="#FBE3D5" opacity=".5"/>
+        <circle cx="370" cy="100" r="45" fill="#F4C13E" opacity=".4"/>
+        <!-- School in distance -->
+        <rect x="250" y="130" width="130" height="90" fill="#A8C2DE" opacity=".4" rx="4"/>
+        <polygon points="315,100 250,130 380,130" fill="#E56B5A" opacity=".3"/>
+        <!-- Path -->
+        <ellipse cx="200" cy="285" rx="200" ry="35" fill="#B5D4A8" opacity=".4"/>
+        <!-- Mom -->
+        <g transform="translate(130,225)">
+          <ellipse cx="0" cy="0" rx="40" ry="44" fill="#C8966A"/>
+          <ellipse cx="0" cy="8" rx="24" ry="26" fill="#E8C49A" opacity=".7"/>
+          <circle cx="0" cy="-50" r="34" fill="#C8966A"/>
+          <circle cx="-24" cy="-78" r="13" fill="#C8966A"/>
+          <circle cx="-24" cy="-78" r="7.5" fill="#E8A080"/>
+          <circle cx="24" cy="-78" r="13" fill="#C8966A"/>
+          <circle cx="24" cy="-78" r="7.5" fill="#E8A080"/>
+          <path d="M -10,-54 Q -6,-49 -2,-54" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <path d="M 2,-54 Q 6,-49 10,-54" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <path d="M -10,-40 Q 0,-34 10,-40" stroke="#8C5A4A" stroke-width="2" fill="none"/>
+          <ellipse cx="38" cy="-8" rx="13" ry="26" fill="#C8966A" transform="rotate(25 38 -8)"/>
+        </g>
+        <!-- Beibei running -->
+        <g id="p5-bear" transform="translate(255,235)" class="wiggle">
+          <ellipse cx="0" cy="0" rx="26" ry="29" fill="#C8966A"/>
+          <ellipse cx="0" cy="5" rx="16" ry="17" fill="#E8C49A" opacity=".7"/>
+          <circle cx="0" cy="-33" r="22" fill="#C8966A"/>
+          <circle cx="-15" cy="-51" r="9" fill="#C8966A"/>
+          <circle cx="-15" cy="-51" r="5" fill="#E8A080"/>
+          <circle cx="15" cy="-51" r="9" fill="#C8966A"/>
+          <circle cx="15" cy="-51" r="5" fill="#E8A080"/>
+          <path d="M -7,-37 Q -3,-33 1,-37" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <path d="M 1,-37 Q 5,-33 9,-37" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <path d="M -6,-28 Q 0,-22 6,-28" stroke="#8C5A4A" stroke-width="2" fill="none"/>
+          <ellipse cx="0" cy="-21" rx="7" ry="5" fill="#E8C49A"/>
+          <circle cx="-2" cy="-22" r="1.5" fill="#8C5A4A"/>
+          <circle cx="2" cy="-22" r="1.5" fill="#8C5A4A"/>
+          <!-- Arms raised -->
+          <ellipse cx="-28" cy="-20" rx="8" ry="18" fill="#C8966A" transform="rotate(-40 -28 -20)"/>
+          <ellipse cx="28" cy="-20" rx="8" ry="18" fill="#C8966A" transform="rotate(40 28 -20)"/>
+        </g>
+        <!-- Speech bubble -->
+        <g transform="translate(270,145)">
+          <rect x="-60" y="-18" width="120" height="36" rx="18" fill="white" opacity=".9"/>
+          <path d="M 0,18 L -10,30 L 10,18" fill="white" opacity=".9"/>
+          <text x="0" y="-4" font-size="13" text-anchor="middle" fill="#6FA86D" font-weight="700">明天还要来！</text>
+          <text x="0" y="12" font-size="12" text-anchor="middle" fill="#5C4F3D">我交到朋友了！</text>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>贝贝跑去找妈妈——</h2>
+      <p class="big">"明天还要来！"</p>
+      <p class="small">第一天的害怕，消失了。</p>
+    </div>
+  </div>
+
+  <!-- Page 6: End -->
+  <div class="page" data-bg="green" data-text="大弟弟，当你第一次去一个新地方，感到害怕是正常的。鼓起勇气说一句：你好，我叫贝贝——就会有新朋友。">
+    <div class="end-card">
+      <h2>给大弟弟 🐻</h2>
+      <p>第一次，<strong style="color:#6FA86D">有点害怕</strong>——没关系。</p>
+      <p style="font-size:30px;color:#6FA86D;font-weight:700;margin:16px 0;">"鼓起勇气，<br>说一句你好。"</p>
+      <p style="font-size:16px;color:#5C4F3D;">就会有新朋友了。<br>贝贝做到了，你也能做到。</p>
+      <button style="background:#6FA86D;color:white;border:0;padding:10px 24px;border-radius:999px;font-family:inherit;font-size:16px;cursor:pointer;margin-top:24px;" onclick="goTo(0)">🔄 再讲一遍</button>
+    </div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
+</div>
+
+<script src="../fo-utils.js"></script>
+<script>
+const BOOK_ID='m01-bear-first-day'; const BOOK_TITLE='贝贝的第一天'; const BOOK_TOTAL=5;
+function makeInteractive(el,animClass,msg){if(!el)return;el.classList.add('interactive');el.addEventListener('click',function(){if(el._busy)return;el._busy=true;el.classList.remove(animClass);void el.getBoundingClientRect();el.classList.add(animClass);if(msg){const scene=el.closest('.scene');const er=el.getBoundingClientRect(),sr=scene.getBoundingClientRect();const cx=er.left+er.width/2-sr.left,cy=Math.max(8,er.top-sr.top-48);const b=document.createElement('div');b.className='speech-bubble';b.textContent=msg;b.style.left=cx+'px';b.style.top=cy+'px';b.style.transform='translateX(-50%)';scene.appendChild(b);setTimeout(()=>b.remove(),1500);}setTimeout(()=>{el.classList.remove(animClass);el._busy=false;},750);});}
+const pages=document.querySelectorAll('.page'),total=pages.length;
+const dotsEl=document.getElementById('dots');let current=0;
+for(let i=0;i<total;i++){const d=document.createElement('span');if(i===0)d.classList.add('is-active');dotsEl.appendChild(d);}
+function goTo(idx){if(idx<0||idx>=total)return;speechSynthesis.cancel();if(idx===current){pages.forEach((p,i)=>{p.classList.toggle('is-active',i===idx);p.classList.remove('flip-out-fwd','flip-in-fwd','flip-out-bwd','flip-in-bwd');p.style.opacity='';p.style.pointerEvents='';});current=idx;document.getElementById('prev').disabled=idx===0;document.getElementById('next').disabled=idx===total-1;dotsEl.querySelectorAll('span').forEach((s,i)=>s.classList.toggle('is-active',i===idx));if(window.FO)FO.logProgress(BOOK_ID,idx,BOOK_TOTAL);return;}const dir=idx>current?'fwd':'bwd',outClass=dir==='fwd'?'flip-out-fwd':'flip-out-bwd',inClass=dir==='fwd'?'flip-in-fwd':'flip-in-bwd';const oldPage=pages[current],newPage=pages[idx];newPage.style.opacity='0';newPage.style.pointerEvents='none';oldPage.classList.add(outClass);newPage.classList.add(inClass);function cleanup(){oldPage.classList.remove('is-active',outClass);newPage.classList.remove(inClass);oldPage.style.opacity='';newPage.style.opacity='';newPage.style.pointerEvents='';newPage.classList.add('is-active');current=idx;document.getElementById('prev').disabled=idx===0;document.getElementById('next').disabled=idx===total-1;dotsEl.querySelectorAll('span').forEach((s,i)=>s.classList.toggle('is-active',i===idx));if(window.FO)FO.logProgress(BOOK_ID,idx,BOOK_TOTAL);}newPage.addEventListener('animationend',cleanup,{once:true});}
+document.getElementById('prev').addEventListener('click',()=>goTo(current-1));
+document.getElementById('next').addEventListener('click',()=>goTo(current+1));
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')goTo(current-1);if(e.key==='ArrowRight')goTo(current+1);});
+let _tx=0;document.addEventListener('touchstart',e=>{_tx=e.touches[0].clientX;},{passive:true});document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-_tx;if(Math.abs(dx)>50)dx<0?goTo(current+1):goTo(current-1);});
+document.getElementById('readBtn').addEventListener('click',()=>{const text=pages[current].dataset.text;if(!text||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='zh-CN';u.rate=.85;u.pitch=1.1;speechSynthesis.speak(u);});
+goTo(0);
+makeInteractive(document.getElementById('p1-bear'),'do-shake','好怕好怕……🐻');
+makeInteractive(document.getElementById('p2-bear'),'do-wobble','妈妈抱我！');
+makeInteractive(document.getElementById('p3-bear'),'do-bounce','你好！👋');
+makeInteractive(document.getElementById('p3-rabbit'),'do-bounce','我叫糖糖！🐰');
+makeInteractive(document.getElementById('p4-bear'),'do-bounce','太好玩啦！🎉');
+makeInteractive(document.getElementById('p4-rabbit'),'do-bounce','一起玩！🐰');
+makeInteractive(document.getElementById('p5-bear'),'do-bounce','明天还来！⭐');
+if(window.FO)FO.logHistory(BOOK_ID,BOOK_TITLE);
+</script>
+</body>
+</html>

@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>溶液混合变色 · 互动化学</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  .nav-member-btn{display:inline-flex;align-items:center;gap:var(--space-md);background:var(--paper);border:0;border-radius:var(--radius-full);padding:var(--space-sm) var(--space-2xl) var(--space-sm) var(--space-sm);font-family:inherit;font-size:var(--font-size-ui);cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft);}
+  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:var(--space-2xl);background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:var(--space-lg) var(--space-2xl);margin-bottom:var(--space-9xl);}
+  .back-link{text-decoration:none;color:var(--ink-mute);font-size:var(--font-size-body-sm);}
+  .wrap{max-width:var(--size-content-medium);margin:0 auto;padding:0 var(--space-5xl) var(--space-page-bottom);}
+  .game-hero{text-align:center;margin-bottom:var(--space-section);}
+  .game-hero-icon{font-size:var(--font-size-emoji-md);margin-bottom:var(--space-md);}
+  .game-hero h1{font-size:clamp(var(--font-size-hero-md),var(--font-size-hero-fluid),var(--font-size-hero-lg));margin-bottom:var(--space-lg);}
+  .game-hero .sub{color:var(--ink-soft);font-size:var(--font-size-body-lg);line-height:1.6;}
+
+  /* Experiment selector */
+  .exp-tabs{display:flex;gap:var(--space-md);flex-wrap:wrap;margin-bottom:var(--space-7xl);}
+  .exp-tab{background:var(--paper);border:2px solid var(--cream-deep);border-radius:var(--radius-full);padding:var(--space-md) var(--space-5xl);font-family:inherit;font-size:var(--font-size-note);cursor:pointer;color:var(--ink-soft);transition:all .2s;white-space:nowrap;}
+  .exp-tab:hover{border-color:var(--ink-mute);}
+  .exp-tab.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .exp-tab.done{border-color:var(--green);color:var(--green);}
+  .exp-tab.done.active{background:var(--green);color:var(--paper);border-color:var(--green);}
+
+  /* Lab bench */
+  .lab-bench{background:var(--paper);border-radius:var(--radius-lg);padding:var(--space-9xl);box-shadow:var(--shadow-card);margin-bottom:var(--space-5xl);}
+  .bench-title{font-size:var(--font-size-title-sm);font-weight:700;margin-bottom:var(--space-sm);}
+  .bench-subtitle{font-size:var(--font-size-body-sm);color:var(--ink-soft);margin-bottom:var(--space-section);}
+
+  /* Beakers row */
+  .beakers-row{display:flex;align-items:flex-end;justify-content:center;gap:var(--space-5xl);margin-bottom:var(--space-7xl);}
+  .beaker-unit{display:flex;flex-direction:column;align-items:center;gap:var(--space-xl);}
+  .beaker-label{font-size:var(--font-size-note);font-weight:700;color:var(--ink);}
+  .beaker-chem{font-size:11px;color:var(--ink-mute);}
+
+  /* SVG beaker sizing */
+  .beaker-svg{width:100px;height:130px;display:block;}
+  .beaker-svg.large{width:120px;height:150px;}
+
+  /* Liquid fill transition */
+  .liq-fill{transition:fill .8s ease,height .6s ease;}
+
+  /* Mix button */
+  .mix-btn-wrap{display:flex;justify-content:center;margin-bottom:var(--space-7xl);}
+  .mix-btn{background:var(--coral);color:var(--paper);border:0;border-radius:var(--radius-full);padding:var(--space-2xl) var(--space-9xl);font-family:inherit;font-size:var(--font-size-body-lg);cursor:pointer;box-shadow:var(--shadow-button);font-weight:700;transition:transform .15s,background .2s;}
+  .mix-btn:hover{transform:translateY(-2px);}
+  .mix-btn:active{transform:translateY(1px);}
+  .mix-btn:disabled{background:var(--cream-deep);color:var(--ink-mute);box-shadow:none;transform:none;cursor:default;}
+  .reset-btn{background:var(--cream-deep);color:var(--ink-soft);border:0;border-radius:var(--radius-full);padding:var(--space-xl) var(--space-5xl);font-family:inherit;font-size:var(--font-size-body-sm);cursor:pointer;margin-left:var(--space-xl);}
+
+  /* Result panel */
+  .result-panel{border-radius:var(--radius);padding:var(--space-5xl);margin-bottom:var(--space-5xl);display:none;border-left:5px solid var(--green);}
+  .result-panel.show{display:block;}
+  .result-panel h3{font-size:var(--font-size-title-sm);margin-bottom:var(--space-xl);}
+  .result-panel p{font-size:var(--font-size-body);color:var(--ink-soft);line-height:1.7;}
+  .reaction-eq{font-size:var(--font-size-body-sm);background:var(--cream-deep);padding:var(--space-md) var(--space-3xl);border-radius:var(--radius-sm);display:inline-block;margin:var(--space-md) 0;font-family:monospace;}
+
+  /* Precipitate particles canvas */
+  .canvas-wrap{position:relative;}
+  #particle-canvas{position:absolute;top:0;left:0;pointer-events:none;}
+
+  /* Progress chips */
+  .progress-chips{display:flex;gap:var(--space-md);flex-wrap:wrap;margin-top:var(--space-5xl);}
+  .prog-chip{background:var(--cream-deep);border-radius:var(--radius-full);padding:var(--space-xs) var(--space-3xl);font-size:var(--font-size-note);color:var(--ink-mute);}
+  .prog-chip.done{background:var(--green-soft);color:var(--ink);font-weight:700;}
+
+  /* Pour animation */
+  @keyframes pourDrop{0%{opacity:0;transform:translateY(-20px)}100%{opacity:1;transform:translateY(0)}}
+  .pouring .liq-fill{animation:pourDrop .5s ease forwards;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="game-nav">
+    <a class="back-link" href="index.html">← 游戏库</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <div class="game-hero">
+    <div class="game-hero-icon">🧫</div>
+    <h1>溶液混合变色</h1>
+    <p class="sub">混合两种溶液，观察颜色变化和沉淀生成——<br>每一种反应都是一场视觉奇迹！</p>
+  </div>
+
+  <div class="exp-tabs" id="exp-tabs"></div>
+
+  <div class="lab-bench" id="lab-bench">
+    <div class="bench-title" id="bench-title"></div>
+    <div class="bench-subtitle" id="bench-subtitle"></div>
+
+    <div class="beakers-row" id="beakers-row"></div>
+
+    <div class="mix-btn-wrap">
+      <button class="mix-btn" id="mix-btn" onclick="doMix()">开始混合 ⚗️</button>
+      <button class="reset-btn" onclick="resetExperiment()">重置</button>
+    </div>
+  </div>
+
+  <div class="result-panel" id="result-panel">
+    <h3 id="result-title"></h3>
+    <div class="reaction-eq" id="result-eq"></div>
+    <p id="result-text"></p>
+  </div>
+
+  <div class="progress-chips" id="progress-chips"></div>
+</div>
+
+<script src="../fo-utils.js"></script>
+<script>
+var GAME_ID = 'g51-chem-mixing';
+
+var EXPERIMENTS = [
+  {
+    id:'iodine-starch',
+    name:'碘遇淀粉', emoji:'🟣',
+    aLabel:'碘液', aChem:'I₂溶液', aColor:'#92400E',
+    bLabel:'淀粉水', bChem:'淀粉溶液', bColor:'rgba(255,253,240,0.5)',
+    resultColor:'#1E1B4B',
+    special:'none',
+    eq:'I₂ + 淀粉 → 蓝黑色配合物',
+    title:'🔵 碘遇淀粉变蓝黑！',
+    text:'淀粉分子形成螺旋形链状结构，碘分子（I₂）嵌入螺旋腔中形成蓝黑色配合物。这是检验淀粉最简单可靠的方法，也常用于检测食物中是否含有淀粉。',
+    borderColor:'#4338CA',
+    bgColor:'#EEF2FF'
+  },
+  {
+    id:'phenolphthalein',
+    name:'酚酞遇碱', emoji:'🔴',
+    aLabel:'酚酞溶液', aChem:'酚酞（无色）', aColor:'rgba(255,253,240,0.3)',
+    bLabel:'氢氧化钠', bChem:'NaOH溶液', bColor:'rgba(220,240,255,0.4)',
+    resultColor:'#DB2777',
+    special:'none',
+    eq:'酚酞 + NaOH → 红色（碱性环境）',
+    title:'🌹 酚酞在碱中变鲜红！',
+    text:'酚酞是一种常见的酸碱指示剂。在中性和酸性溶液中无色，在碱性环境（pH > 8.2）中变为鲜艳的洋红色。这是因为碱让酚酞分子结构发生变化，产生了能吸收可见光的共轭结构。',
+    borderColor:'#BE185D',
+    bgColor:'#FDF2F8'
+  },
+  {
+    id:'copper-precipitate',
+    name:'铜离子沉淀', emoji:'🔵',
+    aLabel:'硫酸铜', aChem:'CuSO₄（蓝色）', aColor:'#3B82F6',
+    bLabel:'氢氧化钠', bChem:'NaOH溶液', bColor:'rgba(220,240,255,0.4)',
+    resultColor:'#93C5FD',
+    special:'precipitate',
+    precipitateColor:'#1D4ED8',
+    eq:'CuSO₄ + 2NaOH → Cu(OH)₂↓ + Na₂SO₄',
+    title:'💎 生成蓝色沉淀 Cu(OH)₂！',
+    text:'铜离子（Cu²⁺）与氢氧根离子（OH⁻）结合，生成不溶于水的氢氧化铜（Cu(OH)₂）蓝色沉淀。沉淀会慢慢从溶液中析出沉降到底部——这就是沉淀反应。',
+    borderColor:'#1D4ED8',
+    bgColor:'#EFF6FF'
+  },
+  {
+    id:'carbonate-acid',
+    name:'碳酸盐遇酸', emoji:'💨',
+    aLabel:'碳酸钠', aChem:'Na₂CO₃溶液', aColor:'rgba(230,250,240,0.5)',
+    bLabel:'稀盐酸', bChem:'HCl溶液', bColor:'rgba(255,250,220,0.4)',
+    resultColor:'rgba(240,248,255,0.6)',
+    special:'bubbles',
+    eq:'Na₂CO₃ + 2HCl → 2NaCl + H₂O + CO₂↑',
+    title:'🫧 产生大量气泡 CO₂！',
+    text:'碳酸钠与盐酸发生中和反应，生成氯化钠、水和二氧化碳气体。大量CO₂气泡快速逸出，肉眼可见剧烈的"冒泡"现象。碳酸饮料开瓶时的冒泡，原理与此相似。',
+    borderColor:'#0891B2',
+    bgColor:'#ECFEFF'
+  },
+  {
+    id:'permanganate',
+    name:'高锰酸钾褪色', emoji:'⚪',
+    aLabel:'高锰酸钾', aChem:'KMnO₄（紫色）', aColor:'#7C3AED',
+    bLabel:'草酸溶液', bChem:'H₂C₂O₄', bColor:'rgba(255,253,240,0.4)',
+    resultColor:'rgba(240,248,255,0.2)',
+    special:'none',
+    eq:'2KMnO₄ + 5H₂C₂O₄ + 3H₂SO₄ → … 褪色',
+    title:'🪄 紫色完全褪去！',
+    text:'高锰酸钾（KMnO₄）是强氧化剂，呈深紫色。与草酸（还原剂）在酸性条件下反应，Mn⁷⁺被还原为Mn²⁺，溶液从深紫色变为近乎无色。这是氧化还原反应的经典演示实验。',
+    borderColor:'#6D28D9',
+    bgColor:'#F5F3FF'
+  },
+];
+
+var currentExpIdx = 0;
+var isMixed = false;
+var doneSet = {};
+var particleTimers = [];
+
+function renderTabs() {
+  var tabsEl = document.getElementById('exp-tabs');
+  tabsEl.innerHTML = '';
+  EXPERIMENTS.forEach(function(exp, i) {
+    var btn = document.createElement('button');
+    btn.className = 'exp-tab' + (i === currentExpIdx ? ' active' : '') + (doneSet[exp.id] ? ' done' : '');
+    btn.textContent = exp.emoji + ' ' + exp.name;
+    btn.addEventListener('click', function() { selectExp(i); });
+    tabsEl.appendChild(btn);
+  });
+}
+
+function selectExp(idx) {
+  currentExpIdx = idx;
+  isMixed = false;
+  renderTabs();
+  renderBench();
+  hideResult();
+}
+
+function renderBench() {
+  var exp = EXPERIMENTS[currentExpIdx];
+  document.getElementById('bench-title').textContent = exp.aLabel + ' + ' + exp.bLabel;
+  document.getElementById('bench-subtitle').textContent = exp.aChem + ' 与 ' + exp.bChem + ' 混合后会发生什么？';
+  document.getElementById('mix-btn').disabled = false;
+
+  var row = document.getElementById('beakers-row');
+  row.innerHTML = '';
+
+  // Beaker A
+  row.appendChild(makeBeaker('A', exp.aLabel, exp.aChem, exp.aColor, 'beaker-svg'));
+
+  // Arrow
+  var arrow = document.createElement('div');
+  arrow.style.cssText = 'font-size:28px;color:var(--ink-mute);padding-bottom:20px;';
+  arrow.textContent = '+';
+  row.appendChild(arrow);
+
+  // Beaker B
+  row.appendChild(makeBeaker('B', exp.bLabel, exp.bChem, exp.bColor, 'beaker-svg'));
+
+  // Arrow
+  var arr2 = document.createElement('div');
+  arr2.style.cssText = 'font-size:28px;color:var(--ink-mute);padding-bottom:20px;';
+  arr2.textContent = '→';
+  row.appendChild(arr2);
+
+  // Result beaker (empty initially)
+  row.appendChild(makeBeaker('C', '混合结果', '', 'transparent', 'beaker-svg large', 'result-beaker'));
+}
+
+function makeBeaker(id, label, chem, liquidColor, svgClass, extraId) {
+  var unit = document.createElement('div');
+  unit.className = 'beaker-unit';
+  if (extraId) unit.id = extraId;
+
+  var ns = 'http://www.w3.org/2000/svg';
+  var svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', '0 0 100 130');
+  svg.className = svgClass;
+
+  // Clip for liquid
+  var defs = document.createElementNS(ns, 'defs');
+  var clip = document.createElementNS(ns, 'clipPath');
+  clip.id = 'clip-' + id;
+  var clipPath = document.createElementNS(ns, 'path');
+  clipPath.setAttribute('d', 'M18,20 L18,108 Q18,120 30,120 L70,120 Q82,120 82,108 L82,20 Z');
+  clip.appendChild(clipPath);
+  defs.appendChild(clip);
+  svg.appendChild(defs);
+
+  // Liquid
+  var liquid = document.createElementNS(ns, 'rect');
+  liquid.id = 'liq-' + id;
+  liquid.setAttribute('x', '18');
+  liquid.setAttribute('y', '40');
+  liquid.setAttribute('width', '64');
+  liquid.setAttribute('height', '80');
+  liquid.setAttribute('fill', liquidColor);
+  liquid.setAttribute('clip-path', 'url(#clip-' + id + ')');
+  liquid.style.transition = 'fill 0.8s ease';
+  svg.appendChild(liquid);
+
+  // Canvas overlay for particles
+  // (we'll use a separate canvas overlay positioned absolutely)
+
+  // Glass outline
+  var glass = document.createElementNS(ns, 'path');
+  glass.setAttribute('d', 'M16,16 L16,108 Q16,124 32,124 L68,124 Q84,124 84,108 L84,16');
+  glass.setAttribute('fill', 'none');
+  glass.setAttribute('stroke', '#8C7C66');
+  glass.setAttribute('stroke-width', '3');
+  glass.setAttribute('stroke-linejoin', 'round');
+  svg.appendChild(glass);
+
+  // Spout lines
+  var sl = document.createElementNS(ns, 'line');
+  sl.setAttribute('x1','16'); sl.setAttribute('y1','16'); sl.setAttribute('x2','8'); sl.setAttribute('y2','4');
+  sl.setAttribute('stroke','#8C7C66'); sl.setAttribute('stroke-width','2.5'); sl.setAttribute('stroke-linecap','round');
+  svg.appendChild(sl);
+  var sr = document.createElementNS(ns, 'line');
+  sr.setAttribute('x1','84'); sr.setAttribute('y1','16'); sr.setAttribute('x2','92'); sr.setAttribute('y2','4');
+  sr.setAttribute('stroke','#8C7C66'); sr.setAttribute('stroke-width','2.5'); sr.setAttribute('stroke-linecap','round');
+  svg.appendChild(sr);
+
+  unit.appendChild(svg);
+
+  var lbl = document.createElement('div');
+  lbl.className = 'beaker-label';
+  lbl.textContent = label;
+  unit.appendChild(lbl);
+
+  if (chem) {
+    var ch = document.createElement('div');
+    ch.className = 'beaker-chem';
+    ch.textContent = chem;
+    unit.appendChild(ch);
+  }
+
+  return unit;
+}
+
+function doMix() {
+  if (isMixed) return;
+  isMixed = true;
+  document.getElementById('mix-btn').disabled = true;
+
+  var exp = EXPERIMENTS[currentExpIdx];
+
+  // Animate result beaker fill
+  var liqC = document.getElementById('liq-C');
+  if (liqC) {
+    liqC.setAttribute('fill', 'transparent');
+    setTimeout(function() {
+      liqC.style.transition = 'fill 0.8s ease';
+      liqC.setAttribute('fill', exp.resultColor);
+    }, 100);
+  }
+
+  // Special effects
+  if (exp.special === 'precipitate') {
+    setTimeout(function() { spawnPrecipitate(exp.precipitateColor); }, 900);
+  } else if (exp.special === 'bubbles') {
+    setTimeout(function() { spawnBubbles(); }, 600);
+  }
+
+  // Show result
+  setTimeout(function() {
+    showResult(exp);
+    doneSet[exp.id] = true;
+    renderTabs();
+    renderProgress();
+    if (Object.keys(doneSet).length >= EXPERIMENTS.length) markDone();
+  }, 1200);
+}
+
+function spawnPrecipitate(color) {
+  var resultUnit = document.getElementById('result-beaker');
+  if (!resultUnit) return;
+  var svg = resultUnit.querySelector('svg');
+  if (!svg) return;
+
+  for (var i = 0; i < 20; i++) {
+    (function(delay) {
+      setTimeout(function() {
+        var ns = 'http://www.w3.org/2000/svg';
+        var p = document.createElementNS(ns, 'circle');
+        p.setAttribute('cx', 32 + Math.random() * 36);
+        p.setAttribute('cy', 50);
+        p.setAttribute('r', 2 + Math.random() * 2);
+        p.setAttribute('fill', color);
+        p.setAttribute('opacity', '.7');
+        svg.appendChild(p);
+
+        var targetY = 100 + Math.random() * 15;
+        var startTime = Date.now();
+        var dur = 1200 + Math.random() * 800;
+        function step() {
+          var t = Math.min(1, (Date.now() - startTime) / dur);
+          p.setAttribute('cy', 50 + (targetY - 50) * t);
+          if (t < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }, delay);
+    })(i * 80 + Math.random() * 200);
+  }
+}
+
+function spawnBubbles() {
+  var resultUnit = document.getElementById('result-beaker');
+  if (!resultUnit) return;
+  var svg = resultUnit.querySelector('svg');
+  if (!svg) return;
+
+  for (var b = 0; b < 24; b++) {
+    (function(delay) {
+      setTimeout(function() {
+        var ns = 'http://www.w3.org/2000/svg';
+        var bubble = document.createElementNS(ns, 'circle');
+        var startX = 32 + Math.random() * 36;
+        bubble.setAttribute('cx', startX);
+        bubble.setAttribute('cy', 110);
+        bubble.setAttribute('r', 2 + Math.random() * 3);
+        bubble.setAttribute('fill', 'none');
+        bubble.setAttribute('stroke', 'rgba(150,200,255,0.7)');
+        bubble.setAttribute('stroke-width', '1');
+        svg.appendChild(bubble);
+
+        var startTime = Date.now();
+        var dur = 800 + Math.random() * 600;
+        function step() {
+          var t = Math.min(1, (Date.now() - startTime) / dur);
+          bubble.setAttribute('cy', 110 - t * 90);
+          bubble.setAttribute('opacity', 1 - t);
+          bubble.setAttribute('cx', startX + Math.sin(t * 6) * 4);
+          if (t < 1) requestAnimationFrame(step);
+          else svg.removeChild(bubble);
+        }
+        requestAnimationFrame(step);
+      }, delay);
+    })(b * 100 + Math.random() * 300);
+  }
+}
+
+function showResult(exp) {
+  var panel = document.getElementById('result-panel');
+  panel.style.background = exp.bgColor;
+  panel.style.borderLeftColor = exp.borderColor;
+  panel.className = 'result-panel show';
+  document.getElementById('result-title').textContent = exp.title;
+  document.getElementById('result-eq').textContent = exp.eq;
+  document.getElementById('result-text').textContent = exp.text;
+}
+
+function hideResult() {
+  document.getElementById('result-panel').className = 'result-panel';
+}
+
+function resetExperiment() {
+  isMixed = false;
+  document.getElementById('mix-btn').disabled = false;
+  renderBench();
+  hideResult();
+}
+
+function renderProgress() {
+  var chips = document.getElementById('progress-chips');
+  chips.innerHTML = '';
+  EXPERIMENTS.forEach(function(exp) {
+    var chip = document.createElement('span');
+    chip.className = 'prog-chip' + (doneSet[exp.id] ? ' done' : '');
+    chip.textContent = (doneSet[exp.id] ? '✓ ' : '○ ') + exp.name;
+    chips.appendChild(chip);
+  });
+}
+
+function markDone() {
+  var a = [];
+  try { a = JSON.parse(localStorage.getItem('fo_games_done') || '[]'); } catch(e){}
+  if (a.indexOf(GAME_ID) < 0) { a.push(GAME_ID); localStorage.setItem('fo_games_done', JSON.stringify(a)); }
+}
+
+// Init
+renderTabs();
+renderBench();
+renderProgress();
+
+(function(){
+  var m = window.FO && FO.getMember(), el = document.getElementById('nav-member-btn');
+  if (!el) return;
+  if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick = function(){ location.href='../dashboard.html'; }; }
+  else { el.innerHTML = '<span>登录</span>'; el.onclick = function(){ location.href='../login.html'; }; }
+})();
+</script>
+</body>
+</html>

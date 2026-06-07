@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>焰色反应 · 互动化学</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  .nav-member-btn{display:inline-flex;align-items:center;gap:var(--space-md);background:var(--paper);border:0;border-radius:var(--radius-full);padding:var(--space-sm) var(--space-2xl) var(--space-sm) var(--space-sm);font-family:inherit;font-size:var(--font-size-ui);cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft);}
+  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:var(--space-2xl);background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:var(--space-lg) var(--space-2xl);margin-bottom:var(--space-9xl);}
+  .back-link{text-decoration:none;color:var(--ink-mute);font-size:var(--font-size-body-sm);}
+  .wrap{max-width:var(--size-content-medium);margin:0 auto;padding:0 var(--space-5xl) var(--space-page-bottom);}
+  .game-hero{text-align:center;margin-bottom:var(--space-section);}
+  .game-hero-icon{font-size:var(--font-size-emoji-md);margin-bottom:var(--space-md);}
+  .game-hero h1{font-size:clamp(var(--font-size-hero-md),var(--font-size-hero-fluid),var(--font-size-hero-lg));margin-bottom:var(--space-lg);}
+  .game-hero .sub{color:var(--ink-soft);font-size:var(--font-size-body-lg);line-height:1.6;}
+
+  /* Lab bench */
+  .lab-area{display:flex;flex-direction:column;align-items:center;gap:var(--space-7xl);margin-bottom:var(--space-section);}
+
+  /* Flame stage */
+  .flame-stage{position:relative;width:100%;max-width:360px;height:280px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;}
+  .burner-base{width:80px;height:28px;background:linear-gradient(180deg,#8C7C66,#5C4F3D);border-radius:var(--radius-sm) var(--radius-sm) 0 0;position:relative;z-index:2;}
+  .burner-neck{width:24px;height:30px;background:linear-gradient(180deg,#8C7C66,#5C4F3D);margin:0 auto;position:relative;z-index:2;}
+  .burner-stand{width:100px;height:8px;background:#5C4F3D;border-radius:var(--radius-full);position:relative;z-index:2;}
+
+  /* Flame layers */
+  .flame-wrap{position:absolute;bottom:66px;left:50%;transform:translateX(-50%);width:60px;height:160px;display:flex;align-items:flex-end;justify-content:center;}
+  .flame-outer{position:absolute;bottom:0;width:56px;height:120px;border-radius:50% 50% 20% 20%;filter:blur(3px);animation:flicker 0.25s ease-in-out infinite alternate;transform-origin:bottom center;}
+  .flame-mid{position:absolute;bottom:0;width:36px;height:90px;border-radius:50% 50% 20% 20%;filter:blur(2px);animation:flicker 0.2s ease-in-out infinite alternate-reverse;transform-origin:bottom center;}
+  .flame-core{position:absolute;bottom:0;width:18px;height:50px;border-radius:50% 50% 20% 20%;filter:blur(1px);animation:flicker 0.3s ease-in-out infinite alternate;transform-origin:bottom center;}
+
+  @keyframes flicker{
+    0%{transform:scaleX(1) scaleY(1) rotate(-1deg);}
+    100%{transform:scaleX(1.08) scaleY(1.06) rotate(1deg);}
+  }
+
+  /* Canvas for sparks */
+  #spark-canvas{position:absolute;inset:0;pointer-events:none;}
+
+  /* Salt samples */
+  .salts-row{display:flex;gap:var(--space-xl);flex-wrap:wrap;justify-content:center;width:100%;}
+  .salt-jar{background:var(--paper);border-radius:var(--radius);padding:var(--space-3xl) var(--space-5xl);text-align:center;cursor:pointer;box-shadow:var(--shadow-card);border:3px solid transparent;transition:transform .2s,border-color .2s,box-shadow .2s;min-width:120px;}
+  .salt-jar:hover{transform:translateY(-3px);box-shadow:0 8px 24px -8px rgba(43,36,25,.3);}
+  .salt-jar.active{transform:translateY(-4px) scale(1.05);}
+  .salt-emoji{font-size:28px;margin-bottom:4px;}
+  .salt-name{font-size:var(--font-size-note);font-weight:700;color:var(--ink);}
+  .salt-formula{font-size:11px;color:var(--ink-mute);margin-top:2px;}
+  .salt-color-dot{width:16px;height:16px;border-radius:50%;margin:6px auto 0;box-shadow:var(--shadow-soft);}
+
+  /* Info panel */
+  .info-panel{width:100%;max-width:500px;background:var(--paper);border-radius:var(--radius);padding:var(--space-5xl);box-shadow:var(--shadow-card);border-top:5px solid #F4C13E;transition:border-color .4s;}
+  .info-panel h2{font-size:var(--font-size-title-sm);margin-bottom:var(--space-xl);}
+  .info-meta{display:flex;gap:var(--space-xl);flex-wrap:wrap;margin-bottom:var(--space-3xl);}
+  .info-chip{background:var(--cream-deep);border-radius:var(--radius-full);padding:var(--space-xs) var(--space-2xl);font-size:var(--font-size-note);color:var(--ink-soft);}
+  .info-chip strong{color:var(--ink);}
+  .info-text{font-size:var(--font-size-body);color:var(--ink-soft);line-height:1.7;}
+
+  /* Progress */
+  .progress-row{display:flex;gap:var(--space-md);flex-wrap:wrap;margin-top:var(--space-7xl);}
+  .prog-badge{background:var(--cream-deep);border-radius:var(--radius-full);padding:var(--space-sm) var(--space-3xl);font-size:var(--font-size-note);color:var(--ink-mute);}
+  .prog-badge.done{background:var(--green-soft);color:var(--ink);font-weight:700;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="game-nav">
+    <a class="back-link" href="index.html">← 游戏库</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <div class="game-hero">
+    <div class="game-hero-icon">🔥</div>
+    <h1>焰色反应</h1>
+    <p class="sub">点击金属盐，火焰瞬间变色！<br>钠→黄、钾→紫、铜→绿、锂→红</p>
+  </div>
+
+  <div class="lab-area">
+    <!-- Flame stage -->
+    <div class="flame-stage">
+      <canvas id="spark-canvas" width="360" height="280"></canvas>
+      <div class="flame-wrap" id="flame-wrap">
+        <div class="flame-outer" id="flame-outer"></div>
+        <div class="flame-mid" id="flame-mid"></div>
+        <div class="flame-core" id="flame-core"></div>
+      </div>
+      <div class="burner-neck"></div>
+      <div class="burner-base"></div>
+      <div class="burner-stand"></div>
+    </div>
+
+    <!-- Metal salt jars -->
+    <div class="salts-row" id="salts-row"></div>
+
+    <!-- Info panel -->
+    <div class="info-panel" id="info-panel">
+      <h2 id="info-title">点击上方的金属盐——</h2>
+      <div class="info-meta" id="info-meta"></div>
+      <p class="info-text" id="info-text">不同金属元素受热激发后，电子跃迁回低能级时会释放出特定波长的可见光，这就是"焰色反应"。每种金属元素的焰色都是独一无二的！</p>
+    </div>
+
+    <div class="progress-row" id="progress-row"></div>
+  </div>
+</div>
+
+<script src="../fo-utils.js"></script>
+<script>
+var GAME_ID = 'g49-chem-flame';
+
+var SALTS = [
+  {
+    id:'nacl', name:'氯化钠', formula:'NaCl', emoji:'🧂',
+    element:'钠 Na', outerColor:'#F6C026', midColor:'#FFDD44', coreColor:'#FFFFAA',
+    borderColor:'#E6A800', dotColor:'#F6C026',
+    fact:'钠的焰色是明亮的黄色，来自钠原子d轨道的电子跃迁。家里烧菜时，盐水溅入火焰也会看到这种黄色！',
+    usages:'路灯中的钠灯、烟火表演'
+  },
+  {
+    id:'kcl', name:'氯化钾', formula:'KCl', emoji:'🔮',
+    element:'钾 K', outerColor:'#7C3AED', midColor:'#A855F7', coreColor:'#DDD6FE',
+    borderColor:'#6D28D9', dotColor:'#A855F7',
+    fact:'钾的焰色是特有的淡紫色/紫罗兰色。需要透过蓝色钴玻璃观察才能看清，因为它常被钠的黄色掩盖。',
+    usages:'紫色烟花、钾肥鉴别'
+  },
+  {
+    id:'cucl2', name:'氯化铜', formula:'CuCl₂', emoji:'🟢',
+    element:'铜 Cu', outerColor:'#16A34A', midColor:'#22C55E', coreColor:'#86EFAC',
+    borderColor:'#15803D', dotColor:'#22C55E',
+    fact:'铜的焰色是鲜艳的蓝绿色，来自铜原子的d-d电子跃迁。绿色烟花和信号弹中常用铜盐产生绿色效果。',
+    usages:'绿色烟花、信号灯、实验室鉴别铜离子'
+  },
+  {
+    id:'licl', name:'氯化锂', formula:'LiCl', emoji:'🔴',
+    element:'锂 Li', outerColor:'#DC2626', midColor:'#EF4444', coreColor:'#FCA5A5',
+    borderColor:'#B91C1C', dotColor:'#EF4444',
+    fact:'锂的焰色是鲜艳的深红色/洋红色，非常醒目。锂是最轻的金属，它的焰色反应在焰色反应里是最明亮的红色之一。',
+    usages:'红色烟火、信号弹、电池工业标记'
+  },
+];
+
+var seen = {};
+var currentSalt = null;
+var particles = [];
+var animFrame;
+
+function renderSalts() {
+  var row = document.getElementById('salts-row');
+  row.innerHTML = '';
+  SALTS.forEach(function(s) {
+    var div = document.createElement('div');
+    div.className = 'salt-jar';
+    div.style.borderColor = seen[s.id] ? s.borderColor : 'transparent';
+    div.innerHTML = '<div class="salt-emoji">' + s.emoji + '</div>' +
+      '<div class="salt-name">' + s.name + '</div>' +
+      '<div class="salt-formula">' + s.formula + '</div>' +
+      '<div class="salt-color-dot" style="background:' + s.dotColor + '"></div>';
+    div.dataset.id = s.id;
+    div.addEventListener('click', function() { activateSalt(s); });
+    row.appendChild(div);
+  });
+}
+
+function renderProgress() {
+  var row = document.getElementById('progress-row');
+  row.innerHTML = '';
+  SALTS.forEach(function(s) {
+    var span = document.createElement('span');
+    span.className = 'prog-badge' + (seen[s.id] ? ' done' : '');
+    span.textContent = (seen[s.id] ? '✓ ' : '○ ') + s.element;
+    row.appendChild(span);
+  });
+}
+
+function setFlameColor(s) {
+  var outer = document.getElementById('flame-outer');
+  var mid = document.getElementById('flame-mid');
+  var core = document.getElementById('flame-core');
+  outer.style.background = 'radial-gradient(ellipse at bottom, ' + s.outerColor + ' 0%, transparent 70%)';
+  mid.style.background = 'radial-gradient(ellipse at bottom, ' + s.midColor + ' 0%, transparent 70%)';
+  core.style.background = 'radial-gradient(ellipse at bottom, ' + s.coreColor + ' 0%, transparent 70%)';
+  document.getElementById('info-panel').style.borderTopColor = s.borderColor;
+}
+
+function activateSalt(s) {
+  currentSalt = s;
+  seen[s.id] = true;
+
+  // Update all jar highlights
+  document.querySelectorAll('.salt-jar').forEach(function(el) {
+    var sid = el.dataset.id;
+    var saltDef = SALTS.find(function(x){ return x.id === sid; });
+    el.style.borderColor = seen[sid] ? saltDef.borderColor : 'transparent';
+    el.classList.toggle('active', sid === s.id);
+  });
+
+  setFlameColor(s);
+  spawnParticles(s);
+
+  document.getElementById('info-title').textContent = s.emoji + ' ' + s.name + '（' + s.formula + '）· 焰色：' + s.element.split(' ')[0] + '的' + getColorName(s.outerColor);
+  document.getElementById('info-meta').innerHTML =
+    '<span class="info-chip">元素：<strong>' + s.element + '</strong></span>' +
+    '<span class="info-chip">用途：<strong>' + s.usages + '</strong></span>';
+  document.getElementById('info-text').textContent = s.fact;
+
+  renderProgress();
+
+  if (Object.keys(seen).length >= SALTS.length) markDone();
+}
+
+function getColorName(hex) {
+  var map = {'#F6C026':'黄色','#7C3AED':'紫色','#16A34A':'绿色','#DC2626':'红色'};
+  return map[hex] || '特殊颜色';
+}
+
+// Particle system
+var canvas = document.getElementById('spark-canvas');
+var ctx = canvas.getContext('2d');
+
+function spawnParticles(s) {
+  particles = [];
+  for (var i = 0; i < 40; i++) {
+    particles.push({
+      x: canvas.width / 2 + (Math.random() - 0.5) * 30,
+      y: canvas.height - 66,
+      vx: (Math.random() - 0.5) * 4,
+      vy: -(Math.random() * 6 + 2),
+      life: 1,
+      decay: Math.random() * 0.02 + 0.015,
+      size: Math.random() * 3 + 1,
+      color: Math.random() < 0.5 ? s.outerColor : s.midColor
+    });
+  }
+  if (!animFrame) animateParticles();
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  var alive = false;
+  particles.forEach(function(p) {
+    if (p.life <= 0) return;
+    alive = true;
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.15; // gravity
+    p.life -= p.decay;
+    ctx.globalAlpha = Math.max(0, p.life);
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = p.color;
+    ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+  if (alive) {
+    animFrame = requestAnimationFrame(animateParticles);
+  } else {
+    animFrame = null;
+  }
+}
+
+// Init: default flame (orange)
+(function() {
+  var defaultFlame = {outerColor:'#E67E22', midColor:'#F39C12', coreColor:'#FEF3C7', borderColor:'#D97706'};
+  setFlameColor(defaultFlame);
+  renderSalts();
+  renderProgress();
+
+  var m = window.FO && FO.getMember(), el = document.getElementById('nav-member-btn');
+  if (!el) return;
+  if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick = function(){ location.href='../dashboard.html'; }; }
+  else { el.innerHTML = '<span>登录</span>'; el.onclick = function(){ location.href='../login.html'; }; }
+})();
+
+function markDone() {
+  var a = [];
+  try { a = JSON.parse(localStorage.getItem('fo_games_done') || '[]'); } catch(e){}
+  if (a.indexOf(GAME_ID) < 0) { a.push(GAME_ID); localStorage.setItem('fo_games_done', JSON.stringify(a)); }
+}
+</script>
+</body>
+</html>

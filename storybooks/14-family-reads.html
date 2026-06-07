@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>毛毛的家书节 · 绘本</title>
+<meta name="description" content="关于「读书是家事」的绘本故事。">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"LXGW WenKai TC","LXGW WenKai",serif;background:#FFF8E0;min-height:100vh;overflow:hidden;}
+  .book{width:100vw;height:100vh;position:relative;overflow:hidden;}
+  .top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:20px 32px;z-index:20;}
+  .back{text-decoration:none;color:#5C4F3D;font-size:16px;background:rgba(255,255,255,0.7);padding:8px 16px;border-radius:999px;backdrop-filter:blur(8px);}
+  .read-aloud{background:#E56B5A;color:white;border:0;padding:10px 18px;border-radius:999px;font-family:inherit;font-size:16px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.1);}
+  .page{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 40px 120px;opacity:0;pointer-events:none;transition:opacity .6s ease;}
+  .page.is-active{opacity:1;pointer-events:auto;}
+  .page[data-bg="cream"]{background:#FFF8E0;}
+  .page[data-bg="peach"]{background:#FBE3D5;}
+  .page[data-bg="mint"]{background:#D7EBC9;}
+  .page[data-bg="sky"]{background:#D7E7F4;}
+  .page[data-bg="yellow"]{background:#FBE39A;}
+  .page[data-bg="warm"]{background:#FBF0DC;}
+  .scene{flex:1;min-height:0;position:relative;width:100%;overflow:hidden;}
+  .scene svg{width:100%;height:100%;}
+  .text{flex-shrink:0;text-align:center;max-width:100%;}
+  .text h2{font-size:clamp(24px,5vw,38px);line-height:1.4;color:#2B2419;font-weight:500;text-wrap:balance;}
+  .text .big{font-size:clamp(32px,6vw,52px);line-height:1.3;color:#4B7BA8;font-weight:700;margin-top:12px;}
+  .text .small{font-size:18px;color:#5C4F3D;margin-top:16px;}
+  .nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.88);border:0;width:56px;height:56px;border-radius:50%;font-size:24px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.1);font-family:inherit;color:#2B2419;z-index:20;backdrop-filter:blur(4px);}
+  .nav-btn:disabled{opacity:.3;pointer-events:none;}
+  #prev{left:12px;}#next{right:12px;}
+  .dots-wrap{position:absolute;bottom:24px;left:0;right:0;display:flex;justify-content:center;z-index:20;}
+  .dots{display:flex;gap:6px;}
+  .dots span{width:8px;height:8px;border-radius:50%;background:rgba(43,36,25,.2);transition:background .3s,transform .3s;}
+  .dots span.is-active{background:#4B7BA8;transform:scale(1.4);}
+  .float{animation:float 3s ease-in-out infinite;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+  .wiggle{animation:wiggle 2.5s ease-in-out infinite;transform-origin:center bottom;}
+  @keyframes wiggle{0%,100%{transform:rotate(-3deg);}50%{transform:rotate(3deg);}}
+  .pop{animation:pop .6s ease;}
+  @keyframes pop{0%{transform:scale(0);opacity:0;}60%{transform:scale(1.15);opacity:1;}100%{transform:scale(1);opacity:1;}}
+  .do-bounce{animation:iBounce .6s cubic-bezier(.36,.07,.19,.97) both!important;}
+  @keyframes iBounce{0%{transform:translateY(0) scale(1);}25%{transform:translateY(-18px) scale(1.15);}55%{transform:translateY(-4px) scale(.96);}75%{transform:translateY(-8px) scale(1.05);}100%{transform:translateY(0) scale(1);}}
+  .do-shake{animation:iShake .55s ease both!important;}
+  @keyframes iShake{0%,100%{transform:rotate(0);}18%{transform:rotate(-22deg);}38%{transform:rotate(18deg);}58%{transform:rotate(-14deg);}78%{transform:rotate(9deg);}}
+  .interactive{cursor:pointer;transform-box:fill-box;transform-origin:center center;}
+  .interactive:hover{opacity:.9;}
+  .speech-bubble{position:absolute;top:0;left:50%;transform:translateX(-50%);background:white;border-radius:999px;padding:6px 16px;font-size:20px;font-family:"LXGW WenKai TC",serif;box-shadow:0 3px 0 rgba(0,0,0,.12);pointer-events:none;white-space:nowrap;z-index:50;animation:bPop .3s ease;}
+  @keyframes bPop{from{transform:translateX(-50%) scale(0);opacity:0;}to{transform:translateX(-50%) scale(1);opacity:1;}}
+  .book{perspective:1400px;}
+  .flip-out-fwd{animation:fOutFwd .4s cubic-bezier(.4,0,1,1) forwards;pointer-events:none;z-index:5;opacity:1;transform-origin:left center;}
+  .flip-in-fwd{animation:fInFwd .4s cubic-bezier(0,0,.6,1) forwards;pointer-events:none;z-index:4;transform-origin:right center;}
+  .flip-out-bwd{animation:fOutBwd .4s cubic-bezier(.4,0,1,1) forwards;pointer-events:none;z-index:5;opacity:1;transform-origin:right center;}
+  .flip-in-bwd{animation:fInBwd .4s cubic-bezier(0,0,.6,1) forwards;pointer-events:none;z-index:4;transform-origin:left center;}
+  @keyframes fOutFwd{0%{transform:rotateY(0);opacity:1;}100%{transform:rotateY(-80deg);opacity:0;}}
+  @keyframes fInFwd{0%{transform:rotateY(80deg);opacity:0;}100%{transform:rotateY(0);opacity:1;}}
+  @keyframes fOutBwd{0%{transform:rotateY(0);opacity:1;}100%{transform:rotateY(80deg);opacity:0;}}
+  @keyframes fInBwd{0%{transform:rotateY(-80deg);opacity:0;}100%{transform:rotateY(0);opacity:1;}}
+  .end-card{background:white;padding:32px;border-radius:24px;max-width:480px;box-shadow:0 8px 0 rgba(0,0,0,.06),0 24px 48px -16px rgba(0,0,0,.2);text-align:center;}
+  .end-card h2{font-size:28px;color:#4B7BA8;margin-bottom:16px;}
+  .end-card p{font-size:19px;color:#2B2419;line-height:1.7;margin-bottom:12px;}
+</style>
+</head>
+<body>
+<div class="book">
+  <div class="top">
+    <a class="back" href="../for-youngest.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+  </div>
+
+  <!-- 第1页：毛毛看到爸爸在看书 -->
+  <div class="page is-active" data-bg="warm" data-text="星期天的下午，毛毛看见爸爸坐在书房，一动不动地看着书。毛毛好奇——爸爸在看什么呀？">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Cozy room -->
+        <rect x="0" y="240" width="400" height="80" fill="#C4A882" rx="0"/>
+        <rect x="60" y="160" width="280" height="85" rx="8" fill="#A8826B" opacity=".6"/>
+        <!-- Bookshelf behind -->
+        <rect x="280" y="80" width="100" height="165" fill="#8C6B4A" rx="4"/>
+        <rect x="285" y="90" width="18" height="60" fill="#4B7BA8" rx="2"/>
+        <rect x="305" y="95" width="14" height="55" fill="#E56B5A" rx="2"/>
+        <rect x="321" y="88" width="20" height="62" fill="#6FA86D" rx="2"/>
+        <rect x="343" y="92" width="16" height="58" fill="#F4C13E" rx="2"/>
+        <rect x="285" y="155" width="18" height="50" fill="#8E44AD" rx="2"/>
+        <rect x="305" y="160" width="14" height="45" fill="#E56B5A" opacity=".7" rx="2"/>
+        <!-- Lamp -->
+        <line x1="160" y1="0" x2="160" y2="120" stroke="#8C7C66" stroke-width="4"/>
+        <path d="M120,120 L200,120 L180,160 L140,160 Z" fill="#FBE39A" opacity=".8"/>
+        <ellipse cx="160" cy="160" rx="30" ry="8" fill="#F4C13E" opacity=".3"/>
+        <!-- Dad reading in chair -->
+        <g id="p1-dad" transform="translate(170,215)">
+          <rect x="-50" y="-50" width="100" height="50" rx="20" fill="#92400E" opacity=".4"/>
+          <ellipse cx="0" cy="-55" rx="44" ry="48" fill="#FBE39A"/>
+          <circle cx="0" cy="-110" r="36" fill="#FBE39A"/>
+          <path d="M -12,-115 Q -8,-110 -4,-115" stroke="#2B2419" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M 4,-115 Q 8,-110 12,-115" stroke="#2B2419" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <polygon points="0,-106 14,-101 0,-96" fill="#E56B5A"/>
+          <!-- Book in hands -->
+          <rect x="-28" y="-42" width="56" height="38" rx="3" fill="#4B7BA8"/>
+          <line x1="0" y1="-42" x2="0" y2="-4" stroke="white" stroke-width="1.5" opacity=".5"/>
+        </g>
+        <!-- Mao peeking -->
+        <g id="p1-mao" transform="translate(310,240)">
+          <ellipse cx="0" cy="0" rx="28" ry="30" fill="#FFFDF6"/>
+          <circle cx="0" cy="-33" r="22" fill="#FFFDF6"/>
+          <circle cx="-6" cy="-35" r="3" fill="#2B2419"/>
+          <circle cx="6" cy="-35" r="3" fill="#2B2419"/>
+          <polygon points="0,-30 9,-27 0,-24" fill="#E56B5A"/>
+          <!-- Question mark bubble -->
+          <text x="20" y="-50" font-size="22" fill="#4B7BA8">?</text>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>爸爸坐在书房，<span style="color:#4B7BA8">一动不动</span>。</h2>
+      <p class="small">毛毛好奇：爸爸在看什么呀？</p>
+    </div>
+  </div>
+
+  <!-- 第2页：爸爸的解释 -->
+  <div class="page" data-bg="sky" data-text="毛毛轻轻走进去，问：爸爸，书里有什么？爸爸抬起头，笑了：有好多有趣的世界，要不要一起来看？">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Books floating around -->
+        <rect x="60" y="60" width="50" height="65" rx="4" fill="#4B7BA8" transform="rotate(-15 60 60)"/>
+        <rect x="280" y="50" width="46" height="60" rx="4" fill="#E56B5A" transform="rotate(12 280 50)"/>
+        <rect x="170" y="40" width="52" height="68" rx="4" fill="#6FA86D" transform="rotate(-5 170 40)"/>
+        <!-- Stars from book -->
+        <text x="90" y="100" font-size="18" fill="#F4C13E" class="pop">✨</text>
+        <text x="290" y="90" font-size="20" fill="#F4C13E" class="pop">⭐</text>
+        <text x="200" y="75" font-size="16" fill="#F4C13E" class="pop">✨</text>
+        <!-- Dad and Mao face to face -->
+        <g transform="translate(140,215)">
+          <ellipse cx="0" cy="0" rx="38" ry="42" fill="#FBE39A"/>
+          <circle cx="0" cy="-46" r="32" fill="#FBE39A"/>
+          <path d="M -10,-50 Q -6,-45 -2,-50" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <path d="M 2,-50 Q 6,-45 10,-50" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <polygon points="0,-42 12,-38 0,-34" fill="#E56B5A"/>
+          <path d="M -8,-34 Q 0,-28 8,-34" stroke="#2B2419" stroke-width="2" fill="none"/>
+        </g>
+        <g id="p2-mao" transform="translate(255,225)" class="float">
+          <ellipse cx="0" cy="0" rx="30" ry="34" fill="#FFFDF6"/>
+          <circle cx="0" cy="-38" r="26" fill="#FFFDF6"/>
+          <circle cx="-7" cy="-41" r="4" fill="#2B2419"/>
+          <circle cx="7" cy="-41" r="4" fill="#2B2419"/>
+          <circle cx="-6" cy="-43" r="1.5" fill="white"/>
+          <circle cx="8" cy="-43" r="1.5" fill="white"/>
+          <polygon points="0,-34 10,-30 0,-26" fill="#E56B5A"/>
+        </g>
+        <!-- Speech from dad -->
+        <g transform="translate(170,115)">
+          <rect x="-70" y="-20" width="140" height="38" rx="19" fill="white" opacity=".9"/>
+          <path d="M 30,18 L 20,32 L 10,18" fill="white" opacity=".9"/>
+          <text x="0" y="-4" font-size="13" text-anchor="middle" fill="#4B7BA8" font-weight="700">有好多有趣的世界</text>
+          <text x="0" y="12" font-size="13" text-anchor="middle" fill="#5C4F3D">要不要一起来看？</text>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>爸爸说：书里有<span style="color:#4B7BA8">好多世界</span>。</h2>
+      <p class="small">要不要一起来看？</p>
+    </div>
+  </div>
+
+  <!-- 第3页：全家人都在读书 -->
+  <div class="page" data-bg="mint" data-text="一个周末的早晨，毛毛看见：爸爸在看书，妈妈也在看书，哥哥也在看书。毛毛想：我也要看！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Floor -->
+        <rect x="0" y="250" width="400" height="70" fill="#B5D4A8" opacity=".5"/>
+        <!-- Couch -->
+        <rect x="30" y="195" width="340" height="60" rx="16" fill="#A8C2DE"/>
+        <rect x="30" y="215" width="340" height="40" rx="8" fill="#7BAFD4"/>
+        <rect x="30" y="185" width="60" height="80" rx="12" fill="#A8C2DE"/>
+        <rect x="310" y="185" width="60" height="80" rx="12" fill="#A8C2DE"/>
+
+        <!-- Dad reading - left -->
+        <g transform="translate(100,200)">
+          <ellipse cx="0" cy="-30" rx="30" ry="32" fill="#FBE39A"/>
+          <circle cx="0" cy="-68" r="24" fill="#FBE39A"/>
+          <path d="M -7,-72 Q -4,-68 -1,-72" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <path d="M 1,-72 Q 4,-68 7,-72" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <polygon points="0,-65 10,-62 0,-59" fill="#E56B5A"/>
+          <rect x="-22" y="-20" width="44" height="30" rx="3" fill="#4B7BA8" opacity=".8"/>
+        </g>
+        <!-- Mom reading - middle -->
+        <g transform="translate(200,200)">
+          <ellipse cx="0" cy="-30" rx="30" ry="32" fill="#FBE39A"/>
+          <circle cx="0" cy="-68" r="24" fill="#FBE39A"/>
+          <path d="M -7,-72 Q -4,-68 -1,-72" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <path d="M 1,-72 Q 4,-68 7,-72" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <polygon points="0,-65 10,-62 0,-59" fill="#E56B5A"/>
+          <!-- flower on head -->
+          <circle cx="12" cy="-82" r="6" fill="#E56B5A" opacity=".7"/>
+          <rect x="-22" y="-20" width="44" height="30" rx="3" fill="#E56B5A" opacity=".8"/>
+        </g>
+        <!-- Sibling reading - right -->
+        <g transform="translate(305,200)">
+          <ellipse cx="0" cy="-30" rx="26" ry="28" fill="#FFFDF6"/>
+          <circle cx="0" cy="-63" r="20" fill="#FFFDF6"/>
+          <path d="M -6,-67 Q -3,-63 0,-67" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <path d="M 0,-67 Q 3,-63 6,-67" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <polygon points="0,-60 9,-57 0,-54" fill="#E56B5A"/>
+          <rect x="-18" y="-18" width="36" height="24" rx="3" fill="#6FA86D" opacity=".8"/>
+        </g>
+        <!-- Mao running in -->
+        <g id="p3-mao" transform="translate(60,240)" class="wiggle">
+          <ellipse cx="0" cy="0" rx="22" ry="24" fill="#FFFDF6"/>
+          <circle cx="0" cy="-28" r="18" fill="#FFFDF6"/>
+          <circle cx="-5" cy="-30" r="2.5" fill="#2B2419"/>
+          <circle cx="5" cy="-30" r="2.5" fill="#2B2419"/>
+          <polygon points="0,-26 8,-23 0,-20" fill="#E56B5A"/>
+          <!-- Excited eyes -->
+          <circle cx="-4" cy="-32" r="1" fill="white"/>
+          <circle cx="6" cy="-32" r="1" fill="white"/>
+          <text x="12" y="-42" font-size="14" fill="#4B7BA8">我也要！</text>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>全家人都在<span style="color:#4B7BA8">看书</span>！</h2>
+      <p class="small">爸爸、妈妈、哥哥——<br>毛毛跑过去：我也要看！</p>
+    </div>
+  </div>
+
+  <!-- 第4页：毛毛选书 -->
+  <div class="page" data-bg="peach" data-text="毛毛搬来了一本大大的图画书。她翻开第一页——哇，里面有恐龙，有大海，有彩虹！毛毛说：书里真的有好多世界！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Big open book -->
+        <rect x="60" y="100" width="140" height="160" rx="6" fill="#A8C2DE"/>
+        <rect x="200" y="100" width="140" height="160" rx="6" fill="#B5D4A8"/>
+        <line x1="200" y1="100" x2="200" y2="260" stroke="#8C7C66" stroke-width="3"/>
+        <!-- Left page: dinosaur illustration -->
+        <ellipse cx="130" cy="200" rx="30" ry="20" fill="#6FA86D" opacity=".7"/>
+        <ellipse cx="130" cy="182" rx="18" ry="14" fill="#6FA86D" opacity=".7"/>
+        <text x="130" y="225" text-anchor="middle" font-size="11" fill="white">恐龙</text>
+        <!-- Right page: rainbow + sea -->
+        <path d="M210,210 Q250,150 290,210" fill="none" stroke="#E56B5A" stroke-width="4" opacity=".7"/>
+        <path d="M215,218 Q250,160 285,218" fill="none" stroke="#F4C13E" stroke-width="3" opacity=".7"/>
+        <path d="M220,226 Q250,170 280,226" fill="none" stroke="#6FA86D" stroke-width="3" opacity=".7"/>
+        <ellipse cx="250" cy="240" rx="40" ry="10" fill="#A8C2DE" opacity=".5"/>
+        <!-- Mao amazed -->
+        <g id="p4-mao" transform="translate(200,265)" class="float">
+          <ellipse cx="0" cy="0" rx="32" ry="36" fill="#FFFDF6"/>
+          <circle cx="0" cy="-40" r="28" fill="#FFFDF6"/>
+          <!-- Wide eyes -->
+          <circle cx="-9" cy="-44" r="5" fill="#2B2419"/>
+          <circle cx="9" cy="-44" r="5" fill="#2B2419"/>
+          <circle cx="-8" cy="-46" r="2" fill="white"/>
+          <circle cx="10" cy="-46" r="2" fill="white"/>
+          <!-- Open mouth wow -->
+          <ellipse cx="0" cy="-34" rx="6" ry="5" fill="#E56B5A"/>
+          <polygon points="0,-40 11,-36 0,-32" fill="#E56B5A"/>
+        </g>
+        <!-- Stars -->
+        <text x="80" y="80" font-size="20" fill="#F4C13E" class="pop">✨</text>
+        <text x="310" y="90" font-size="18" fill="#F4C13E" class="pop">⭐</text>
+        <text x="190" y="70" font-size="16" fill="#4B7BA8" class="pop">哇！</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>书里有<span style="color:#4B7BA8">恐龙、大海、彩虹</span>！</h2>
+      <p class="small">毛毛翻开第一页——<br>"书里真的有好多世界！"</p>
+    </div>
+  </div>
+
+  <!-- 第5页：每天读一点 -->
+  <div class="page" data-bg="yellow" data-text="从那以后，每天晚上，毛毛都会找一本书。有时候是五页，有时候只是三页。爸爸说：读书，不用多，每天一点点就够了。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Moon and stars -->
+        <circle cx="340" cy="55" r="28" fill="#FBE39A"/>
+        <circle cx="335" cy="50" r="26" fill="#FFF8E0"/>
+        <text x="80" y="60" font-size="16" fill="#F4C13E" opacity=".8">✦</text>
+        <text x="160" y="40" font-size="12" fill="#F4C13E" opacity=".7">✦</text>
+        <text x="260" y="70" font-size="14" fill="#F4C13E" opacity=".8">✦</text>
+        <!-- Ground / rug -->
+        <ellipse cx="200" cy="290" rx="180" ry="30" fill="#F4C13E" opacity=".3"/>
+        <!-- Dad and Mao reading together -->
+        <g transform="translate(170,210)">
+          <ellipse cx="0" cy="0" rx="44" ry="48" fill="#FBE39A"/>
+          <circle cx="0" cy="-52" r="36" fill="#FBE39A"/>
+          <path d="M -10,-56 Q -6,-51 -2,-56" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <path d="M 2,-56 Q 6,-51 10,-56" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <polygon points="0,-48 13,-43 0,-38" fill="#E56B5A"/>
+          <!-- Wing around mao -->
+          <ellipse cx="42" cy="-5" rx="12" ry="22" fill="#FBE39A" opacity=".7" transform="rotate(25 42 -5)"/>
+        </g>
+        <g id="p5-mao" transform="translate(265,225)">
+          <ellipse cx="0" cy="0" rx="28" ry="32" fill="#FFFDF6"/>
+          <circle cx="0" cy="-36" r="24" fill="#FFFDF6"/>
+          <path d="M -7,-40 Q -4,-36 -1,-40" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <path d="M 1,-40 Q 4,-36 7,-40" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <polygon points="0,-34 10,-31 0,-28" fill="#E56B5A"/>
+          <path d="M -5,-26 Q 0,-22 5,-26" stroke="#2B2419" stroke-width="1.5" fill="none"/>
+          <!-- small book -->
+          <rect x="-18" y="-10" width="36" height="26" rx="3" fill="#4B7BA8" opacity=".8"/>
+          <line x1="0" y1="-10" x2="0" y2="16" stroke="white" stroke-width="1" opacity=".5"/>
+        </g>
+        <!-- Calendar dots (days) -->
+        <g transform="translate(60,100)">
+          <circle cx="0" cy="0" r="8" fill="#4B7BA8" opacity=".6"/>
+          <circle cx="22" cy="0" r="8" fill="#4B7BA8" opacity=".6"/>
+          <circle cx="44" cy="0" r="8" fill="#4B7BA8" opacity=".6"/>
+          <circle cx="66" cy="0" r="8" fill="#4B7BA8" opacity=".8"/>
+          <circle cx="88" cy="0" r="8" fill="#4B7BA8" opacity=".6"/>
+          <circle cx="110" cy="0" r="8" fill="#4B7BA8" opacity=".9"/>
+          <circle cx="132" cy="0" r="8" fill="#4B7BA8" opacity=".7"/>
+        </g>
+        <text x="60" y="130" font-size="12" fill="#5C4F3D">每天一点点 📚</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>每天晚上，<span style="color:#4B7BA8">读一点点</span>。</h2>
+      <p class="small">五页也好，三页也好——<br>爸爸说：每天一点点就够了。</p>
+    </div>
+  </div>
+
+  <!-- 第6页：结尾 -->
+  <div class="page" data-bg="sky" data-text="小弟弟，读书是一件全家人一起做的事。书里有好多好多世界，等着你去探险。每天翻一页，时间会帮你读完的。">
+    <div class="end-card">
+      <h2>给小弟弟 📚</h2>
+      <p><strong style="color:#4B7BA8">读书</strong>，是一件全家的事。</p>
+      <p>书里有好多好多世界——</p>
+      <p style="font-size:30px;color:#4B7BA8;font-weight:700;margin:16px 0;">"每天翻一页，<br>时间帮你读。"</p>
+      <p style="font-size:16px;color:#5C4F3D;">不用一口气读完。<br>每天一点点，就会越来越多。</p>
+      <button class="read-aloud" style="margin-top:24px;" onclick="goTo(0)">🔄 再讲一遍</button>
+    </div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
+</div>
+
+<script src="../fo-utils.js"></script>
+<script>
+const BOOK_ID='14-family-reads'; const BOOK_TITLE='毛毛的家书节'; const BOOK_TOTAL=5;
+function makeInteractive(el,animClass,msg){
+  if(!el)return; el.classList.add('interactive');
+  el.addEventListener('click',function(){
+    if(el._busy)return; el._busy=true;
+    el.classList.remove(animClass); void el.getBoundingClientRect(); el.classList.add(animClass);
+    if(msg){const scene=el.closest('.scene');const er=el.getBoundingClientRect(),sr=scene.getBoundingClientRect();const cx=er.left+er.width/2-sr.left,cy=Math.max(8,er.top-sr.top-48);const b=document.createElement('div');b.className='speech-bubble';b.textContent=msg;b.style.left=cx+'px';b.style.top=cy+'px';b.style.transform='translateX(-50%)';scene.appendChild(b);setTimeout(()=>b.remove(),1500);}
+    setTimeout(()=>{el.classList.remove(animClass);el._busy=false;},750);
+  });
+}
+const pages=document.querySelectorAll('.page'),total=pages.length;
+const dotsEl=document.getElementById('dots');
+let current=0;
+for(let i=0;i<total;i++){const d=document.createElement('span');if(i===0)d.classList.add('is-active');dotsEl.appendChild(d);}
+function goTo(idx){
+  if(idx<0||idx>=total)return; speechSynthesis.cancel();
+  if(idx===current){pages.forEach((p,i)=>{p.classList.toggle('is-active',i===idx);p.classList.remove('flip-out-fwd','flip-in-fwd','flip-out-bwd','flip-in-bwd');p.style.opacity='';p.style.pointerEvents='';});current=idx;document.getElementById('prev').disabled=idx===0;document.getElementById('next').disabled=idx===total-1;dotsEl.querySelectorAll('span').forEach((s,i)=>s.classList.toggle('is-active',i===idx));if(window.FO)FO.logProgress(BOOK_ID,idx,BOOK_TOTAL);return;}
+  const dir=idx>current?'fwd':'bwd',outClass=dir==='fwd'?'flip-out-fwd':'flip-out-bwd',inClass=dir==='fwd'?'flip-in-fwd':'flip-in-bwd';
+  const oldPage=pages[current],newPage=pages[idx];
+  newPage.style.opacity='0';newPage.style.pointerEvents='none';
+  oldPage.classList.add(outClass);newPage.classList.add(inClass);
+  function cleanup(){oldPage.classList.remove('is-active',outClass);newPage.classList.remove(inClass);oldPage.style.opacity='';newPage.style.opacity='';newPage.style.pointerEvents='';newPage.classList.add('is-active');current=idx;document.getElementById('prev').disabled=idx===0;document.getElementById('next').disabled=idx===total-1;dotsEl.querySelectorAll('span').forEach((s,i)=>s.classList.toggle('is-active',i===idx));if(window.FO)FO.logProgress(BOOK_ID,idx,BOOK_TOTAL);}
+  newPage.addEventListener('animationend',cleanup,{once:true});
+}
+document.getElementById('prev').addEventListener('click',()=>goTo(current-1));
+document.getElementById('next').addEventListener('click',()=>goTo(current+1));
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')goTo(current-1);if(e.key==='ArrowRight')goTo(current+1);});
+let _tx=0;
+document.addEventListener('touchstart',e=>{_tx=e.touches[0].clientX;},{passive:true});
+document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-_tx;if(Math.abs(dx)>50)dx<0?goTo(current+1):goTo(current-1);});
+document.getElementById('readBtn').addEventListener('click',()=>{const text=pages[current].dataset.text;if(!text||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='zh-CN';u.rate=.85;u.pitch=1.1;speechSynthesis.speak(u);});
+goTo(0);
+makeInteractive(document.getElementById('p1-mao'),'do-bounce','爸爸在干什么？');
+makeInteractive(document.getElementById('p2-mao'),'do-bounce','哇！🌟');
+makeInteractive(document.getElementById('p3-mao'),'do-shake','我也要！📚');
+makeInteractive(document.getElementById('p4-mao'),'do-bounce','好神奇！✨');
+makeInteractive(document.getElementById('p5-mao'),'do-bounce','我在看书！📖');
+if(window.FO)FO.logHistory(BOOK_ID,BOOK_TITLE);
+</script>
+</body>
+</html>

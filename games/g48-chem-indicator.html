@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>酸碱指示剂 · 互动化学</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  .nav-member-btn{display:inline-flex;align-items:center;gap:var(--space-md);background:var(--paper);border:0;border-radius:var(--radius-full);padding:var(--space-sm) var(--space-2xl) var(--space-sm) var(--space-sm);font-family:inherit;font-size:var(--font-size-ui);cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft);}
+  .nav-member-btn svg{border-radius:var(--radius-circle);}
+  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:var(--space-2xl);background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:var(--space-lg) var(--space-2xl);margin-bottom:var(--space-9xl);}
+  .back-link{text-decoration:none;color:var(--ink-mute);font-size:var(--font-size-body-sm);}
+  .wrap{max-width:var(--size-content-medium);margin:0 auto;padding:0 var(--space-5xl) var(--space-page-bottom);}
+  .game-hero{text-align:center;margin-bottom:var(--space-section);}
+  .game-hero-icon{font-size:var(--font-size-emoji-md);margin-bottom:var(--space-md);}
+  .game-hero h1{font-size:clamp(var(--font-size-hero-md),var(--font-size-hero-fluid),var(--font-size-hero-lg));margin-bottom:var(--space-lg);}
+  .game-hero .sub{color:var(--ink-soft);font-size:var(--font-size-body-lg);line-height:1.6;}
+
+  .game-area{display:grid;grid-template-columns:1fr 200px 1fr;gap:var(--space-5xl);align-items:start;margin-bottom:var(--space-section);}
+  @media(max-width:600px){.game-area{grid-template-columns:1fr;}}
+
+  /* Bottles */
+  .bottles-panel h3{font-size:var(--font-size-note);letter-spacing:.12em;color:var(--ink-mute);margin-bottom:var(--space-3xl);}
+  .bottles-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-xl);}
+  .bottle{background:var(--paper);border-radius:var(--radius);padding:var(--space-3xl) var(--space-xl);text-align:center;cursor:grab;box-shadow:var(--shadow-card);user-select:none;border:2px solid transparent;transition:transform .15s,box-shadow .15s;touch-action:none;}
+  .bottle:hover{transform:translateY(-2px);box-shadow:0 8px 24px -8px rgba(43,36,25,.3);}
+  .bottle.dragging{opacity:.4;transform:scale(.95);}
+  .bottle-emoji{font-size:28px;line-height:1;margin-bottom:4px;}
+  .bottle-name{font-size:var(--font-size-note);font-weight:700;color:var(--ink);line-height:1.3;}
+  .bottle-ph{font-size:11px;color:var(--ink-mute);margin-top:2px;}
+
+  /* Central beaker */
+  .beaker-panel{display:flex;flex-direction:column;align-items:center;gap:var(--space-xl);}
+  .beaker-wrap{position:relative;width:160px;}
+  .beaker-svg{display:block;width:100%;}
+  .beaker-liquid{transition:fill .6s ease;}
+  .beaker-wrap.over .beaker-glass{filter:drop-shadow(0 0 8px var(--green));}
+  .ph-badge{background:var(--paper);border-radius:var(--radius-full);padding:var(--space-xs) var(--space-3xl);box-shadow:var(--shadow-card);text-align:center;min-width:120px;}
+  .ph-num{font-size:28px;font-weight:700;transition:color .6s;}
+  .ph-cat{font-size:var(--font-size-note);color:var(--ink-mute);}
+  .ph-tip{font-size:var(--font-size-note);text-align:center;color:var(--ink-soft);min-height:20px;}
+
+  /* pH scale */
+  .ph-scale-wrap h3{font-size:var(--font-size-note);letter-spacing:.12em;color:var(--ink-mute);margin-bottom:var(--space-3xl);}
+  .scale-track{height:18px;border-radius:var(--radius-full);background:linear-gradient(to right,#C0392B,#E74C3C,#E67E22,#F1C40F,#2ECC71,#27AE60,#3498DB,#8E44AD,#6C3483);position:relative;margin-bottom:var(--space-md);}
+  .scale-thumb{position:absolute;top:-5px;width:28px;height:28px;border-radius:50%;background:var(--paper);border:3px solid var(--ink);transform:translateX(-50%);transition:left .6s ease;box-shadow:var(--shadow-card);}
+  .scale-nums{display:flex;justify-content:space-between;font-size:10px;color:var(--ink-mute);padding:0 2px;}
+  .reactions-list{margin-top:var(--space-5xl);}
+  .reactions-list h3{font-size:var(--font-size-note);letter-spacing:.12em;color:var(--ink-mute);margin-bottom:var(--space-3xl);}
+  .react-item{display:flex;align-items:center;gap:var(--space-md);padding:var(--space-md) 0;border-bottom:1px solid var(--cream-deep);font-size:var(--font-size-note);}
+  .react-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+  .react-name{flex:1;color:var(--ink);}
+  .react-check{color:var(--green);font-weight:700;min-width:14px;}
+
+  /* Result */
+  .result-box{background:var(--paper);border-radius:var(--radius);padding:var(--space-5xl);box-shadow:var(--shadow-card);margin-bottom:var(--space-7xl);border-left:var(--size-border-accent) solid var(--green);display:none;}
+  .result-box.show{display:block;}
+  .result-box h2{font-size:var(--font-size-title-sm);margin-bottom:var(--space-xl);}
+  .result-box p{font-size:var(--font-size-body);color:var(--ink-soft);line-height:1.7;}
+
+  /* Drag ghost */
+  #drag-ghost{position:fixed;pointer-events:none;z-index:9999;opacity:.85;transform:translate(-50%,-50%) scale(1.1);transition:none;display:none;background:var(--paper);border-radius:var(--radius);padding:var(--space-xl);box-shadow:var(--shadow-card);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="game-nav">
+    <a class="back-link" href="index.html">← 游戏库</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <div class="game-hero">
+    <div class="game-hero-icon">🌈</div>
+    <h1>酸碱指示剂</h1>
+    <p class="sub">拖拽不同液体滴入指示剂，<br>看看颜色如何随酸碱度变化！</p>
+  </div>
+
+  <div class="game-area">
+    <!-- Left: bottles -->
+    <div class="bottles-panel">
+      <h3>LIQUIDS · 选择液体拖入烧杯</h3>
+      <div class="bottles-grid" id="bottles-grid"></div>
+    </div>
+
+    <!-- Center: beaker -->
+    <div class="beaker-panel">
+      <div class="beaker-wrap" id="beaker-wrap">
+        <svg class="beaker-svg" viewBox="0 0 120 180" xmlns="http://www.w3.org/2000/svg">
+          <!-- Liquid fill -->
+          <clipPath id="beaker-clip">
+            <path d="M22,40 L22,150 Q22,165 37,165 L83,165 Q98,165 98,150 L98,40 Z"/>
+          </clipPath>
+          <rect id="beaker-liquid" x="18" y="40" width="84" height="130" fill="#27AE60" opacity="0.7" clip-path="url(#beaker-clip)"/>
+          <!-- Ripple circle (hidden by default) -->
+          <circle id="ripple" cx="60" cy="110" r="0" fill="none" stroke="white" stroke-width="2" opacity="0"/>
+          <!-- Glass outline -->
+          <path class="beaker-glass" d="M20,20 L20,150 Q20,168 38,168 L82,168 Q100,168 100,150 L100,20" fill="none" stroke="#8C7C66" stroke-width="3" stroke-linejoin="round"/>
+          <line x1="20" y1="20" x2="10" y2="5" stroke="#8C7C66" stroke-width="3" stroke-linecap="round"/>
+          <line x1="100" y1="20" x2="110" y2="5" stroke="#8C7C66" stroke-width="3" stroke-linecap="round"/>
+          <!-- Measurement lines -->
+          <line x1="22" y1="80" x2="30" y2="80" stroke="#8C7C66" stroke-width="1.5" opacity=".5"/>
+          <line x1="22" y1="110" x2="30" y2="110" stroke="#8C7C66" stroke-width="1.5" opacity=".5"/>
+          <line x1="22" y1="140" x2="30" y2="140" stroke="#8C7C66" stroke-width="1.5" opacity=".5"/>
+          <!-- Drop indicator -->
+          <text x="60" y="110" text-anchor="middle" font-size="24" fill="white" opacity=".5" id="drop-hint">拖入</text>
+        </svg>
+      </div>
+      <div class="ph-badge">
+        <div class="ph-num" id="ph-num" style="color:#27AE60">7.0</div>
+        <div class="ph-cat" id="ph-cat">中性</div>
+      </div>
+      <div class="ph-tip" id="ph-tip">选一种液体拖入烧杯</div>
+    </div>
+
+    <!-- Right: pH scale + reactions log -->
+    <div class="ph-scale-wrap">
+      <h3>pH SCALE · 酸碱度标尺</h3>
+      <div class="scale-track">
+        <div class="scale-thumb" id="scale-thumb" style="left:50%"></div>
+      </div>
+      <div class="scale-nums">
+        <span>0</span><span>2</span><span>4</span><span>6</span><span>7</span><span>8</span><span>10</span><span>12</span><span>14</span>
+      </div>
+      <div class="reactions-list" id="reactions-list">
+        <h3>HISTORY · 实验记录</h3>
+        <div id="history-items"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-box" id="result-box">
+    <h2 id="result-title"></h2>
+    <p id="result-text"></p>
+  </div>
+</div>
+
+<!-- Drag ghost -->
+<div id="drag-ghost"></div>
+
+<script src="../fo-utils.js"></script>
+<script>
+var GAME_ID = 'g48-chem-indicator';
+
+var LIQUIDS = [
+  {id:'lemon', name:'柠檬汁', emoji:'🍋', ph:2.0, color:'#C0392B', cat:'强酸', fact:'柠檬汁含大量柠檬酸，pH约2，是日常生活中最酸的饮料之一。'},
+  {id:'orange', name:'橙汁', emoji:'🍊', ph:4.0, color:'#E67E22', cat:'弱酸', fact:'橙汁pH约4，酸中带甜。果汁的酸性来自有机酸。'},
+  {id:'milk', name:'牛奶', emoji:'🥛', ph:6.8, color:'#95D5B2', cat:'近中性', fact:'牛奶pH约6.8，略偏酸，但营养丰富，含钙质和蛋白质。'},
+  {id:'water', name:'纯水', emoji:'💧', ph:7.0, color:'#27AE60', cat:'中性', fact:'纯净水pH=7，是酸碱的分界点，H⁺和OH⁻浓度相等。'},
+  {id:'baking', name:'小苏打水', emoji:'🧂', ph:8.5, color:'#3498DB', cat:'弱碱', fact:'小苏打（碳酸氢钠）溶于水呈弱碱性，常用于烘焙和清洁。'},
+  {id:'soap', name:'肥皂水', emoji:'🧼', ph:10.5, color:'#8E44AD', cat:'强碱', fact:'肥皂水pH约10-11，碱性较强，能有效去除油脂污垢。'},
+];
+
+function phToColor(ph) {
+  if (ph <= 2) return '#C0392B';
+  if (ph <= 4) return '#E74C3C';
+  if (ph <= 6) return '#E67E22';
+  if (ph <= 6.8) return '#95D5B2';
+  if (ph <= 7.2) return '#27AE60';
+  if (ph <= 9) return '#3498DB';
+  if (ph <= 11) return '#8E44AD';
+  return '#6C3483';
+}
+
+function phToCat(ph) {
+  if (ph < 6) return '酸性';
+  if (ph <= 8) return '中性/近中性';
+  return '碱性';
+}
+
+function phToThumbPos(ph) {
+  return (ph / 14 * 100).toFixed(1) + '%';
+}
+
+var currentPh = 7.0;
+var history = [];
+
+function renderBottles() {
+  var grid = document.getElementById('bottles-grid');
+  grid.innerHTML = '';
+  LIQUIDS.forEach(function(liq) {
+    var div = document.createElement('div');
+    div.className = 'bottle';
+    div.innerHTML = '<div class="bottle-emoji">' + liq.emoji + '</div>' +
+      '<div class="bottle-name">' + liq.name + '</div>' +
+      '<div class="bottle-ph">pH ' + liq.ph + '</div>';
+    div.dataset.id = liq.id;
+
+    // Pointer events for drag
+    div.addEventListener('pointerdown', startDrag);
+    grid.appendChild(div);
+  });
+}
+
+var dragData = null;
+var ghost = document.getElementById('drag-ghost');
+
+function startDrag(e) {
+  e.preventDefault();
+  var liqId = e.currentTarget.dataset.id;
+  var liq = LIQUIDS.find(function(l){ return l.id === liqId; });
+  if (!liq) return;
+
+  dragData = liq;
+  e.currentTarget.classList.add('dragging');
+  dragData._el = e.currentTarget;
+
+  ghost.innerHTML = liq.emoji + ' ' + liq.name;
+  ghost.style.display = 'block';
+  ghost.style.left = e.clientX + 'px';
+  ghost.style.top = e.clientY + 'px';
+
+  document.addEventListener('pointermove', onDrag);
+  document.addEventListener('pointerup', endDrag);
+}
+
+function onDrag(e) {
+  if (!dragData) return;
+  ghost.style.left = e.clientX + 'px';
+  ghost.style.top = e.clientY + 'px';
+
+  var beakerWrap = document.getElementById('beaker-wrap');
+  var rect = beakerWrap.getBoundingClientRect();
+  var over = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+  beakerWrap.classList.toggle('over', over);
+  document.getElementById('drop-hint').style.opacity = over ? '1' : '.5';
+}
+
+function endDrag(e) {
+  document.removeEventListener('pointermove', onDrag);
+  document.removeEventListener('pointerup', endDrag);
+  ghost.style.display = 'none';
+
+  if (dragData && dragData._el) dragData._el.classList.remove('dragging');
+
+  var beakerWrap = document.getElementById('beaker-wrap');
+  var rect = beakerWrap.getBoundingClientRect();
+  var over = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+  beakerWrap.classList.remove('over');
+  document.getElementById('drop-hint').style.opacity = '.5';
+
+  if (over && dragData) {
+    pourLiquid(dragData);
+  }
+  dragData = null;
+}
+
+function pourLiquid(liq) {
+  currentPh = liq.ph;
+  var color = phToColor(liq.ph);
+
+  // Animate liquid color
+  var liquidEl = document.getElementById('beaker-liquid');
+  liquidEl.style.transition = 'fill .6s ease';
+  liquidEl.setAttribute('fill', color);
+
+  // Ripple animation
+  var ripple = document.getElementById('ripple');
+  ripple.setAttribute('stroke', 'rgba(255,255,255,0.6)');
+  ripple.setAttribute('r', '0');
+  ripple.setAttribute('opacity', '1');
+  ripple.style.transition = 'none';
+  setTimeout(function() {
+    ripple.style.transition = 'r .5s ease, opacity .5s ease';
+    ripple.setAttribute('r', '35');
+    ripple.setAttribute('opacity', '0');
+  }, 20);
+
+  // Update pH display
+  var phNum = document.getElementById('ph-num');
+  phNum.textContent = liq.ph.toFixed(1);
+  phNum.style.color = color;
+  document.getElementById('ph-cat').textContent = phToCat(liq.ph);
+  document.getElementById('ph-tip').textContent = liq.cat + '：' + liq.fact.substring(0, 28) + '…';
+  document.getElementById('scale-thumb').style.left = phToThumbPos(liq.ph);
+
+  // Hide drop hint
+  document.getElementById('drop-hint').textContent = '';
+
+  // Show result box
+  var box = document.getElementById('result-box');
+  box.className = 'result-box show';
+  document.getElementById('result-title').textContent = liq.emoji + ' ' + liq.name + ' · pH ' + liq.ph + ' · ' + liq.cat;
+  document.getElementById('result-text').textContent = liq.fact;
+
+  // Add to history
+  if (!history.find(function(h){ return h.id === liq.id; })) {
+    history.push(liq);
+    renderHistory();
+  }
+
+  // Check done
+  if (history.length >= LIQUIDS.length) {
+    markDone();
+  }
+}
+
+function renderHistory() {
+  var items = document.getElementById('history-items');
+  items.innerHTML = '';
+  history.forEach(function(liq) {
+    var div = document.createElement('div');
+    div.className = 'react-item';
+    div.innerHTML = '<div class="react-dot" style="background:' + phToColor(liq.ph) + '"></div>' +
+      '<span class="react-name">' + liq.emoji + ' ' + liq.name + '</span>' +
+      '<span style="font-size:11px;color:var(--ink-mute)">pH ' + liq.ph + '</span>' +
+      '<span class="react-check">✓</span>';
+    items.appendChild(div);
+  });
+}
+
+function markDone() {
+  var a = [];
+  try { a = JSON.parse(localStorage.getItem('fo_games_done') || '[]'); } catch(e){}
+  if (a.indexOf(GAME_ID) < 0) { a.push(GAME_ID); localStorage.setItem('fo_games_done', JSON.stringify(a)); }
+}
+
+renderBottles();
+
+(function(){
+  var m = window.FO && FO.getMember(), el = document.getElementById('nav-member-btn');
+  if (!el) return;
+  if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick = function(){ location.href='../dashboard.html'; }; }
+  else { el.innerHTML = '<span>登录</span>'; el.onclick = function(){ location.href='../login.html'; }; }
+})();
+</script>
+</body>
+</html>
