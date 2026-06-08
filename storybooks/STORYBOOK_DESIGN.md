@@ -2,6 +2,46 @@
 
 Complete reference for generating new storybooks in this project. Follow every section precisely to stay consistent with the existing library.
 
+## 0. Default generation plan
+
+Use this workflow before creating or rewriting any storybook. The goal is to keep each book grounded in one source chapter, avoid repeated "reading is good" stories, and prevent recurring UI bugs.
+
+1. Locate the source material.
+   - First check `uploads/` for Li Xiaolai source texts.
+   - If `uploads/` is missing or the requested chapter cannot be found, stop and report the missing source. Do not invent quotes, claims, or chapter details from memory.
+2. Pick exactly one source chapter or lecture as the anchor for the book.
+   - One chapter maps to one storybook.
+   - Do not merge several abstract ideas into one book unless the user explicitly asks.
+3. Check existing storybooks for theme overlap.
+   - Read titles and page text in `storybooks/*.html`.
+   - If the new idea repeats an existing book, change the angle before writing.
+4. Convert the adult idea into one concrete child-sized conflict.
+   - Prefer a visible scene: a tower falls, a drawing is interrupted, a question is ignored, a parent almost lectures, a coach asks better questions.
+   - Avoid summary pages that merely say the principle.
+5. Draft 5-7 story pages plus one end-card.
+   - Each page gets one visual action and 1-3 short sentences.
+   - The final end-card states one memorable phrase for a 6-year-old.
+6. Implement from the template in this document.
+   - Keep layout, navigation, animation layering, and SVG constraints unchanged unless the user asks for a redesign.
+7. Verify both content and UI.
+   - Check source faithfulness, theme uniqueness, right-side next button placement, no top-left character jumps, speech bubbles inside scenes, keyboard, swipe, TTS, and mobile/desktop rendering.
+
+### Source-to-book theme matrix
+
+Use this matrix when planning new books or rewriting repeated books. It is intentionally chapter-led rather than principle-led.
+
+| Source anchor | Storybook angle | Child-sized conflict | Avoid repeating |
+|---|---|---|---|
+| 学习的真相 | Learning means changing what you can do | Mao Mao cannot do something, tries a tiny practice loop, and notices real progress | Generic "read more books" |
+| 专注的真相 | Attention is protected by the whole family | Mao Mao is building/drawing/thinking and the family learns not to interrupt | Generic "be quiet" or "work hard" |
+| 家教的真相 | Family education is daily modeling, not speeches | A parent almost lectures, then demonstrates the behavior together | Scolding, moralizing, reward/punishment |
+| 教练的真相 | A coach asks questions and sets practice, not commands | Mao Mao gets stuck; Dad asks one good question and helps design the next attempt | Parent as answer-giver |
+| 写作课 | Writing clarifies thinking for real readers | Mao Mao writes/draws a tiny note so someone else can understand her idea | "Keep a diary" as a slogan |
+| 读书是家事 | Reading is a shared family environment | Everyone reads different useful books and shares one discovery | Another "Dad reads, child copies" story |
+| 时间是朋友 | Progress grows through repeated small steps | Mao Mao wants instant success, then returns tomorrow and sees growth | Empty patience slogans |
+
+When three or more planned books look like "family reads books together", keep only one under `读书是家事` and remap the others to the more precise chapter anchors above.
+
 ---
 
 ## 1. File naming & routing
@@ -249,6 +289,21 @@ document.getElementById('readBtn').addEventListener('click', () => {
   speechSynthesis.speak(u);
 });
 ```
+
+### 8e. Navigation button placement
+
+The page-turn buttons are fixed semantic controls. Do not move them per page.
+
+```css
+.nav-btn { position:absolute; top:50%; transform:translateY(-50%); z-index:20; }
+#prev { left:12px; }
+#next { right:12px; }
+```
+
+- `#prev` must remain on the left.
+- `#next` must remain on the right.
+- Do not reuse `.nav-btn` styles for top bar links or decorative buttons.
+- If a book has tokenized CSS, use semantic variables for the offsets, but keep left/right semantics unchanged.
 
 ---
 
@@ -633,6 +688,10 @@ Replace `{{...}}` placeholders when generating a new book.
 
 ## 11. Checklist for each new storybook
 
+- [ ] Source chapter was found in `uploads/` or the missing source was reported before writing
+- [ ] Book maps to exactly one source anchor from the theme matrix
+- [ ] Existing storybooks were checked for repeated theme or repeated story shape
+- [ ] Adult concept was converted into one concrete child-sized conflict
 - [ ] Follows the file naming convention (`NN-slug.html`)
 - [ ] All SVG characters use the standard body/head/eye/beak structure
 - [ ] Characters positioned at `transform="translate(cx,cy)"` so center is (0,0)
@@ -645,6 +704,9 @@ Replace `{{...}}` placeholders when generating a new book.
 - [ ] `BOOK_ID`, `BOOK_TITLE`, `BOOK_TOTAL` are correct
 - [ ] `fo-utils.js` is loaded
 - [ ] No hardcoded colors outside the palette
+- [ ] `#prev` is visually on the left and `#next` is visually on the right on desktop and mobile
+- [ ] Clicking every interactive character does not jump, flash, or animate from the top-left corner
+- [ ] Speech bubbles appear near the clicked element and stay inside the scene
 
 ---
 
