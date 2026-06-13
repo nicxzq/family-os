@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>贝贝爱读书 · 绘本</title>
+<meta name="description" content="贝贝发现家里人都在读书——原来，读书是家里最快乐的事！">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"LXGW WenKai TC","LXGW WenKai",serif;background:#FFF8E0;min-height:100vh;overflow:hidden;}
+  .book{width:100vw;height:100vh;position:relative;overflow:hidden;perspective:1400px;}
+  .top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:20px 32px;z-index:20;}
+  .back{text-decoration:none;color:#5C4F3D;font-size:16px;background:rgba(255,255,255,0.7);padding:8px 16px;border-radius:999px;backdrop-filter:blur(8px);}
+  .read-aloud{background:#4B7BA8;color:white;border:0;padding:10px 18px;border-radius:999px;font-family:inherit;font-size:16px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.1);}
+  .page{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 40px 120px;opacity:0;pointer-events:none;transition:opacity .6s ease;}
+  .page.is-active{opacity:1;pointer-events:auto;}
+  .page[data-bg="sky"]{background:#D7E7F4;}
+  .page[data-bg="mint"]{background:#D7EBC9;}
+  .page[data-bg="yellow"]{background:#FBE39A;}
+  .page[data-bg="lavender"]{background:#E8DFF4;}
+  .page[data-bg="peach"]{background:#FBE3D5;}
+  .page[data-bg="coral"]{background:#F4A799;}
+  .scene{flex:1;min-height:0;position:relative;width:100%;overflow:hidden;}
+  .scene svg{width:100%;height:100%;}
+  .text{flex-shrink:0;text-align:center;max-width:100%;}
+  .text h2{font-size:clamp(22px,4.5vw,36px);line-height:1.4;color:#2B2419;font-weight:500;text-wrap:balance;}
+  .text .big{font-size:clamp(26px,5vw,42px);line-height:1.3;color:#4B7BA8;font-weight:700;margin-top:12px;}
+  .text .small{font-size:18px;color:#5C4F3D;margin-top:16px;}
+  .nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.88);border:0;width:56px;height:56px;border-radius:50%;font-size:24px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.1);font-family:inherit;color:#2B2419;z-index:20;backdrop-filter:blur(4px);}
+  .nav-btn:disabled{opacity:.3;pointer-events:none;}
+  #prev{left:12px;}#next{right:12px;}
+  .dots-wrap{position:absolute;bottom:24px;left:0;right:0;display:flex;justify-content:center;z-index:20;}
+  .dots{display:flex;gap:6px;}
+  .dots span{width:8px;height:8px;border-radius:50%;background:rgba(43,36,25,.2);transition:background .3s,transform .3s;}
+  .dots span.is-active{background:#4B7BA8;transform:scale(1.4);}
+  .float{animation:float 3s ease-in-out infinite;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+  .wiggle{animation:wiggle 2.5s ease-in-out infinite;transform-origin:center bottom;}
+  @keyframes wiggle{0%,100%{transform:rotate(-3deg);}50%{transform:rotate(3deg);}}
+  .do-bounce{animation:iBounce .6s cubic-bezier(.36,.07,.19,.97) both!important;}
+  @keyframes iBounce{0%{transform:translateY(0) scale(1);}25%{transform:translateY(-18px) scale(1.15);}55%{transform:translateY(-4px) scale(.96);}75%{transform:translateY(-8px) scale(1.05);}100%{transform:translateY(0) scale(1);}}
+  .do-spin{animation:iSpin .7s ease both!important;transform-origin:center center;transform-box:fill-box;}
+  @keyframes iSpin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+  .do-shake{animation:iShake .55s ease both!important;}
+  @keyframes iShake{0%,100%{transform:rotate(0);}18%{transform:rotate(-22deg);}38%{transform:rotate(18deg);}58%{transform:rotate(-14deg);}78%{transform:rotate(9deg);}}
+  .interactive{cursor:pointer;transform-box:fill-box;transform-origin:center center;}
+  .interactive:hover{opacity:.9;}
+  .speech-bubble{position:absolute;top:0;left:50%;transform:translateX(-50%);background:white;border-radius:999px;padding:6px 16px;font-size:20px;font-family:"LXGW WenKai TC",serif;box-shadow:0 3px 0 rgba(0,0,0,.12);pointer-events:none;white-space:nowrap;z-index:50;animation:bPop .3s ease;}
+  @keyframes bPop{from{transform:translateX(-50%) scale(0);opacity:0;}to{transform:translateX(-50%) scale(1);opacity:1;}}
+  .flip-out-fwd{animation:fOutFwd .4s cubic-bezier(.4,0,1,1) forwards;pointer-events:none;z-index:5;opacity:1;transform-origin:left center;}
+  .flip-in-fwd{animation:fInFwd .4s cubic-bezier(0,0,.6,1) forwards;pointer-events:none;z-index:4;transform-origin:right center;}
+  .flip-out-bwd{animation:fOutBwd .4s cubic-bezier(.4,0,1,1) forwards;pointer-events:none;z-index:5;opacity:1;transform-origin:right center;}
+  .flip-in-bwd{animation:fInBwd .4s cubic-bezier(0,0,.6,1) forwards;pointer-events:none;z-index:4;transform-origin:left center;}
+  @keyframes fOutFwd{0%{transform:rotateY(0);opacity:1;}100%{transform:rotateY(-80deg);opacity:0;}}
+  @keyframes fInFwd{0%{transform:rotateY(80deg);opacity:0;}100%{transform:rotateY(0);opacity:1;}}
+  @keyframes fOutBwd{0%{transform:rotateY(0);opacity:1;}100%{transform:rotateY(80deg);opacity:0;}}
+  @keyframes fInBwd{0%{transform:rotateY(-80deg);opacity:0;}100%{transform:rotateY(0);opacity:1;}}
+  .end-card{background:white;padding:32px;border-radius:24px;max-width:480px;box-shadow:0 8px 0 rgba(0,0,0,.06),0 24px 48px -16px rgba(0,0,0,.2);text-align:center;}
+  .end-card h2{font-size:28px;color:#4B7BA8;margin-bottom:16px;}
+  .end-card p{font-size:19px;color:#2B2419;line-height:1.7;margin-bottom:12px;}
+  .page-glow{animation:pglow 2s ease-in-out infinite;}
+  @keyframes pglow{0%,100%{opacity:.6;}50%{opacity:1;}}
+</style>
+</head>
+<body>
+<div class="book">
+  <div class="top">
+    <a class="back" href="../for-youngest.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+  </div>
+
+  <!-- P1: Beibei sees the whole family reading -->
+  <div class="page is-active" data-bg="sky" data-text="一个安静的下午，贝贝走进客厅——咦！爸爸在读书，妈妈在读书，哥哥也在读书！大家都捧着书，安安静静的。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Warm room background -->
+        <rect x="0" y="240" width="400" height="80" fill="#E8C49A" opacity=".25"/>
+        <rect x="0" y="0" width="400" height="240" fill="#D7E7F4" opacity=".2"/>
+        <!-- Sofa hint -->
+        <rect x="30" y="200" width="340" height="50" rx="12" fill="#C8966A" opacity=".18"/>
+        <!-- Dad reading (left) -->
+        <g transform="translate(90,195)">
+          <!-- Body -->
+          <ellipse cx="0" cy="0" rx="28" ry="24" fill="#C8966A" opacity=".9"/>
+          <!-- Head -->
+          <circle cx="0" cy="-38" r="22" fill="#C8966A"/>
+          <circle cx="-14" cy="-54" r="9" fill="#C8966A"/>
+          <circle cx="-14" cy="-54" r="5.5" fill="#E8A080"/>
+          <circle cx="14" cy="-54" r="9" fill="#C8966A"/>
+          <circle cx="14" cy="-54" r="5.5" fill="#E8A080"/>
+          <!-- Eyes looking down at book -->
+          <ellipse cx="-6" cy="-40" rx="4" ry="3" fill="#2B2419"/>
+          <ellipse cx="6" cy="-40" rx="4" ry="3" fill="#2B2419"/>
+          <!-- Smile -->
+          <path d="M -5,-30 Q 0,-26 5,-30" stroke="#8C5A4A" stroke-width="2" fill="none"/>
+          <!-- Book held open -->
+          <rect x="-20" y="-16" width="18" height="24" rx="3" fill="#4B7BA8" opacity=".8"/>
+          <rect x="-1" y="-16" width="18" height="24" rx="3" fill="#A8C2DE" opacity=".8"/>
+          <line x1="-1" y1="-14" x2="-1" y2="6" stroke="#2B2419" stroke-width="1.5"/>
+          <!-- Text lines on book -->
+          <line x1="-17" y1="-9" x2="-6" y2="-9" stroke="white" stroke-width="1" opacity=".6"/>
+          <line x1="-17" y1="-3" x2="-6" y2="-3" stroke="white" stroke-width="1" opacity=".6"/>
+          <line x1="-17" y1="3" x2="-9" y2="3" stroke="white" stroke-width="1" opacity=".6"/>
+          <line x1="2" y1="-9" x2="13" y2="-9" stroke="#5C4F3D" stroke-width="1" opacity=".5"/>
+          <line x1="2" y1="-3" x2="13" y2="-3" stroke="#5C4F3D" stroke-width="1" opacity=".5"/>
+          <line x1="2" y1="3" x2="10" y2="3" stroke="#5C4F3D" stroke-width="1" opacity=".5"/>
+        </g>
+        <!-- Mom reading (center-right) -->
+        <g transform="translate(210,195)">
+          <ellipse cx="0" cy="0" rx="26" ry="22" fill="#C8966A" opacity=".85"/>
+          <circle cx="0" cy="-36" r="21" fill="#C8966A"/>
+          <circle cx="-13" cy="-51" r="8.5" fill="#C8966A"/>
+          <circle cx="-13" cy="-51" r="5" fill="#E8A080"/>
+          <circle cx="13" cy="-51" r="8.5" fill="#C8966A"/>
+          <circle cx="13" cy="-51" r="5" fill="#E8A080"/>
+          <ellipse cx="-6" cy="-38" rx="3.5" ry="3" fill="#2B2419"/>
+          <ellipse cx="6" cy="-38" rx="3.5" ry="3" fill="#2B2419"/>
+          <path d="M -4,-27 Q 0,-23 4,-27" stroke="#8C5A4A" stroke-width="2" fill="none"/>
+          <!-- Book with yellow cover -->
+          <rect x="-18" y="-14" width="16" height="22" rx="3" fill="#F4C13E" opacity=".9"/>
+          <rect x="-1" y="-14" width="16" height="22" rx="3" fill="#FBE39A" opacity=".9"/>
+          <line x1="-1" y1="-12" x2="-1" y2="6" stroke="#8C7C66" stroke-width="1.5"/>
+          <line x1="-15" y1="-7" x2="-5" y2="-7" stroke="white" stroke-width="1" opacity=".6"/>
+          <line x1="-15" y1="-1" x2="-5" y2="-1" stroke="white" stroke-width="1" opacity=".6"/>
+          <line x1="-15" y1="5" x2="-8" y2="5" stroke="white" stroke-width="1" opacity=".6"/>
+        </g>
+        <!-- Older sibling reading (far right, smaller) -->
+        <g transform="translate(330,210)">
+          <ellipse cx="0" cy="0" rx="22" ry="18" fill="#C8966A" opacity=".8"/>
+          <circle cx="0" cy="-30" r="18" fill="#C8966A"/>
+          <circle cx="-11" cy="-43" r="7.5" fill="#C8966A"/>
+          <circle cx="-11" cy="-43" r="4.5" fill="#E8A080"/>
+          <circle cx="11" cy="-43" r="7.5" fill="#C8966A"/>
+          <circle cx="11" cy="-43" r="4.5" fill="#E8A080"/>
+          <ellipse cx="-5" cy="-32" rx="3" ry="2.5" fill="#2B2419"/>
+          <ellipse cx="5" cy="-32" rx="3" ry="2.5" fill="#2B2419"/>
+          <rect x="-16" y="-12" width="12" height="18" rx="2" fill="#6FA86D" opacity=".9"/>
+          <rect x="-3" y="-12" width="12" height="18" rx="2" fill="#B5D4A8" opacity=".9"/>
+        </g>
+        <!-- Little Beibei peeking in from left edge -->
+        <g id="p1-beibei" transform="translate(30,240)">
+          <circle cx="0" cy="-24" r="18" fill="#C8966A"/>
+          <circle cx="-11" cy="-36" r="7" fill="#C8966A"/>
+          <circle cx="-11" cy="-36" r="4" fill="#E8A080"/>
+          <circle cx="11" cy="-36" r="7" fill="#C8966A"/>
+          <circle cx="11" cy="-36" r="4" fill="#E8A080"/>
+          <!-- Wide curious eyes -->
+          <circle cx="-5" cy="-27" r="4.5" fill="#2B2419"/>
+          <circle cx="5" cy="-27" r="4.5" fill="#2B2419"/>
+          <circle cx="-3" cy="-29" r="1.5" fill="white"/>
+          <circle cx="7" cy="-29" r="1.5" fill="white"/>
+          <ellipse cx="0" cy="-16" rx="5" ry="3.5" fill="#E8C49A"/>
+          <!-- Open mouth, surprised -->
+          <circle cx="0" cy="-13" r="3.5" fill="#8C5A4A"/>
+        </g>
+        <!-- Question mark thought from Beibei -->
+        <text x="55" y="175" font-size="20" fill="#4B7BA8" opacity=".8">？</text>
+        <!-- Floating book sparkles -->
+        <text x="155" y="110" font-size="14" fill="#F4C13E" opacity=".7">✦</text>
+        <text x="260" y="120" font-size="18" fill="#F4C13E" opacity=".7">✦</text>
+        <text x="315" y="140" font-size="12" fill="#F4C13E" opacity=".6">✦</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>大家都<span style="color:#4B7BA8">捧着书</span>，安安静静的。</h2>
+      <p class="small">贝贝好奇地看——<br>书里有什么呢？</p>
+    </div>
+  </div>
+
+  <!-- P2: Beibei tries alone, finds it hard -->
+  <div class="page" data-bg="peach" data-text="贝贝也想读！他找了一本书，翻开来——哇，这么多字！看了一页，又看一页，贝贝的眼睛开始打架了……">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Cozy rug -->
+        <ellipse cx="200" cy="275" rx="160" ry="28" fill="#E8C49A" opacity=".3"/>
+        <!-- Big open book on floor -->
+        <g transform="translate(200,240)">
+          <rect x="-70" y="-28" width="68" height="48" rx="6" fill="#F4C13E" opacity=".85"/>
+          <rect x="-1" y="-28" width="68" height="48" rx="6" fill="#FBE39A" opacity=".85"/>
+          <line x1="-1" y1="-24" x2="-1" y2="18" stroke="#8C7C66" stroke-width="2"/>
+          <!-- Dense text lines (lots of them, overwhelming) -->
+          <line x1="-62" y1="-20" x2="-12" y2="-20" stroke="#5C4F3D" stroke-width="1.2" opacity=".5"/>
+          <line x1="-62" y1="-13" x2="-12" y2="-13" stroke="#5C4F3D" stroke-width="1.2" opacity=".5"/>
+          <line x1="-62" y1="-6" x2="-18" y2="-6" stroke="#5C4F3D" stroke-width="1.2" opacity=".5"/>
+          <line x1="-62" y1="1" x2="-12" y2="1" stroke="#5C4F3D" stroke-width="1.2" opacity=".5"/>
+          <line x1="-62" y1="8" x2="-24" y2="8" stroke="#5C4F3D" stroke-width="1.2" opacity=".5"/>
+          <line x1="-62" y1="15" x2="-12" y2="15" stroke="#5C4F3D" stroke-width="1.2" opacity=".5"/>
+          <line x1="8" y1="-20" x2="60" y2="-20" stroke="#5C4F3D" stroke-width="1.2" opacity=".5"/>
+          <line x1="8" y1="-13" x2="60" y2="-13" stroke="#5C4F3D" stroke-width="1.2" opacity=".5"/>
+          <line x1="8" y1="-6" x2="52" y2="-6" stroke="#5C4F3D" stroke-width="1.2" opacity=".5"/>
+          <line x1="8" y1="1" x2="60" y2="1" stroke="#5C4F3D" stroke-width="1.2" opacity=".5"/>
+          <line x1="8" y1="8" x2="48" y2="8" stroke="#5C4F3D" stroke-width="1.2" opacity=".5"/>
+          <line x1="8" y1="15" x2="60" y2="15" stroke="#5C4F3D" stroke-width="1.2" opacity=".5"/>
+        </g>
+        <!-- Beibei sitting, sleepy, drooping -->
+        <g id="p2-beibei" transform="translate(200,220)">
+          <ellipse cx="0" cy="0" rx="28" ry="22" fill="#C8966A"/>
+          <ellipse cx="0" cy="6" rx="17" ry="14" fill="#E8C49A" opacity=".6"/>
+          <!-- Legs -->
+          <ellipse cx="-22" cy="14" rx="18" ry="8" fill="#C8966A" transform="rotate(15 -22 14)"/>
+          <ellipse cx="22" cy="14" rx="18" ry="8" fill="#C8966A" transform="rotate(-15 22 14)"/>
+          <!-- Head tilted, sleepy -->
+          <circle cx="8" cy="-36" r="24" fill="#C8966A"/>
+          <circle cx="-8" cy="-52" r="10" fill="#C8966A"/>
+          <circle cx="-8" cy="-52" r="6" fill="#E8A080"/>
+          <circle cx="22" cy="-52" r="10" fill="#C8966A"/>
+          <circle cx="22" cy="-52" r="6" fill="#E8A080"/>
+          <!-- Droopy sleepy eyes - half closed -->
+          <path d="M -2,-40 Q 4,-37 10,-40" stroke="#2B2419" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M 14,-40 Q 20,-37 26,-40" stroke="#2B2419" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <ellipse cx="4" cy="-37" rx="6" ry="2" fill="#2B2419" opacity=".4"/>
+          <ellipse cx="20" cy="-37" rx="6" ry="2" fill="#2B2419" opacity=".4"/>
+          <ellipse cx="8" cy="-25" rx="8" ry="5" fill="#E8C49A"/>
+          <!-- Neutral tired mouth -->
+          <line x1="3" y1="-22" x2="13" y2="-22" stroke="#8C5A4A" stroke-width="2" stroke-linecap="round"/>
+          <!-- Arms holding book (tired) -->
+          <ellipse cx="-28" cy="-4" rx="17" ry="7" fill="#C8966A" transform="rotate(20 -28 -4)"/>
+          <ellipse cx="28" cy="-4" rx="17" ry="7" fill="#C8966A" transform="rotate(-20 28 -4)"/>
+        </g>
+        <!-- Zzzs floating up -->
+        <text x="250" y="165" font-size="16" fill="#8C7C66" opacity=".5">z</text>
+        <text x="262" y="150" font-size="20" fill="#8C7C66" opacity=".6">z</text>
+        <text x="276" y="132" font-size="24" fill="#8C7C66" opacity=".7">z</text>
+        <!-- Wavy confused lines around book -->
+        <path d="M 120,230 Q 130,225 140,230 Q 150,235 160,230" stroke="#E56B5A" stroke-width="2" fill="none" opacity=".4"/>
+        <path d="M 245,230 Q 255,225 265,230 Q 275,235 285,230" stroke="#E56B5A" stroke-width="2" fill="none" opacity=".4"/>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>这么多字……<span style="color:#E56B5A">眼睛好累！</span></h2>
+      <p class="small">贝贝一个人读，<br>读着读着要睡着了。</p>
+    </div>
+  </div>
+
+  <!-- P3: Dad reads with Beibei together -->
+  <div class="page" data-bg="lavender" data-text="爸爸看见了，走过来坐在贝贝旁边，说：我们一起读吧！爸爸大声念，贝贝跟着听。一个字一个字，慢慢来。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Warm glow behind them -->
+        <circle cx="200" cy="190" r="130" fill="#FBE39A" opacity=".15"/>
+        <!-- Dad and Beibei side by side on floor, sharing book -->
+        <!-- Dad (bigger, left) -->
+        <g transform="translate(155,225)">
+          <ellipse cx="0" cy="0" rx="32" ry="26" fill="#C8966A"/>
+          <ellipse cx="0" cy="8" rx="19" ry="18" fill="#E8C49A" opacity=".6"/>
+          <!-- Legs crossed -->
+          <ellipse cx="-28" cy="18" rx="28" ry="10" fill="#C8966A" opacity=".8"/>
+          <ellipse cx="28" cy="18" rx="28" ry="10" fill="#C8966A" opacity=".8"/>
+          <!-- Head -->
+          <circle cx="0" cy="-42" r="26" fill="#C8966A"/>
+          <circle cx="-17" cy="-61" r="11" fill="#C8966A"/>
+          <circle cx="-17" cy="-61" r="6.5" fill="#E8A080"/>
+          <circle cx="17" cy="-61" r="11" fill="#C8966A"/>
+          <circle cx="17" cy="-61" r="6.5" fill="#E8A080"/>
+          <!-- Warm reading eyes -->
+          <path d="M -8,-48 Q -5,-44 -2,-48" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <path d="M 2,-48 Q 5,-44 8,-48" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <ellipse cx="0" cy="-33" rx="8" ry="5.5" fill="#E8C49A"/>
+          <path d="M -6,-27 Q 0,-21 6,-27" stroke="#8C5A4A" stroke-width="2.5" fill="none"/>
+          <!-- Arm around Beibei's shoulder -->
+          <ellipse cx="42" cy="-20" rx="22" ry="7" fill="#C8966A" transform="rotate(-15 42 -20)"/>
+          <!-- Book held open between them -->
+          <rect x="-10" y="-10" width="30" height="36" rx="4" fill="#4B7BA8" opacity=".85"/>
+          <rect x="21" y="-10" width="30" height="36" rx="4" fill="#A8C2DE" opacity=".85"/>
+          <line x1="21" y1="-7" x2="21" y2="22" stroke="#2B2419" stroke-width="1.5"/>
+          <!-- Book text - readable size, fun -->
+          <line x1="-5" y1="-2" x2="18" y2="-2" stroke="white" stroke-width="1.5" opacity=".7"/>
+          <line x1="-5" y1="5" x2="15" y2="5" stroke="white" stroke-width="1.5" opacity=".7"/>
+          <line x1="-5" y1="12" x2="18" y2="12" stroke="white" stroke-width="1.5" opacity=".7"/>
+          <line x1="-5" y1="19" x2="12" y2="19" stroke="white" stroke-width="1.5" opacity=".7"/>
+          <!-- Picture on right page -->
+          <circle cx="36" cy="8" r="10" fill="white" opacity=".4"/>
+          <circle cx="36" cy="8" r="6" fill="#F4C13E" opacity=".5"/>
+        </g>
+        <!-- Beibei (smaller, snuggled next to Dad) -->
+        <g transform="translate(248,242)">
+          <ellipse cx="0" cy="0" rx="22" ry="18" fill="#C8966A"/>
+          <circle cx="0" cy="-30" r="19" fill="#C8966A"/>
+          <circle cx="-12" cy="-44" r="8" fill="#C8966A"/>
+          <circle cx="-12" cy="-44" r="4.5" fill="#E8A080"/>
+          <circle cx="12" cy="-44" r="8" fill="#C8966A"/>
+          <circle cx="12" cy="-44" r="4.5" fill="#E8A080"/>
+          <!-- Eyes wide and engaged, looking at book -->
+          <circle cx="-5" cy="-32" r="5" fill="#2B2419"/>
+          <circle cx="5" cy="-32" r="5" fill="#2B2419"/>
+          <circle cx="-3" cy="-35" r="1.8" fill="white"/>
+          <circle cx="7" cy="-35" r="1.8" fill="white"/>
+          <ellipse cx="0" cy="-20" rx="6" ry="4" fill="#E8C49A"/>
+          <!-- Happy engaged mouth -->
+          <path d="M -5,-16 Q 0,-10 5,-16" stroke="#8C5A4A" stroke-width="2" fill="none"/>
+        </g>
+        <!-- Speech bubble from Dad -->
+        <g transform="translate(145,90)">
+          <rect x="-115" y="-28" width="230" height="52" rx="16" fill="white" opacity=".95" stroke="#4B7BA8" stroke-width="2"/>
+          <text x="0" y="-6" font-size="15" text-anchor="middle" fill="#4B7BA8" font-weight="500">我们一起读吧！</text>
+          <text x="0" y="15" font-size="13" text-anchor="middle" fill="#5C4F3D">慢慢来，一个字一个字。📖</text>
+          <polygon points="-10,24 10,24 0,40" fill="white" stroke="#4B7BA8" stroke-width="2"/>
+        </g>
+        <text x="330" y="130" font-size="20" fill="#F4C13E">✨</text>
+        <text x="60" y="155" font-size="16" fill="#F4C13E">✨</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>爸爸说：<span style="color:#4B7BA8">我们一起读！</span></h2>
+      <p class="small">爸爸念，贝贝听，<br>好温暖，好有趣！</p>
+    </div>
+  </div>
+
+  <!-- P4: Beibei gets drawn into the story -->
+  <div class="page" data-bg="mint" data-text="爸爸念到小兔子找到宝藏，贝贝忍不住叫起来：然后呢！然后呢！书里的故事越来越好听，贝贝完全忘了困意。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Story imagination cloud above -->
+        <ellipse cx="200" cy="95" rx="110" ry="70" fill="white" opacity=".5"/>
+        <!-- Story scene inside cloud: rabbit finding treasure -->
+        <g transform="translate(200,90)">
+          <!-- Little rabbit -->
+          <circle cx="-50" cy="10" r="14" fill="#F8F2E2"/>
+          <ellipse cx="-58" cy="-2" rx="5" ry="14" fill="#F8F2E2"/>
+          <ellipse cx="-42" cy="-2" rx="5" ry="14" fill="#F8F2E2"/>
+          <circle cx="-50" cy="10" r="9" fill="#FBE3D5"/>
+          <!-- Rabbit eyes -->
+          <circle cx="-54" cy="8" r="2.5" fill="#E56B5A" opacity=".8"/>
+          <circle cx="-46" cy="8" r="2.5" fill="#E56B5A" opacity=".8"/>
+          <!-- Treasure chest -->
+          <rect x="10" y="0" width="40" height="30" rx="4" fill="#F4C13E"/>
+          <rect x="10" y="0" width="40" height="14" rx="4" fill="#C8966A" opacity=".7"/>
+          <line x1="30" y1="0" x2="30" y2="30" stroke="#8C6B4A" stroke-width="2"/>
+          <!-- Sparkles from treasure -->
+          <text x="40" y="-10" font-size="14" fill="#F4C13E">✦</text>
+          <text x="20" y="-15" font-size="10" fill="#F4C13E">✦</text>
+          <text x="55" y="-5" font-size="12" fill="#F4C13E">✦</text>
+          <!-- Arrow showing rabbit approaching -->
+          <line x1="-32" y1="14" x2="8" y2="14" stroke="#6FA86D" stroke-width="2" stroke-dasharray="4,3"/>
+          <polygon points="8,11 8,17 14,14" fill="#6FA86D"/>
+        </g>
+        <!-- Beibei super excited, leaning forward -->
+        <g id="p4-beibei" transform="translate(200,255)">
+          <ellipse cx="0" cy="0" rx="25" ry="20" fill="#C8966A"/>
+          <ellipse cx="0" cy="5" rx="15" ry="13" fill="#E8C49A" opacity=".6"/>
+          <!-- Leaning forward legs -->
+          <ellipse cx="-18" cy="12" rx="16" ry="7" fill="#C8966A" transform="rotate(10 -18 12)"/>
+          <ellipse cx="18" cy="12" rx="16" ry="7" fill="#C8966A" transform="rotate(-10 18 12)"/>
+          <!-- Excited head tilted forward -->
+          <circle cx="0" cy="-32" r="21" fill="#C8966A"/>
+          <circle cx="-13" cy="-47" r="8.5" fill="#C8966A"/>
+          <circle cx="-13" cy="-47" r="5" fill="#E8A080"/>
+          <circle cx="13" cy="-47" r="8.5" fill="#C8966A"/>
+          <circle cx="13" cy="-47" r="5" fill="#E8A080"/>
+          <!-- Very excited big eyes -->
+          <circle cx="-6" cy="-35" r="6" fill="#2B2419"/>
+          <circle cx="6" cy="-35" r="6" fill="#2B2419"/>
+          <circle cx="-4" cy="-38" r="2" fill="white"/>
+          <circle cx="8" cy="-38" r="2" fill="white"/>
+          <ellipse cx="0" cy="-23" rx="7" ry="5" fill="#E8C49A"/>
+          <!-- Big excited smile -->
+          <path d="M -7,-18 Q 0,-10 7,-18" stroke="#8C5A4A" stroke-width="2.5" fill="none"/>
+          <!-- Arms waving up -->
+          <ellipse cx="-30" cy="-22" rx="16" ry="6" fill="#C8966A" transform="rotate(-45 -30 -22)"/>
+          <ellipse cx="30" cy="-22" rx="16" ry="6" fill="#C8966A" transform="rotate(45 30 -22)"/>
+        </g>
+        <!-- Beibei's speech bubble -->
+        <g transform="translate(200,175)">
+          <rect x="-90" y="-20" width="180" height="36" rx="12" fill="white" opacity=".95" stroke="#F4C13E" stroke-width="2"/>
+          <text x="0" y="-3" font-size="13" text-anchor="middle" fill="#E56B5A" font-weight="500">然后呢？然后呢？</text>
+          <text x="0" y="12" font-size="11" text-anchor="middle" fill="#5C4F3D">再念一段！</text>
+          <polygon points="-8,16 8,16 0,30" fill="white" stroke="#F4C13E" stroke-width="2"/>
+        </g>
+        <text x="50" y="200" font-size="22" fill="#F4C13E">⭐</text>
+        <text x="335" y="210" font-size="18" fill="#F4C13E">⭐</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2><span style="color:#6FA86D">然后呢？然后呢？</span></h2>
+      <p class="small">书里的故事太好听了，<br>贝贝完全睡不着了！</p>
+    </div>
+  </div>
+
+  <!-- P5: Beibei holds own book — interactive -->
+  <div class="page" data-bg="yellow" data-text="从那天起，贝贝每天都找书来看！一本、两本、三本……家里的书越来越有趣。贝贝长大了，读书是最快乐的事！点击贝贝，让他翻页！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Bookshelf background -->
+        <rect x="20" y="60" width="360" height="20" rx="4" fill="#C8966A" opacity=".3"/>
+        <rect x="20" y="88" width="360" height="20" rx="4" fill="#C8966A" opacity=".25"/>
+        <!-- Books on shelf (row 1) -->
+        <rect x="30" y="40" width="18" height="22" rx="2" fill="#E56B5A" opacity=".7"/>
+        <rect x="50" y="44" width="14" height="18" rx="2" fill="#F4C13E" opacity=".7"/>
+        <rect x="66" y="38" width="20" height="24" rx="2" fill="#4B7BA8" opacity=".7"/>
+        <rect x="88" y="42" width="16" height="20" rx="2" fill="#6FA86D" opacity=".7"/>
+        <rect x="106" y="40" width="22" height="22" rx="2" fill="#E8DFF4" opacity=".8"/>
+        <rect x="130" y="44" width="14" height="18" rx="2" fill="#F4A799" opacity=".7"/>
+        <rect x="146" y="38" width="18" height="24" rx="2" fill="#B5D4A8" opacity=".7"/>
+        <rect x="166" y="42" width="16" height="20" rx="2" fill="#FBE39A" opacity=".8"/>
+        <rect x="184" y="40" width="20" height="22" rx="2" fill="#A8C2DE" opacity=".7"/>
+        <rect x="206" y="44" width="14" height="18" rx="2" fill="#E56B5A" opacity=".6"/>
+        <rect x="222" y="38" width="22" height="24" rx="2" fill="#6FA86D" opacity=".7"/>
+        <rect x="246" y="42" width="16" height="20" rx="2" fill="#F4C13E" opacity=".7"/>
+        <rect x="264" y="40" width="18" height="22" rx="2" fill="#4B7BA8" opacity=".6"/>
+        <rect x="284" y="44" width="15" height="18" rx="2" fill="#B5D4A8" opacity=".7"/>
+        <rect x="301" y="38" width="20" height="24" rx="2" fill="#F4A799" opacity=".7"/>
+        <rect x="323" y="42" width="16" height="20" rx="2" fill="#FBE39A" opacity=".7"/>
+        <rect x="341" y="40" width="18" height="22" rx="2" fill="#E56B5A" opacity=".6"/>
+        <!-- Books on shelf (row 2) -->
+        <rect x="30" y="68" width="16" height="22" rx="2" fill="#4B7BA8" opacity=".6"/>
+        <rect x="48" y="70" width="20" height="20" rx="2" fill="#6FA86D" opacity=".6"/>
+        <rect x="70" y="66" width="14" height="24" rx="2" fill="#F4C13E" opacity=".6"/>
+        <rect x="86" y="70" width="18" height="20" rx="2" fill="#E8DFF4" opacity=".7"/>
+        <rect x="106" y="68" width="22" height="22" rx="2" fill="#F4A799" opacity=".6"/>
+        <rect x="130" y="70" width="16" height="20" rx="2" fill="#B5D4A8" opacity=".6"/>
+        <rect x="148" y="66" width="20" height="24" rx="2" fill="#E56B5A" opacity=".55"/>
+        <rect x="170" y="70" width="14" height="20" rx="2" fill="#FBE39A" opacity=".7"/>
+        <rect x="186" y="68" width="18" height="22" rx="2" fill="#A8C2DE" opacity=".65"/>
+        <!-- Beibei sitting reading, interactive -->
+        <g id="p5-beibei" class="interactive float" transform="translate(200,255)">
+          <ellipse cx="0" cy="0" rx="26" ry="20" fill="#C8966A"/>
+          <ellipse cx="0" cy="6" rx="16" ry="13" fill="#E8C49A" opacity=".65"/>
+          <!-- Cross-legged sit -->
+          <ellipse cx="-24" cy="14" rx="22" ry="9" fill="#C8966A" transform="rotate(12 -24 14)"/>
+          <ellipse cx="24" cy="14" rx="22" ry="9" fill="#C8966A" transform="rotate(-12 24 14)"/>
+          <!-- Head -->
+          <circle cx="0" cy="-36" r="22" fill="#C8966A"/>
+          <circle cx="-14" cy="-52" r="9" fill="#C8966A"/>
+          <circle cx="-14" cy="-52" r="5.5" fill="#E8A080"/>
+          <circle cx="14" cy="-52" r="9" fill="#C8966A"/>
+          <circle cx="14" cy="-52" r="5.5" fill="#E8A080"/>
+          <!-- Happy absorbed eyes -->
+          <path d="M -9,-41 Q -5,-35 -1,-41" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <path d="M 1,-41 Q 5,-35 9,-41" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <ellipse cx="0" cy="-26" rx="7" ry="5" fill="#E8C49A"/>
+          <path d="M -6,-21 Q 0,-13 6,-21" stroke="#8C5A4A" stroke-width="2.5" fill="none"/>
+          <!-- Book open on lap -->
+          <rect x="-22" y="-8" width="20" height="26" rx="3" fill="#4B7BA8" opacity=".9"/>
+          <rect x="-1" y="-8" width="20" height="26" rx="3" fill="#A8C2DE" opacity=".9"/>
+          <line x1="-1" y1="-5" x2="-1" y2="16" stroke="#2B2419" stroke-width="1.5"/>
+          <!-- Paws on book -->
+          <ellipse cx="-26" cy="2" rx="14" ry="6" fill="#C8966A" transform="rotate(25 -26 2)"/>
+          <ellipse cx="26" cy="2" rx="14" ry="6" fill="#C8966A" transform="rotate(-25 26 2)"/>
+        </g>
+        <!-- Stars of joy -->
+        <text x="110" y="165" font-size="20" fill="#F4C13E">⭐</text>
+        <text x="280" y="175" font-size="18" fill="#F4C13E">⭐</text>
+        <text x="350" y="140" font-size="14" fill="#F4C13E">✨</text>
+        <!-- Click hint -->
+        <text x="200" y="295" font-size="12" text-anchor="middle" fill="#8C7C66" opacity=".7">点击贝贝！</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>贝贝<span style="color:#4B7BA8">爱上读书</span>啦！</h2>
+      <p class="small">一本、两本、三本……<br>越读越开心！</p>
+    </div>
+  </div>
+
+  <!-- P6: End card -->
+  <div class="page" data-bg="mint" data-text="小宝贝，读书是家里最快乐的事。一个人读，或者和家人一起读，书会带你去很远很远的地方！">
+    <div class="end-card">
+      <h2>给小宝贝 🐻📖</h2>
+      <p>一个人读有点难，<br>和家人一起读最快乐！</p>
+      <p style="font-size:30px;color:#4B7BA8;font-weight:700;margin:16px 0;">读书是家事<br>一起读最好</p>
+      <p style="font-size:16px;color:#5C4F3D;">每天读一点，<br>书里有大大的世界！🌍</p>
+      <button style="background:#4B7BA8;color:white;border:0;padding:10px 24px;border-radius:999px;font-family:inherit;font-size:16px;cursor:pointer;margin-top:24px;" onclick="goTo(0)">🔄 再讲一遍</button>
+    </div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
+</div>
+
+<script src="../fo-utils.js"></script>
+<script>
+const BOOK_ID='m05-bear-reads'; const BOOK_TITLE='贝贝爱读书'; const BOOK_TOTAL=5;
+function makeInteractive(el,animClass,msg){if(!el)return;el.classList.add('interactive');el.addEventListener('click',function(){if(el._busy)return;el._busy=true;el.classList.remove(animClass);void el.getBoundingClientRect();el.classList.add(animClass);if(msg){const scene=el.closest('.scene');const er=el.getBoundingClientRect(),sr=scene.getBoundingClientRect();const cx=er.left+er.width/2-sr.left,cy=Math.max(8,er.top-sr.top-48);const b=document.createElement('div');b.className='speech-bubble';b.textContent=msg;b.style.left=cx+'px';b.style.top=cy+'px';b.style.transform='translateX(-50%)';scene.appendChild(b);setTimeout(()=>b.remove(),1500);}setTimeout(()=>{el.classList.remove(animClass);el._busy=false;},800);});}
+const pages=document.querySelectorAll('.page'),total=pages.length;
+const dotsEl=document.getElementById('dots');let current=0;
+for(let i=0;i<total;i++){const d=document.createElement('span');if(i===0)d.classList.add('is-active');dotsEl.appendChild(d);}
+function goTo(idx){if(idx<0||idx>=total)return;speechSynthesis.cancel();if(idx===current){pages.forEach((p,i)=>{p.classList.toggle('is-active',i===idx);p.classList.remove('flip-out-fwd','flip-in-fwd','flip-out-bwd','flip-in-bwd');p.style.opacity='';p.style.pointerEvents='';});current=idx;document.getElementById('prev').disabled=idx===0;document.getElementById('next').disabled=idx===total-1;dotsEl.querySelectorAll('span').forEach((s,i)=>s.classList.toggle('is-active',i===idx));if(window.FO)FO.logProgress(BOOK_ID,idx,BOOK_TOTAL);return;}const dir=idx>current?'fwd':'bwd',outClass=dir==='fwd'?'flip-out-fwd':'flip-out-bwd',inClass=dir==='fwd'?'flip-in-fwd':'flip-in-bwd';const oldPage=pages[current],newPage=pages[idx];newPage.style.opacity='0';newPage.style.pointerEvents='none';oldPage.classList.add(outClass);newPage.classList.add(inClass);function cleanup(){oldPage.classList.remove('is-active',outClass);newPage.classList.remove(inClass);oldPage.style.opacity='';newPage.style.opacity='';newPage.style.pointerEvents='';newPage.classList.add('is-active');current=idx;document.getElementById('prev').disabled=idx===0;document.getElementById('next').disabled=idx===total-1;dotsEl.querySelectorAll('span').forEach((s,i)=>s.classList.toggle('is-active',i===idx));if(window.FO)FO.logProgress(BOOK_ID,idx,BOOK_TOTAL);}newPage.addEventListener('animationend',cleanup,{once:true});}
+document.getElementById('prev').addEventListener('click',()=>goTo(current-1));
+document.getElementById('next').addEventListener('click',()=>goTo(current+1));
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')goTo(current-1);if(e.key==='ArrowRight')goTo(current+1);});
+let _tx=0;document.addEventListener('touchstart',e=>{_tx=e.touches[0].clientX;},{passive:true});document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-_tx;if(Math.abs(dx)>50)dx<0?goTo(current+1):goTo(current-1);});
+document.getElementById('readBtn').addEventListener('click',()=>{const text=pages[current].dataset.text;if(!text||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='zh-CN';u.rate=.85;u.pitch=1.1;speechSynthesis.speak(u);});
+goTo(0);
+makeInteractive(document.getElementById('p1-beibei'),'do-bounce','咦？');
+makeInteractive(document.getElementById('p2-beibei'),'do-shake','好困啊……');
+makeInteractive(document.getElementById('p4-beibei'),'do-bounce','然后呢！');
+// P5 interactive: flip through book pages
+const p5=document.getElementById('p5-beibei');
+if(p5){p5.addEventListener('click',()=>{if(p5._busy)return;p5._busy=true;p5.classList.remove('do-bounce');void p5.getBoundingClientRect();p5.classList.add('do-bounce');const scene=p5.closest('.scene');const er=p5.getBoundingClientRect(),sr=scene.getBoundingClientRect();const cx=er.left+er.width/2-sr.left,cy=Math.max(8,er.top-sr.top-60);const msgs=['好好看！📖','哇！✨','再翻一页！','太有趣了！'];const b=document.createElement('div');b.className='speech-bubble';b.textContent=msgs[Math.floor(Math.random()*msgs.length)];b.style.left=cx+'px';b.style.top=cy+'px';b.style.transform='translateX(-50%)';scene.appendChild(b);setTimeout(()=>b.remove(),1800);setTimeout(()=>{p5.classList.remove('do-bounce');p5._busy=false;},900);});}
+if(window.FO)FO.logHistory(BOOK_ID,BOOK_TITLE);
+</script>
+</body>
+</html>
