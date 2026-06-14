@@ -1,0 +1,247 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: F04 · 源: 专注的真相 07「最具价值稀缺资源是什么」 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>注意力是你唯一真正拥有的 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--coral); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--coral-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--coral-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+</head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 关于注意力</span>
+    <h1>注意力是你<br>唯一真正拥有的</h1>
+
+    <p class="hook">
+      你有没有过这种事：打开手机本来想查一道题，<br>
+      十分钟后抬起头，忘了自己要查什么，<br>
+      但已经刷了三个视频。<span class="em">这不是你不自律。</span>
+    </p>
+
+    <!-- 拆解 1 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>什么是"注意广度"</h3>
+      <p>注意广度，就是你被一件事吸引之后，<strong>能连续保持专注多久</strong>。它是一切深入活动的地基——没有它，学习、思考、做事都谈不上。</p>
+      <p>一个有点吓人的对比：2008 年的研究里，三岁孩子的平均注意广度大约是 <strong>1.8 分钟</strong>。而今天，很多成年人的注意广度，其实也已经不到两分钟了。</p>
+      <figure>
+        <svg viewBox="0 0 600 220" role="img" aria-label="注意广度对比柱状图">
+          <line x1="60" y1="180" x2="560" y2="180" stroke="#8C7C66" stroke-width="2"/>
+          <!-- 成年人应有 ~20min -->
+          <rect x="90" y="30" width="90" height="150" rx="8" fill="#6FA86D"/>
+          <text x="135" y="22" text-anchor="middle" font-size="14" fill="#2B2419">≈20 分钟</text>
+          <text x="135" y="200" text-anchor="middle" font-size="14" fill="#5C4F3D">该有的样子</text>
+          <!-- 三岁孩子 1.8min -->
+          <rect x="270" y="167" width="90" height="13" rx="4" fill="#F4C13E"/>
+          <text x="315" y="158" text-anchor="middle" font-size="14" fill="#2B2419">1.8 分钟</text>
+          <text x="315" y="200" text-anchor="middle" font-size="14" fill="#5C4F3D">三岁孩子</text>
+          <!-- 今天很多成年人 <2min -->
+          <rect x="450" y="166" width="90" height="14" rx="4" fill="#E56B5A"/>
+          <text x="495" y="157" text-anchor="middle" font-size="14" fill="#2B2419">&lt;2 分钟</text>
+          <text x="495" y="200" text-anchor="middle" font-size="14" fill="#5C4F3D">今天很多大人</text>
+        </svg>
+        <figcaption>注意广度：被吸引后还能专注多久</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>为什么它越来越"贵"</h3>
+      <p>1971 年，一位叫西蒙的学者说过一句很准的话：<strong>信息越丰富，注意力就越稀缺</strong>。因为信息要被"消费"，而它消费掉的，正是你的注意力。</p>
+      <p>过去，人和人之间最大的差距是钱；后来是知识。而现在以及将来，最大的差距，是<strong>注意力上的"贫富差距"</strong>——谁能专注更久，谁就能学到、做到、创造出别人做不到的东西。</p>
+      <figure>
+        <svg viewBox="0 0 600 130" role="img" aria-label="差距演变时间线">
+          <line x1="40" y1="70" x2="560" y2="70" stroke="#C9BCA3" stroke-width="3"/>
+          <g text-anchor="middle" font-family="LXGW WenKai TC, serif">
+            <circle cx="120" cy="70" r="9" fill="#A8C2DE"/>
+            <text x="120" y="45" font-size="15" fill="#2B2419">过去</text>
+            <text x="120" y="100" font-size="14" fill="#5C4F3D">财富差距</text>
+            <circle cx="300" cy="70" r="9" fill="#F4C13E"/>
+            <text x="300" y="45" font-size="15" fill="#2B2419">后来</text>
+            <text x="300" y="100" font-size="14" fill="#5C4F3D">知识差距</text>
+            <circle cx="480" cy="70" r="11" fill="#E56B5A"/>
+            <text x="480" y="42" font-size="15" fill="#E56B5A" font-weight="700">现在 / 将来</text>
+            <text x="480" y="100" font-size="14" fill="#5C4F3D">注意力差距</text>
+          </g>
+        </svg>
+        <figcaption>人和人最大的差距，正在变成注意力</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>有个门槛：20 分钟</h3>
+      <p>真正有意义的事——认真学一段、想清一个问题、好好练一次、复盘一次——都需要一段<strong>足够长的连续专注</strong>。番茄钟把它定在大约 <strong>20 分钟</strong>。</p>
+      <p>换句话说：如果你的专注总是被打断在 20 分钟以内，那段时间几乎等于白过。不是你不努力，是注意力没攒够到能"起作用"的长度。</p>
+      <figure>
+        <svg viewBox="0 0 600 150" role="img" aria-label="20分钟门槛示意">
+          <line x1="40" y1="110" x2="560" y2="110" stroke="#8C7C66" stroke-width="2"/>
+          <line x1="300" y1="30" x2="300" y2="120" stroke="#E56B5A" stroke-width="2" stroke-dasharray="6 5"/>
+          <text x="300" y="22" text-anchor="middle" font-size="14" fill="#E56B5A" font-weight="700">20 分钟门槛</text>
+          <rect x="60" y="96" width="200" height="14" rx="6" fill="#C9BCA3"/>
+          <text x="160" y="135" text-anchor="middle" font-size="13" fill="#5C4F3D">不到 20 分钟 ≈ 没起作用</text>
+          <rect x="320" y="92" width="220" height="18" rx="6" fill="#6FA86D"/>
+          <text x="430" y="135" text-anchor="middle" font-size="13" fill="#5C4F3D">超过 20 分钟，才开始有意义</text>
+        </svg>
+        <figcaption>专注时长一旦越过门槛，价值才真正出现</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>"知识的山峰"</h3>
+      <p>人类的知识大约每 18 个月就翻一倍（这被叫做"知识摩尔定律"）。这座"知识的山峰"过去像个小土包，谁都能爬到半山腰；现在越来越高、越来越陡。</p>
+      <p>山顶永远有人能到，因为山本来就是人一点点堆出来的。但能爬上去的人比例会越来越小。<strong>而注意广度只有两分钟的人，只能留在山脚下。</strong>选哪一头，很大程度上由你能专注多久决定。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="知识的山峰：过去 现在 未来">
+          <line x1="30" y1="170" x2="570" y2="170" stroke="#8C7C66" stroke-width="2"/>
+          <!-- past: small hill -->
+          <path d="M40 170 Q110 120 180 170 Z" fill="#B5D4A8"/>
+          <text x="110" y="190" text-anchor="middle" font-size="13" fill="#5C4F3D">过去</text>
+          <!-- now: taller -->
+          <path d="M210 170 Q300 60 390 170 Z" fill="#A8C2DE"/>
+          <text x="300" y="190" text-anchor="middle" font-size="13" fill="#5C4F3D">现在</text>
+          <!-- future: steep peak -->
+          <path d="M430 170 L520 20 L560 170 Z" fill="#F4A799"/>
+          <circle cx="520" cy="26" r="5" fill="#E56B5A"/>
+          <text x="505" y="190" text-anchor="middle" font-size="13" fill="#5C4F3D">未来</text>
+        </svg>
+        <figcaption>山越来越陡，登顶靠的是能专注多久</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"人与人之间最大的差异，<br>是注意力上的贫富差距。"</p>
+      <span class="src">—— 《专注的真相》</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>过去这一周，你最专注的一段时间在做什么？大概多久？</summary>
+        <p class="hint">没有标准答案。如果想不起任何超过 20 分钟的时刻，这本身就是个有用的发现。</p>
+      </details>
+      <details>
+        <summary>哪些东西最常把你的专注"切断"？是它们找你，还是你去找它们？</summary>
+        <p class="hint">分清"被打扰"和"主动去刷"，往往是夺回注意力的第一步。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>挑一天，做一次<strong>"25 分钟实验"</strong>：选一件你真想做好的事，把手机放到<strong>另一个房间</strong>，只做这一件事 25 分钟。结束后记一句话：这 25 分钟和平时被切碎的时间，感觉有什么不同？</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="../for-eldest.html">← 返回</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '01-attention-scarce';
+    const READER_TITLE = '注意力是你唯一真正拥有的';
+
+    // progress bar
+    const bar = document.getElementById('bar');
+    function updateBar(){
+      const h = document.documentElement;
+      const max = (h.scrollHeight - h.clientHeight) || 1;
+      bar.style.width = Math.min(100, (h.scrollTop / max) * 100) + '%';
+    }
+    addEventListener('scroll', updateBar, { passive:true });
+    updateBar();
+
+    // member button (same logic as games/index.html)
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) {
+      el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>';
+      el.onclick = function(){ location.href = '../dashboard.html'; };
+    } else {
+      el.innerHTML = '<span>登录</span>';
+      el.onclick = function(){ location.href = '../login.html'; };
+    }
+
+    // try button → mark read
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){
+      tryBtn.textContent = '已加入本周 ✓';
+      tryBtn.classList.add('done');
+      if (window.FO) FO.logProgress(READER_ID, 1, 1);
+    });
+
+    // log history; mark read when action card seen
+    document.addEventListener('DOMContentLoaded', function(){
+      if (window.FO) FO.logHistory(READER_ID, READER_TITLE);
+    });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if (e.isIntersecting && window.FO) { FO.logProgress(READER_ID, 1, 1); io.disconnect(); } });
+      }, { threshold: 0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>

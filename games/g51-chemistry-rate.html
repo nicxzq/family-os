@@ -1,0 +1,11 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>快慢实验室 · 游戏</title><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css"><link rel="stylesheet" href="chem-challenge.css"></head><body>
+<main class="chem-page"><nav class="chem-nav"><a class="chem-back" href="index.html#science">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+<header class="chem-hero"><span class="chem-emoji">⏱️</span><h1>快慢实验室</h1><p class="chem-sub">同样的反应，为什么有时快、有时慢？</p></header>
+<div class="chem-progress" id="chem-progress"></div><section class="chem-card" id="chem-card"></section><section class="chem-result" id="chem-result"></section></main>
+<script src="../fo-utils.js"></script><script>
+window.CHEM_GAME={id:'g51-chemistry-rate',badge:'反应速率工程师徽章 ⏱️',result:'你已经知道哪些因素能加快或减慢化学反应，还认识了催化剂。',
+stages:[
+{type:'multi',title:'让它更快',prompt:'下面哪些做法能加快化学反应的速率？',options:['升高温度','把块状固体磨成粉末','降低反应物浓度','加入催化剂'],answer:[0,1,3],success:'升温、增大接触面积（磨成粉）、加催化剂都能加快反应；降低浓度反而变慢。',retry:'降低浓度会让反应变慢，把它排除掉。'},
+{type:'choice',title:'神秘的帮手',prompt:'双氧水分解时加入二氧化锰，反应明显变快。二氧化锰在这里是？',options:['催化剂','反应物','生成物','溶剂'],answer:[0],success:'二氧化锰能加快反应但本身不被消耗，是催化剂。',retry:'它能加速反应，自己却不会变少。'},
+{type:'choice',title:'生锈比赛',prompt:'同样的铁钉，放在哪种环境里生锈最快？',options:['潮湿的空气中','干燥并密封','涂满油保存','抽成真空'],answer:[0],success:'铁生锈需要水和氧气，潮湿空气中两者都有，所以最快。',retry:'生锈需要水和氧气，哪种环境两样都齐？'}]};
+</script><script src="chem-challenge.js"></script></body></html>

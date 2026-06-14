@@ -1,0 +1,11 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>金属擂台 · 游戏</title><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css"><link rel="stylesheet" href="chem-challenge.css"></head><body>
+<main class="chem-page"><nav class="chem-nav"><a class="chem-back" href="index.html#science">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+<header class="chem-hero"><span class="chem-emoji">🥇</span><h1>金属擂台</h1><p class="chem-sub">谁更活泼？金属之间也要排座次。</p></header>
+<div class="chem-progress" id="chem-progress"></div><section class="chem-card" id="chem-card"></section><section class="chem-result" id="chem-result"></section></main>
+<script src="../fo-utils.js"></script><script>
+window.CHEM_GAME={id:'g50-chemistry-metal',badge:'金属裁判徽章 🥇',result:'你已经理解金属活动性顺序，以及置换反应的基本规律。',
+stages:[
+{type:'choice',title:'谁最活泼',prompt:'下面四种金属，活动性最强的是哪一个？',options:['金 Au','铜 Cu','钾 K','铁 Fe'],answer:[2],success:'在金属活动性顺序里，钾排得很靠前，非常活泼。',retry:'有的金属遇水都会剧烈反应，它最活泼。'},
+{type:'choice',title:'铁遇上铜盐',prompt:'把一枚铁钉放进硫酸铜溶液，会看到什么？',options:['铁钉表面出现红色的铜','完全没有变化','铁钉变成黄金','溶液立刻凝固'],answer:[0],success:'铁比铜活泼，能把铜从硫酸铜溶液中置换出来，附在铁钉上。',retry:'活泼金属能把不活泼金属从它的盐溶液里"挤"出来。'},
+{type:'multi',title:'谁能放出氢气',prompt:'下面哪些金属能与稀盐酸反应、放出氢气？',options:['锌 Zn','镁 Mg','铜 Cu','银 Ag'],answer:[0,1],success:'排在氢前面的金属（如锌、镁）能与稀盐酸反应放出氢气；铜、银不行。',retry:'只有排在"氢"前面的金属才能置换出氢气。'}]};
+</script><script src="chem-challenge.js"></script></body></html>

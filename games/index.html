@@ -83,7 +83,7 @@
   <!-- Category Tabs -->
   <nav class="cat-tabs" role="tablist">
     <button role="tab" class="cat-tab is-active" data-cat="qa">🗣 问答类 <span class="cat-count">20</span></button>
-    <button role="tab" class="cat-tab" data-cat="science">🔬 科学类 <span class="cat-count">20</span></button>
+    <button role="tab" class="cat-tab" data-cat="science">🔬 科学类 <span class="cat-count">25</span></button>
     <button role="tab" class="cat-tab" data-cat="code">🧩 程序类 <span class="cat-count">3</span></button>
     <button role="tab" class="cat-tab" data-cat="multi">🌐 多学科 <span class="cat-count">4</span></button>
   </nav>
@@ -156,6 +156,11 @@
     ['g29-chemistry-electro','电化学','🔋','green','/games/g29-chemistry-electro.html',true],
     ['g30-chemistry-balance','方程式配平','⚖️','green','/games/g30-chemistry-balance.html',true],
     ['g31-chemistry-burn','燃烧密室','🔥','green','/games/g31-chemistry-burn.html',true],
+    ['g48-chemistry-gas','气体大变身','💨','green','/games/g48-chemistry-gas.html',true],
+    ['g49-chemistry-mole','摩尔小算盘','🔢','green','/games/g49-chemistry-mole.html',true],
+    ['g50-chemistry-metal','金属擂台','🥇','green','/games/g50-chemistry-metal.html',true],
+    ['g51-chemistry-rate','快慢实验室','⏱️','green','/games/g51-chemistry-rate.html',true],
+    ['g52-chemistry-mixture','分离大师','🥽','green','/games/g52-chemistry-mixture.html',true],
   ];
 
   var physGames = [
@@ -225,15 +230,25 @@
     document.getElementById('code-grid').innerHTML = codeGames.map(function(g){ return buildSciCard(g, done); }).join('');
     document.getElementById('multi-grid').innerHTML = multiGames.map(function(g){ return buildSciCard(g, done); }).join('');
 
-    // Tab switching
+    // Tab switching + remember active category
+    var VALID_CATS = ['qa','science','code','multi'];
+    function activateCat(cat){
+      if (VALID_CATS.indexOf(cat) === -1) return false;
+      document.querySelectorAll('.cat-tab').forEach(function(t){ t.classList.toggle('is-active', t.dataset.cat === cat); });
+      document.querySelectorAll('.cat-panel').forEach(function(p){ p.classList.remove('is-active'); });
+      var panel = document.getElementById('panel-'+cat);
+      if (panel) panel.classList.add('is-active');
+      try { sessionStorage.setItem('games-cat', cat); } catch(e){}
+      return true;
+    }
     document.querySelectorAll('.cat-tab').forEach(function(tab){
-      tab.addEventListener('click', function(){
-        document.querySelectorAll('.cat-tab').forEach(function(t){ t.classList.remove('is-active'); });
-        document.querySelectorAll('.cat-panel').forEach(function(p){ p.classList.remove('is-active'); });
-        tab.classList.add('is-active');
-        document.getElementById('panel-'+tab.dataset.cat).classList.add('is-active');
-      });
+      tab.addEventListener('click', function(){ activateCat(tab.dataset.cat); });
     });
+    // Restore: URL hash (e.g. #science) > sessionStorage > default (qa)
+    var hashCat = (location.hash || '').replace('#','').split(':')[0];
+    var stored = '';
+    try { stored = sessionStorage.getItem('games-cat') || ''; } catch(e){}
+    activateCat(hashCat) || activateCat(stored) || activateCat('qa');
 
     // Member button
     var m = window.FO ? FO.getMember() : null;

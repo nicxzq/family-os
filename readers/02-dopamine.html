@@ -1,0 +1,194 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: F01 · 源: 专注的真相 01–02「多巴胺不是什么快乐物质 / 极易被劫持的多巴胺系统」 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>多巴胺不是快乐物质 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--coral); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--coral-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+  .action { border:2px solid var(--accent); background:var(--coral-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+</head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 关于注意力</span>
+    <h1>多巴胺<br>不是快乐物质</h1>
+
+    <p class="hook">
+      你有没有发现：游戏、短视频刷得停不下来，<br>
+      可刷完之后，<span class="em">不是更开心，而是有点空、有点烦</span>。<br>
+      这不是错觉——你的大脑给你的，根本不是"快乐"。
+    </p>
+
+    <!-- 拆解 1 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>它给的是"想要"，不是"快乐"</h3>
+      <p>多巴胺是大脑里的一种化学物质。上世纪 50 年代刚发现它时，科学家给小老鼠装上电极，老鼠就疯狂按按钮、不吃不喝，于是被误以为是"快乐物质"。</p>
+      <p>但真相是：多巴胺制造的是<strong>"想要"的冲动</strong>。真正的"爽快感"，是另外几种物质（内啡肽、催产素、血清素）带来的。<strong>想要 ≠ 快乐</strong>——这是两套系统。</p>
+      <figure>
+        <svg viewBox="0 0 600 170" role="img" aria-label="想要与快乐是两套系统">
+          <rect x="40" y="40" width="240" height="90" rx="14" fill="#F4A799"/>
+          <text x="160" y="72" text-anchor="middle" font-size="17" fill="#2B2419" font-weight="700">多巴胺</text>
+          <text x="160" y="100" text-anchor="middle" font-size="15" fill="#5C4F3D">→ 想要 · 冲动</text>
+          <rect x="320" y="40" width="240" height="90" rx="14" fill="#B5D4A8"/>
+          <text x="440" y="72" text-anchor="middle" font-size="17" fill="#2B2419" font-weight="700">内啡肽 / 催产素 / 血清素</text>
+          <text x="440" y="100" text-anchor="middle" font-size="15" fill="#5C4F3D">→ 真正的满足感</text>
+          <text x="300" y="92" text-anchor="middle" font-size="22" fill="#8C7C66">≠</text>
+        </svg>
+        <figcaption>"想要"和"快乐"由不同物质负责</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>真正点燃它的，是"也许有惊喜"</h3>
+      <p>多巴胺不是被确定的奖励触发的，而是被<strong>"惊喜的可能性"</strong>触发的。大脑一直在预测下一刻，当结果比预想的更好（一次愉快的"预测错误"），它就记住，并在下次产生期待。</p>
+      <p>这正是刷视频、抽卡、刷新页面让人停不下来的原因：<strong>下一条，也许更好看</strong>。不确定，才最勾人。</p>
+      <figure>
+        <svg viewBox="0 0 600 180" role="img" aria-label="确定奖励与可能惊喜的多巴胺反应">
+          <line x1="60" y1="150" x2="560" y2="150" stroke="#8C7C66" stroke-width="2"/>
+          <rect x="110" y="110" width="90" height="40" rx="6" fill="#C9BCA3"/>
+          <text x="155" y="170" text-anchor="middle" font-size="13" fill="#5C4F3D">确定的奖励</text>
+          <text x="155" y="100" text-anchor="middle" font-size="12" fill="#8C7C66">反应平平</text>
+          <rect x="380" y="40" width="90" height="110" rx="6" fill="#E56B5A"/>
+          <text x="425" y="170" text-anchor="middle" font-size="13" fill="#5C4F3D">"也许有惊喜"</text>
+          <text x="425" y="30" text-anchor="middle" font-size="12" fill="#E56B5A" font-weight="700">反应最强</text>
+        </svg>
+        <figcaption>不确定的"可能惊喜"，让多巴胺冲到最高</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>爽感越来越短，冲动还在</h3>
+      <p>就算真有快感，它也有两个毛病：<strong>消失得越来越快</strong>，而且<strong>一次比一次弱，直到归零</strong>。可制造"想要"的冲动并不会跟着停。</p>
+      <p>所以那只老鼠并不是"爽死"的，是<strong>被冲动累死的</strong>——而且在累死前的很长时间里，它其实一直烦躁不安。停不下来的你，和它是同一套机制。</p>
+      <figure>
+        <svg viewBox="0 0 600 180" role="img" aria-label="爽感递减而冲动持续">
+          <line x1="50" y1="150" x2="560" y2="150" stroke="#8C7C66" stroke-width="2"/>
+          <!-- 爽感递减柱 -->
+          <rect x="80"  y="60"  width="34" height="90" fill="#B5D4A8"/>
+          <rect x="150" y="95"  width="34" height="55" fill="#B5D4A8"/>
+          <rect x="220" y="120" width="34" height="30" fill="#B5D4A8"/>
+          <rect x="290" y="138" width="34" height="12" fill="#B5D4A8"/>
+          <text x="200" y="40" font-size="13" fill="#6FA86D">爽感：一次比一次低 ↓</text>
+          <!-- 冲动持续线 -->
+          <line x1="80" y1="70" x2="540" y2="70" stroke="#E56B5A" stroke-width="3" stroke-dasharray="2 0"/>
+          <text x="400" y="62" font-size="13" fill="#E56B5A">冲动：一直都在 →</text>
+        </svg>
+        <figcaption>快感趋零，"还想要"却不停——于是停不下来</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>系统会"被劫持"</h3>
+      <p>原本这套机制很精巧：它推动人类去探索、去进步。问题是，<strong>手机给了你一个随时能按的"按钮"</strong>——可变的、即时的、永远刷不完的惊喜。于是多巴胺系统被劫持，你成了那只按按钮的老鼠。</p>
+      <p>看清这一点，不是为了自责。<strong>那是化学反应，不是你不够自律。</strong>看懂它，你才有机会把按钮放下。</p>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"多巴胺刺激的是冲动，<br>把它叫做快乐物质，<br>错得有点离谱。"</p>
+      <span class="src">—— 《专注的真相》</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>上一次你"停不下来"地刷，是因为很快乐，还是因为停不下来？</summary>
+        <p class="hint">没有标准答案。试着分清"我享受它"和"我被它推着走"。</p>
+      </details>
+      <details>
+        <summary>什么事会让你做完之后感到踏实满足，而不是"还想要更多"？</summary>
+        <p class="hint">那类事，往往动用的是"满足感"系统，而不是"想要"系统。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>下次伸手要刷手机时，先做一个<strong>"2 分钟暂停"</strong>：等两分钟，问自己一句——"我现在是想要<em>快乐</em>，还是被<em>冲动</em>推着？"两分钟后还想刷，就刷；但记下来：有几次，两分钟一过其实就不那么想了？</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="01-attention-scarce.html">← 注意力是你唯一真正拥有的</a>
+      <a href="index.html">读本目录 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '02-dopamine';
+    const READER_TITLE = '多巴胺不是快乐物质';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>

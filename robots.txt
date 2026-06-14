@@ -14,5 +14,6 @@ Disallow: /api/
 Disallow: /for-eldest
 Disallow: /for-youngest
 Disallow: /storybooks/
+Disallow: /readers/
 
 Sitemap: https://family.carlxu.cn/sitemap.xml

@@ -1,0 +1,11 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>气体大变身 · 游戏</title><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css"><link rel="stylesheet" href="chem-challenge.css"></head><body>
+<main class="chem-page"><nav class="chem-nav"><a class="chem-back" href="index.html#science">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+<header class="chem-hero"><span class="chem-emoji">💨</span><h1>气体大变身</h1><p class="chem-sub">看不见摸不着的气体，其实脾气很有规律。</p></header>
+<div class="chem-progress" id="chem-progress"></div><section class="chem-card" id="chem-card"></section><section class="chem-result" id="chem-result"></section></main>
+<script src="../fo-utils.js"></script><script>
+window.CHEM_GAME={id:'g48-chemistry-gas',badge:'气体观察家徽章 💨',result:'你已经掌握了气体的基本性质，以及温度、压强之间的关系。',
+stages:[
+{type:'choice',title:'气体的脾气',prompt:'下面哪一项是气体最典型的特点？',options:['有固定的形状','能被压缩，并充满整个容器','永远不会流动','体积不随温度改变'],answer:[1],success:'气体没有固定形状和体积，能被压缩，会充满它所在的容器。',retry:'想一想：气球里的气体是不是会把整个气球填满？'},
+{type:'choice',title:'加热以后',prompt:'一个密闭容器里的气体，体积不变时给它加热，压强会怎样？',options:['变大','变小','不变','先变小再不变'],answer:[0],success:'温度升高，气体分子运动更剧烈、撞击更频繁，压强变大。',retry:'温度越高，分子撞击容器壁越用力。'},
+{type:'multi',title:'谁是气体',prompt:'在常温常压下，下面哪些是气体？',options:['氧气 O₂','二氧化碳 CO₂','水 H₂O','氮气 N₂'],answer:[0,1,3],success:'氧气、二氧化碳、氮气都是气体；水在常温下是液体。',retry:'常温下水是什么状态？把它排除掉。'}]};
+</script><script src="chem-challenge.js"></script></body></html>

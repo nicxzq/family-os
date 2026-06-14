@@ -1,0 +1,11 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>分离大师 · 游戏</title><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css"><link rel="stylesheet" href="chem-challenge.css"></head><body>
+<main class="chem-page"><nav class="chem-nav"><a class="chem-back" href="index.html#science">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+<header class="chem-hero"><span class="chem-emoji">🥽</span><h1>分离大师</h1><p class="chem-sub">混在一起的东西，怎么把它们分开？</p></header>
+<div class="chem-progress" id="chem-progress"></div><section class="chem-card" id="chem-card"></section><section class="chem-result" id="chem-result"></section></main>
+<script src="../fo-utils.js"></script><script>
+window.CHEM_GAME={id:'g52-chemistry-mixture',badge:'分离大师徽章 🥽',result:'你已经会根据物质的不同性质，选择过滤、蒸发、磁选等分离方法。',
+stages:[
+{type:'choice',title:'把盐请回来',prompt:'要从盐水中把食盐分离出来，应该用什么方法？',options:['蒸发结晶','过滤','用磁铁吸','直接倒掉水'],answer:[0],success:'盐溶解在水里，过滤分不开；加热蒸发掉水，食盐就结晶出来了。',retry:'盐溶在水里，过滤没用——想办法把水赶走。'},
+{type:'choice',title:'浑水变清',prompt:'要把不溶的泥沙从水中分离出来，最适合的方法是？',options:['过滤','蒸发','加热','使劲搅拌'],answer:[0],success:'泥沙不溶于水，用滤纸过滤就能把它们留下、让水通过。',retry:'泥沙不溶解，可以用滤纸把它拦下来。'},
+{type:'choice',title:'磁铁出手',prompt:'用磁铁可以分离下面哪一组混合物？',options:['铁粉和木屑','盐和水','沙子和水','糖和盐'],answer:[0],success:'铁粉能被磁铁吸引，木屑不能，所以磁铁能把它们分开。',retry:'磁铁只对能被磁化的金属有用，哪一组里有铁？'}]};
+</script><script src="chem-challenge.js"></script></body></html>

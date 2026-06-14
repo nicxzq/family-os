@@ -1,0 +1,11 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>摩尔小算盘 · 游戏</title><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css"><link rel="stylesheet" href="chem-challenge.css"></head><body>
+<main class="chem-page"><nav class="chem-nav"><a class="chem-back" href="index.html#science">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+<header class="chem-hero"><span class="chem-emoji">🔢</span><h1>摩尔小算盘</h1><p class="chem-sub">化学家怎么数原子？答案藏在"摩尔"里。</p></header>
+<div class="chem-progress" id="chem-progress"></div><section class="chem-card" id="chem-card"></section><section class="chem-result" id="chem-result"></section></main>
+<script src="../fo-utils.js"></script><script>
+window.CHEM_GAME={id:'g49-chemistry-mole',badge:'摩尔计算师徽章 🔢',result:'你已经会用阿伏伽德罗常数、相对分子质量做最基础的摩尔换算。',
+stages:[
+{type:'choice',title:'神奇的数字',prompt:'1 摩尔任何物质所含的粒子数，大约是多少？',options:['6.02 × 10²³','3.14','1000','100 万'],answer:[0],success:'这就是阿伏伽德罗常数：1 摩尔 ≈ 6.02 × 10²³ 个粒子。',retry:'这个数字非常大，叫阿伏伽德罗常数。'},
+{type:'choice',title:'称一称水',prompt:'水 H₂O 的相对分子质量是多少？（H=1，O=16）',options:['18','16','17','20'],answer:[0],success:'1+1+16 = 18，水的相对分子质量是 18。',retry:'两个氢加一个氧：1+1+16。'},
+{type:'choice',title:'算一算质量',prompt:'2 摩尔水大约有多少克？（水的摩尔质量为 18 g/mol）',options:['36 克','18 克','9 克','2 克'],answer:[0],success:'质量 = 摩尔数 × 摩尔质量 = 2 × 18 = 36 克。',retry:'用摩尔数乘以每摩尔的质量。'}]};
+</script><script src="chem-challenge.js"></script></body></html>

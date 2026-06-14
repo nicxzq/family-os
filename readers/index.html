@@ -1,0 +1,88 @@
+<!doctype html>
+<!-- 哥哥读本目录 · 数据驱动；新增一篇只需在 READERS 数组里加一行 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>成长读本 · 给正在长大的你</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  * { box-sizing:border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+  .wrap { max-width:720px; margin:0 auto; padding:12px 20px 80px; }
+  .hero h1 { font-size:clamp(26px,6vw,38px); margin:18px 0 8px; }
+  .hero p { color:var(--ink-soft); font-size:var(--font-size-body-lg); line-height:1.7; margin:0 0 8px; }
+  .group-title { display:flex; align-items:center; gap:10px; margin:34px 0 12px; font-size:var(--font-size-title-sm); color:var(--ink-soft); }
+  .group-title::after { content:""; flex:1; height:1px; background:var(--cream-deep); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
+  .card { display:block; text-decoration:none; color:inherit; background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:20px; transition:transform .15s; border-top:4px solid var(--accent,#E56B5A); }
+  .card:hover { transform:translateY(-3px); }
+  .card .code { font-size:var(--font-size-note); color:var(--ink-mute); letter-spacing:.06em; }
+  .card h3 { font-size:var(--font-size-title); margin:6px 0 6px; line-height:1.35; }
+  .card .sub { font-size:var(--font-size-note); color:var(--ink-soft); line-height:1.6; }
+  .card.soon { pointer-events:none; opacity:.55; border-top-color:var(--cream-deep); background:var(--cream-deep); box-shadow:none; }
+  .card.soon .tag { display:inline-block; margin-top:10px; font-size:var(--font-size-sm); color:var(--ink-mute); background:var(--paper); padding:3px 10px; border-radius:var(--radius-full); }
+  .card.done .tag { display:inline-block; margin-top:10px; font-size:var(--font-size-sm); color:var(--paper); background:var(--green); padding:3px 10px; border-radius:var(--radius-full); }
+</style>
+</head>
+<body>
+  <nav class="topbar">
+    <a class="back" href="../for-eldest.html">← 回到我的主页</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <div class="hero">
+      <h1>成长读本</h1>
+      <p>不是测验，没有分数。每篇讲一个值得想清楚的概念——读完，给自己留一个本周可以试的小行动。</p>
+    </div>
+    <div id="groups"></div>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    // 新增一篇：在对应分组里加一行 [篇号, 标题, 副标题, 文件(或null=敬请期待), 强调色]
+    const READERS = {
+      '专注 · 注意力': [
+        ['F01','多巴胺不是快乐物质','你以为的"快乐"，其实是"想要"', '02-dopamine.html', '#E56B5A'],
+        ['F04','注意力是你唯一真正拥有的','为什么刷完反而更累', '01-attention-scarce.html', '#E56B5A'],
+      ],
+      '把时间当作朋友': [
+        ['T01','你不是大脑的奴隶','谁主谁仆', null, '#4B7BA8'],
+      ],
+      '学习的真相': [
+        ['L01','大脑的使用说明','先读说明书', null, '#6FA86D'],
+      ],
+    };
+    const ACCENT_DEFAULT = '#E56B5A';
+    const box = document.getElementById('groups');
+    Object.keys(READERS).forEach(function(g){
+      const h = document.createElement('div'); h.className='group-title'; h.textContent=g; box.appendChild(h);
+      const grid = document.createElement('div'); grid.className='grid';
+      READERS[g].forEach(function(r){
+        const [code,title,sub,file,accent]=r;
+        const a=document.createElement('a');
+        a.style.setProperty('--accent', accent||ACCENT_DEFAULT);
+        if(file){ a.className='card done'; a.href=file; a.innerHTML='<span class="code">'+code+'</span><h3>'+title+'</h3><span class="sub">'+sub+'</span><span class="tag">可阅读</span>'; }
+        else { a.className='card soon'; a.innerHTML='<span class="code">'+code+'</span><h3>'+title+'</h3><span class="sub">'+sub+'</span><span class="tag">敬请期待</span>'; }
+        grid.appendChild(a);
+      });
+      box.appendChild(grid);
+    });
+
+    // member button (same logic as games/index.html)
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+  </script>
+</body>
+</html>
