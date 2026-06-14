@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>毛毛不慌 · 绘本</title>
+<meta name="description" content="关于「不慌，时间是朋友」的绘本故事。">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"LXGW WenKai TC","LXGW WenKai",serif;background:#FFF8E0;min-height:100vh;overflow:hidden;}
+  .book{width:100vw;height:100vh;position:relative;overflow:hidden;}
+  .top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:20px 32px;z-index:20;}
+  .back{text-decoration:none;color:#5C4F3D;font-size:16px;background:rgba(255,255,255,0.7);padding:8px 16px;border-radius:999px;backdrop-filter:blur(8px);}
+  .read-aloud{background:#E56B5A;color:white;border:0;padding:10px 18px;border-radius:999px;font-family:inherit;font-size:16px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.1);}
+  .read-aloud:active{transform:translateY(1px);}
+  .page{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 40px 120px;opacity:0;pointer-events:none;transition:opacity .6s ease;}
+  .page.is-active{opacity:1;pointer-events:auto;}
+  .page[data-bg="cream"]{background:#FFF8E0;}
+  .page[data-bg="peach"]{background:#FBE3D5;}
+  .page[data-bg="mint"]{background:#D7EBC9;}
+  .page[data-bg="sky"]{background:#D7E7F4;}
+  .page[data-bg="yellow"]{background:#FBE39A;}
+  .page[data-bg="coral"]{background:#F4A799;}
+  .page[data-bg="lavender"]{background:#E8E0F5;}
+  .scene{flex:1;min-height:0;position:relative;width:100%;overflow:hidden;}
+  .scene svg{width:100%;height:100%;}
+  .text{flex-shrink:0;text-align:center;max-width:100%;}
+  .text h2{font-size:clamp(24px,5vw,38px);line-height:1.4;color:#2B2419;font-weight:500;text-wrap:balance;}
+  .text .big{font-size:clamp(32px,6vw,52px);line-height:1.3;color:#E56B5A;font-weight:700;margin-top:12px;}
+  .text .small{font-size:18px;color:#5C4F3D;margin-top:16px;}
+  .nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.88);border:0;width:56px;height:56px;border-radius:50%;font-size:24px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.1);font-family:inherit;color:#2B2419;z-index:20;backdrop-filter:blur(4px);}
+  .nav-btn:disabled{opacity:.3;pointer-events:none;}
+  .nav-btn:active{transform:translateY(calc(-50% + 1px));}
+  #prev{left:12px;}
+  #next{right:12px;}
+  .dots-wrap{position:absolute;bottom:24px;left:0;right:0;display:flex;justify-content:center;z-index:20;}
+  .dots{display:flex;gap:6px;}
+  .dots span{width:8px;height:8px;border-radius:50%;background:rgba(43,36,25,.2);transition:background .3s,transform .3s;}
+  .dots span.is-active{background:#E56B5A;transform:scale(1.4);}
+  .float{animation:float 3s ease-in-out infinite;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+  .wiggle{animation:wiggle 2.5s ease-in-out infinite;transform-origin:center bottom;}
+  @keyframes wiggle{0%,100%{transform:rotate(-3deg);}50%{transform:rotate(3deg);}}
+  .pop{animation:pop .6s ease;}
+  @keyframes pop{0%{transform:scale(0);opacity:0;}60%{transform:scale(1.15);opacity:1;}100%{transform:scale(1);opacity:1;}}
+  .do-bounce{animation:iBounce .6s cubic-bezier(.36,.07,.19,.97) both!important;}
+  @keyframes iBounce{0%{transform:translateY(0) scale(1);}25%{transform:translateY(-18px) scale(1.15);}55%{transform:translateY(-4px) scale(.96);}75%{transform:translateY(-8px) scale(1.05);}100%{transform:translateY(0) scale(1);}}
+  .do-shake{animation:iShake .55s ease both!important;}
+  @keyframes iShake{0%,100%{transform:rotate(0);}18%{transform:rotate(-22deg);}38%{transform:rotate(18deg);}58%{transform:rotate(-14deg);}78%{transform:rotate(9deg);}}
+  .do-wobble{animation:iWobble .7s ease both!important;}
+  @keyframes iWobble{0%,100%{transform:scaleX(1) scaleY(1);}20%{transform:scaleX(1.25) scaleY(.75);}45%{transform:scaleX(.85) scaleY(1.2);}65%{transform:scaleX(1.1) scaleY(.9);}80%{transform:scaleX(.96) scaleY(1.04);}}
+  .interactive{cursor:pointer;transform-box:fill-box;transform-origin:center center;}
+  .interactive:hover{opacity:.9;}
+  .speech-bubble{position:absolute;top:0;left:50%;transform:translateX(-50%);background:white;border-radius:999px;padding:6px 16px;font-size:20px;font-family:"LXGW WenKai TC",serif;box-shadow:0 3px 0 rgba(0,0,0,.12);pointer-events:none;white-space:nowrap;z-index:50;animation:bPop .3s ease;}
+  @keyframes bPop{from{transform:translateX(-50%) scale(0);opacity:0;}to{transform:translateX(-50%) scale(1);opacity:1;}}
+  .book{perspective:1400px;}
+  .flip-out-fwd{animation:fOutFwd .4s cubic-bezier(.4,0,1,1) forwards;pointer-events:none;z-index:5;opacity:1;transform-origin:left center;}
+  .flip-in-fwd{animation:fInFwd .4s cubic-bezier(0,0,.6,1) forwards;pointer-events:none;z-index:4;transform-origin:right center;}
+  .flip-out-bwd{animation:fOutBwd .4s cubic-bezier(.4,0,1,1) forwards;pointer-events:none;z-index:5;opacity:1;transform-origin:right center;}
+  .flip-in-bwd{animation:fInBwd .4s cubic-bezier(0,0,.6,1) forwards;pointer-events:none;z-index:4;transform-origin:left center;}
+  @keyframes fOutFwd{0%{transform:rotateY(0);opacity:1;}100%{transform:rotateY(-80deg);opacity:0;}}
+  @keyframes fInFwd{0%{transform:rotateY(80deg);opacity:0;}100%{transform:rotateY(0);opacity:1;}}
+  @keyframes fOutBwd{0%{transform:rotateY(0);opacity:1;}100%{transform:rotateY(80deg);opacity:0;}}
+  @keyframes fInBwd{0%{transform:rotateY(-80deg);opacity:0;}100%{transform:rotateY(0);opacity:1;}}
+  .end-card{background:white;padding:32px;border-radius:24px;max-width:480px;box-shadow:0 8px 0 rgba(0,0,0,.06),0 24px 48px -16px rgba(0,0,0,.2);text-align:center;}
+  .end-card h2{font-size:28px;color:#E56B5A;margin-bottom:16px;}
+  .end-card p{font-size:19px;color:#2B2419;line-height:1.7;margin-bottom:12px;}
+</style>
+</head>
+<body>
+<div class="book">
+  <div class="top">
+    <a class="back" href="../for-youngest.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+  </div>
+
+  <!-- 第1页：上台前 -->
+  <div class="page is-active" data-bg="lavender" data-text="明天，毛毛要上台唱歌。毛毛害怕了——她的心跳得好快好快，手也抖起来了。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Stage background -->
+        <rect x="50" y="180" width="300" height="100" fill="#C4A882" rx="4"/>
+        <rect x="50" y="175" width="300" height="12" fill="#A8826B" rx="2"/>
+        <!-- Curtains -->
+        <path d="M50,0 L50,200 Q70,180 90,200 L90,0 Z" fill="#8E44AD" opacity=".7"/>
+        <path d="M350,0 L350,200 Q330,180 310,200 L310,0 Z" fill="#8E44AD" opacity=".7"/>
+        <!-- Spotlight -->
+        <path d="M200,0 L160,180 L240,180 Z" fill="#FBE39A" opacity=".3"/>
+        <!--毛毛 trembling -->
+        <g id="p1-mao" class="wiggle" transform="translate(200,220)">
+          <ellipse cx="0" cy="0" rx="36" ry="40" fill="#FFFDF6"/>
+          <circle cx="0" cy="-44" r="32" fill="#FFFDF6"/>
+          <!-- scared eyes -->
+          <circle cx="-10" cy="-48" r="5" fill="#2B2419"/>
+          <circle cx="10" cy="-48" r="5" fill="#2B2419"/>
+          <circle cx="-9" cy="-50" r="2" fill="white"/>
+          <circle cx="11" cy="-50" r="2" fill="white"/>
+          <!-- worried mouth -->
+          <path d="M -8,-36 Q 0,-42 8,-36" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <polygon points="0,-38 12,-34 0,-30" fill="#E56B5A"/>
+          <!-- Wings close to body (scared) -->
+          <ellipse cx="-28" cy="-5" rx="8" ry="16" fill="#FBE39A" transform="rotate(10 -28 -5)"/>
+          <ellipse cx="28" cy="-5" rx="8" ry="16" fill="#FBE39A" transform="rotate(-10 28 -5)"/>
+        </g>
+        <!-- Heartbeat lines -->
+        <g class="pop" transform="translate(240,170)">
+          <text font-size="20" fill="#E56B5A">💓</text>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>明天，毛毛要<span style="color:#8E44AD">上台唱歌</span>。</h2>
+      <p class="small">毛毛害怕了——<br>心跳得好快，手也抖起来了。</p>
+    </div>
+  </div>
+
+  <!-- 第2页：爸爸来了 -->
+  <div class="page" data-bg="cream" data-text="爸爸看见了，问：怎么了，毛毛？毛毛说：我怕忘词，怕唱错，怕大家笑我。爸爸笑着说：哦，是"慌"来了。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Dad chick - bigger -->
+        <g id="p2-dad" transform="translate(140,200)" class="float">
+          <ellipse cx="0" cy="0" rx="48" ry="52" fill="#FBE39A"/>
+          <circle cx="0" cy="-55" r="40" fill="#FBE39A"/>
+          <circle cx="-12" cy="-58" r="4" fill="#2B2419"/>
+          <circle cx="12" cy="-58" r="4" fill="#2B2419"/>
+          <polygon points="0,-50 14,-44 0,-38" fill="#E56B5A"/>
+          <path d="M -10,-42 Q 0,-36 10,-42" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <ellipse cx="-44" cy="-10" rx="12" ry="20" fill="#FBE39A" opacity=".8" transform="rotate(-20 -44 -10)"/>
+        </g>
+        <!-- Mao chick - smaller -->
+        <g id="p2-mao" transform="translate(260,220)">
+          <ellipse cx="0" cy="0" rx="30" ry="34" fill="#FFFDF6"/>
+          <circle cx="0" cy="-38" r="26" fill="#FFFDF6"/>
+          <circle cx="-8" cy="-41" r="3.5" fill="#2B2419"/>
+          <circle cx="8" cy="-41" r="3.5" fill="#2B2419"/>
+          <polygon points="0,-34 10,-30 0,-26" fill="#E56B5A"/>
+          <path d="M -6,-28 Q 0,-34 6,-28" stroke="#2B2419" stroke-width="1.5" fill="none"/>
+        </g>
+        <!-- Speech bubble from dad -->
+        <g transform="translate(200,90)">
+          <rect x="-65" y="-22" width="130" height="40" rx="20" fill="white"/>
+          <path d="M 10,16 L 0,32 L -10,16" fill="white"/>
+          <text x="0" y="-2" font-size="15" text-anchor="middle" fill="#8E44AD" font-weight="700">"慌"来了呀</text>
+          <text x="0" y="12" font-size="13" text-anchor="middle" fill="#5C4F3D">它只是个客人</text>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>爸爸说：<span style="color:#8E44AD">"慌"</span>来了。</h2>
+      <p class="small">它就像一个客人——<br>敲了门，进来坐坐，然后会走的。</p>
+    </div>
+  </div>
+
+  <!-- 第3页：深呼吸 -->
+  <div class="page" data-bg="mint" data-text="爸爸教毛毛：慢慢吸气——一，二，三。再慢慢呼出来——一，二，三，四。毛毛试了试——心跳慢下来了！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Background breath circles -->
+        <circle cx="200" cy="160" r="90" fill="#B5D4A8" opacity=".3">
+          <animate attributeName="r" values="90;110;90" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values=".3;.15;.3" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="200" cy="160" r="65" fill="#6FA86D" opacity=".2">
+          <animate attributeName="r" values="65;80;65" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <!-- Mao breathing -->
+        <g id="p3-mao" transform="translate(200,175)" class="float">
+          <ellipse cx="0" cy="0" rx="40" ry="44" fill="#FFFDF6"/>
+          <circle cx="0" cy="-48" r="35" fill="#FFFDF6"/>
+          <!-- Calm eyes -->
+          <path d="M -12,-52 Q -8,-48 -4,-52" stroke="#2B2419" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M 4,-52 Q 8,-48 12,-52" stroke="#2B2419" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <polygon points="0,-44 12,-40 0,-36" fill="#E56B5A"/>
+          <!-- Happy mouth -->
+          <path d="M -8,-36 Q 0,-30 8,-36" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <ellipse cx="-36" cy="-6" rx="10" ry="18" fill="#FBE39A" transform="rotate(-15 -36 -6)"/>
+          <ellipse cx="36" cy="-6" rx="10" ry="18" fill="#FBE39A" transform="rotate(15 36 -6)"/>
+        </g>
+        <!-- Breath arrows -->
+        <text x="200" y="60" text-anchor="middle" font-size="18" fill="#6FA86D">↓ 吸气……</text>
+        <text x="200" y="280" text-anchor="middle" font-size="18" fill="#6FA86D">↑ 呼气……</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>爸爸教毛毛：<span style="color:#6FA86D">慢慢呼吸</span>。</h2>
+      <p class="small">吸气——一，二，三。<br>呼气——一，二，三，四。<br>心跳……慢下来了！</p>
+    </div>
+  </div>
+
+  <!-- 第4页：练习 -->
+  <div class="page" data-bg="yellow" data-text="爸爸说：紧张是正常的。小毛毛，你准备了这么久，已经足够了。就算唱错一个字——又怎么样呢？">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Stars for preparation -->
+        <text x="80" y="80" font-size="24" fill="#F4C13E">⭐</text>
+        <text x="290" y="70" font-size="20" fill="#F4C13E">⭐</text>
+        <text x="160" y="50" font-size="16" fill="#F4C13E">✨</text>
+        <text x="320" y="120" font-size="16" fill="#F4C13E">✨</text>
+        <!-- Music notes -->
+        <text x="120" y="100" font-size="28" fill="#E56B5A">♪</text>
+        <text x="260" y="90" font-size="24" fill="#E56B5A">♫</text>
+        <!-- Dad and Mao standing together -->
+        <g transform="translate(150,220)">
+          <ellipse cx="0" cy="0" rx="44" ry="48" fill="#FBE39A"/>
+          <circle cx="0" cy="-52" r="36" fill="#FBE39A"/>
+          <circle cx="-10" cy="-55" r="4" fill="#2B2419"/>
+          <circle cx="10" cy="-55" r="4" fill="#2B2419"/>
+          <polygon points="0,-48 13,-43 0,-38" fill="#E56B5A"/>
+          <path d="M -10,-40 Q 0,-34 10,-40" stroke="#2B2419" stroke-width="2" fill="none"/>
+          <ellipse cx="38" cy="-10" rx="10" ry="18" fill="#FBE39A" opacity=".9" transform="rotate(20 38 -10)"/>
+        </g>
+        <g id="p4-mao" transform="translate(260,225)" class="float">
+          <ellipse cx="0" cy="0" rx="30" ry="34" fill="#FFFDF6"/>
+          <circle cx="0" cy="-38" r="26" fill="#FFFDF6"/>
+          <circle cx="-7" cy="-41" r="3.5" fill="#2B2419"/>
+          <circle cx="7" cy="-41" r="3.5" fill="#2B2419"/>
+          <polygon points="0,-34 10,-30 0,-26" fill="#E56B5A"/>
+          <path d="M -6,-28 Q 0,-22 6,-28" stroke="#2B2419" stroke-width="2" fill="none"/>
+        </g>
+        <!-- Quote bubble -->
+        <g transform="translate(210,110)">
+          <rect x="-80" y="-18" width="160" height="36" rx="18" fill="white" opacity=".9"/>
+          <text x="0" y="6" font-size="14" text-anchor="middle" fill="#2B2419">唱错一个字——</text>
+          <text x="0" y="24" font-size="14" text-anchor="middle" fill="#E56B5A" font-weight="700">又怎么样呢？</text>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>爸爸说：<span style="color:#E56B5A">紧张是正常的</span>。</h2>
+      <p class="small">你准备了这么久——<br>唱错一个字，又怎么样？</p>
+    </div>
+  </div>
+
+  <!-- 第5页：上台了 -->
+  <div class="page" data-bg="coral" data-text="毛毛上台了。心还是有一点点跳。但是毛毛深呼一口气——唱出了第一个字。然后是第二个，第三个……">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- Stage -->
+        <rect x="40" y="210" width="320" height="80" fill="#C4A882" rx="4"/>
+        <rect x="40" y="205" width="320" height="10" fill="#A8826B"/>
+        <!-- Spotlight beam -->
+        <path d="M200,0 L150,210 L250,210 Z" fill="#FBE39A" opacity=".25"/>
+        <!-- Curtains -->
+        <path d="M40,0 L40,215 Q60,195 80,215 L80,0 Z" fill="#E56B5A" opacity=".6"/>
+        <path d="M360,0 L360,215 Q340,195 320,215 L320,0 Z" fill="#E56B5A" opacity=".6"/>
+        <!-- Mao singing -->
+        <g id="p5-mao" transform="translate(200,225)" class="float">
+          <ellipse cx="0" cy="0" rx="36" ry="40" fill="#FFFDF6"/>
+          <circle cx="0" cy="-44" r="32" fill="#FFFDF6"/>
+          <circle cx="-10" cy="-48" r="4" fill="#2B2419"/>
+          <circle cx="10" cy="-48" r="4" fill="#2B2419"/>
+          <circle cx="-9" cy="-49" r="1.5" fill="white"/>
+          <circle cx="11" cy="-49" r="1.5" fill="white"/>
+          <!-- Singing open mouth -->
+          <ellipse cx="0" cy="-36" rx="8" ry="6" fill="#E56B5A"/>
+          <polygon points="0,-44 13,-40 0,-36" fill="#E56B5A"/>
+          <!-- Wings open wide -->
+          <ellipse cx="-40" cy="-15" rx="12" ry="22" fill="#FBE39A" transform="rotate(-35 -40 -15)"/>
+          <ellipse cx="40" cy="-15" rx="12" ry="22" fill="#FBE39A" transform="rotate(35 40 -15)"/>
+        </g>
+        <!-- Music notes flying -->
+        <text x="160" y="130" font-size="24" fill="white" opacity=".9" class="float">♪</text>
+        <text x="240" y="110" font-size="28" fill="white" opacity=".9" class="float" style="animation-delay:-1s">♫</text>
+        <text x="290" y="150" font-size="20" fill="white" opacity=".8" class="float" style="animation-delay:-.5s">♪</text>
+        <!-- Stars from audience -->
+        <text x="90" y="180" font-size="20" fill="#FBE39A">⭐</text>
+        <text x="300" y="170" font-size="16" fill="#FBE39A">⭐</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2 style="color:white;">毛毛深吸一口气——</h2>
+      <p class="big" style="color:white;">唱出去了！</p>
+      <p class="small" style="color:rgba(255,255,255,.85)">第一个字……第二个……全唱完了。</p>
+    </div>
+  </div>
+
+  <!-- 第6页：结尾 -->
+  <div class="page" data-bg="yellow" data-text="毛毛唱完了，大家鼓掌了。毛毛笑了——原来"慌"真的只是个客人，它来了，然后走了。小弟弟，你也可以的。">
+    <div class="end-card">
+      <h2>给小弟弟 ❤️</h2>
+      <p>当你感到<strong style="color:#8E44AD">慌张</strong>的时候——</p>
+      <p>记住：<strong style="color:#6FA86D">慢慢呼吸</strong>。</p>
+      <p style="font-size:32px;color:#E56B5A;font-weight:700;margin:16px 0;">"不慌，时间是朋友。"</p>
+      <p style="font-size:16px;color:#5C4F3D;">"慌"是客人，它会来，也会走。<br>你准备好了，就已经足够了。</p>
+      <button class="read-aloud" style="margin-top:24px;" onclick="goTo(0)">🔄 再讲一遍</button>
+    </div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
+</div>
+
+<script src="../fo-utils.js"></script>
+<script>
+const BOOK_ID = '15-no-hurry'; const BOOK_TITLE = '毛毛不慌'; const BOOK_TOTAL = 5;
+function makeInteractive(el, animClass, msg) {
+  if (!el) return;
+  el.classList.add('interactive');
+  el.addEventListener('click', function() {
+    if (el._busy) return; el._busy = true;
+    el.classList.remove(animClass); void el.getBoundingClientRect(); el.classList.add(animClass);
+    if (msg) {
+      const scene = el.closest('.scene');
+      const er = el.getBoundingClientRect(), sr = scene.getBoundingClientRect();
+      const cx = er.left + er.width/2 - sr.left, cy = Math.max(8, er.top - sr.top - 48);
+      const b = document.createElement('div'); b.className='speech-bubble'; b.textContent=msg;
+      b.style.left=cx+'px'; b.style.top=cy+'px'; b.style.transform='translateX(-50%)';
+      scene.appendChild(b); setTimeout(()=>b.remove(), 1500);
+    }
+    setTimeout(()=>{ el.classList.remove(animClass); el._busy=false; }, 750);
+  });
+}
+const pages = document.querySelectorAll('.page'), total = pages.length;
+const dotsEl = document.getElementById('dots');
+let current = 0;
+for (let i=0;i<total;i++){const d=document.createElement('span');if(i===0)d.classList.add('is-active');dotsEl.appendChild(d);}
+function goTo(idx){
+  if(idx<0||idx>=total)return; speechSynthesis.cancel();
+  if(idx===current){
+    pages.forEach((p,i)=>{p.classList.toggle('is-active',i===idx);p.classList.remove('flip-out-fwd','flip-in-fwd','flip-out-bwd','flip-in-bwd');p.style.opacity='';p.style.pointerEvents='';});
+    current=idx; document.getElementById('prev').disabled=idx===0; document.getElementById('next').disabled=idx===total-1;
+    dotsEl.querySelectorAll('span').forEach((s,i)=>s.classList.toggle('is-active',i===idx));
+    if(window.FO)FO.logProgress(BOOK_ID,idx,BOOK_TOTAL); return;
+  }
+  const dir=idx>current?'fwd':'bwd', outClass=dir==='fwd'?'flip-out-fwd':'flip-out-bwd', inClass=dir==='fwd'?'flip-in-fwd':'flip-in-bwd';
+  const oldPage=pages[current], newPage=pages[idx];
+  newPage.style.opacity='0'; newPage.style.pointerEvents='none';
+  oldPage.classList.add(outClass); newPage.classList.add(inClass);
+  function cleanup(){
+    oldPage.classList.remove('is-active',outClass); newPage.classList.remove(inClass);
+    oldPage.style.opacity=''; newPage.style.opacity=''; newPage.style.pointerEvents=''; newPage.classList.add('is-active');
+    current=idx; document.getElementById('prev').disabled=idx===0; document.getElementById('next').disabled=idx===total-1;
+    dotsEl.querySelectorAll('span').forEach((s,i)=>s.classList.toggle('is-active',i===idx));
+    if(window.FO)FO.logProgress(BOOK_ID,idx,BOOK_TOTAL);
+  }
+  newPage.addEventListener('animationend',cleanup,{once:true});
+}
+document.getElementById('prev').addEventListener('click',()=>goTo(current-1));
+document.getElementById('next').addEventListener('click',()=>goTo(current+1));
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')goTo(current-1);if(e.key==='ArrowRight')goTo(current+1);});
+let _tx=0;
+document.addEventListener('touchstart',e=>{_tx=e.touches[0].clientX;},{passive:true});
+document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-_tx;if(Math.abs(dx)>50)dx<0?goTo(current+1):goTo(current-1);});
+document.getElementById('readBtn').addEventListener('click',()=>{
+  const text=pages[current].dataset.text;if(!text||!window.speechSynthesis)return;
+  speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='zh-CN';u.rate=.85;u.pitch=1.1;speechSynthesis.speak(u);
+});
+goTo(0);
+makeInteractive(document.getElementById('p1-mao'),'do-shake','好怕好怕！😰');
+makeInteractive(document.getElementById('p2-mao'),'do-wobble','我很紧张……');
+makeInteractive(document.getElementById('p3-mao'),'do-bounce','呼——😌');
+makeInteractive(document.getElementById('p4-mao'),'do-bounce','我准备好了！');
+makeInteractive(document.getElementById('p5-mao'),'do-bounce','♪ 我唱！🐣');
+if(window.FO)FO.logHistory(BOOK_ID,BOOK_TITLE);
+</script>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>方程式配平 · 互动化学</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  .nav-member-btn{display:inline-flex;align-items:center;gap:var(--space-md);background:var(--paper);border:0;border-radius:var(--radius-full);padding:var(--space-sm) var(--space-2xl) var(--space-sm) var(--space-sm);font-family:inherit;font-size:var(--font-size-ui);cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft);}
+  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:var(--space-2xl);background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:var(--space-lg) var(--space-2xl);margin-bottom:var(--space-9xl);}
+  .back-link{text-decoration:none;color:var(--ink-mute);font-size:var(--font-size-body-sm);}
+  .wrap{max-width:var(--size-content-medium);margin:0 auto;padding:0 var(--space-5xl) var(--space-page-bottom);}
+  .game-hero{text-align:center;margin-bottom:var(--space-section);}
+  .game-hero-icon{font-size:var(--font-size-emoji-md);margin-bottom:var(--space-md);}
+  .game-hero h1{font-size:clamp(var(--font-size-hero-md),var(--font-size-hero-fluid),var(--font-size-hero-lg));margin-bottom:var(--space-lg);}
+  .game-hero .sub{color:var(--ink-soft);font-size:var(--font-size-body-lg);line-height:1.6;}
+
+  /* Progress bar */
+  .eq-progress{display:flex;gap:var(--space-md);margin-bottom:var(--space-7xl);justify-content:center;}
+  .eq-dot{width:32px;height:32px;border-radius:50%;background:var(--cream-deep);display:flex;align-items:center;justify-content:center;font-size:var(--font-size-note);color:var(--ink-mute);font-weight:700;transition:background .3s,color .3s;}
+  .eq-dot.active{background:var(--blue);color:var(--paper);}
+  .eq-dot.done{background:var(--green);color:var(--paper);}
+
+  /* Equation layout */
+  .eq-card{background:var(--paper);border-radius:var(--radius-lg);padding:var(--space-9xl) var(--space-section);box-shadow:var(--shadow-card);margin-bottom:var(--space-5xl);}
+  .eq-title{font-size:var(--font-size-note);letter-spacing:.12em;color:var(--ink-mute);margin-bottom:var(--space-5xl);}
+  .eq-scene{display:flex;align-items:center;gap:var(--space-md);flex-wrap:wrap;justify-content:center;margin-bottom:var(--space-section);}
+  .eq-plus,.eq-arrow{font-size:24px;color:var(--ink-mute);font-weight:700;flex-shrink:0;}
+  .mol-block{display:flex;flex-direction:column;align-items:center;gap:var(--space-md);}
+  .mol-coeff{display:flex;align-items:center;gap:var(--space-md);}
+  .coeff-btn{width:30px;height:30px;border-radius:50%;border:2px solid var(--cream-deep);background:var(--paper);cursor:pointer;font-size:18px;font-weight:700;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:inherit;}
+  .coeff-btn:hover{background:var(--cream-deep);border-color:var(--ink-mute);}
+  .coeff-btn:active{transform:scale(.9);}
+  .coeff-num{font-size:24px;font-weight:700;min-width:28px;text-align:center;color:var(--ink);}
+  .mol-diagram{position:relative;width:80px;height:80px;}
+  .mol-formula{font-size:var(--font-size-note);font-weight:700;color:var(--ink);}
+
+  /* Atom count comparison */
+  .balance-table{width:100%;border-collapse:collapse;margin-bottom:var(--space-5xl);}
+  .balance-table th{font-size:var(--font-size-note);color:var(--ink-mute);padding:var(--space-md) var(--space-3xl);text-align:center;letter-spacing:.1em;}
+  .balance-table td{padding:var(--space-md) var(--space-3xl);text-align:center;font-size:var(--font-size-body);}
+  .balance-table .elem-col{text-align:left;font-weight:700;}
+  .count-cell{border-radius:var(--radius-sm);padding:var(--space-xs) var(--space-3xl);display:inline-block;min-width:40px;}
+  .count-cell.ok{background:var(--green-soft);color:var(--ink);}
+  .count-cell.bad{background:#FEE2E2;color:#B91C1C;}
+
+  /* Feedback */
+  .feedback-box{text-align:center;padding:var(--space-3xl);border-radius:var(--radius);margin-bottom:var(--space-5xl);min-height:56px;display:flex;align-items:center;justify-content:center;gap:var(--space-xl);font-size:var(--font-size-body-lg);}
+  .feedback-box.balanced{background:var(--green-soft);font-weight:700;animation:popIn .4s ease;}
+  .feedback-box.unbalanced{background:var(--cream-deep);color:var(--ink-mute);}
+  @keyframes popIn{0%{transform:scale(.8);opacity:0;}60%{transform:scale(1.05);}100%{transform:scale(1);opacity:1;}}
+
+  /* Nav buttons */
+  .eq-nav-row{display:flex;gap:var(--space-xl);justify-content:center;}
+  .eq-nav-btn{background:var(--blue);color:var(--paper);border:0;border-radius:var(--radius-full);padding:var(--space-xl) var(--space-section);font-family:inherit;font-size:var(--font-size-body);cursor:pointer;box-shadow:var(--shadow-button);font-weight:700;transition:transform .15s;}
+  .eq-nav-btn:hover{transform:translateY(-2px);}
+  .eq-nav-btn:disabled{background:var(--cream-deep);color:var(--ink-mute);box-shadow:none;transform:none;cursor:default;}
+  .hint-btn{background:var(--cream-deep);color:var(--ink-soft);border:0;border-radius:var(--radius-full);padding:var(--space-xl) var(--space-5xl);font-family:inherit;font-size:var(--font-size-body-sm);cursor:pointer;}
+
+  /* SVG molecule atoms */
+  .atom-circle{transition:all .3s;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="game-nav">
+    <a class="back-link" href="index.html">← 游戏库</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <div class="game-hero">
+    <div class="game-hero-icon">⚖️</div>
+    <h1>方程式配平</h1>
+    <p class="sub">调整系数，让两边原子数相等——<br>化学反应前后原子守恒！</p>
+  </div>
+
+  <div class="eq-progress" id="eq-progress"></div>
+
+  <div class="eq-card" id="eq-card">
+    <div class="eq-title" id="eq-title">方程式 1 / 3</div>
+    <div class="eq-scene" id="eq-scene"></div>
+    <table class="balance-table" id="balance-table">
+      <thead><tr><th class="elem-col">原子</th><th>反应物（左）</th><th>生成物（右）</th><th>是否平衡</th></tr></thead>
+      <tbody id="balance-body"></tbody>
+    </table>
+    <div class="feedback-box unbalanced" id="feedback-box">调整系数，使左右两边原子数相等 ⚖️</div>
+    <div class="eq-nav-row">
+      <button class="hint-btn" id="hint-btn" onclick="showHint()">查看提示</button>
+      <button class="eq-nav-btn" id="next-btn" onclick="nextEq()" disabled>下一题 →</button>
+    </div>
+  </div>
+</div>
+
+<script src="../fo-utils.js"></script>
+<script>
+var GAME_ID = 'g50-chem-balance';
+
+// Each molecule: {formula, display, atoms:{El:count}, svgFn}
+var EQUATIONS = [
+  {
+    id:'water',
+    title:'水的生成 · H₂ + O₂ → H₂O',
+    knowledge:'2个氢气分子 + 1个氧气分子 → 2个水分子。两边各有4个H、2个O。',
+    hint:'氢气系数2，氧气系数1，水系数2',
+    reactants:[
+      {formula:'H₂', display:'H₂', atoms:{H:2}, color:'#3B82F6'},
+      {formula:'O₂', display:'O₂', atoms:{O:2}, color:'#EF4444'},
+    ],
+    products:[
+      {formula:'H₂O', display:'H₂O', atoms:{H:2, O:1}, color:'#06B6D4'},
+    ],
+    answer:[2,1,2]
+  },
+  {
+    id:'ironoxide',
+    title:'铁的氧化 · Fe + O₂ → Fe₂O₃',
+    knowledge:'4个铁原子 + 3个氧气分子 → 2个三氧化二铁。两边各有4个Fe、6个O。',
+    hint:'铁系数4，氧气系数3，三氧化二铁系数2',
+    reactants:[
+      {formula:'Fe', display:'Fe', atoms:{Fe:1}, color:'#92400E'},
+      {formula:'O₂', display:'O₂', atoms:{O:2}, color:'#EF4444'},
+    ],
+    products:[
+      {formula:'Fe₂O₃', display:'Fe₂O₃', atoms:{Fe:2, O:3}, color:'#B45309'},
+    ],
+    answer:[4,3,2]
+  },
+  {
+    id:'aluminumacid',
+    title:'铝与盐酸反应 · Al + HCl → AlCl₃ + H₂',
+    knowledge:'2个铝原子 + 6个氯化氢 → 2个氯化铝 + 3个氢气分子。',
+    hint:'铝系数2，盐酸系数6，氯化铝系数2，氢气系数3',
+    reactants:[
+      {formula:'Al', display:'Al', atoms:{Al:1}, color:'#9CA3AF'},
+      {formula:'HCl', display:'HCl', atoms:{H:1, Cl:1}, color:'#F59E0B'},
+    ],
+    products:[
+      {formula:'AlCl₃', display:'AlCl₃', atoms:{Al:1, Cl:3}, color:'#A78BFA'},
+      {formula:'H₂', display:'H₂', atoms:{H:2}, color:'#3B82F6'},
+    ],
+    answer:[2,6,2,3]
+  },
+];
+
+var currentEqIdx = 0;
+var coeffs = [];
+var solvedSet = {};
+
+function initEq() {
+  var eq = EQUATIONS[currentEqIdx];
+  var allMols = eq.reactants.concat(eq.products);
+  coeffs = allMols.map(function(){ return 1; });
+
+  document.getElementById('eq-title').textContent = '方程式 ' + (currentEqIdx+1) + ' / ' + EQUATIONS.length;
+  document.getElementById('next-btn').disabled = !solvedSet[eq.id];
+  document.getElementById('feedback-box').className = 'feedback-box unbalanced';
+  document.getElementById('feedback-box').textContent = '调整系数，使左右两边原子数相等 ⚖️';
+
+  renderProgress();
+  renderScene();
+  renderBalanceTable();
+}
+
+function renderProgress() {
+  var row = document.getElementById('eq-progress');
+  row.innerHTML = '';
+  EQUATIONS.forEach(function(eq, i) {
+    var dot = document.createElement('div');
+    dot.className = 'eq-dot' + (i === currentEqIdx ? ' active' : '') + (solvedSet[eq.id] ? ' done' : '');
+    dot.textContent = solvedSet[eq.id] ? '✓' : (i+1);
+    row.appendChild(dot);
+  });
+}
+
+function renderScene() {
+  var eq = EQUATIONS[currentEqIdx];
+  var scene = document.getElementById('eq-scene');
+  scene.innerHTML = '';
+
+  var rLen = eq.reactants.length;
+  var allMols = eq.reactants.concat(eq.products);
+
+  allMols.forEach(function(mol, idx) {
+    // Plus or arrow
+    if (idx > 0) {
+      var sep = document.createElement('span');
+      sep.className = idx === rLen ? 'eq-arrow' : 'eq-plus';
+      sep.textContent = idx === rLen ? '→' : '+';
+      scene.appendChild(sep);
+    }
+
+    var block = document.createElement('div');
+    block.className = 'mol-block';
+
+    // Coefficient controls
+    var coeffRow = document.createElement('div');
+    coeffRow.className = 'mol-coeff';
+
+    var minusBtn = document.createElement('button');
+    minusBtn.className = 'coeff-btn';
+    minusBtn.textContent = '−';
+    minusBtn.dataset.idx = idx;
+    minusBtn.addEventListener('click', function() {
+      var i = parseInt(this.dataset.idx);
+      if (coeffs[i] > 1) { coeffs[i]--; updateCoeff(i); renderBalanceTable(); checkBalance(); }
+    });
+
+    var numEl = document.createElement('span');
+    numEl.className = 'coeff-num';
+    numEl.id = 'coeff-' + idx;
+    numEl.textContent = coeffs[idx];
+
+    var plusBtn = document.createElement('button');
+    plusBtn.className = 'coeff-btn';
+    plusBtn.textContent = '+';
+    plusBtn.dataset.idx = idx;
+    plusBtn.addEventListener('click', function() {
+      var i = parseInt(this.dataset.idx);
+      if (coeffs[i] < 9) { coeffs[i]++; updateCoeff(i); renderBalanceTable(); checkBalance(); }
+    });
+
+    coeffRow.appendChild(minusBtn);
+    coeffRow.appendChild(numEl);
+    coeffRow.appendChild(plusBtn);
+
+    // Molecule SVG diagram
+    var svg = makeMolSVG(mol, coeffs[idx]);
+    svg.id = 'mol-svg-' + idx;
+
+    var label = document.createElement('div');
+    label.className = 'mol-formula';
+    label.textContent = mol.display;
+
+    block.appendChild(coeffRow);
+    block.appendChild(svg);
+    block.appendChild(label);
+    scene.appendChild(block);
+  });
+}
+
+function updateCoeff(idx) {
+  var el = document.getElementById('coeff-' + idx);
+  if (el) el.textContent = coeffs[idx];
+  var svgEl = document.getElementById('mol-svg-' + idx);
+  var eq = EQUATIONS[currentEqIdx];
+  var allMols = eq.reactants.concat(eq.products);
+  if (svgEl && allMols[idx]) {
+    var newSvg = makeMolSVG(allMols[idx], coeffs[idx]);
+    newSvg.id = 'mol-svg-' + idx;
+    svgEl.parentNode.replaceChild(newSvg, svgEl);
+  }
+}
+
+function makeMolSVG(mol, coeff) {
+  var ns = 'http://www.w3.org/2000/svg';
+  var svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', '0 0 80 80');
+  svg.setAttribute('width', '80');
+  svg.setAttribute('height', '80');
+
+  // Draw one molecule repeated coeff times (up to 4 displayed)
+  var shown = Math.min(coeff, 4);
+  var offsets = [[40,40],[20,20],[60,20],[20,60],[60,60]];
+
+  for (var c = 0; c < shown; c++) {
+    var baseX = offsets[c][0];
+    var baseY = offsets[c][1];
+    var scale = shown > 1 ? 0.55 : 1;
+
+    var atomNames = Object.keys(mol.atoms);
+    var total = atomNames.reduce(function(s,k){ return s + mol.atoms[k]; }, 0);
+
+    if (total === 1) {
+      // Single atom
+      var circle = document.createElementNS(ns, 'circle');
+      circle.setAttribute('cx', baseX);
+      circle.setAttribute('cy', baseY);
+      circle.setAttribute('r', 14 * scale);
+      circle.setAttribute('fill', mol.color);
+      circle.setAttribute('opacity', '.85');
+      svg.appendChild(circle);
+      var t = document.createElementNS(ns, 'text');
+      t.setAttribute('x', baseX);
+      t.setAttribute('y', baseY + 5 * scale);
+      t.setAttribute('text-anchor', 'middle');
+      t.setAttribute('font-size', 12 * scale);
+      t.setAttribute('fill', 'white');
+      t.setAttribute('font-weight', '700');
+      t.textContent = atomNames[0];
+      svg.appendChild(t);
+    } else if (total === 2) {
+      // Diatomic
+      var dx = 10 * scale;
+      [baseX - dx, baseX + dx].forEach(function(cx, ai) {
+        var c2 = document.createElementNS(ns, 'circle');
+        c2.setAttribute('cx', cx);
+        c2.setAttribute('cy', baseY);
+        c2.setAttribute('r', 11 * scale);
+        c2.setAttribute('fill', mol.color);
+        c2.setAttribute('opacity', '.85');
+        svg.appendChild(c2);
+      });
+      // Bond
+      var line = document.createElementNS(ns, 'line');
+      line.setAttribute('x1', baseX - dx + 5 * scale);
+      line.setAttribute('y1', baseY);
+      line.setAttribute('x2', baseX + dx - 5 * scale);
+      line.setAttribute('y2', baseY);
+      line.setAttribute('stroke', 'white');
+      line.setAttribute('stroke-width', 2 * scale);
+      svg.appendChild(line);
+    } else {
+      // Polyatomic: central + surrounding
+      var colors = [mol.color, '#F59E0B', '#8B5CF6', '#10B981'];
+      var positions = [[0,0],[-12,0],[12,0],[0,-12],[0,12]];
+      var atomArr = [];
+      atomNames.forEach(function(el) {
+        for (var n = 0; n < mol.atoms[el]; n++) atomArr.push({el:el, color:colors[atomArr.length % colors.length]});
+      });
+      atomArr.forEach(function(atom, ai) {
+        var pos = positions[ai] || [0,0];
+        var cx2 = baseX + pos[0] * scale;
+        var cy2 = baseY + pos[1] * scale;
+        if (ai > 0) {
+          var bond = document.createElementNS(ns, 'line');
+          bond.setAttribute('x1', baseX);
+          bond.setAttribute('y1', baseY);
+          bond.setAttribute('x2', cx2);
+          bond.setAttribute('y2', cy2);
+          bond.setAttribute('stroke', 'var(--ink-mute)');
+          bond.setAttribute('stroke-width', 1.5 * scale);
+          bond.setAttribute('opacity', '.4');
+          svg.appendChild(bond);
+        }
+        var circ = document.createElementNS(ns, 'circle');
+        circ.setAttribute('cx', cx2);
+        circ.setAttribute('cy', cy2);
+        circ.setAttribute('r', (ai === 0 ? 12 : 9) * scale);
+        circ.setAttribute('fill', atom.color);
+        circ.setAttribute('opacity', '.85');
+        svg.appendChild(circ);
+      });
+    }
+  }
+
+  // Show count badge if coeff > 4
+  if (coeff > 4) {
+    var badge = document.createElementNS(ns, 'text');
+    badge.setAttribute('x', '72');
+    badge.setAttribute('y', '14');
+    badge.setAttribute('text-anchor', 'end');
+    badge.setAttribute('font-size', '11');
+    badge.setAttribute('fill', 'var(--ink-mute)');
+    badge.textContent = '×' + coeff;
+    svg.appendChild(badge);
+  }
+
+  return svg;
+}
+
+function countAtoms(eq, side) {
+  var mols = side === 'left' ? eq.reactants : eq.products;
+  var offset = side === 'left' ? 0 : eq.reactants.length;
+  var result = {};
+  mols.forEach(function(mol, i) {
+    var c = coeffs[offset + i];
+    Object.keys(mol.atoms).forEach(function(el) {
+      result[el] = (result[el] || 0) + mol.atoms[el] * c;
+    });
+  });
+  return result;
+}
+
+function renderBalanceTable() {
+  var eq = EQUATIONS[currentEqIdx];
+  var left = countAtoms(eq, 'left');
+  var right = countAtoms(eq, 'right');
+  var allEls = Object.keys(Object.assign({}, left, right));
+
+  var tbody = document.getElementById('balance-body');
+  tbody.innerHTML = '';
+  allEls.forEach(function(el) {
+    var lc = left[el] || 0;
+    var rc = right[el] || 0;
+    var ok = lc === rc;
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td class="elem-col">' + el + '</td>' +
+      '<td><span class="count-cell ' + (ok ? 'ok' : 'bad') + '">' + lc + '</span></td>' +
+      '<td><span class="count-cell ' + (ok ? 'ok' : 'bad') + '">' + rc + '</span></td>' +
+      '<td>' + (ok ? '✅' : '❌') + '</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function checkBalance() {
+  var eq = EQUATIONS[currentEqIdx];
+  var left = countAtoms(eq, 'left');
+  var right = countAtoms(eq, 'right');
+  var allEls = Object.keys(Object.assign({}, left, right));
+  var balanced = allEls.every(function(el) { return (left[el] || 0) === (right[el] || 0); });
+
+  var fb = document.getElementById('feedback-box');
+  if (balanced) {
+    fb.className = 'feedback-box balanced';
+    fb.innerHTML = '🎉 配平成功！' + eq.knowledge;
+    solvedSet[eq.id] = true;
+    document.getElementById('next-btn').disabled = false;
+    renderProgress();
+    if (Object.keys(solvedSet).length >= EQUATIONS.length) markDone();
+  } else {
+    fb.className = 'feedback-box unbalanced';
+    fb.textContent = '还没平衡，继续调整系数 ⚖️';
+    document.getElementById('next-btn').disabled = true;
+  }
+}
+
+function showHint() {
+  var eq = EQUATIONS[currentEqIdx];
+  alert('提示：' + eq.hint);
+}
+
+function nextEq() {
+  if (currentEqIdx < EQUATIONS.length - 1) {
+    currentEqIdx++;
+    initEq();
+  }
+}
+
+function markDone() {
+  var a = [];
+  try { a = JSON.parse(localStorage.getItem('fo_games_done') || '[]'); } catch(e){}
+  if (a.indexOf(GAME_ID) < 0) { a.push(GAME_ID); localStorage.setItem('fo_games_done', JSON.stringify(a)); }
+}
+
+initEq();
+
+(function(){
+  var m = window.FO && FO.getMember(), el = document.getElementById('nav-member-btn');
+  if (!el) return;
+  if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick = function(){ location.href='../dashboard.html'; }; }
+  else { el.innerHTML = '<span>登录</span>'; el.onclick = function(){ location.href='../login.html'; }; }
+})();
+</script>
+</body>
+</html>

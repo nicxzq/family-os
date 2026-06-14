@@ -18,6 +18,12 @@
   --green-soft: #B5D4A8;
   --blue: #4B7BA8;
   --blue-soft: #A8C2DE;
+  --page-bg-peach: #FBE3D5;
+  --page-bg-mint: #D7EBC9;
+  --page-bg-sky: #D7E7F4;
+  --glass-nav: rgba(255, 255, 255, 0.7);
+  --glass-btn: rgba(255, 255, 255, 0.88);
+  --dot-inactive: rgba(43, 36, 25, 0.2);
 
   --shadow-soft: 0 2px 0 rgba(43, 36, 25, 0.08);
   --shadow-card: 0 4px 0 rgba(43, 36, 25, 0.06), 0 12px 32px -16px rgba(43, 36, 25, 0.18);

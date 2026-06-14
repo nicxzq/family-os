@@ -100,6 +100,19 @@ When adding or editing content, quotes and ideas must be faithful to the source 
 | `fo-supabase.js`                                  | (script)            | Supabase client wrapper; configure URL+key |
 | `supabase/schema.sql`                             | (DB)                | Full schema — run once in Supabase SQL editor |
 
+## Storybook generation default
+
+When adding, rewriting, or repairing any file under `storybooks/`, follow `storybooks/STORYBOOK_DESIGN.md` first. Treat it as the source of truth for story planning, source grounding, theme uniqueness, SVG structure, animation layering, navigation behavior, and verification.
+
+Default storybook planning rules:
+
+- One source chapter maps to one storybook.
+- Check source materials before writing. If `uploads/` or the requested source chapter is unavailable, stop and report that instead of inventing content.
+- Avoid repeated "reading is good" plots. Use the theme matrix in `storybooks/STORYBOOK_DESIGN.md` to separate 学习的真相, 专注的真相, 家教的真相, 教练的真相, 写作课, 读书是家事, and 时间是朋友 into different story angles.
+- Preserve the navigation invariant: `#prev` stays left, `#next` stays right.
+- Preserve the animation invariant: positioned outer SVG groups are not animated directly; click/float/bounce/shake/wobble effects run on an inner `data-interaction-layer`.
+- Before finishing, verify the changed book against the checklist in `storybooks/STORYBOOK_DESIGN.md`.
+
 ## Commit conventions
 
 - **Language**: English only.

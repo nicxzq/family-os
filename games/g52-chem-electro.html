@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>电解水实验 · 互动化学</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  .nav-member-btn{display:inline-flex;align-items:center;gap:var(--space-md);background:var(--paper);border:0;border-radius:var(--radius-full);padding:var(--space-sm) var(--space-2xl) var(--space-sm) var(--space-sm);font-family:inherit;font-size:var(--font-size-ui);cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft);}
+  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:var(--space-2xl);background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:var(--space-lg) var(--space-2xl);margin-bottom:var(--space-9xl);}
+  .back-link{text-decoration:none;color:var(--ink-mute);font-size:var(--font-size-body-sm);}
+  .wrap{max-width:var(--size-content-medium);margin:0 auto;padding:0 var(--space-5xl) var(--space-page-bottom);}
+  .game-hero{text-align:center;margin-bottom:var(--space-section);}
+  .game-hero-icon{font-size:var(--font-size-emoji-md);margin-bottom:var(--space-md);}
+  .game-hero h1{font-size:clamp(var(--font-size-hero-md),var(--font-size-hero-fluid),var(--font-size-hero-lg));margin-bottom:var(--space-lg);}
+  .game-hero .sub{color:var(--ink-soft);font-size:var(--font-size-body-lg);line-height:1.6;}
+
+  /* Circuit setup */
+  .circuit-card{background:var(--paper);border-radius:var(--radius-lg);padding:var(--space-section);box-shadow:var(--shadow-card);margin-bottom:var(--space-5xl);}
+
+  /* Instruction steps */
+  .steps-row{display:flex;gap:var(--space-xl);margin-bottom:var(--space-7xl);flex-wrap:wrap;}
+  .step{flex:1;min-width:160px;background:var(--cream-deep);border-radius:var(--radius);padding:var(--space-3xl);font-size:var(--font-size-note);}
+  .step-num{font-size:24px;font-weight:700;color:var(--ink-mute);margin-bottom:4px;}
+  .step.done .step-num{color:var(--green);}
+  .step-text{color:var(--ink-soft);}
+
+  /* SVG diagram container */
+  .diagram-wrap{position:relative;display:flex;justify-content:center;margin-bottom:var(--space-7xl);}
+  #electro-svg{width:100%;max-width:480px;height:auto;}
+
+  /* Electrode click areas */
+  .electrode-btn{cursor:pointer;transition:opacity .2s;}
+  .electrode-btn:hover{opacity:.8;}
+  .electrode-btn.connected{cursor:default;}
+
+  /* Connection terminal buttons */
+  .terminal-group{display:flex;gap:var(--space-xl);justify-content:center;margin-bottom:var(--space-5xl);}
+  .terminal-btn{padding:var(--space-xl) var(--space-5xl);border-radius:var(--radius-full);border:3px solid;font-family:inherit;font-size:var(--font-size-body);cursor:pointer;font-weight:700;transition:all .2s;}
+  .terminal-btn.pos{background:#FEF2F2;border-color:#EF4444;color:#B91C1C;}
+  .terminal-btn.neg{background:#EFF6FF;border-color:#3B82F6;color:#1D4ED8;}
+  .terminal-btn:disabled{opacity:.4;cursor:default;}
+  .terminal-btn.active-sel{transform:scale(1.08);box-shadow:0 0 0 4px rgba(0,0,0,.15);}
+
+  /* Start button */
+  .start-row{display:flex;justify-content:center;gap:var(--space-xl);margin-bottom:var(--space-7xl);}
+  .start-btn{background:var(--green);color:var(--paper);border:0;border-radius:var(--radius-full);padding:var(--space-2xl) var(--space-9xl);font-family:inherit;font-size:var(--font-size-body-lg);cursor:pointer;box-shadow:var(--shadow-button);font-weight:700;transition:transform .15s;}
+  .start-btn:hover{transform:translateY(-2px);}
+  .start-btn:disabled{background:var(--cream-deep);color:var(--ink-mute);box-shadow:none;cursor:default;transform:none;}
+  .reset-btn{background:var(--cream-deep);color:var(--ink-soft);border:0;border-radius:var(--radius-full);padding:var(--space-xl) var(--space-5xl);font-family:inherit;font-size:var(--font-size-body-sm);cursor:pointer;}
+
+  /* Gas volume counters */
+  .gas-counters{display:flex;gap:var(--space-xl);justify-content:center;margin-bottom:var(--space-7xl);}
+  .gas-card{flex:1;max-width:180px;background:var(--paper);border-radius:var(--radius);padding:var(--space-5xl) var(--space-3xl);text-align:center;box-shadow:var(--shadow-card);}
+  .gas-name{font-size:var(--font-size-note);color:var(--ink-mute);margin-bottom:var(--space-sm);letter-spacing:.1em;}
+  .gas-formula{font-size:var(--font-size-title);font-weight:700;margin-bottom:var(--space-md);}
+  .gas-volume{font-size:28px;font-weight:700;transition:all .4s;}
+  .gas-unit{font-size:11px;color:var(--ink-mute);}
+  .gas-ratio{margin-top:var(--space-section);text-align:center;font-size:var(--font-size-body);color:var(--ink-soft);}
+  .ratio-highlight{font-size:var(--font-size-title);font-weight:700;color:var(--ink);}
+
+  /* Science panel */
+  .science-panel{background:var(--blue-soft);border-radius:var(--radius);padding:var(--space-5xl);margin-bottom:var(--space-5xl);display:none;}
+  .science-panel.show{display:block;}
+  .science-panel h3{font-size:var(--font-size-title-sm);margin-bottom:var(--space-xl);}
+  .science-panel p{font-size:var(--font-size-body);color:var(--ink-soft);line-height:1.7;margin-bottom:var(--space-xl);}
+  .chem-eq-box{background:var(--paper);border-radius:var(--radius-sm);padding:var(--space-md) var(--space-3xl);font-size:var(--font-size-body-sm);display:inline-block;}
+
+  /* Wrong connection message */
+  .wrong-msg{background:#FEE2E2;border-radius:var(--radius);padding:var(--space-3xl);margin-bottom:var(--space-5xl);color:#B91C1C;font-size:var(--font-size-body);display:none;}
+  .wrong-msg.show{display:block;}
+
+  /* Canvas for bubbles */
+  #bubble-canvas{position:absolute;top:0;left:0;pointer-events:none;width:100%;height:100%;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="game-nav">
+    <a class="back-link" href="index.html">← 游戏库</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <div class="game-hero">
+    <div class="game-hero-icon">⚡</div>
+    <h1>电解水实验</h1>
+    <p class="sub">连接正确的电极，通电后观察氢气与氧气产生——<br>体积比 H₂ : O₂ = 2 : 1 ！</p>
+  </div>
+
+  <div class="circuit-card">
+    <!-- Steps guide -->
+    <div class="steps-row" id="steps-row">
+      <div class="step" id="step1"><div class="step-num">①</div><div class="step-text">选择阳极（接正极 +）</div></div>
+      <div class="step" id="step2"><div class="step-num">②</div><div class="step-text">选择阴极（接负极 −）</div></div>
+      <div class="step" id="step3"><div class="step-num">③</div><div class="step-text">点击「开始通电」</div></div>
+    </div>
+
+    <!-- Diagram -->
+    <div class="diagram-wrap">
+      <canvas id="bubble-canvas" width="480" height="400" style="position:absolute;top:0;left:0;pointer-events:none;"></canvas>
+      <svg id="electro-svg" viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- Battery -->
+        <rect x="185" y="20" width="110" height="50" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2.5"/>
+        <text x="240" y="42" text-anchor="middle" font-size="13" fill="#92400E" font-weight="700" font-family="LXGW WenKai TC,serif">电池</text>
+        <!-- Battery terminals -->
+        <rect x="180" y="34" width="10" height="22" rx="3" fill="#EF4444"/>
+        <text x="175" y="48" text-anchor="middle" font-size="14" fill="#EF4444" font-weight="700">+</text>
+        <rect x="290" y="34" width="10" height="22" rx="3" fill="#3B82F6"/>
+        <text x="305" y="48" text-anchor="middle" font-size="14" fill="#3B82F6" font-weight="700">−</text>
+
+        <!-- Wire stubs from battery (drawn when connected) -->
+        <line id="wire-pos" x1="185" y1="45" x2="140" y2="45" stroke="#EF4444" stroke-width="3" stroke-dasharray="6,4" opacity="0"/>
+        <line id="wire-pos2" x1="140" y1="45" x2="140" y2="175" stroke="#EF4444" stroke-width="3" stroke-dasharray="6,4" opacity="0"/>
+        <line id="wire-neg" x1="300" y1="45" x2="340" y2="45" stroke="#3B82F6" stroke-width="3" stroke-dasharray="6,4" opacity="0"/>
+        <line id="wire-neg2" x1="340" y1="45" x2="340" y2="175" stroke="#3B82F6" stroke-width="3" stroke-dasharray="6,4" opacity="0"/>
+
+        <!-- Water container -->
+        <rect x="100" y="175" width="280" height="180" rx="8" fill="rgba(147,197,253,0.25)" stroke="#60A5FA" stroke-width="2.5"/>
+        <!-- Water surface line -->
+        <line x1="100" y1="205" x2="380" y2="205" stroke="#93C5FD" stroke-width="1" stroke-dasharray="4,4"/>
+        <!-- Water label -->
+        <text x="240" y="345" text-anchor="middle" font-size="13" fill="#60A5FA">稀硫酸水溶液 H₂O</text>
+
+        <!-- Electrode Left (clickable) -->
+        <g id="elec-left" class="electrode-btn">
+          <rect x="125" y="175" width="18" height="130" rx="4" fill="#6B7280" stroke="#4B5563" stroke-width="1.5"/>
+          <text id="elec-left-label" x="134" y="165" text-anchor="middle" font-size="12" fill="#6B7280">?</text>
+          <!-- Collecting tube left -->
+          <rect x="110" y="80" width="50" height="100" rx="4" fill="rgba(255,255,255,0.5)" stroke="#9CA3AF" stroke-width="1.5"/>
+          <rect id="tube-left-fill" x="111" y="179" width="48" height="0" fill="#93C5FD" opacity=".5" style="transform-origin:bottom;"/>
+          <text id="tube-left-label" x="135" y="100" text-anchor="middle" font-size="11" fill="#6B7280">收集管</text>
+        </g>
+
+        <!-- Electrode Right (clickable) -->
+        <g id="elec-right" class="electrode-btn">
+          <rect x="337" y="175" width="18" height="130" rx="4" fill="#6B7280" stroke="#4B5563" stroke-width="1.5"/>
+          <text id="elec-right-label" x="346" y="165" text-anchor="middle" font-size="12" fill="#6B7280">?</text>
+          <!-- Collecting tube right -->
+          <rect x="320" y="80" width="50" height="100" rx="4" fill="rgba(255,255,255,0.5)" stroke="#9CA3AF" stroke-width="1.5"/>
+          <rect id="tube-right-fill" x="321" y="179" width="48" height="0" fill="#93C5FD" opacity=".5" style="transform-origin:bottom;"/>
+          <text id="tube-right-label" x="345" y="100" text-anchor="middle" font-size="11" fill="#6B7280">收集管</text>
+        </g>
+
+        <!-- Current direction arrows (hidden until running) -->
+        <g id="current-arrows" opacity="0">
+          <polygon points="158,48 168,43 168,53" fill="#EF4444"/>
+          <polygon points="322,48 312,43 312,53" fill="#3B82F6"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Electrode assignment buttons -->
+    <div class="terminal-group" id="terminal-group">
+      <button class="terminal-btn pos" id="btn-pos" onclick="selectTerminal('pos')">+ 正极（阳极）</button>
+      <button class="terminal-btn neg" id="btn-neg" onclick="selectTerminal('neg')">− 负极（阴极）</button>
+    </div>
+    <p style="text-align:center;font-size:var(--font-size-note);color:var(--ink-mute);margin-bottom:var(--space-5xl);">先点击上方按钮选择极性，再点击 SVG 中的电极来分配</p>
+
+    <div class="wrong-msg" id="wrong-msg">⚠️ 电极接反了！阳极（+）应在左侧，阴极（−）在右侧。请重置后再试。</div>
+
+    <div class="start-row">
+      <button class="start-btn" id="start-btn" onclick="startElectrolysis()" disabled>⚡ 开始通电</button>
+      <button class="reset-btn" onclick="resetAll()">重置实验</button>
+    </div>
+  </div>
+
+  <!-- Gas counters -->
+  <div class="gas-counters">
+    <div class="gas-card">
+      <div class="gas-name">阴极（负极）产生</div>
+      <div class="gas-formula" style="color:#3B82F6">H₂</div>
+      <div class="gas-volume" id="h2-vol" style="color:#3B82F6">0</div>
+      <div class="gas-unit">相对体积单位</div>
+    </div>
+    <div class="gas-card">
+      <div class="gas-name">阳极（正极）产生</div>
+      <div class="gas-formula" style="color:#EF4444">O₂</div>
+      <div class="gas-volume" id="o2-vol" style="color:#EF4444">0</div>
+      <div class="gas-unit">相对体积单位</div>
+    </div>
+  </div>
+  <div class="gas-ratio" id="gas-ratio">
+    体积比 H₂ : O₂ = <span class="ratio-highlight" id="ratio-display">?</span>
+  </div>
+
+  <!-- Science explanation -->
+  <div class="science-panel" id="science-panel">
+    <h3>⚡ 发生了什么？</h3>
+    <p>水（H₂O）是由氢和氧组成的化合物。通电后，电解质溶液中的水分子在电极处发生氧化还原反应：</p>
+    <div>
+      <div class="chem-eq-box" style="margin-bottom:8px">阴极（−）：2H₂O + 2e⁻ → H₂↑ + 2OH⁻</div><br>
+      <div class="chem-eq-box" style="margin-bottom:8px">阳极（+）：2H₂O → O₂↑ + 4H⁺ + 4e⁻</div><br>
+      <div class="chem-eq-box">总反应：2H₂O —电解→ 2H₂↑ + O₂↑</div>
+    </div>
+    <p>从方程式可以看出：每生成 1 体积 O₂，就会同时产生 2 体积 H₂，因此 H₂:O₂ = 2:1。</p>
+  </div>
+</div>
+
+<script src="../fo-utils.js"></script>
+<script>
+var GAME_ID = 'g52-chem-electro';
+
+var selectedTerminal = null; // 'pos' or 'neg'
+var assignments = {left: null, right: null}; // 'pos' or 'neg'
+var isRunning = false;
+var h2 = 0, o2 = 0;
+var bubbleInterval = null;
+var bubbles = [];
+var animFrame = null;
+
+var canvas = document.getElementById('bubble-canvas');
+var ctx = canvas.getContext('2d');
+
+function selectTerminal(t) {
+  selectedTerminal = t;
+  document.getElementById('btn-pos').classList.toggle('active-sel', t === 'pos');
+  document.getElementById('btn-neg').classList.toggle('active-sel', t === 'neg');
+  // Now user clicks an electrode in the SVG
+  document.getElementById('elec-left').onclick = function() { assignElectrode('left'); };
+  document.getElementById('elec-right').onclick = function() { assignElectrode('right'); };
+}
+
+function assignElectrode(side) {
+  if (!selectedTerminal || isRunning) return;
+  if (assignments[side] !== null) return; // already assigned
+
+  assignments[side] = selectedTerminal;
+  updateElectrodeVisual(side);
+  selectedTerminal = null;
+  document.getElementById('btn-pos').classList.remove('active-sel');
+  document.getElementById('btn-neg').classList.remove('active-sel');
+
+  // Update steps
+  if (assignments.left !== null) {
+    document.getElementById('step1').classList.add('done');
+    document.getElementById('step1').querySelector('.step-num').textContent = '✓';
+  }
+  if (assignments.right !== null) {
+    document.getElementById('step2').classList.add('done');
+    document.getElementById('step2').querySelector('.step-num').textContent = '✓';
+  }
+
+  // Disable used terminal button
+  if (selectedTerminal === 'pos' || assignments.left === 'pos' || assignments.right === 'pos') {
+    document.getElementById('btn-pos').disabled = (assignments.left === 'pos' || assignments.right === 'pos');
+  }
+  if (assignments.left === 'neg' || assignments.right === 'neg') {
+    document.getElementById('btn-neg').disabled = true;
+  }
+
+  if (assignments.left !== null && assignments.right !== null) {
+    document.getElementById('start-btn').disabled = false;
+  }
+}
+
+function updateElectrodeVisual(side) {
+  var t = assignments[side];
+  var label = document.getElementById('elec-' + side + '-label');
+  var el = document.getElementById('elec-' + side);
+  var rect = el.querySelector('rect');
+
+  if (t === 'pos') {
+    label.textContent = '阳极+';
+    label.setAttribute('fill', '#EF4444');
+    rect.setAttribute('fill', '#FECACA');
+    rect.setAttribute('stroke', '#EF4444');
+    // Show pos wire on left side
+    if (side === 'left') { showWire('pos'); }
+    else { showWire('neg'); } // wrong side
+  } else {
+    label.textContent = '阴极−';
+    label.setAttribute('fill', '#3B82F6');
+    rect.setAttribute('fill', '#BFDBFE');
+    rect.setAttribute('stroke', '#3B82F6');
+    if (side === 'right') { showWire('neg'); }
+    else { showWire('pos'); }
+  }
+}
+
+function showWire(type) {
+  var w1 = document.getElementById('wire-' + type);
+  var w2 = document.getElementById('wire-' + type + '2');
+  if (w1) { w1.setAttribute('opacity', '1'); }
+  if (w2) { w2.setAttribute('opacity', '1'); }
+}
+
+function startElectrolysis() {
+  // Check if correct: left=anode(pos), right=cathode(neg)  OR left=cathode, right=anode
+  // In this experiment, either orientation works - just show correct result
+  // But for educational purposes: pos terminal on either side is fine
+  if (assignments.left === null || assignments.right === null) return;
+
+  isRunning = true;
+  document.getElementById('start-btn').disabled = true;
+  document.getElementById('btn-pos').disabled = true;
+  document.getElementById('btn-neg').disabled = true;
+  document.getElementById('step3').classList.add('done');
+  document.getElementById('step3').querySelector('.step-num').textContent = '✓';
+
+  // Show current arrows
+  document.getElementById('current-arrows').setAttribute('opacity', '1');
+
+  // Make wires solid
+  ['wire-pos','wire-pos2','wire-neg','wire-neg2'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) { el.removeAttribute('stroke-dasharray'); el.setAttribute('opacity','1'); }
+  });
+
+  // Determine which side is cathode (produces H2, more bubbles)
+  var cathodeSide = assignments.left === 'neg' ? 'left' : 'right';
+  var anodeSide = cathodeSide === 'left' ? 'right' : 'left';
+
+  // Start bubble animation
+  startBubbles(cathodeSide, anodeSide);
+
+  // Show science panel
+  setTimeout(function() {
+    document.getElementById('science-panel').className = 'science-panel show';
+    markDone();
+  }, 3000);
+}
+
+function startBubbles(cathodeSide, anodeSide) {
+  // Positions in canvas coords (SVG viewBox is 480x400, canvas is same)
+  var positions = {
+    left: {x: 134, tubeX: 110, tubeW: 50},
+    right: {x: 346, tubeX: 320, tubeW: 50}
+  };
+  var cathPos = positions[cathodeSide];
+  var anodPos = positions[anodeSide];
+
+  var tick = 0;
+
+  function spawnBatch() {
+    if (!isRunning) return;
+    tick++;
+
+    // Cathode: spawn 2 bubbles per tick (H2)
+    for (var i = 0; i < 2; i++) {
+      bubbles.push({
+        x: cathPos.x + (Math.random() - 0.5) * 10,
+        y: 300,
+        vy: -(1.5 + Math.random()),
+        r: 2 + Math.random() * 2,
+        color: 'rgba(59,130,246,0.6)',
+        life: 1
+      });
+    }
+
+    // Anode: spawn 1 bubble per tick (O2)
+    bubbles.push({
+      x: anodPos.x + (Math.random() - 0.5) * 10,
+      y: 300,
+      vy: -(1.2 + Math.random()),
+      r: 2.5 + Math.random() * 2,
+      color: 'rgba(239,68,68,0.5)',
+      life: 1
+    });
+
+    // Update gas volumes every 5 ticks
+    if (tick % 5 === 0) {
+      h2 = Math.min(h2 + 2, 40);
+      o2 = Math.min(o2 + 1, 20);
+      document.getElementById('h2-vol').textContent = h2;
+      document.getElementById('o2-vol').textContent = o2;
+      document.getElementById('ratio-display').textContent = (h2 > 0 ? (h2 / o2).toFixed(1) + ' : 1' : '?');
+
+      // Update tube fill heights (grow upward from y=179)
+      var catTube = document.getElementById('tube-' + cathodeSide + '-fill');
+      var anTube = document.getElementById('tube-' + anodeSide + '-fill');
+      var maxH = 95; // max fill height (tube height ~100)
+      if (catTube) {
+        var h = Math.min((h2 / 40) * maxH, maxH);
+        catTube.setAttribute('height', h);
+        catTube.setAttribute('y', 179 - h);
+        catTube.setAttribute('fill', '#93C5FD');
+      }
+      if (anTube) {
+        var h2v = Math.min((o2 / 20) * maxH, maxH);
+        anTube.setAttribute('height', h2v);
+        anTube.setAttribute('y', 179 - h2v);
+        anTube.setAttribute('fill', '#FCA5A5');
+      }
+
+      // Update tube labels
+      var catLabel = document.getElementById('tube-' + cathodeSide + '-label');
+      var anLabel = document.getElementById('tube-' + anodeSide + '-label');
+      if (catLabel) catLabel.textContent = 'H₂ ' + h2;
+      if (anLabel) anLabel.textContent = 'O₂ ' + o2;
+    }
+
+    if (h2 < 40) setTimeout(spawnBatch, 120);
+  }
+
+  spawnBatch();
+
+  function animateBubbles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    bubbles = bubbles.filter(function(b) {
+      b.y += b.vy;
+      b.x += (Math.random() - 0.5) * 0.5;
+      b.life -= 0.008;
+      if (b.y < 80 || b.life <= 0) return false;
+      ctx.globalAlpha = Math.max(0, b.life);
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx.strokeStyle = b.color;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      return true;
+    });
+    ctx.globalAlpha = 1;
+    animFrame = requestAnimationFrame(animateBubbles);
+  }
+  animateBubbles();
+}
+
+function resetAll() {
+  isRunning = false;
+  assignments = {left: null, right: null};
+  selectedTerminal = null;
+  h2 = 0; o2 = 0;
+  bubbles = [];
+  if (animFrame) { cancelAnimationFrame(animFrame); animFrame = null; }
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  document.getElementById('h2-vol').textContent = '0';
+  document.getElementById('o2-vol').textContent = '0';
+  document.getElementById('ratio-display').textContent = '?';
+  document.getElementById('science-panel').className = 'science-panel';
+  document.getElementById('start-btn').disabled = true;
+  document.getElementById('btn-pos').disabled = false;
+  document.getElementById('btn-neg').disabled = false;
+  document.getElementById('btn-pos').classList.remove('active-sel');
+  document.getElementById('btn-neg').classList.remove('active-sel');
+  document.getElementById('current-arrows').setAttribute('opacity', '0');
+  document.getElementById('wrong-msg').className = 'wrong-msg';
+
+  // Reset wire opacity
+  ['wire-pos','wire-pos2','wire-neg','wire-neg2'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) { el.setAttribute('stroke-dasharray','6,4'); el.setAttribute('opacity','0'); }
+  });
+
+  // Reset electrodes
+  ['left','right'].forEach(function(side) {
+    var label = document.getElementById('elec-' + side + '-label');
+    var rect = document.getElementById('elec-' + side).querySelector('rect');
+    var tubeLabel = document.getElementById('tube-' + side + '-label');
+    var tubeFill = document.getElementById('tube-' + side + '-fill');
+    if (label) { label.textContent = '?'; label.setAttribute('fill','#6B7280'); }
+    if (rect) { rect.setAttribute('fill','#6B7280'); rect.setAttribute('stroke','#4B5563'); }
+    if (tubeLabel) tubeLabel.textContent = '收集管';
+    if (tubeFill) { tubeFill.setAttribute('height','0'); tubeFill.setAttribute('y','179'); }
+  });
+
+  // Reset steps
+  ['step1','step2','step3'].forEach(function(id, i) {
+    var s = document.getElementById(id);
+    s.classList.remove('done');
+    s.querySelector('.step-num').textContent = ['①','②','③'][i];
+  });
+
+  document.getElementById('elec-left').onclick = null;
+  document.getElementById('elec-right').onclick = null;
+}
+
+function markDone() {
+  var a = [];
+  try { a = JSON.parse(localStorage.getItem('fo_games_done') || '[]'); } catch(e){}
+  if (a.indexOf(GAME_ID) < 0) { a.push(GAME_ID); localStorage.setItem('fo_games_done', JSON.stringify(a)); }
+}
+
+(function(){
+  var m = window.FO && FO.getMember(), el = document.getElementById('nav-member-btn');
+  if (!el) return;
+  if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick = function(){ location.href='../dashboard.html'; }; }
+  else { el.innerHTML = '<span>登录</span>'; el.onclick = function(){ location.href='../login.html'; }; }
+})();
+</script>
+</body>
+</html>

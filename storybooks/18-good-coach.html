@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>爸爸的一个好问题</title>
+<meta name="description" content="锚定《教练的真相》：好教练用好问题陪孩子试下一步。">
+<meta property="og:title" content="爸爸的一个好问题">
+<meta property="og:description" content="锚定《教练的真相》：好教练用好问题陪孩子试下一步。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/storybooks/18-good-coach">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root {
+    --storybook-accent: var(--blue);
+    --viewport-w: 100vw;
+    --viewport-h: 100vh;
+    --page-top-pad: 72px;
+    --page-bottom-pad: 48px;
+    --nav-btn-size: 56px;
+    --end-card-max: 480px;
+    --end-card-side-gap: 48px;
+    --text-h2-fluid: 4.5vw;
+    --text-h2-max: 34px;
+    --text-big-max: 42px;
+    --text-small-fluid: 2.8vw;
+    --text-small-min: var(--font-size-ui);
+    --text-small-max: var(--font-size-body);
+    --speech-min: 120px;
+    --speech-edge: 12px;
+    --speech-gap: 10px;
+    --anim-float-y: -10px;
+    --anim-bounce-peak: -18px;
+    --anim-bounce-mid-a: -4px;
+    --anim-bounce-mid-b: -8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "LXGW WenKai TC", serif; min-height: var(--viewport-h); overflow: hidden; }
+  .book { width: var(--viewport-w); height: var(--viewport-h); position: relative; overflow: hidden; }
+  .top { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: var(--space-5xl) var(--space-9xl); z-index: 20; }
+  .back, .dash-link { text-decoration: none; color: var(--ink-soft); font-size: var(--font-size-body); background: var(--glass-nav); padding: var(--space-md) var(--space-3xl); border-radius: var(--radius-full); backdrop-filter: blur(var(--space-md)); }
+  .read-aloud { background: var(--storybook-accent); color: var(--paper); border: 0; padding: var(--radius-md) var(--radius); border-radius: var(--radius-full); font-family: inherit; font-size: var(--font-size-body); cursor: pointer; box-shadow: var(--shadow-button); }
+  .page { position: absolute; inset: 0; display: flex; flex-direction: column; padding: var(--page-top-pad) 0 var(--page-bottom-pad); opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
+  .page.is-active { opacity: 1; pointer-events: auto; }
+  .page[data-bg="cream"] { background: var(--cream); }
+  .page[data-bg="peach"] { background: var(--page-bg-peach); }
+  .page[data-bg="mint"] { background: var(--page-bg-mint); }
+  .page[data-bg="sky"] { background: var(--page-bg-sky); }
+  .page[data-bg="yellow"] { background: var(--yellow-soft); }
+  .scene { flex: 1; min-height: 0; width: 100%; overflow: hidden; position: relative; }
+  .scene svg { width: 100%; height: 100%; }
+  .text { flex-shrink: 0; padding: var(--radius-card-inner) var(--space-7xl) var(--space-md); text-align: center; }
+  .text h2 { font-size: clamp(var(--space-6xl), var(--text-h2-fluid), var(--text-h2-max)); line-height: 1.4; color: var(--ink); font-weight: 500; text-wrap: balance; }
+  .text .big { font-size: clamp(var(--font-size-hero-sm), var(--font-size-hero-fluid), var(--text-big-max)); line-height: 1.3; color: var(--storybook-accent); font-weight: 700; margin-top: var(--space-md); }
+  .text .small { font-size: clamp(var(--text-small-min), var(--text-small-fluid), var(--text-small-max)); line-height: 1.6; color: var(--ink-soft); margin-top: var(--space-md); }
+  .end-card { margin: auto; background: var(--paper); padding: var(--space-9xl); border-radius: var(--radius-lg); max-width: var(--end-card-max); width: calc(100% - var(--end-card-side-gap)); box-shadow: var(--shadow-card); text-align: center; }
+  .end-card h2 { font-size: var(--font-size-hero-md); color: var(--storybook-accent); margin-bottom: var(--space-3xl); }
+  .end-card p { font-size: var(--font-size-title-sm); color: var(--ink); line-height: 1.7; margin-bottom: var(--radius-card-inner); }
+  .end-phrase { font-size: var(--font-size-hero-md); color: var(--storybook-accent); font-weight: 700; margin: var(--space-3xl) 0; line-height: 1.4; }
+  .end-small { font-size: var(--font-size-body); color: var(--ink-soft); }
+  .replay { margin-top: var(--space-7xl); }
+  .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: var(--glass-btn); border: 0; width: var(--nav-btn-size); height: var(--nav-btn-size); border-radius: var(--radius-full); font-size: var(--space-7xl); cursor: pointer; box-shadow: var(--shadow-button); font-family: inherit; color: var(--ink); z-index: 20; backdrop-filter: blur(var(--radius-xs)); }
+  .nav-btn:disabled { opacity: 0.3; pointer-events: none; }
+  #prev { left: var(--radius-card-inner); }
+  #next { right: var(--radius-card-inner); }
+  .dots-wrap { position: absolute; bottom: var(--space-3xl); left: 0; right: 0; display: flex; justify-content: center; z-index: 20; }
+  .dots { display: flex; gap: var(--radius-sm); }
+  .dots span { width: var(--size-dot); height: var(--size-dot); border-radius: var(--radius-full); background: var(--dot-inactive); transition: background 0.3s, transform 0.3s; }
+  .dots span.is-active { background: var(--storybook-accent); transform: scale(1.4); }
+  .interactive { cursor: pointer; transform-box: fill-box; transform-origin: center center; }
+  .float { animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(var(--anim-float-y)); } }
+  .do-bounce { animation: iBounce 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
+  @keyframes iBounce { 0%, 100% { transform: translateY(0) scale(1); } 25% { transform: translateY(var(--anim-bounce-peak)) scale(1.15); } 55% { transform: translateY(var(--anim-bounce-mid-a)) scale(0.96); } 75% { transform: translateY(var(--anim-bounce-mid-b)) scale(1.05); } }
+  .do-wobble { animation: iWobble 0.7s ease both; }
+  @keyframes iWobble { 0%, 100% { transform: scale(1); } 25% { transform: scaleX(1.18) scaleY(0.82); } 55% { transform: scaleX(0.9) scaleY(1.12); } 80% { transform: scaleX(1.04) scaleY(0.98); } }
+  .speech-bubble { position: absolute; background: var(--paper); border-radius: var(--radius-full); padding: var(--radius-sm) var(--space-3xl); font-size: var(--font-size-title); font-family: "LXGW WenKai TC", serif; box-shadow: var(--shadow-button); pointer-events: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; z-index: 50; animation: bPop 0.3s ease forwards; }
+  @keyframes bPop { from { opacity: 0; } to { opacity: 1; } }
+  .cb { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
+  .ce { fill: var(--ink); }
+  .ck { fill: var(--coral); }
+  .cd { fill: none; stroke: var(--ink); stroke-linecap: round; }
+  .paper { fill: var(--paper); }
+  .ink { fill: var(--ink); }
+  .mute { fill: var(--ink-mute); }
+  .coral { fill: var(--coral); }
+  .yellow { fill: var(--yellow); }
+  .yellow-soft { fill: var(--yellow-soft); }
+  .green { fill: var(--green); }
+  .green-soft { fill: var(--green-soft); }
+  .blue { fill: var(--blue); }
+  .blue-soft { fill: var(--blue-soft); }
+  .cream-deep { fill: var(--cream-deep); }
+  .none { fill: none; }
+  .s-ink { stroke: var(--ink); stroke-width: 2; }
+  .s-soft { stroke: var(--ink-soft); stroke-width: 1.5; }
+  .s-blue { stroke: var(--blue); stroke-width: 2; }
+  .round { stroke-linecap: round; }
+</style>
+</head>
+<body>
+<div class="book">
+  <div class="top">
+    <a class="back" href="../for-youngest.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+    <a class="dash-link" href="../dashboard.html" title="仪表盘">📊</a>
+  </div>
+
+  <div class="page is-active" data-bg="mint" data-text="毛毛用纸搭小桥。小车一开上去，桥就塌了。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <rect x="0" y="262" width="400" height="58" class="green-soft" opacity="0.45"/>
+      <rect x="118" y="204" width="164" height="16" rx="4" class="paper"/>
+      <path d="M120 204 C160 236 232 236 280 204" class="cd s-soft round"/>
+      <rect x="174" y="184" width="48" height="24" rx="5" class="blue"/>
+      <circle cx="184" cy="212" r="7" class="ink"/><circle cx="212" cy="212" r="7" class="ink"/>
+      <g id="p1-maomao" transform="translate(95,238)"><g data-interaction-layer>
+        <ellipse cx="0" cy="10" rx="22" ry="24" class="cb"/><circle cx="0" cy="-20" r="18" class="cb"/>
+        <circle cx="-6" cy="-23" r="3" class="ce"/><circle cx="6" cy="-23" r="3" class="ce"/>
+        <polygon points="0,-16 10,-12 0,-9" class="ck"/>
+        <ellipse cx="0" cy="-9" rx="5" ry="4" class="coral"/>
+      </g></g>
+      <text x="222" y="160" font-size="22" class="coral">哎呀！</text>
+    </svg></div>
+    <div class="text"><h2>毛毛用纸搭小桥。</h2><p class="big">小车一上去，桥塌了！</p></div>
+  </div>
+
+  <div class="page" data-bg="peach" data-text="毛毛看着爸爸。她以为爸爸会马上告诉她答案。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <rect x="0" y="262" width="400" height="58" class="coral" opacity="0.16"/>
+      <path d="M174 210 L224 232 L278 208" class="none s-soft round"/>
+      <g id="p2-maomao" transform="translate(128,240)"><g data-interaction-layer>
+        <ellipse cx="0" cy="10" rx="22" ry="24" class="cb"/><circle cx="0" cy="-20" r="18" class="cb"/>
+        <path d="M-8,-24 Q-6,-27 -4,-24" class="cd s-soft round"/><path d="M4,-24 Q6,-27 8,-24" class="cd s-soft round"/>
+        <polygon points="0,-16 10,-12 0,-9" class="ck"/><path d="M-5,-8 L5,-8" class="cd s-ink round"/>
+      </g></g>
+      <g id="p2-dad" transform="translate(286,226)"><g data-interaction-layer>
+        <ellipse cx="0" cy="12" rx="30" ry="34" class="cb"/>
+        <circle cx="0" cy="-34" r="24" class="cb"/>
+        <circle cx="-8" cy="-37" r="7" class="none s-soft"/><circle cx="8" cy="-37" r="7" class="none s-soft"/>
+        <line x1="-1" y1="-37" x2="1" y2="-37" class="cd s-soft"/>
+        <polygon points="0,-27 13,-22 0,-18" class="ck"/>
+        <path d="M-8,-20 Q0,-15 8,-20" class="cd s-ink round"/>
+        <rect x="-30" y="8" width="36" height="24" rx="3" class="blue"/>
+      </g></g>
+      <text x="202" y="140" font-size="18" class="mute">爸爸会怎么说？</text>
+    </svg></div>
+    <div class="text"><h2>毛毛看着爸爸。</h2><p class="small">她以为爸爸会马上给答案。</p></div>
+  </div>
+
+  <div class="page" data-bg="sky" data-text="爸爸蹲下来，没有抢过纸。他只问：桥哪里最先弯下去？">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <rect x="0" y="262" width="400" height="58" class="blue-soft" opacity="0.35"/>
+      <rect x="132" y="184" width="136" height="18" rx="4" class="paper"/>
+      <path d="M154 202 C188 230 226 230 250 202" class="none s-blue round"/>
+      <circle cx="200" cy="216" r="8" class="yellow"/>
+      <g id="p3-dad" transform="translate(112,232)"><g data-interaction-layer>
+        <ellipse cx="0" cy="12" rx="30" ry="34" class="cb"/><circle cx="0" cy="-34" r="24" class="cb"/>
+        <circle cx="-8" cy="-37" r="7" class="none s-soft"/><circle cx="8" cy="-37" r="7" class="none s-soft"/>
+        <line x1="-1" y1="-37" x2="1" y2="-37" class="cd s-soft"/>
+        <polygon points="0,-27 13,-22 0,-18" class="ck"/><path d="M-8,-20 Q0,-15 8,-20" class="cd s-ink round"/>
+      </g></g>
+      <g id="p3-maomao" transform="translate(306,242)"><g data-interaction-layer>
+        <ellipse cx="0" cy="10" rx="22" ry="24" class="cb"/><circle cx="0" cy="-20" r="18" class="cb"/>
+        <circle cx="-6" cy="-23" r="3" class="ce"/><circle cx="6" cy="-23" r="3" class="ce"/>
+        <polygon points="0,-16 10,-12 0,-9" class="ck"/><path d="M-5,-9 Q0,-6 5,-9" class="cd s-ink round"/>
+      </g></g>
+      <rect x="143" y="128" width="114" height="36" rx="12" class="paper"/>
+      <text x="200" y="151" font-size="13" text-anchor="middle" class="blue">哪里先弯下去？</text>
+    </svg></div>
+    <div class="text"><h2>爸爸没有抢过纸。</h2><p class="big">"哪里最先弯下去？"</p></div>
+  </div>
+
+  <div class="page" data-bg="yellow" data-text="毛毛趴近一点看。原来中间软软的，先弯下去了。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <rect x="0" y="262" width="400" height="58" class="yellow" opacity="0.22"/>
+      <rect x="98" y="126" width="204" height="94" rx="8" class="paper"/>
+      <path d="M124 170 C166 214 238 214 276 170" class="none s-blue round"/>
+      <circle cx="200" cy="198" r="9" class="coral"/>
+      <path d="M200 150 L200 188" class="cd s-soft round"/>
+      <polygon points="200,196 194,184 206,184" class="mute"/>
+      <g id="p4-maomao" transform="translate(202,254)"><g data-interaction-layer>
+        <ellipse cx="0" cy="10" rx="22" ry="24" class="cb"/><circle cx="0" cy="-20" r="18" class="cb"/>
+        <circle cx="-6" cy="-23" r="3" class="ce"/><circle cx="6" cy="-23" r="3" class="ce"/>
+        <polygon points="0,-16 10,-12 0,-9" class="ck"/><path d="M-6,-9 Q0,-4 6,-9" class="cd s-ink round"/>
+      </g></g>
+    </svg></div>
+    <div class="text"><h2>毛毛趴近一点看。</h2><p class="small">原来中间软软的，先弯下去了。</p></div>
+  </div>
+
+  <div class="page" data-bg="mint" data-text="爸爸又问：那下一次，你想给中间加什么？毛毛想了想，拿来两根小纸条。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <rect x="0" y="262" width="400" height="58" class="green-soft" opacity="0.45"/>
+      <rect x="126" y="150" width="148" height="16" rx="4" class="paper"/>
+      <rect x="166" y="166" width="12" height="52" rx="3" class="blue-soft"/>
+      <rect x="222" y="166" width="12" height="52" rx="3" class="blue-soft"/>
+      <g id="p5-dad" transform="translate(112,232)"><g data-interaction-layer>
+        <ellipse cx="0" cy="12" rx="30" ry="34" class="cb"/><circle cx="0" cy="-34" r="24" class="cb"/>
+        <circle cx="-8" cy="-37" r="7" class="none s-soft"/><circle cx="8" cy="-37" r="7" class="none s-soft"/>
+        <line x1="-1" y1="-37" x2="1" y2="-37" class="cd s-soft"/>
+        <polygon points="0,-27 13,-22 0,-18" class="ck"/><path d="M-8,-20 Q0,-15 8,-20" class="cd s-ink round"/>
+      </g></g>
+      <g id="p5-maomao" transform="translate(300,242)"><g data-interaction-layer class="float">
+        <ellipse cx="0" cy="10" rx="22" ry="24" class="cb"/><circle cx="0" cy="-20" r="18" class="cb"/>
+        <circle cx="-6" cy="-23" r="3" class="ce"/><circle cx="6" cy="-23" r="3" class="ce"/>
+        <polygon points="0,-16 10,-12 0,-9" class="ck"/><path d="M-7,-10 Q0,-3 7,-10" class="cd s-ink round"/>
+      </g></g>
+      <rect x="128" y="92" width="144" height="36" rx="12" class="paper"/>
+      <text x="200" y="115" font-size="13" text-anchor="middle" class="blue">下一次加什么？</text>
+    </svg></div>
+    <div class="text"><h2>爸爸又问：</h2><p class="big">"下一次加什么？"</p></div>
+  </div>
+
+  <div class="page" data-bg="cream" data-text="新小桥站稳了。小车慢慢开过去，没有塌。毛毛笑了。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <rect x="0" y="262" width="400" height="58" class="cream-deep"/>
+      <rect x="116" y="174" width="168" height="18" rx="4" class="paper"/>
+      <rect x="148" y="192" width="12" height="54" rx="3" class="blue-soft"/>
+      <rect x="196" y="192" width="12" height="54" rx="3" class="blue-soft"/>
+      <rect x="244" y="192" width="12" height="54" rx="3" class="blue-soft"/>
+      <rect x="176" y="144" width="54" height="28" rx="5" class="blue"/>
+      <circle cx="188" cy="176" r="7" class="ink"/><circle cx="216" cy="176" r="7" class="ink"/>
+      <text x="200" y="124" font-size="18" text-anchor="middle" class="yellow">通过啦！</text>
+      <g id="p6-maomao" transform="translate(104,242)"><g data-interaction-layer class="float">
+        <ellipse cx="0" cy="10" rx="22" ry="24" class="cb"/><circle cx="0" cy="-20" r="18" class="cb"/>
+        <circle cx="-6" cy="-23" r="3" class="ce"/><circle cx="6" cy="-23" r="3" class="ce"/>
+        <polygon points="0,-16 10,-12 0,-9" class="ck"/><path d="M-7,-10 Q0,-3 7,-10" class="cd s-ink round"/>
+      </g></g>
+      <g id="p6-dad" transform="translate(310,230)"><g data-interaction-layer>
+        <ellipse cx="0" cy="12" rx="30" ry="34" class="cb"/><circle cx="0" cy="-34" r="24" class="cb"/>
+        <circle cx="-8" cy="-37" r="7" class="none s-soft"/><circle cx="8" cy="-37" r="7" class="none s-soft"/>
+        <line x1="-1" y1="-37" x2="1" y2="-37" class="cd s-soft"/>
+        <polygon points="0,-27 13,-22 0,-18" class="ck"/><path d="M-8,-20 Q0,-15 8,-20" class="cd s-ink round"/>
+      </g></g>
+    </svg></div>
+    <div class="text"><h2>新小桥站稳了。</h2><p class="big">小车慢慢开过去！</p></div>
+  </div>
+
+  <div class="page" data-bg="cream" data-text="好问题，会带你试下一步。爸爸不是替你做，爸爸陪你找到下一次怎么试。">
+    <div class="end-card">
+      <h2>给小弟弟 🌉</h2>
+      <p>记住：</p>
+      <p class="end-phrase">"好问题，<br>会带你试下一步。"</p>
+      <p class="end-small">爸爸不是替你做，<br>爸爸陪你找到下一次怎么试。</p>
+      <button class="read-aloud replay" onclick="goTo(0)">🔄 再讲一遍</button>
+    </div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
+</div>
+<script src="../fo-utils.js"></script>
+<script>
+  const BOOK_ID = '18-good-coach';
+  const BOOK_TITLE = '爸爸的一个好问题';
+  const BOOK_TOTAL = 7;
+  const pages = document.querySelectorAll('.page');
+  const dotsEl = document.getElementById('dots');
+  let current = 0;
+
+  function interactionTarget(el) {
+    return el ? el.querySelector('[data-interaction-layer]') || el : null;
+  }
+
+  function placeSpeechBubble(scene, el, msg) {
+    const er = el.getBoundingClientRect();
+    const sr = scene.getBoundingClientRect();
+    const bubble = document.createElement('div');
+    bubble.className = 'speech-bubble';
+    bubble.textContent = msg;
+    const root = getComputedStyle(document.documentElement);
+    const edge = parseFloat(root.getPropertyValue('--speech-edge'));
+    const gap = parseFloat(root.getPropertyValue('--speech-gap'));
+    const minWidth = parseFloat(root.getPropertyValue('--speech-min'));
+    bubble.style.maxWidth = Math.max(minWidth, sr.width - edge * 2) + 'px';
+    scene.appendChild(bubble);
+    const br = bubble.getBoundingClientRect();
+    let left = er.left + er.width / 2 - sr.left;
+    let top = er.top - sr.top - br.height - gap;
+    if (top < edge) top = er.bottom - sr.top + gap;
+    left = Math.max(edge + br.width / 2, Math.min(sr.width - edge - br.width / 2, left));
+    bubble.style.left = left + 'px';
+    bubble.style.top = Math.max(edge, Math.min(sr.height - br.height - edge, top)) + 'px';
+    bubble.style.transform = 'translateX(-50%)';
+    setTimeout(() => bubble.remove(), 1500);
+  }
+
+  function makeInteractive(id, animClass, msg) {
+    const el = document.getElementById(id);
+    const target = interactionTarget(el);
+    if (!el || !target) return;
+    el.classList.add('interactive');
+    el.addEventListener('click', () => {
+      target.classList.remove(animClass);
+      void target.getBoundingClientRect();
+      target.classList.add(animClass);
+      const scene = el.closest('.scene');
+      if (scene) placeSpeechBubble(scene, el, msg);
+      setTimeout(() => target.classList.remove(animClass), 800);
+    });
+  }
+
+  for (let i = 0; i < pages.length; i++) {
+    dotsEl.appendChild(document.createElement('span'));
+  }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= pages.length) return;
+    speechSynthesis.cancel();
+    pages.forEach((page, i) => page.classList.toggle('is-active', i === idx));
+    dotsEl.querySelectorAll('span').forEach((dot, i) => dot.classList.toggle('is-active', i === idx));
+    current = idx;
+    document.getElementById('prev').disabled = idx === 0;
+    document.getElementById('next').disabled = idx === pages.length - 1;
+    if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL);
+  }
+
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'ArrowLeft') goTo(current - 1);
+    if (event.key === 'ArrowRight') goTo(current + 1);
+  });
+  let touchX = 0;
+  document.addEventListener('touchstart', event => { touchX = event.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', event => {
+    const dx = event.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) dx < 0 ? goTo(current + 1) : goTo(current - 1);
+  });
+  document.getElementById('readBtn').addEventListener('click', () => {
+    const text = pages[current].dataset.text;
+    if (!text || !window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'zh-CN';
+    utterance.rate = 0.85;
+    utterance.pitch = 1.1;
+    speechSynthesis.speak(utterance);
+  });
+
+  goTo(0);
+  makeInteractive('p1-maomao', 'do-wobble', '桥塌了！');
+  makeInteractive('p2-maomao', 'do-wobble', '告诉我答案吧');
+  makeInteractive('p2-dad', 'do-bounce', '先看看');
+  makeInteractive('p3-dad', 'do-bounce', '哪里先弯？');
+  makeInteractive('p3-maomao', 'do-bounce', '我找找');
+  makeInteractive('p4-maomao', 'do-bounce', '中间！');
+  makeInteractive('p5-dad', 'do-bounce', '下一次呢？');
+  makeInteractive('p5-maomao', 'do-bounce', '加支撑！');
+  makeInteractive('p6-maomao', 'do-bounce', '成功啦！');
+  makeInteractive('p6-dad', 'do-bounce', '你找到了');
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.FO) FO.logHistory(BOOK_ID, BOOK_TITLE);
+  });
+</script>
+</body>
+</html>
