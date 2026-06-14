@@ -71,7 +71,7 @@
         const [code,title,sub,file,accent]=r;
         const a=document.createElement('a');
         a.style.setProperty('--accent', accent||ACCENT_DEFAULT);
-        if(file){ a.className='card done'; a.href=file; a.innerHTML='<span class="code">'+code+'</span><h3>'+title+'</h3><span class="sub">'+sub+'</span><span class="tag">可阅读</span>'; }
+        if(file){ a.className='card done'; a.href='/readers/'+file; a.innerHTML='<span class="code">'+code+'</span><h3>'+title+'</h3><span class="sub">'+sub+'</span><span class="tag">可阅读</span>'; }
         else { a.className='card soon'; a.innerHTML='<span class="code">'+code+'</span><h3>'+title+'</h3><span class="sub">'+sub+'</span><span class="tag">敬请期待</span>'; }
         grid.appendChild(a);
       });
