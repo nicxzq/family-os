@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>贝贝学分享 · 绘本</title>
+<meta name="description" content="贝贝有一块大西瓜，朋友来了——原来，分享让快乐变成两份！">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"LXGW WenKai TC","LXGW WenKai",serif;background:#FFF8E0;min-height:100vh;overflow:hidden;}
+  .book{width:100vw;height:100vh;position:relative;overflow:hidden;perspective:1400px;}
+  .top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:20px 32px;z-index:20;}
+  .back{text-decoration:none;color:#5C4F3D;font-size:16px;background:rgba(255,255,255,0.7);padding:8px 16px;border-radius:999px;backdrop-filter:blur(8px);}
+  .read-aloud{background:#4B7BA8;color:white;border:0;padding:10px 18px;border-radius:999px;font-family:inherit;font-size:16px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.1);}
+  .page{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 40px 120px;opacity:0;pointer-events:none;transition:opacity .6s ease;}
+  .page.is-active{opacity:1;pointer-events:auto;}
+  .page[data-bg="sky"]{background:#D7E7F4;}
+  .page[data-bg="mint"]{background:#D7EBC9;}
+  .page[data-bg="yellow"]{background:#FBE39A;}
+  .page[data-bg="lavender"]{background:#E8DFF4;}
+  .page[data-bg="peach"]{background:#FBE3D5;}
+  .page[data-bg="coral"]{background:#F4A799;}
+  .scene{flex:1;min-height:0;position:relative;width:100%;overflow:hidden;}
+  .scene svg{width:100%;height:100%;}
+  .text{flex-shrink:0;text-align:center;max-width:100%;}
+  .text h2{font-size:clamp(22px,4.5vw,36px);line-height:1.4;color:#2B2419;font-weight:500;text-wrap:balance;}
+  .text .small{font-size:18px;color:#5C4F3D;margin-top:16px;}
+  .nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.88);border:0;width:56px;height:56px;border-radius:50%;font-size:24px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.1);font-family:inherit;color:#2B2419;z-index:20;backdrop-filter:blur(4px);}
+  .nav-btn:disabled{opacity:.3;pointer-events:none;}
+  #prev{left:12px;}#next{right:12px;}
+  .dots-wrap{position:absolute;bottom:24px;left:0;right:0;display:flex;justify-content:center;z-index:20;}
+  .dots{display:flex;gap:6px;}
+  .dots span{width:8px;height:8px;border-radius:50%;background:rgba(43,36,25,.2);transition:background .3s,transform .3s;}
+  .dots span.is-active{background:#4B7BA8;transform:scale(1.4);}
+  .float{animation:float 3s ease-in-out infinite;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+  .do-bounce{animation:iBounce .6s cubic-bezier(.36,.07,.19,.97) both!important;}
+  @keyframes iBounce{0%{transform:translateY(0) scale(1);}25%{transform:translateY(-18px) scale(1.15);}55%{transform:translateY(-4px) scale(.96);}75%{transform:translateY(-8px) scale(1.05);}100%{transform:translateY(0) scale(1);}}
+  .do-shake{animation:iShake .55s ease both!important;}
+  @keyframes iShake{0%,100%{transform:rotate(0);}18%{transform:rotate(-22deg);}38%{transform:rotate(18deg);}58%{transform:rotate(-14deg);}78%{transform:rotate(9deg);}}
+  .interactive{cursor:pointer;transform-box:fill-box;transform-origin:center center;}
+  .interactive:hover{opacity:.9;}
+  .speech-bubble{position:absolute;top:0;left:50%;transform:translateX(-50%);background:white;border-radius:999px;padding:6px 16px;font-size:20px;font-family:"LXGW WenKai TC",serif;box-shadow:0 3px 0 rgba(0,0,0,.12);pointer-events:none;white-space:nowrap;z-index:50;animation:bPop .3s ease;}
+  @keyframes bPop{from{transform:translateX(-50%) scale(0);opacity:0;}to{transform:translateX(-50%) scale(1);opacity:1;}}
+  .flip-out-fwd{animation:fOutFwd .4s cubic-bezier(.4,0,1,1) forwards;pointer-events:none;z-index:5;opacity:1;transform-origin:left center;}
+  .flip-in-fwd{animation:fInFwd .4s cubic-bezier(0,0,.6,1) forwards;pointer-events:none;z-index:4;transform-origin:right center;}
+  .flip-out-bwd{animation:fOutBwd .4s cubic-bezier(.4,0,1,1) forwards;pointer-events:none;z-index:5;opacity:1;transform-origin:right center;}
+  .flip-in-bwd{animation:fInBwd .4s cubic-bezier(0,0,.6,1) forwards;pointer-events:none;z-index:4;transform-origin:left center;}
+  @keyframes fOutFwd{0%{transform:rotateY(0);opacity:1;}100%{transform:rotateY(-80deg);opacity:0;}}
+  @keyframes fInFwd{0%{transform:rotateY(80deg);opacity:0;}100%{transform:rotateY(0);opacity:1;}}
+  @keyframes fOutBwd{0%{transform:rotateY(0);opacity:1;}100%{transform:rotateY(80deg);opacity:0;}}
+  @keyframes fInBwd{0%{transform:rotateY(-80deg);opacity:0;}100%{transform:rotateY(0);opacity:1;}}
+  .end-card{background:white;padding:32px;border-radius:24px;max-width:480px;box-shadow:0 8px 0 rgba(0,0,0,.06),0 24px 48px -16px rgba(0,0,0,.2);text-align:center;}
+  .end-card h2{font-size:28px;color:#E56B5A;margin-bottom:16px;}
+  .end-card p{font-size:19px;color:#2B2419;line-height:1.7;margin-bottom:12px;}
+</style>
+</head>
+<body>
+<div class="book">
+  <div class="top">
+    <a class="back" href="../for-middle.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+  </div>
+
+  <!-- P1: Beibei alone with big watermelon, happy -->
+  <div class="page is-active" data-bg="sky" data-text="夏天来了！贝贝抱着一块大西瓜，坐在树下，美滋滋地吃着。红红的西瓜，甜甜的。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="252" width="400" height="68" fill="#B5D4A8" opacity=".3"/>
+        <!-- Tree -->
+        <line x1="200" y1="252" x2="200" y2="140" stroke="#8C6B4A" stroke-width="10" stroke-linecap="round"/>
+        <circle cx="182" cy="122" r="44" fill="#6FA86D" opacity=".68"/>
+        <circle cx="216" cy="112" r="37" fill="#6FA86D" opacity=".62"/>
+        <circle cx="198" cy="134" r="40" fill="#6FA86D" opacity=".5"/>
+        <!-- Sun -->
+        <circle cx="340" cy="55" r="30" fill="#F4C13E" opacity=".6"/>
+        <line x1="340" y1="17" x2="340" y2="9" stroke="#F4C13E" stroke-width="3" stroke-linecap="round"/>
+        <line x1="362" y1="25" x2="368" y2="18" stroke="#F4C13E" stroke-width="3" stroke-linecap="round"/>
+        <line x1="374" y1="48" x2="382" y2="45" stroke="#F4C13E" stroke-width="3" stroke-linecap="round"/>
+        <!-- Watermelon slice -->
+        <g id="p1-melon" class="interactive float" transform="translate(200,235)">
+          <path d="M -36,0 A 36,36 0 0,1 36,0 Z" fill="#6FA86D"/>
+          <path d="M -29,0 A 29,29 0 0,1 29,0 Z" fill="#E56B5A"/>
+          <ellipse cx="-10" cy="-12" rx="3" ry="5" fill="#2B2419" opacity=".7" transform="rotate(-10 -10 -12)"/>
+          <ellipse cx="8"  cy="-16" rx="3" ry="5" fill="#2B2419" opacity=".7" transform="rotate(5 8 -16)"/>
+          <ellipse cx="20" cy="-9"  rx="3" ry="5" fill="#2B2419" opacity=".7" transform="rotate(15 20 -9)"/>
+          <ellipse cx="-23" cy="-8" rx="3" ry="5" fill="#2B2419" opacity=".7" transform="rotate(-15 -23 -8)"/>
+        </g>
+        <!-- Beibei sitting, happy -->
+        <g id="p1-bear" transform="translate(200,252)">
+          <ellipse cx="0" cy="0" rx="28" ry="22" fill="#C8966A"/>
+          <ellipse cx="0" cy="5" rx="16" ry="14" fill="#E8C49A" opacity=".6"/>
+          <ellipse cx="-20" cy="14" rx="18" ry="8" fill="#C8966A" transform="rotate(15 -20 14)"/>
+          <ellipse cx="20"  cy="14" rx="18" ry="8" fill="#C8966A" transform="rotate(-15 20 14)"/>
+          <circle cx="0" cy="-36" r="22" fill="#C8966A"/>
+          <circle cx="-14" cy="-52" r="9" fill="#C8966A"/>
+          <circle cx="-14" cy="-52" r="5" fill="#E8A080"/>
+          <circle cx="14"  cy="-52" r="9" fill="#C8966A"/>
+          <circle cx="14"  cy="-52" r="5" fill="#E8A080"/>
+          <!-- Squinty happy eyes -->
+          <path d="M -8,-42 Q -4,-36 0,-42" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <path d="M 0,-42 Q 4,-36 8,-42"  stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <ellipse cx="0" cy="-28" rx="7" ry="5" fill="#E8C49A"/>
+          <path d="M -6,-23 Q 0,-16 6,-23" stroke="#8C5A4A" stroke-width="2.5" fill="none"/>
+          <ellipse cx="-13" cy="-32" rx="7" ry="5" fill="#E56B5A" opacity=".22"/>
+          <ellipse cx="13"  cy="-32" rx="7" ry="5" fill="#E56B5A" opacity=".22"/>
+          <ellipse cx="-28" cy="-10" rx="16" ry="7" fill="#C8966A" transform="rotate(20 -28 -10)"/>
+          <ellipse cx="28"  cy="-10" rx="16" ry="7" fill="#C8966A" transform="rotate(-20 28 -10)"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>贝贝有一块大西瓜，<span style="color:#E56B5A">好甜好甜！</span></h2>
+      <p class="small">坐在树下，一个人吃……<br>真开心。</p>
+    </div>
+  </div>
+
+  <!-- P2: Friend Mumu arrives, looks at watermelon with longing -->
+  <div class="page" data-bg="peach" data-text="好朋友毛毛走过来，看了看贝贝的西瓜，又看了看自己空空的手，什么都没有。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="252" width="400" height="68" fill="#B5D4A8" opacity=".25"/>
+        <line x1="80" y1="252" x2="80" y2="182" stroke="#8C6B4A" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="80" cy="167" r="34" fill="#6FA86D" opacity=".5"/>
+        <!-- Beibei with melon, right side -->
+        <g transform="translate(278,255)">
+          <ellipse cx="0" cy="0" rx="25" ry="19" fill="#C8966A"/>
+          <ellipse cx="0" cy="5" rx="14" ry="12" fill="#E8C49A" opacity=".6"/>
+          <ellipse cx="-17" cy="12" rx="15" ry="7" fill="#C8966A" transform="rotate(15 -17 12)"/>
+          <ellipse cx="17"  cy="12" rx="15" ry="7" fill="#C8966A" transform="rotate(-15 17 12)"/>
+          <circle cx="0"  cy="-32" r="19" fill="#C8966A"/>
+          <circle cx="-12" cy="-46" r="8" fill="#C8966A"/>
+          <circle cx="-12" cy="-46" r="4.5" fill="#E8A080"/>
+          <circle cx="12"  cy="-46" r="8" fill="#C8966A"/>
+          <circle cx="12"  cy="-46" r="4.5" fill="#E8A080"/>
+          <circle cx="-4" cy="-35" r="4" fill="#2B2419"/>
+          <circle cx="4"  cy="-35" r="4" fill="#2B2419"/>
+          <ellipse cx="0" cy="-23" rx="6" ry="4.5" fill="#E8C49A"/>
+          <path d="M -5,-19 Q 0,-13 5,-19" stroke="#8C5A4A" stroke-width="2" fill="none"/>
+          <!-- Mini melon held -->
+          <g transform="translate(-30,-22)">
+            <path d="M -12,0 A 12,12 0 0,1 12,0 Z" fill="#6FA86D"/>
+            <path d="M -8,0 A 8,8 0 0,1 8,0 Z" fill="#E56B5A"/>
+          </g>
+          <ellipse cx="-28" cy="-10" rx="14" ry="6" fill="#C8966A" transform="rotate(20 -28 -10)"/>
+          <ellipse cx="26"  cy="-8"  rx="14" ry="6" fill="#C8966A" transform="rotate(-20 26 -8)"/>
+        </g>
+        <!-- Mumu arriving from left, longing look -->
+        <g id="p2-friend" transform="translate(140,255)">
+          <ellipse cx="0" cy="0" rx="26" ry="20" fill="#B8866A"/>
+          <ellipse cx="0" cy="5" rx="14" ry="12" fill="#D8B490" opacity=".6"/>
+          <ellipse cx="-18" cy="13" rx="16" ry="7" fill="#B8866A" transform="rotate(15 -18 13)"/>
+          <ellipse cx="18"  cy="13" rx="16" ry="7" fill="#B8866A" transform="rotate(-15 18 13)"/>
+          <circle cx="0"  cy="-33" r="20" fill="#B8866A"/>
+          <circle cx="-13" cy="-48" r="8" fill="#B8866A"/>
+          <circle cx="-13" cy="-48" r="4.5" fill="#D89070"/>
+          <circle cx="13"  cy="-48" r="8" fill="#B8866A"/>
+          <circle cx="13"  cy="-48" r="4.5" fill="#D89070"/>
+          <!-- Big longing eyes looking right -->
+          <circle cx="-4" cy="-36" r="4.5" fill="#2B2419"/>
+          <circle cx="6"  cy="-36" r="5"   fill="#2B2419"/>
+          <circle cx="7"  cy="-38" r="1.5" fill="white"/>
+          <ellipse cx="0" cy="-24" rx="6" ry="4" fill="#D8B490"/>
+          <path d="M -4,-20 Q 0,-17 4,-20" stroke="#8C5A4A" stroke-width="1.5" fill="none"/>
+          <!-- Empty hands -->
+          <ellipse cx="-28" cy="-6" rx="14" ry="6" fill="#B8866A" transform="rotate(-20 -28 -6)"/>
+          <ellipse cx="28"  cy="-6" rx="14" ry="6" fill="#B8866A" transform="rotate(20 28 -6)"/>
+        </g>
+        <!-- Dashed gaze line -->
+        <line x1="156" y1="218" x2="250" y2="240" stroke="#8C7C66" stroke-width="1" stroke-dasharray="4,3" opacity=".3"/>
+        <!-- Speech bubble -->
+        <g transform="translate(140,158)">
+          <rect x="-62" y="-20" width="124" height="36" rx="12" fill="white" opacity=".88" stroke="#F4A799" stroke-width="1.5"/>
+          <text x="0" y="-3"  font-size="13" text-anchor="middle" fill="#8C7C66">空空的手……</text>
+          <text x="0" y="14"  font-size="15" text-anchor="middle" fill="#E56B5A">😶</text>
+          <polygon points="-6,16 6,16 0,28" fill="white" stroke="#F4A799" stroke-width="1.5"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>朋友毛毛走来，手里<span style="color:#8C7C66">空空的</span>。</h2>
+      <p class="small">他看了看西瓜，<br>又看了看自己的手。</p>
+    </div>
+  </div>
+
+  <!-- P3: Beibei thinks — share or not? -->
+  <div class="page" data-bg="lavender" data-text="贝贝看看毛毛，又看看西瓜，心里有点说不出的感觉……分一半给他，还是自己吃完？">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <circle cx="200" cy="130" r="100" fill="#E8DFF4" opacity=".4"/>
+        <!-- Left thought cloud: keep whole -->
+        <g transform="translate(108,112)">
+          <ellipse cx="0" cy="0" rx="60" ry="44" fill="white" opacity=".8"/>
+          <ellipse cx="-28" cy="-34" rx="27" ry="21" fill="white" opacity=".7"/>
+          <ellipse cx="18"  cy="-42" rx="21" ry="17" fill="white" opacity=".65"/>
+          <path d="M -24,8 A 24,24 0 0,1 24,8 Z" fill="#6FA86D" transform="translate(0,-6)"/>
+          <path d="M -18,8 A 18,18 0 0,1 18,8 Z" fill="#E56B5A" transform="translate(0,-6)"/>
+          <ellipse cx="-6"  cy="-10" rx="2.5" ry="4" fill="#2B2419" opacity=".7"/>
+          <ellipse cx="7"   cy="-8"  rx="2.5" ry="4" fill="#2B2419" opacity=".7"/>
+        </g>
+        <!-- Right thought cloud: share -->
+        <g transform="translate(292,112)">
+          <ellipse cx="0" cy="0" rx="60" ry="44" fill="white" opacity=".8"/>
+          <ellipse cx="27"  cy="-34" rx="27" ry="21" fill="white" opacity=".7"/>
+          <ellipse cx="-18" cy="-42" rx="21" ry="17" fill="white" opacity=".65"/>
+          <!-- Two half melons -->
+          <path d="M -28,8 A 20,20 0 0,1 0,8 Z" fill="#6FA86D" transform="translate(-6,-6)"/>
+          <path d="M -22,8 A 14,14 0 0,1 0,8 Z" fill="#E56B5A" transform="translate(-6,-6)"/>
+          <ellipse cx="-20" cy="-6" rx="2" ry="3.5" fill="#2B2419" opacity=".65"/>
+          <path d="M 4,8 A 20,20 0 0,1 28,8 Z" fill="#6FA86D" transform="translate(-4,-6)"/>
+          <path d="M 8,8 A 14,14 0 0,1 26,8 Z" fill="#E56B5A" transform="translate(-4,-6)"/>
+          <ellipse cx="18" cy="-6" rx="2" ry="3.5" fill="#2B2419" opacity=".65"/>
+          <text x="2" y="-22" font-size="16" text-anchor="middle">😊</text>
+        </g>
+        <!-- Question mark -->
+        <text x="200" y="118" font-size="22" text-anchor="middle" fill="#8C7C66" font-weight="700">？</text>
+        <!-- Beibei thinking -->
+        <g id="p3-bear" transform="translate(200,268)">
+          <ellipse cx="0" cy="0" rx="28" ry="22" fill="#C8966A"/>
+          <ellipse cx="0" cy="5" rx="16" ry="14" fill="#E8C49A" opacity=".6"/>
+          <ellipse cx="-20" cy="14" rx="18" ry="8" fill="#C8966A" transform="rotate(15 -20 14)"/>
+          <ellipse cx="20"  cy="14" rx="18" ry="8" fill="#C8966A" transform="rotate(-15 20 14)"/>
+          <circle cx="0"  cy="-36" r="22" fill="#C8966A"/>
+          <circle cx="-14" cy="-52" r="9" fill="#C8966A"/>
+          <circle cx="-14" cy="-52" r="5" fill="#E8A080"/>
+          <circle cx="14"  cy="-52" r="9" fill="#C8966A"/>
+          <circle cx="14"  cy="-52" r="5" fill="#E8A080"/>
+          <!-- Eyes looking up -->
+          <circle cx="-5" cy="-40" r="4" fill="#2B2419"/>
+          <circle cx="5"  cy="-40" r="4" fill="#2B2419"/>
+          <circle cx="-3" cy="-42" r="1.5" fill="white"/>
+          <circle cx="7"  cy="-42" r="1.5" fill="white"/>
+          <ellipse cx="0" cy="-27" rx="7" ry="5" fill="#E8C49A"/>
+          <path d="M -5,-23 Q 0,-20 5,-23" stroke="#8C5A4A" stroke-width="2" fill="none"/>
+          <!-- Hand on chin -->
+          <ellipse cx="30"  cy="-18" rx="14" ry="6" fill="#C8966A" transform="rotate(-30 30 -18)"/>
+          <ellipse cx="-26" cy="-6"  rx="14" ry="6" fill="#C8966A" transform="rotate(20 -26 -6)"/>
+        </g>
+        <!-- Thought dots -->
+        <circle cx="200" cy="226" r="3" fill="#8C7C66" opacity=".4"/>
+        <circle cx="200" cy="213" r="4" fill="#8C7C66" opacity=".3"/>
+        <circle cx="200" cy="199" r="5" fill="#8C7C66" opacity=".22"/>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>贝贝心里<span style="color:#4B7BA8">有点说不出来</span>的感觉……</h2>
+      <p class="small">分一半给毛毛？<br>还是自己吃完呢？</p>
+    </div>
+  </div>
+
+  <!-- P4: Beibei shares — friend lights up -->
+  <div class="page" data-bg="mint" data-text="贝贝把西瓜掰成两半，一半递给毛毛：给你！毛毛的眼睛一下子亮了起来，笑得好开心！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="255" width="400" height="65" fill="#B5D4A8" opacity=".3"/>
+        <circle cx="200" cy="180" r="130" fill="#D7EBC9" opacity=".4"/>
+        <!-- Beibei on left, offering -->
+        <g transform="translate(130,255)">
+          <ellipse cx="0" cy="0" rx="26" ry="20" fill="#C8966A"/>
+          <ellipse cx="0" cy="5" rx="14" ry="12" fill="#E8C49A" opacity=".6"/>
+          <ellipse cx="-18" cy="13" rx="16" ry="7" fill="#C8966A" transform="rotate(15 -18 13)"/>
+          <ellipse cx="18"  cy="13" rx="16" ry="7" fill="#C8966A" transform="rotate(-15 18 13)"/>
+          <circle cx="0"  cy="-33" r="20" fill="#C8966A"/>
+          <circle cx="-13" cy="-48" r="8" fill="#C8966A"/>
+          <circle cx="-13" cy="-48" r="4.5" fill="#E8A080"/>
+          <circle cx="13"  cy="-48" r="8" fill="#C8966A"/>
+          <circle cx="13"  cy="-48" r="4.5" fill="#E8A080"/>
+          <!-- Warm giving eyes -->
+          <path d="M -8,-39 Q -4,-33 0,-39" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <path d="M 0,-39 Q 4,-33 8,-39"  stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <ellipse cx="0" cy="-26" rx="6" ry="4.5" fill="#E8C49A"/>
+          <path d="M -6,-21 Q 0,-14 6,-21" stroke="#8C5A4A" stroke-width="2.5" fill="none"/>
+          <!-- Arm extended with half melon -->
+          <ellipse cx="34" cy="-18" rx="18" ry="7" fill="#C8966A" transform="rotate(-15 34 -18)"/>
+          <g transform="translate(48,-28)">
+            <path d="M -13,0 A 13,13 0 0,1 13,0 Z" fill="#6FA86D"/>
+            <path d="M -9,0 A 9,9 0 0,1 9,0 Z"   fill="#E56B5A"/>
+            <ellipse cx="-3" cy="-5" rx="2" ry="3" fill="#2B2419" opacity=".65"/>
+            <ellipse cx="5"  cy="-6" rx="2" ry="3" fill="#2B2419" opacity=".65"/>
+          </g>
+          <!-- Other arm with own half -->
+          <ellipse cx="-28" cy="-10" rx="16" ry="6" fill="#C8966A" transform="rotate(20 -28 -10)"/>
+          <g transform="translate(-28,-26)">
+            <path d="M -11,0 A 11,11 0 0,1 11,0 Z" fill="#6FA86D"/>
+            <path d="M -7,0 A 7,7 0 0,1 7,0 Z"    fill="#E56B5A"/>
+          </g>
+        </g>
+        <!-- Mumu receiving, face lighting up -->
+        <g id="p4-friend" transform="translate(272,255)">
+          <ellipse cx="0" cy="0" rx="26" ry="20" fill="#B8866A"/>
+          <ellipse cx="0" cy="5" rx="14" ry="12" fill="#D8B490" opacity=".6"/>
+          <ellipse cx="-18" cy="13" rx="16" ry="7" fill="#B8866A" transform="rotate(15 -18 13)"/>
+          <ellipse cx="18"  cy="13" rx="16" ry="7" fill="#B8866A" transform="rotate(-15 18 13)"/>
+          <circle cx="0"  cy="-33" r="20" fill="#B8866A"/>
+          <circle cx="-13" cy="-48" r="8" fill="#B8866A"/>
+          <circle cx="-13" cy="-48" r="4.5" fill="#D89070"/>
+          <circle cx="13"  cy="-48" r="8" fill="#B8866A"/>
+          <circle cx="13"  cy="-48" r="4.5" fill="#D89070"/>
+          <!-- Surprised happy eyes -->
+          <circle cx="-5" cy="-36" r="5.5" fill="#2B2419"/>
+          <circle cx="5"  cy="-36" r="5.5" fill="#2B2419"/>
+          <circle cx="-3" cy="-38" r="2"   fill="white"/>
+          <circle cx="7"  cy="-38" r="2"   fill="white"/>
+          <ellipse cx="0" cy="-24" rx="6" ry="4" fill="#D8B490"/>
+          <path d="M -8,-20 Q 0,-11 8,-20" stroke="#8C5A4A" stroke-width="2.5" fill="none"/>
+          <ellipse cx="-13" cy="-28" rx="7" ry="5" fill="#E56B5A" opacity=".18"/>
+          <ellipse cx="13"  cy="-28" rx="7" ry="5" fill="#E56B5A" opacity=".18"/>
+          <ellipse cx="-34" cy="-16" rx="18" ry="7" fill="#B8866A" transform="rotate(15 -34 -16)"/>
+          <ellipse cx="28"  cy="-8"  rx="14" ry="6" fill="#B8866A" transform="rotate(-20 28 -8)"/>
+        </g>
+        <!-- Speech bubble -->
+        <g transform="translate(130,152)">
+          <rect x="-58" y="-22" width="116" height="40" rx="14" fill="white" opacity=".95" stroke="#6FA86D" stroke-width="2"/>
+          <text x="0" y="-3"  font-size="16" text-anchor="middle" fill="#6FA86D" font-weight="600">给你！</text>
+          <text x="0" y="14"  font-size="14" text-anchor="middle" fill="#5C4F3D">一人一半 🍉</text>
+          <polygon points="-8,18 8,18 0,32" fill="white" stroke="#6FA86D" stroke-width="2"/>
+        </g>
+        <!-- Joy sparkles -->
+        <text x="316" y="185" font-size="18" fill="#F4C13E">✨</text>
+        <text x="330" y="212" font-size="14" fill="#F4C13E">✦</text>
+        <text x="304" y="202" font-size="14" fill="#F4C13E">✦</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>贝贝说：<span style="color:#6FA86D">给你！一人一半！</span></h2>
+      <p class="small">毛毛的眼睛一下子亮了，<br>笑得好开心！</p>
+    </div>
+  </div>
+
+  <!-- P5: Both eating together — interactive -->
+  <div class="page" data-bg="yellow" data-text="两个好朋友一起坐在树下，一人啃着半块西瓜，甜甜的！贝贝发现，分享之后，自己也更开心了！点击贝贝和毛毛，让他们一起庆祝！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="252" width="400" height="68" fill="#B5D4A8" opacity=".3"/>
+        <!-- Tree -->
+        <line x1="200" y1="252" x2="200" y2="148" stroke="#8C6B4A" stroke-width="10" stroke-linecap="round"/>
+        <circle cx="184" cy="130" r="42" fill="#6FA86D" opacity=".65"/>
+        <circle cx="216" cy="120" r="36" fill="#6FA86D" opacity=".6"/>
+        <circle cx="200" cy="140" r="38" fill="#6FA86D" opacity=".5"/>
+        <!-- Beibei on left eating -->
+        <g id="p5-beibei" class="interactive" transform="translate(128,254)">
+          <ellipse cx="0" cy="0" rx="26" ry="20" fill="#C8966A"/>
+          <ellipse cx="0" cy="5" rx="14" ry="12" fill="#E8C49A" opacity=".6"/>
+          <ellipse cx="-18" cy="13" rx="16" ry="7" fill="#C8966A" transform="rotate(15 -18 13)"/>
+          <ellipse cx="18"  cy="13" rx="16" ry="7" fill="#C8966A" transform="rotate(-15 18 13)"/>
+          <circle cx="0"  cy="-33" r="20" fill="#C8966A"/>
+          <circle cx="-13" cy="-48" r="8" fill="#C8966A"/>
+          <circle cx="-13" cy="-48" r="4.5" fill="#E8A080"/>
+          <circle cx="13"  cy="-48" r="8" fill="#C8966A"/>
+          <circle cx="13"  cy="-48" r="4.5" fill="#E8A080"/>
+          <path d="M -9,-40 Q -4,-34 1,-40" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <path d="M -1,-40 Q 4,-34 9,-40" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <ellipse cx="-13" cy="-31" rx="7" ry="5" fill="#E56B5A" opacity=".22"/>
+          <ellipse cx="13"  cy="-31" rx="7" ry="5" fill="#E56B5A" opacity=".22"/>
+          <ellipse cx="0" cy="-26" rx="7" ry="5" fill="#E8C49A"/>
+          <path d="M -6,-21 Q 0,-14 6,-21" stroke="#8C5A4A" stroke-width="2.5" fill="none"/>
+          <ellipse cx="-28" cy="-10" rx="16" ry="6" fill="#C8966A" transform="rotate(20 -28 -10)"/>
+          <ellipse cx="28"  cy="-14" rx="16" ry="6" fill="#C8966A" transform="rotate(-25 28 -14)"/>
+          <g transform="translate(0,-28)">
+            <path d="M -15,0 A 15,15 0 0,1 15,0 Z" fill="#6FA86D"/>
+            <path d="M -10,0 A 10,10 0 0,1 10,0 Z" fill="#E56B5A"/>
+            <ellipse cx="-4" cy="-6" rx="2" ry="3" fill="#2B2419" opacity=".65"/>
+            <ellipse cx="5"  cy="-5" rx="2" ry="3" fill="#2B2419" opacity=".65"/>
+          </g>
+        </g>
+        <!-- Mumu on right eating -->
+        <g id="p5-mumu" class="interactive" transform="translate(272,254)">
+          <ellipse cx="0" cy="0" rx="26" ry="20" fill="#B8866A"/>
+          <ellipse cx="0" cy="5" rx="14" ry="12" fill="#D8B490" opacity=".6"/>
+          <ellipse cx="-18" cy="13" rx="16" ry="7" fill="#B8866A" transform="rotate(15 -18 13)"/>
+          <ellipse cx="18"  cy="13" rx="16" ry="7" fill="#B8866A" transform="rotate(-15 18 13)"/>
+          <circle cx="0"  cy="-33" r="20" fill="#B8866A"/>
+          <circle cx="-13" cy="-48" r="8" fill="#B8866A"/>
+          <circle cx="-13" cy="-48" r="4.5" fill="#D89070"/>
+          <circle cx="13"  cy="-48" r="8" fill="#B8866A"/>
+          <circle cx="13"  cy="-48" r="4.5" fill="#D89070"/>
+          <path d="M -9,-40 Q -4,-34 1,-40" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <path d="M -1,-40 Q 4,-34 9,-40" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <ellipse cx="-13" cy="-31" rx="7" ry="5" fill="#E56B5A" opacity=".18"/>
+          <ellipse cx="13"  cy="-31" rx="7" ry="5" fill="#E56B5A" opacity=".18"/>
+          <ellipse cx="0" cy="-26" rx="7" ry="5" fill="#D8B490"/>
+          <path d="M -6,-21 Q 0,-14 6,-21" stroke="#8C5A4A" stroke-width="2.5" fill="none"/>
+          <ellipse cx="-28" cy="-10" rx="16" ry="6" fill="#B8866A" transform="rotate(20 -28 -10)"/>
+          <ellipse cx="28"  cy="-14" rx="16" ry="6" fill="#B8866A" transform="rotate(-25 28 -14)"/>
+          <g transform="translate(0,-28)">
+            <path d="M -15,0 A 15,15 0 0,1 15,0 Z" fill="#6FA86D"/>
+            <path d="M -10,0 A 10,10 0 0,1 10,0 Z" fill="#E56B5A"/>
+            <ellipse cx="-5" cy="-6" rx="2" ry="3" fill="#2B2419" opacity=".65"/>
+            <ellipse cx="5"  cy="-5" rx="2" ry="3" fill="#2B2419" opacity=".65"/>
+          </g>
+        </g>
+        <!-- Joy stars -->
+        <text x="50"  y="160" font-size="22" fill="#F4C13E">⭐</text>
+        <text x="332" y="155" font-size="24" fill="#F4C13E">⭐</text>
+        <text x="72"  y="192" font-size="16" fill="#F4C13E">✨</text>
+        <text x="308" y="188" font-size="18" fill="#F4C13E">✨</text>
+        <text x="200" y="70"  font-size="14" text-anchor="middle" fill="#F4C13E">✦</text>
+        <text x="200" y="298" font-size="12" text-anchor="middle" fill="#8C7C66" opacity=".7">点击贝贝或毛毛！</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>两个人一起吃，<span style="color:#E56B5A">甜了两倍！</span></h2>
+      <p class="small">贝贝发现——<br>分享之后，自己也更开心了。</p>
+    </div>
+  </div>
+
+  <!-- P6: End card -->
+  <div class="page" data-bg="mint" data-text="小宝贝，分享不是少了什么，分享让快乐变成两份。会分享的人，朋友最多，笑声最多。">
+    <div class="end-card">
+      <h2>给小宝贝 🐻</h2>
+      <p>分享不是少了什么，</p>
+      <p style="font-size:30px;color:#E56B5A;font-weight:700;margin:16px 0;">分享让快乐<br>变成两份！🍉</p>
+      <p style="font-size:16px;color:#5C4F3D;">会分享的人，<br>朋友最多，笑声最多。</p>
+      <button style="background:#E56B5A;color:white;border:0;padding:10px 24px;border-radius:999px;font-family:inherit;font-size:16px;cursor:pointer;margin-top:24px;" onclick="goTo(0)">🔄 再讲一遍</button>
+    </div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
+</div>
+
+<script src="../fo-utils.js"></script>
+<script>
+const BOOK_ID='m05-bear-share'; const BOOK_TITLE='贝贝学分享'; const BOOK_TOTAL=5;
+function makeInteractive(el,animClass,msg){if(!el)return;el.classList.add('interactive');el.addEventListener('click',function(){if(el._busy)return;el._busy=true;el.classList.remove(animClass);void el.getBoundingClientRect();el.classList.add(animClass);if(msg){const scene=el.closest('.scene');const er=el.getBoundingClientRect(),sr=scene.getBoundingClientRect();const cx=er.left+er.width/2-sr.left,cy=Math.max(8,er.top-sr.top-48);const b=document.createElement('div');b.className='speech-bubble';b.textContent=msg;b.style.left=cx+'px';b.style.top=cy+'px';b.style.transform='translateX(-50%)';scene.appendChild(b);setTimeout(()=>b.remove(),1500);}setTimeout(()=>{el.classList.remove(animClass);el._busy=false;},800);});}
+const pages=document.querySelectorAll('.page'),total=pages.length;
+const dotsEl=document.getElementById('dots');let current=0;
+for(let i=0;i<total;i++){const d=document.createElement('span');if(i===0)d.classList.add('is-active');dotsEl.appendChild(d);}
+function goTo(idx){if(idx<0||idx>=total)return;speechSynthesis.cancel();if(idx===current){pages.forEach((p,i)=>{p.classList.toggle('is-active',i===idx);p.classList.remove('flip-out-fwd','flip-in-fwd','flip-out-bwd','flip-in-bwd');p.style.opacity='';p.style.pointerEvents='';});current=idx;document.getElementById('prev').disabled=idx===0;document.getElementById('next').disabled=idx===total-1;dotsEl.querySelectorAll('span').forEach((s,i)=>s.classList.toggle('is-active',i===idx));if(window.FO)FO.logProgress(BOOK_ID,idx,BOOK_TOTAL);return;}const dir=idx>current?'fwd':'bwd',outClass=dir==='fwd'?'flip-out-fwd':'flip-out-bwd',inClass=dir==='fwd'?'flip-in-fwd':'flip-in-bwd';const oldPage=pages[current],newPage=pages[idx];newPage.style.opacity='0';newPage.style.pointerEvents='none';oldPage.classList.add(outClass);newPage.classList.add(inClass);function cleanup(){oldPage.classList.remove('is-active',outClass);newPage.classList.remove(inClass);oldPage.style.opacity='';newPage.style.opacity='';newPage.style.pointerEvents='';newPage.classList.add('is-active');current=idx;document.getElementById('prev').disabled=idx===0;document.getElementById('next').disabled=idx===total-1;dotsEl.querySelectorAll('span').forEach((s,i)=>s.classList.toggle('is-active',i===idx));if(window.FO)FO.logProgress(BOOK_ID,idx,BOOK_TOTAL);}newPage.addEventListener('animationend',cleanup,{once:true});}
+document.getElementById('prev').addEventListener('click',()=>goTo(current-1));
+document.getElementById('next').addEventListener('click',()=>goTo(current+1));
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')goTo(current-1);if(e.key==='ArrowRight')goTo(current+1);});
+let _tx=0;document.addEventListener('touchstart',e=>{_tx=e.touches[0].clientX;},{passive:true});document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-_tx;if(Math.abs(dx)>50)dx<0?goTo(current+1):goTo(current-1);});
+document.getElementById('readBtn').addEventListener('click',()=>{const text=pages[current].dataset.text;if(!text||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='zh-CN';u.rate=.85;u.pitch=1.1;speechSynthesis.speak(u);});
+goTo(0);
+makeInteractive(document.getElementById('p1-melon'), 'do-bounce','🍉 好甜！');
+makeInteractive(document.getElementById('p2-friend'),'do-shake', '😶');
+makeInteractive(document.getElementById('p3-bear'),  'do-bounce','分一半？');
+makeInteractive(document.getElementById('p4-friend'),'do-bounce','谢谢贝贝！');
+makeInteractive(document.getElementById('p5-beibei'),'do-bounce','分享真棒！🍉');
+makeInteractive(document.getElementById('p5-mumu'),  'do-bounce','好甜好甜！');
+if(window.FO)FO.logHistory(BOOK_ID,BOOK_TITLE);
+</script>
+</body>
+</html>
