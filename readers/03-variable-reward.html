@@ -1,0 +1,189 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: F02 · 源: 专注的真相 03–04「比多巴胺更隐蔽的毒 / 劫持奖励系统」 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>刷视频为什么停不下来 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--yellow); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--ink); background:var(--yellow-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--coral); font-weight:700; }
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--yellow); color:var(--ink); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--coral); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--coral); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+  .action { border:2px solid var(--yellow); background:var(--yellow-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--yellow); color:var(--ink); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); color:var(--paper); pointer-events:none; }
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+</head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 关于注意力</span>
+    <h1>刷视频，<br>为什么停不下来？</h1>
+
+    <p class="hook">
+      赌场里的老虎机是全世界最赚钱的机器之一。<br>
+      设计它的人，用的是一个已经研究了七十年的心理学秘密——<br>
+      <span class="em">你的手机 App，用的是同一套。</span>
+    </p>
+
+    <!-- 拆解 1 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>斯金纳的鸽子实验</h3>
+      <p>1950 年代，心理学家斯金纳做了一个实验：训练鸽子按按钮拿食物。他对比了两种设定：</p>
+      <p><strong>固定奖励</strong>——每按 10 次必给一粒食物。鸽子学会了，但按到规律后就慢下来，够吃就停。</p>
+      <p><strong>可变奖励</strong>——随机给，有时 3 次，有时 20 次，不知道哪次有。鸽子疯了：按按钮的频率是固定奖励组的 <strong>3 倍以上</strong>，即使把食物撤掉，还能狂按几百次。</p>
+      <p>这就是<strong>可变奖励</strong>的力量——不确定，反而让人更难停。</p>
+      <figure>
+        <svg viewBox="0 0 600 180" role="img" aria-label="固定奖励与可变奖励按压次数对比">
+          <text x="150" y="24" text-anchor="middle" font-size="14" fill="#5C4F3D">固定奖励</text>
+          <rect x="110" y="30" width="80" height="110" rx="6" fill="#C9BCA3"/>
+          <text x="150" y="158" text-anchor="middle" font-size="13" fill="#8C7C66">按压次数：1×</text>
+          <text x="420" y="24" text-anchor="middle" font-size="14" fill="#5C4F3D">可变奖励</text>
+          <rect x="380" y="30" width="80" height="110" rx="6" fill="#F4C13E"/>
+          <rect x="380" y="30" width="80" height="110" rx="6" fill="#F4C13E"/>
+          <!-- stacked to look taller -->
+          <rect x="370" y="10" width="100" height="120" rx="6" fill="#F4C13E" opacity=".7"/>
+          <rect x="360" y="0" width="120" height="130" rx="6" fill="#E56B5A" opacity=".6"/>
+          <text x="420" y="158" text-anchor="middle" font-size="13" fill="#E56B5A" font-weight="700">按压次数：3× 以上</text>
+        </svg>
+        <figcaption>不确定性让"想要"系统一直处于高度激活状态</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>短视频就是手机里的老虎机</h3>
+      <p>老虎机的核心设计：<strong>你不知道下一次拉杆会是大奖还是没有</strong>。这个不确定性，让你停不下来。</p>
+      <p>短视频做了同一件事：每次上划，你不知道会刷到无聊内容还是绝好笑的视频。平台用算法精确控制这个比例——<strong>足够多的"好内容"让你留下，足够多的"普通内容"让你期待下一个</strong>。</p>
+      <p>设计这套系统的人，有时公开承认他们研究过赌博心理学。这不是巧合，这是意图。</p>
+      <figure>
+        <svg viewBox="0 0 600 160" role="img" aria-label="老虎机与短视频的相同机制">
+          <rect x="30" y="20" width="220" height="120" rx="14" fill="#F4A799"/>
+          <text x="140" y="60" text-anchor="middle" font-size="18" fill="#2B2419" font-weight="700">老虎机</text>
+          <text x="140" y="88" text-anchor="middle" font-size="14" fill="#5C4F3D">拉杆 → 也许是大奖</text>
+          <text x="140" y="112" text-anchor="middle" font-size="13" fill="#8C7C66">赌场用了 70 年</text>
+          <text x="300" y="90" text-anchor="middle" font-size="28" fill="#8C7C66">=</text>
+          <rect x="350" y="20" width="220" height="120" rx="14" fill="#FBE39A"/>
+          <text x="460" y="60" text-anchor="middle" font-size="18" fill="#2B2419" font-weight="700">短视频 App</text>
+          <text x="460" y="88" text-anchor="middle" font-size="14" fill="#5C4F3D">上划 → 也许是好视频</text>
+          <text x="460" y="112" text-anchor="middle" font-size="13" fill="#8C7C66">App 设计师用同一套</text>
+        </svg>
+        <figcaption>机制相同，只是把"拉杆"换成了"上划"</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>无限滚动：把终点抹掉了</h3>
+      <p>老虎机还有一个致命设计：<strong>它没有终点</strong>。你可以无限拉下去，直到钱花完。</p>
+      <p>短视频的"无限滚动"（Infinite Scroll）是同一回事。早期的互联网页面有"下一页"按钮，那个按钮是一个自然的停顿点——让你有机会决定是否继续。无限滚动把这个停顿点抹掉了。</p>
+      <p>发明无限滚动的工程师后来公开表示，他对自己发明的这个功能<strong>感到后悔</strong>。</p>
+    </section>
+
+    <!-- 拆解 4 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>看清它，是为了不被它牵着走</h3>
+      <p>这不是说你不能刷视频。这是说：你现在知道了，<strong>那个"再刷一个"的冲动，是被设计出来的，不是你真正想要的</strong>。</p>
+      <p>赌场赢钱靠的是：你在状态里就忘了算钱。短视频赢的是：你在状态里就忘了时间。</p>
+      <p>有意识地<strong>主动给自己设定一个终点</strong>——比如提前决定看几条、看几分钟——你就把那个被抹掉的"停顿点"还给了自己。</p>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"那些被设计出来抢夺注意力的产品，<br>用的都是真实的、已被验证的<br>心理学机制。"</p>
+      <span class="src">—— 《专注的真相》</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>上次刷视频，你是在"主动选"看什么，还是被算法推着走？</summary>
+        <p class="hint">两种体验是完全不同的。"主动选"需要你先有一个目的；"被推着走"的状态里，目的是算法替你决定的。</p>
+      </details>
+      <details>
+        <summary>如果你给自己设定"只看 5 分钟"，到时间后是什么感觉？比没有限制的时候累还是轻松？</summary>
+        <p class="hint">这个实验结果会告诉你很多。很多人发现，有边界反而更享受——因为享受的是内容，不是"也许下一个更好"的焦虑。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>选一天，刷短视频前<strong>先在心里或纸上定好"今天只看 10 分钟"</strong>，到时间就停。记录一下：定了限制之后，刷的时候和刷完之后的感受，和平时有什么不同？</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="02-dopamine.html">← 多巴胺不是快乐物质</a>
+      <a href="index.html">读本目录 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '03-variable-reward';
+    const READER_TITLE = '刷视频为什么停不下来';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
