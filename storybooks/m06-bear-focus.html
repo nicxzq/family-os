@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>贝贝的专注时刻 · 绘本</title>
+<meta name="description" content="贝贝要给妈妈画一幅画，却一直被各种声音打扰。直到他学会了保护自己的注意力，才画出了最美的作品！">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"LXGW WenKai TC","LXGW WenKai",serif;background:#FFF8E0;min-height:100vh;overflow:hidden;}
+  .book{width:100vw;height:100vh;position:relative;overflow:hidden;perspective:1400px;}
+  .top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:20px 32px;z-index:20;}
+  .back{text-decoration:none;color:#5C4F3D;font-size:16px;background:rgba(255,255,255,0.7);padding:8px 16px;border-radius:999px;backdrop-filter:blur(8px);}
+  .read-aloud{background:#4B7BA8;color:white;border:0;padding:10px 18px;border-radius:999px;font-family:inherit;font-size:16px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.1);}
+  .page{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 40px 120px;opacity:0;pointer-events:none;transition:opacity .6s ease;}
+  .page.is-active{opacity:1;pointer-events:auto;}
+  .page[data-bg="sky"]{background:#D7E7F4;}
+  .page[data-bg="mint"]{background:#D7EBC9;}
+  .page[data-bg="yellow"]{background:#FBE39A;}
+  .page[data-bg="lavender"]{background:#E8DFF4;}
+  .page[data-bg="peach"]{background:#FBE3D5;}
+  .page[data-bg="coral"]{background:#F4A799;}
+  .scene{flex:1;min-height:0;position:relative;width:100%;overflow:hidden;}
+  .scene svg{width:100%;height:100%;}
+  .text{flex-shrink:0;text-align:center;max-width:100%;}
+  .text h2{font-size:clamp(22px,4.5vw,36px);line-height:1.4;color:#2B2419;font-weight:500;text-wrap:balance;}
+  .text .small{font-size:18px;color:#5C4F3D;margin-top:16px;}
+  .nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.88);border:0;width:56px;height:56px;border-radius:50%;font-size:24px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.1);font-family:inherit;color:#2B2419;z-index:20;backdrop-filter:blur(4px);}
+  .nav-btn:disabled{opacity:.3;pointer-events:none;}
+  #prev{left:12px;}#next{right:12px;}
+  .dots-wrap{position:absolute;bottom:24px;left:0;right:0;display:flex;justify-content:center;z-index:20;}
+  .dots{display:flex;gap:6px;}
+  .dots span{width:8px;height:8px;border-radius:50%;background:rgba(43,36,25,.2);transition:background .3s,transform .3s;}
+  .dots span.is-active{background:#4B7BA8;transform:scale(1.4);}
+  .float{animation:float 3s ease-in-out infinite;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+  .do-bounce{animation:iBounce .6s cubic-bezier(.36,.07,.19,.97) both!important;}
+  @keyframes iBounce{0%{transform:translateY(0) scale(1);}25%{transform:translateY(-18px) scale(1.15);}55%{transform:translateY(-4px) scale(.96);}75%{transform:translateY(-8px) scale(1.05);}100%{transform:translateY(0) scale(1);}}
+  .do-shake{animation:iShake .55s ease both!important;}
+  @keyframes iShake{0%,100%{transform:rotate(0);}18%{transform:rotate(-22deg);}38%{transform:rotate(18deg);}58%{transform:rotate(-14deg);}78%{transform:rotate(9deg);}}
+  .do-spin{animation:iSpin .6s ease both!important;}
+  @keyframes iSpin{0%{transform:rotate(0) scale(1);}50%{transform:rotate(180deg) scale(1.2);}100%{transform:rotate(360deg) scale(1);}}
+  .interactive{cursor:pointer;transform-box:fill-box;transform-origin:center center;}
+  .interactive:hover{opacity:.9;}
+  .speech-bubble{position:absolute;top:0;left:50%;transform:translateX(-50%);background:white;border-radius:999px;padding:6px 16px;font-size:20px;font-family:"LXGW WenKai TC",serif;box-shadow:0 3px 0 rgba(0,0,0,.12);pointer-events:none;white-space:nowrap;z-index:50;animation:bPop .3s ease;}
+  @keyframes bPop{from{transform:translateX(-50%) scale(0);opacity:0;}to{transform:translateX(-50%) scale(1);opacity:1;}}
+  .flip-out-fwd{animation:fOutFwd .4s cubic-bezier(.4,0,1,1) forwards;pointer-events:none;z-index:5;opacity:1;transform-origin:left center;}
+  .flip-in-fwd{animation:fInFwd .4s cubic-bezier(0,0,.6,1) forwards;pointer-events:none;z-index:4;transform-origin:right center;}
+  .flip-out-bwd{animation:fOutBwd .4s cubic-bezier(.4,0,1,1) forwards;pointer-events:none;z-index:5;opacity:1;transform-origin:right center;}
+  .flip-in-bwd{animation:fInBwd .4s cubic-bezier(0,0,.6,1) forwards;pointer-events:none;z-index:4;transform-origin:left center;}
+  @keyframes fOutFwd{0%{transform:rotateY(0);opacity:1;}100%{transform:rotateY(-80deg);opacity:0;}}
+  @keyframes fInFwd{0%{transform:rotateY(80deg);opacity:0;}100%{transform:rotateY(0);opacity:1;}}
+  @keyframes fOutBwd{0%{transform:rotateY(0);opacity:1;}100%{transform:rotateY(80deg);opacity:0;}}
+  @keyframes fInBwd{0%{transform:rotateY(-80deg);opacity:0;}100%{transform:rotateY(0);opacity:1;}}
+  .end-card{background:white;padding:32px;border-radius:24px;max-width:480px;box-shadow:0 8px 0 rgba(0,0,0,.06),0 24px 48px -16px rgba(0,0,0,.2);text-align:center;}
+  .end-card h2{font-size:28px;color:#4B7BA8;margin-bottom:16px;}
+  .end-card p{font-size:19px;color:#2B2419;line-height:1.7;margin-bottom:12px;}
+</style>
+</head>
+<body>
+<div class="book">
+  <div class="top">
+    <a class="back" href="../for-middle.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+  </div>
+
+  <!-- P1: Beibei at desk, blank paper, excited to draw for mom -->
+  <div class="page is-active" data-bg="sky" data-text="妈妈的生日快到了！贝贝要画一幅最美的画送给妈妈。他坐在小桌子前，摆好蜡笔，深吸一口气——开始！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="265" width="400" height="55" fill="#A8C2DE" opacity=".2"/>
+        <!-- Window with sunlight -->
+        <rect x="290" y="30" width="88" height="72" rx="4" fill="#FBE39A" opacity=".5" stroke="#8C6B4A" stroke-width="2"/>
+        <line x1="334" y1="30" x2="334" y2="102" stroke="#8C6B4A" stroke-width="1.5"/>
+        <line x1="290" y1="66" x2="378" y2="66" stroke="#8C6B4A" stroke-width="1.5"/>
+        <!-- Sun rays through window -->
+        <line x1="334" y1="102" x2="280" y2="200" stroke="#F4C13E" stroke-width="2" opacity=".3" stroke-dasharray="6,4"/>
+        <!-- Desk -->
+        <rect x="80" y="200" width="240" height="14" rx="4" fill="#C8966A" opacity=".7"/>
+        <rect x="96"  y="214" width="12" height="60" rx="3" fill="#C8966A" opacity=".5"/>
+        <rect x="292" y="214" width="12" height="60" rx="3" fill="#C8966A" opacity=".5"/>
+        <!-- Paper on desk -->
+        <rect id="p1-paper" class="interactive" x="148" y="154" width="104" height="80" rx="4" fill="white" stroke="#D4C4B0" stroke-width="1.5"/>
+        <!-- Crayons -->
+        <rect x="268" y="172" width="12" height="36" rx="3" fill="#E56B5A" transform="rotate(15 274 190)"/>
+        <rect x="282" y="168" width="12" height="36" rx="3" fill="#F4C13E" transform="rotate(20 288 186)"/>
+        <rect x="254" y="176" width="12" height="36" rx="3" fill="#6FA86D" transform="rotate(8 260 194)"/>
+        <!-- Beibei sitting at desk -->
+        <g id="p1-bear" transform="translate(200,265)">
+          <ellipse cx="0" cy="0" rx="28" ry="20" fill="#C8966A"/>
+          <ellipse cx="0" cy="5" rx="16" ry="13" fill="#E8C49A" opacity=".6"/>
+          <!-- Arms on desk -->
+          <ellipse cx="-26" cy="-10" rx="18" ry="7" fill="#C8966A" transform="rotate(25 -26 -10)"/>
+          <ellipse cx="26"  cy="-10" rx="18" ry="7" fill="#C8966A" transform="rotate(-25 26 -10)"/>
+          <!-- Head -->
+          <circle cx="0" cy="-38" r="22" fill="#C8966A"/>
+          <circle cx="-14" cy="-54" r="9" fill="#C8966A"/>
+          <circle cx="-14" cy="-54" r="5" fill="#E8A080"/>
+          <circle cx="14"  cy="-54" r="9" fill="#C8966A"/>
+          <circle cx="14"  cy="-54" r="5" fill="#E8A080"/>
+          <!-- Excited eyes -->
+          <ellipse cx="-6" cy="-42" rx="5" ry="6" fill="#2B2419"/>
+          <ellipse cx="6"  cy="-42" rx="5" ry="6" fill="#2B2419"/>
+          <circle cx="-4" cy="-44" r="2" fill="white"/>
+          <circle cx="8"  cy="-44" r="2" fill="white"/>
+          <ellipse cx="0" cy="-30" rx="7" ry="5" fill="#E8C49A"/>
+          <path d="M -6,-26 Q 0,-19 6,-26" stroke="#8C5A4A" stroke-width="2.5" fill="none"/>
+        </g>
+        <!-- Star sparkles of excitement -->
+        <text x="120" y="140" font-size="16" fill="#F4C13E">✨</text>
+        <text x="72"  y="168" font-size="12" fill="#F4C13E">✦</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>妈妈生日快到了！<span style="color:#4B7BA8">贝贝要画一幅画</span>送给她。</h2>
+      <p class="small">白纸、蜡笔，准备好了——<br>开始！</p>
+    </div>
+  </div>
+
+  <!-- P2: Distracted by bird sounds outside window -->
+  <div class="page" data-bg="peach" data-text="贝贝刚拿起蜡笔，窗外传来"叽叽喳喳"的叫声。一只小鸟落在树枝上，贝贝的眼睛追着小鸟……蜡笔在纸上画出了一条弯弯的线。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="265" width="400" height="55" fill="#F4A799" opacity=".15"/>
+        <!-- Window with bird -->
+        <rect x="52" y="28" width="88" height="72" rx="4" fill="#D7E7F4" opacity=".7" stroke="#8C6B4A" stroke-width="2"/>
+        <line x1="96"  y1="28"  x2="96"  y2="100" stroke="#8C6B4A" stroke-width="1.5"/>
+        <line x1="52"  y1="64"  x2="140" y2="64"  stroke="#8C6B4A" stroke-width="1.5"/>
+        <!-- Bird on branch outside -->
+        <line x1="26" y1="52" x2="80" y2="52" stroke="#8C6B4A" stroke-width="3" stroke-linecap="round"/>
+        <ellipse cx="56" cy="46" rx="10" ry="7" fill="#4B7BA8"/>
+        <circle  cx="50" cy="43" r="6" fill="#4B7BA8"/>
+        <ellipse cx="46" cy="43" rx="3" ry="2" fill="#F4C13E"/>
+        <circle  cx="48" cy="42" r="1" fill="#2B2419"/>
+        <!-- Sound waves from bird -->
+        <path d="M 66,35 Q 76,43 66,51" fill="none" stroke="#4B7BA8" stroke-width="1.5" opacity=".5" stroke-linecap="round"/>
+        <path d="M 70,30 Q 84,43 70,56" fill="none" stroke="#4B7BA8" stroke-width="1.5" opacity=".3" stroke-linecap="round"/>
+        <!-- Desk -->
+        <rect x="80" y="200" width="240" height="14" rx="4" fill="#C8966A" opacity=".7"/>
+        <rect x="96"  y="214" width="12" height="60" rx="3" fill="#C8966A" opacity=".5"/>
+        <rect x="292" y="214" width="12" height="60" rx="3" fill="#C8966A" opacity=".5"/>
+        <!-- Paper with wonky line -->
+        <rect x="148" y="154" width="104" height="80" rx="4" fill="white" stroke="#D4C4B0" stroke-width="1.5"/>
+        <path d="M 160,190 Q 178,175 200,195 Q 222,215 240,185" fill="none" stroke="#E56B5A" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+        <!-- Beibei turning head toward window -->
+        <g transform="translate(200,265)">
+          <ellipse cx="0" cy="0" rx="28" ry="20" fill="#C8966A"/>
+          <ellipse cx="0" cy="5" rx="16" ry="13" fill="#E8C49A" opacity=".6"/>
+          <ellipse cx="-26" cy="-10" rx="18" ry="7" fill="#C8966A" transform="rotate(25 -26 -10)"/>
+          <ellipse cx="26"  cy="-10" rx="18" ry="7" fill="#C8966A" transform="rotate(-25 26 -10)"/>
+          <!-- Head rotated toward window (left) -->
+          <circle cx="-8" cy="-38" r="22" fill="#C8966A"/>
+          <circle cx="-22" cy="-54" r="9" fill="#C8966A"/>
+          <circle cx="-22" cy="-54" r="5" fill="#E8A080"/>
+          <circle cx="6"   cy="-54" r="9" fill="#C8966A"/>
+          <circle cx="6"   cy="-54" r="5" fill="#E8A080"/>
+          <!-- Eyes looking left -->
+          <circle cx="-16" cy="-43" r="4.5" fill="#2B2419"/>
+          <circle cx="-4"  cy="-43" r="4.5" fill="#2B2419"/>
+          <circle cx="-18" cy="-45" r="1.5" fill="white"/>
+          <ellipse cx="-8" cy="-30" rx="7" ry="5" fill="#E8C49A"/>
+          <path d="M -13,-26 Q -8,-22 -3,-26" stroke="#8C5A4A" stroke-width="2" fill="none"/>
+        </g>
+        <!-- Dashed gaze line to bird -->
+        <line x1="182" y1="226" x2="76" y2="50" stroke="#8C7C66" stroke-width="1" stroke-dasharray="5,4" opacity=".3"/>
+        <!-- Thought bubble: distracted -->
+        <g transform="translate(200,132)">
+          <rect x="-60" y="-22" width="120" height="38" rx="12" fill="white" opacity=".9" stroke="#F4A799" stroke-width="1.5"/>
+          <text x="0" y="-3"  font-size="14" text-anchor="middle" fill="#8C7C66">叽叽喳喳……</text>
+          <text x="0" y="14"  font-size="16" text-anchor="middle" fill="#4B7BA8">🐦 好可爱！</text>
+          <polygon points="-6,16 6,16 0,30" fill="white" stroke="#F4A799" stroke-width="1.5"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>窗外有只小鸟在叫，<span style="color:#4B7BA8">叽叽喳喳！</span></h2>
+      <p class="small">贝贝的眼睛追着小鸟……<br>蜡笔画出了一条弯弯的线。</p>
+    </div>
+  </div>
+
+  <!-- P3: More distractions, Beibei frustrated -->
+  <div class="page" data-bg="lavender" data-text="又来了——弟弟在旁边玩玩具，发出嗒嗒嗒的声音。贝贝画了擦，擦了画，心里越来越烦，皱起了眉头……这幅画怎么画都画不好！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="265" width="400" height="55" fill="#E8DFF4" opacity=".2"/>
+        <!-- Desk -->
+        <rect x="80" y="200" width="240" height="14" rx="4" fill="#C8966A" opacity=".7"/>
+        <rect x="96"  y="214" width="12" height="60" rx="3" fill="#C8966A" opacity=".5"/>
+        <rect x="292" y="214" width="12" height="60" rx="3" fill="#C8966A" opacity=".5"/>
+        <!-- Scribbled paper -->
+        <rect x="148" y="154" width="104" height="80" rx="4" fill="white" stroke="#D4C4B0" stroke-width="1.5"/>
+        <path d="M 160,175 Q 185,160 210,182 Q 230,198 248,172" fill="none" stroke="#E56B5A" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+        <path d="M 160,195 Q 200,188 240,200" fill="none" stroke="#F4C13E" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+        <path d="M 168,215 Q 195,205 228,218" fill="none" stroke="#6FA86D" stroke-width="2" stroke-linecap="round" opacity=".4"/>
+        <!-- Small sibling with toy, bottom right -->
+        <g transform="translate(315,270)">
+          <!-- Tiny bear sibling -->
+          <ellipse cx="0" cy="0" rx="20" ry="16" fill="#D4A87A"/>
+          <circle cx="0" cy="-24" r="17" fill="#D4A87A"/>
+          <circle cx="-11" cy="-36" r="7" fill="#D4A87A"/>
+          <circle cx="-11" cy="-36" r="4" fill="#E8B090"/>
+          <circle cx="11"  cy="-36" r="7" fill="#D4A87A"/>
+          <circle cx="11"  cy="-36" r="4" fill="#E8B090"/>
+          <circle cx="-4" cy="-27" r="3.5" fill="#2B2419"/>
+          <circle cx="4"  cy="-27" r="3.5" fill="#2B2419"/>
+          <ellipse cx="0" cy="-18" rx="5" ry="3.5" fill="#E8C49A"/>
+          <!-- Toy blocks in front -->
+          <rect x="-14" y="-8" width="12" height="12" rx="2" fill="#E56B5A" opacity=".7"/>
+          <rect x="2"   y="-8" width="12" height="12" rx="2" fill="#F4C13E" opacity=".7"/>
+          <rect x="-8"  y="-22" width="12" height="12" rx="2" fill="#4B7BA8" opacity=".7"/>
+        </g>
+        <!-- Sound waves from sibling -->
+        <text x="268" y="228" font-size="11" fill="#8C7C66" opacity=".6">嗒嗒嗒</text>
+        <text x="260" y="244" font-size="10" fill="#8C7C66" opacity=".4">咔咔咔</text>
+        <!-- Beibei frustrated -->
+        <g id="p3-bear" transform="translate(180,265)">
+          <ellipse cx="0" cy="0" rx="28" ry="20" fill="#C8966A"/>
+          <ellipse cx="0" cy="5" rx="16" ry="13" fill="#E8C49A" opacity=".6"/>
+          <ellipse cx="-26" cy="-10" rx="18" ry="7" fill="#C8966A" transform="rotate(25 -26 -10)"/>
+          <ellipse cx="26"  cy="-10" rx="18" ry="7" fill="#C8966A" transform="rotate(-25 26 -10)"/>
+          <circle cx="0"   cy="-38" r="22" fill="#C8966A"/>
+          <circle cx="-14" cy="-54" r="9" fill="#C8966A"/>
+          <circle cx="-14" cy="-54" r="5" fill="#E8A080"/>
+          <circle cx="14"  cy="-54" r="9" fill="#C8966A"/>
+          <circle cx="14"  cy="-54" r="5" fill="#E8A080"/>
+          <!-- Furrowed brow -->
+          <line x1="-12" y1="-50" x2="-4" y2="-46" stroke="#2B2419" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="12"  y1="-50" x2="4"  y2="-46" stroke="#2B2419" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Sad eyes -->
+          <circle cx="-6" cy="-42" r="4.5" fill="#2B2419"/>
+          <circle cx="6"  cy="-42" r="4.5" fill="#2B2419"/>
+          <ellipse cx="0" cy="-30" rx="7" ry="5" fill="#E8C49A"/>
+          <path d="M -6,-25 Q 0,-31 6,-25" stroke="#8C5A4A" stroke-width="2.5" fill="none"/>
+        </g>
+        <!-- Frustration sparks -->
+        <text x="124" y="192" font-size="18" fill="#E56B5A">😤</text>
+        <text x="232" y="178" font-size="14" fill="#E56B5A" opacity=".6">╳</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>旁边嗒嗒嗒，<span style="color:#E56B5A">贝贝画了又擦，擦了又画……</span></h2>
+      <p class="small">皱起了眉头，<br>这幅画怎么画都不对！</p>
+    </div>
+  </div>
+
+  <!-- P4: Dad suggests "focus time" — close distractions, find quiet corner -->
+  <div class="page" data-bg="mint" data-text="爸爸走过来，轻轻问：贝贝，你有没有试过给自己一个专注时刻？关上窗，找个安静的角落，把注意力全给你最想做的事。贝贝眼睛亮了！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="265" width="400" height="55" fill="#B5D4A8" opacity=".2"/>
+        <!-- Cozy corner suggestion — curtains closing -->
+        <rect x="290" y="28" width="88" height="72" rx="4" fill="#D7EBC9" opacity=".4" stroke="#8C6B4A" stroke-width="2"/>
+        <!-- Curtain drawn -->
+        <rect x="290" y="28" width="44" height="72" rx="2" fill="#6FA86D" opacity=".35"/>
+        <rect x="334" y="28" width="44" height="72" rx="2" fill="#6FA86D" opacity=".35"/>
+        <line x1="334" y1="28" x2="334" y2="100" stroke="#8C6B4A" stroke-width="1.5"/>
+        <!-- Quiet zone indicator -->
+        <circle cx="200" cy="115" r="64" fill="white" opacity=".25"/>
+        <text x="200" y="92" font-size="13" text-anchor="middle" fill="#6FA86D" opacity=".6">安静时刻</text>
+        <!-- No-distraction icon -->
+        <circle cx="200" cy="115" r="30" fill="none" stroke="#6FA86D" stroke-width="2" opacity=".4"/>
+        <text x="200" y="124" font-size="20" text-anchor="middle">🔕</text>
+        <!-- Dad bear (larger) -->
+        <g transform="translate(118,265)">
+          <ellipse cx="0" cy="0" rx="32" ry="25" fill="#8C6B4A"/>
+          <ellipse cx="0" cy="6" rx="18" ry="15" fill="#C8966A" opacity=".6"/>
+          <ellipse cx="-30" cy="-8" rx="20" ry="9" fill="#8C6B4A" transform="rotate(20 -30 -8)"/>
+          <ellipse cx="30"  cy="-8" rx="20" ry="9" fill="#8C6B4A" transform="rotate(-20 30 -8)"/>
+          <circle cx="0"   cy="-42" r="26" fill="#8C6B4A"/>
+          <circle cx="-17" cy="-60" r="10" fill="#8C6B4A"/>
+          <circle cx="-17" cy="-60" r="6"  fill="#A0785A"/>
+          <circle cx="17"  cy="-60" r="10" fill="#8C6B4A"/>
+          <circle cx="17"  cy="-60" r="6"  fill="#A0785A"/>
+          <!-- Kind eyes -->
+          <path d="M -9,-48 Q -4,-42 1,-48" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <path d="M -1,-48 Q 4,-42 9,-48" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <ellipse cx="0" cy="-34" rx="8" ry="6" fill="#C8966A"/>
+          <path d="M -7,-29 Q 0,-22 7,-29" stroke="#8C5A4A" stroke-width="2.5" fill="none"/>
+        </g>
+        <!-- Beibei listening, eyes wide -->
+        <g id="p4-bear" transform="translate(282,265)">
+          <ellipse cx="0" cy="0" rx="26" ry="20" fill="#C8966A"/>
+          <ellipse cx="0" cy="5" rx="14" ry="12" fill="#E8C49A" opacity=".6"/>
+          <ellipse cx="-20" cy="-6" rx="16" ry="7" fill="#C8966A" transform="rotate(20 -20 -6)"/>
+          <ellipse cx="20"  cy="-6" rx="16" ry="7" fill="#C8966A" transform="rotate(-20 20 -6)"/>
+          <circle cx="0"   cy="-33" r="20" fill="#C8966A"/>
+          <circle cx="-13" cy="-48" r="8" fill="#C8966A"/>
+          <circle cx="-13" cy="-48" r="4.5" fill="#E8A080"/>
+          <circle cx="13"  cy="-48" r="8" fill="#C8966A"/>
+          <circle cx="13"  cy="-48" r="4.5" fill="#E8A080"/>
+          <!-- Eyes lighting up -->
+          <ellipse cx="-6" cy="-38" rx="5.5" ry="6" fill="#2B2419"/>
+          <ellipse cx="6"  cy="-38" rx="5.5" ry="6" fill="#2B2419"/>
+          <circle cx="-4" cy="-40" r="2.5" fill="white"/>
+          <circle cx="8"  cy="-40" r="2.5" fill="white"/>
+          <ellipse cx="0" cy="-26" rx="6" ry="4.5" fill="#E8C49A"/>
+          <path d="M -5,-22 Q 0,-15 5,-22" stroke="#8C5A4A" stroke-width="2.5" fill="none"/>
+        </g>
+        <!-- Speech from dad -->
+        <g transform="translate(118,162)">
+          <rect x="-70" y="-24" width="140" height="44" rx="12" fill="white" opacity=".95" stroke="#6FA86D" stroke-width="1.5"/>
+          <text x="0" y="-5"  font-size="13" text-anchor="middle" fill="#6FA86D" font-weight="600">给自己一个</text>
+          <text x="0" y="14"  font-size="13" text-anchor="middle" fill="#6FA86D" font-weight="600">专注时刻 🔕</text>
+          <polygon points="-8,20 8,20 0,34" fill="white" stroke="#6FA86D" stroke-width="1.5"/>
+        </g>
+        <!-- Light bulb spark over Beibei -->
+        <text x="304" y="204" font-size="22">💡</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>爸爸说：<span style="color:#6FA86D">给自己一个"专注时刻"！</span></h2>
+      <p class="small">关上窗，找个安静的角落，<br>把注意力全给你最想做的事。</p>
+    </div>
+  </div>
+
+  <!-- P5: Beibei in quiet corner, fully focused, drawing blooms — interactive -->
+  <div class="page" data-bg="yellow" data-text="贝贝搬到安静的角落，关上窗，深呼吸……蜡笔一笔一笔地画，心里很平静。妈妈的笑脸慢慢在纸上出现了！点击蜡笔，给画涂上颜色！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="265" width="400" height="55" fill="#B5D4A8" opacity=".2"/>
+        <!-- Warm quiet corner glow -->
+        <circle cx="200" cy="160" r="140" fill="#FBE39A" opacity=".35"/>
+        <!-- Closed window -->
+        <rect x="52" y="28" width="88" height="72" rx="4" fill="#D7EBC9" opacity=".4" stroke="#8C6B4A" stroke-width="2"/>
+        <rect x="52"  y="28" width="44" height="72" fill="#6FA86D" opacity=".3"/>
+        <rect x="96"  y="28" width="44" height="72" fill="#6FA86D" opacity=".3"/>
+        <line x1="96" y1="28" x2="96" y2="100" stroke="#8C6B4A" stroke-width="1.5"/>
+        <text x="96" y="22" font-size="12" text-anchor="middle" fill="#6FA86D" opacity=".7">✓ 关窗了</text>
+        <!-- Small desk in corner -->
+        <rect x="112" y="205" width="176" height="12" rx="3" fill="#C8966A" opacity=".6"/>
+        <rect x="120" y="217" width="10" height="48" rx="2" fill="#C8966A" opacity=".5"/>
+        <rect x="278" y="217" width="10" height="48" rx="2" fill="#C8966A" opacity=".5"/>
+        <!-- Beautiful drawing on paper -->
+        <rect x="152" y="154" width="100" height="76" rx="4" fill="white" stroke="#D4C4B0" stroke-width="1.5"/>
+        <!-- Mom's face drawn on paper -->
+        <circle cx="202" cy="182" r="24" fill="#FBE3D5" stroke="#F4A799" stroke-width="1.5"/>
+        <path d="M 192,178 Q 196,172 202,178" stroke="#2B2419" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M 202,178 Q 208,172 212,178" stroke="#2B2419" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M 194,188 Q 202,196 210,188" stroke="#8C5A4A" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M 186,210 Q 202,218 218,210" fill="none" stroke="#E56B5A" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <!-- Heart above drawing -->
+        <text x="202" y="152" font-size="14" text-anchor="middle" fill="#E56B5A">♥</text>
+        <!-- Crayons: interactive -->
+        <g id="p5-crayon-r" class="interactive" transform="translate(290,182)">
+          <rect x="-6" y="-22" width="12" height="44" rx="4" fill="#E56B5A"/>
+          <rect x="-6" y="-28" width="12" height="10" rx="2" fill="#C8966A"/>
+          <polygon points="-6,22 6,22 0,34" fill="#E56B5A" opacity=".8"/>
+        </g>
+        <g id="p5-crayon-y" class="interactive" transform="translate(310,176)">
+          <rect x="-6" y="-22" width="12" height="44" rx="4" fill="#F4C13E"/>
+          <rect x="-6" y="-28" width="12" height="10" rx="2" fill="#C8966A"/>
+          <polygon points="-6,22 6,22 0,34" fill="#F4C13E" opacity=".8"/>
+        </g>
+        <g id="p5-crayon-g" class="interactive" transform="translate(330,186)">
+          <rect x="-6" y="-22" width="12" height="44" rx="4" fill="#6FA86D"/>
+          <rect x="-6" y="-28" width="12" height="10" rx="2" fill="#C8966A"/>
+          <polygon points="-6,22 6,22 0,34" fill="#6FA86D" opacity=".8"/>
+        </g>
+        <!-- Beibei drawing, totally focused -->
+        <g id="p5-bear" class="interactive" transform="translate(180,265)">
+          <ellipse cx="0" cy="0" rx="28" ry="20" fill="#C8966A"/>
+          <ellipse cx="0" cy="5" rx="16" ry="13" fill="#E8C49A" opacity=".6"/>
+          <!-- Right arm reaching to draw -->
+          <ellipse cx="32"  cy="-16" rx="20" ry="7" fill="#C8966A" transform="rotate(-20 32 -16)"/>
+          <ellipse cx="-22" cy="-8"  rx="16" ry="7" fill="#C8966A" transform="rotate(20 -22 -8)"/>
+          <circle cx="0"   cy="-38" r="22" fill="#C8966A"/>
+          <circle cx="-14" cy="-54" r="9" fill="#C8966A"/>
+          <circle cx="-14" cy="-54" r="5" fill="#E8A080"/>
+          <circle cx="14"  cy="-54" r="9" fill="#C8966A"/>
+          <circle cx="14"  cy="-54" r="5" fill="#E8A080"/>
+          <!-- Focused squint eyes -->
+          <path d="M -9,-44 Q -4,-38 1,-44" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <path d="M 1,-44 Q 6,-38 11,-44" stroke="#2B2419" stroke-width="2.5" fill="none"/>
+          <ellipse cx="0" cy="-30" rx="7" ry="5" fill="#E8C49A"/>
+          <path d="M -6,-26 Q 0,-19 6,-26" stroke="#8C5A4A" stroke-width="2.5" fill="none"/>
+          <!-- Cheek blush from concentration -->
+          <ellipse cx="-12" cy="-33" rx="6" ry="4" fill="#E56B5A" opacity=".18"/>
+          <ellipse cx="12"  cy="-33" rx="6" ry="4" fill="#E56B5A" opacity=".18"/>
+        </g>
+        <!-- Focus glow aura -->
+        <text x="84"  y="258" font-size="14" fill="#F4C13E" opacity=".6">✦</text>
+        <text x="308" y="250" font-size="16" fill="#F4C13E" opacity=".6">✦</text>
+        <text x="200" y="298" font-size="12" text-anchor="middle" fill="#8C7C66" opacity=".7">点击蜡笔或贝贝！</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>安静的角落里，<span style="color:#6FA86D">贝贝的心平静下来。</span></h2>
+      <p class="small">一笔一笔，妈妈的笑脸<br>慢慢出现在纸上！</p>
+    </div>
+  </div>
+
+  <!-- P6: End card -->
+  <div class="page" data-bg="sky" data-text="小宝贝，注意力是你最宝贵的东西。专注的时候，你能做出最美的作品。保护好你的注意力，就是保护好你的超能力！">
+    <div class="end-card">
+      <h2>给小宝贝 🎨</h2>
+      <p>注意力，是你最宝贵的东西。</p>
+      <p style="font-size:28px;color:#4B7BA8;font-weight:700;margin:16px 0;">专注的时候，<br>你能做出最美的作品！✨</p>
+      <p style="font-size:16px;color:#5C4F3D;">保护好你的注意力，<br>就是保护好你的超能力。</p>
+      <button style="background:#4B7BA8;color:white;border:0;padding:10px 24px;border-radius:999px;font-family:inherit;font-size:16px;cursor:pointer;margin-top:24px;" onclick="goTo(0)">🔄 再讲一遍</button>
+    </div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
+</div>
+
+<script src="../fo-utils.js"></script>
+<script>
+const BOOK_ID='m06-bear-focus'; const BOOK_TITLE='贝贝的专注时刻'; const BOOK_TOTAL=5;
+function makeInteractive(el,animClass,msg){if(!el)return;el.classList.add('interactive');el.addEventListener('click',function(){if(el._busy)return;el._busy=true;el.classList.remove(animClass);void el.getBoundingClientRect();el.classList.add(animClass);if(msg){const scene=el.closest('.scene');const er=el.getBoundingClientRect(),sr=scene.getBoundingClientRect();const cx=er.left+er.width/2-sr.left,cy=Math.max(8,er.top-sr.top-48);const b=document.createElement('div');b.className='speech-bubble';b.textContent=msg;b.style.left=cx+'px';b.style.top=cy+'px';b.style.transform='translateX(-50%)';scene.appendChild(b);setTimeout(()=>b.remove(),1500);}setTimeout(()=>{el.classList.remove(animClass);el._busy=false;},800);});}
+const pages=document.querySelectorAll('.page'),total=pages.length;
+const dotsEl=document.getElementById('dots');let current=0;
+for(let i=0;i<total;i++){const d=document.createElement('span');if(i===0)d.classList.add('is-active');dotsEl.appendChild(d);}
+function goTo(idx){if(idx<0||idx>=total)return;speechSynthesis.cancel();if(idx===current){pages.forEach((p,i)=>{p.classList.toggle('is-active',i===idx);p.classList.remove('flip-out-fwd','flip-in-fwd','flip-out-bwd','flip-in-bwd');p.style.opacity='';p.style.pointerEvents='';});current=idx;document.getElementById('prev').disabled=idx===0;document.getElementById('next').disabled=idx===total-1;dotsEl.querySelectorAll('span').forEach((s,i)=>s.classList.toggle('is-active',i===idx));if(window.FO)FO.logProgress(BOOK_ID,idx,BOOK_TOTAL);return;}const dir=idx>current?'fwd':'bwd',outClass=dir==='fwd'?'flip-out-fwd':'flip-out-bwd',inClass=dir==='fwd'?'flip-in-fwd':'flip-in-bwd';const oldPage=pages[current],newPage=pages[idx];newPage.style.opacity='0';newPage.style.pointerEvents='none';oldPage.classList.add(outClass);newPage.classList.add(inClass);function cleanup(){oldPage.classList.remove('is-active',outClass);newPage.classList.remove(inClass);oldPage.style.opacity='';newPage.style.opacity='';newPage.style.pointerEvents='';newPage.classList.add('is-active');current=idx;document.getElementById('prev').disabled=idx===0;document.getElementById('next').disabled=idx===total-1;dotsEl.querySelectorAll('span').forEach((s,i)=>s.classList.toggle('is-active',i===idx));if(window.FO)FO.logProgress(BOOK_ID,idx,BOOK_TOTAL);}newPage.addEventListener('animationend',cleanup,{once:true});}
+document.getElementById('prev').addEventListener('click',()=>goTo(current-1));
+document.getElementById('next').addEventListener('click',()=>goTo(current+1));
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')goTo(current-1);if(e.key==='ArrowRight')goTo(current+1);});
+let _tx=0;document.addEventListener('touchstart',e=>{_tx=e.touches[0].clientX;},{passive:true});document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-_tx;if(Math.abs(dx)>50)dx<0?goTo(current+1):goTo(current-1);});
+document.getElementById('readBtn').addEventListener('click',()=>{const text=pages[current].dataset.text;if(!text||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='zh-CN';u.rate=.85;u.pitch=1.1;speechSynthesis.speak(u);});
+goTo(0);
+makeInteractive(document.getElementById('p1-paper'),  'do-bounce','✏️ 开始画！');
+makeInteractive(document.getElementById('p3-bear'),   'do-shake', '画不好！😤');
+makeInteractive(document.getElementById('p4-bear'),   'do-bounce','我明白了！💡');
+makeInteractive(document.getElementById('p5-bear'),   'do-bounce','专注中……✨');
+makeInteractive(document.getElementById('p5-crayon-r'),'do-spin', '❤️ 红色');
+makeInteractive(document.getElementById('p5-crayon-y'),'do-spin', '⭐ 黄色');
+makeInteractive(document.getElementById('p5-crayon-g'),'do-spin', '🌿 绿色');
+if(window.FO)FO.logHistory(BOOK_ID,BOOK_TITLE);
+</script>
+</body>
+</html>
