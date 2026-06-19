@@ -502,8 +502,18 @@
     }
 
     if (back) {
+      // Show the back affordance, but never navigate straight to the gated
+      // target (that was the bypass). Return to wherever the user came from,
+      // falling back to home — the gated page itself now enforces login.
       backLink.hidden = false;
-      backLink.href = back;
+      backLink.removeAttribute('href');
+      backLink.setAttribute('role', 'button');
+      backLink.style.cursor = 'pointer';
+      backLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (history.length > 1) history.back();
+        else location.href = 'index.html';
+      });
     }
 
     function renderMembers() {

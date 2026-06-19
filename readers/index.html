@@ -31,6 +31,8 @@
   .card.soon { pointer-events:none; opacity:.55; border-top-color:var(--cream-deep); background:var(--cream-deep); box-shadow:none; }
   .card.soon .tag { display:inline-block; margin-top:10px; font-size:var(--font-size-sm); color:var(--ink-mute); background:var(--paper); padding:3px 10px; border-radius:var(--radius-full); }
   .card.done .tag { display:inline-block; margin-top:10px; font-size:var(--font-size-sm); color:var(--paper); background:var(--green); padding:3px 10px; border-radius:var(--radius-full); }
+  .card.is-locked { position:relative; opacity:.82; }
+  .card.is-locked::after { content:"🔒"; position:absolute; top:var(--space-xl); right:var(--space-2xl); font-size:var(--font-size-ui); opacity:.7; }
 </style>
 </head>
 <body>
@@ -84,6 +86,15 @@
     const el = document.getElementById('nav-member-btn');
     if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
     else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    // Lock reader articles when signed out — they require login to open.
+    if (!m) {
+      document.querySelectorAll('.card.done[href]').forEach(function(card){
+        var href = card.getAttribute('href') || '';
+        card.classList.add('is-locked');
+        card.setAttribute('href', '/login.html?back=' + encodeURIComponent(href));
+      });
+    }
   </script>
 </body>
 </html>

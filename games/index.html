@@ -66,6 +66,12 @@
   .sci-section { margin-bottom:var(--space-section); }
   .sci-label { font-size:var(--font-size-ui); letter-spacing:.12em; color:var(--ink-mute); margin-bottom:var(--space-3xl); font-weight:700; }
 
+  /* Locked games for signed-out visitors */
+  .booklet-card.is-locked, .game-card.is-locked { position:relative; opacity:.82; }
+  .booklet-card.is-locked::after, .game-card.is-locked::after {
+    content:"🔒"; position:absolute; top:var(--space-md); right:var(--space-lg); font-size:var(--font-size-ui); opacity:.7;
+  }
+
 </style>
 </head>
 <body>
@@ -264,6 +270,18 @@
     } else {
       el.innerHTML = '<span>登录</span>';
       el.onclick = function(){ location.href='../login.html'; };
+    }
+
+    // Lock gated games when signed out — first game of each group stays free.
+    if (!m) {
+      var FREE_GAMES = {'g01-direction':1,'g21-chemistry':1,'g22-physics':1,'g41-blocks':1,'g44-history-detective':1};
+      document.querySelectorAll('.booklet-card[href], .game-card[href]').forEach(function(card){
+        var href = card.getAttribute('href') || '';
+        var id = href.split('/').pop().replace('.html','').split('#')[0];
+        if (FREE_GAMES[id]) return;
+        card.classList.add('is-locked');
+        card.setAttribute('href', '/login.html?back=' + encodeURIComponent(href));
+      });
     }
   })();
 </script>

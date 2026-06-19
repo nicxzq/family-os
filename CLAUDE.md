@@ -100,6 +100,17 @@ When adding or editing content, quotes and ideas must be faithful to the source 
 | `fo-supabase.js`                                  | (script)            | Supabase client wrapper; configure URL+key |
 | `supabase/schema.sql`                             | (DB)                | Full schema — run once in Supabase SQL editor |
 
+## Login gating (登录门禁)
+
+Gated pages require a signed-in family member (`localStorage.fo_member`). Enforcement is **per page**, not just on listings — the listing check alone was bypassable via the browser back button.
+
+- **Guard:** every gated content page loads `<script src="/fo-gate.js"></script>` as the first script in `<head>`. If no member is signed in, it `location.replace`s to `/login.html?back=<path>` before the body paints. `login.html`'s "← 返回" must never link straight to the gated target (that was the original bypass).
+- **What is gated:**
+  - Eldest readers — **all** `readers/*.html` content pages (the `readers/index.html` listing auto-locks them when signed out).
+  - Youngest storybooks — numeric `storybooks/NN-*.html` with `NN >= 4` (01–03 free). Their `for-youngest.html` card must carry `data-gated="true"`. Middle-child `m##` bear books are not gated.
+  - Eldest games — every `games/g*.html` except the first game of each group (free tasters: `g01-direction`, `g21-chemistry`, `g22-physics`, `g41-blocks`, `g44-history-detective`). `games/index.html` locks the rest when signed out.
+- **When adding content, ALWAYS run `node scripts/sync-gate.js` from the repo root.** It is idempotent and self-correcting: it injects `/fo-gate.js` into any gated page missing it and marks youngest cards `data-gated="true"`. The daily storybook scheduled task runs it as its final step, so new content is gated automatically.
+
 ## Commit conventions
 
 - **Language**: English only.
