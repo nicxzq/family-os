@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>毛毛的存钱罐</title>
+<meta name="description" content="每天存一颗硬币，每天浇一次菜地——慢慢的，会变好多好多。关于复利与积少成多。">
+<meta property="og:title" content="毛毛的存钱罐">
+<meta property="og:description" content="每天存一点点，时间久了会变好多。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/storybooks/20-piggy-garden">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "LXGW WenKai TC","LXGW WenKai",serif; background:#F8F2E2; min-height:100vh; overflow:hidden; }
+  .book { width:100vw; height:100vh; position:relative; overflow:hidden; }
+  .top { position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:20px 32px; z-index:20; }
+  .back { text-decoration:none; color:#5C4F3D; font-size:16px; background:rgba(255,255,255,0.7); padding:8px 16px; border-radius:999px; backdrop-filter:blur(8px); }
+  .read-aloud { background:#6FA86D; color:white; border:0; padding:10px 18px; border-radius:999px; font-family:inherit; font-size:16px; cursor:pointer; box-shadow:0 3px 0 rgba(0,0,0,0.1); }
+  .read-aloud:active { transform:translateY(1px); box-shadow:0 2px 0 rgba(0,0,0,0.1); }
+  .page { position:absolute; inset:0; display:flex; flex-direction:column; padding:72px 0 48px; opacity:0; pointer-events:none; transition:opacity 0.6s ease; }
+  .page.is-active { opacity:1; pointer-events:auto; }
+  .page[data-bg="cream"]  { background:#F8F2E2; }
+  .page[data-bg="peach"]  { background:#FBE3D5; }
+  .page[data-bg="mint"]   { background:#D7EBC9; }
+  .page[data-bg="sky"]    { background:#D7E7F4; }
+  .page[data-bg="yellow"] { background:#FBE39A; }
+  .page[data-bg="coral"]  { background:#F4A799; }
+  .scene { flex:1; min-height:0; position:relative; width:100%; overflow:hidden; }
+  .scene svg { width:100%; height:100%; }
+  .text { flex-shrink:0; padding:12px 24px 8px; text-align:center; }
+  .text h2 { font-size:clamp(22px,4.5vw,34px); line-height:1.4; color:#2B2419; font-weight:500; text-wrap:balance; }
+  .text .big { font-size:clamp(28px,5.5vw,44px); line-height:1.3; color:#6FA86D; font-weight:700; margin-top:8px; }
+  .text .small { font-size:clamp(14px,2.8vw,16px); color:#5C4F3D; margin-top:8px; }
+  .end-card { margin:auto; background:white; padding:32px; border-radius:24px; max-width:480px; width:calc(100% - 48px); box-shadow:0 8px 0 rgba(0,0,0,0.06),0 24px 48px -16px rgba(0,0,0,0.2); text-align:center; }
+  .end-card h2 { font-size:28px; color:#6FA86D; margin-bottom:16px; }
+  .end-card p { font-size:19px; color:#2B2419; line-height:1.7; margin-bottom:12px; }
+  .nav-btn { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.88); border:0; width:56px; height:56px; border-radius:50%; font-size:24px; cursor:pointer; box-shadow:0 3px 0 rgba(0,0,0,0.1); font-family:inherit; color:#2B2419; z-index:20; backdrop-filter:blur(4px); }
+  .nav-btn:disabled { opacity:0.3; pointer-events:none; }
+  .nav-btn:active { transform:translateY(calc(-50% + 1px)); box-shadow:0 2px 0 rgba(0,0,0,0.1); }
+  #prev { left:12px; } #next { right:12px; }
+  .dots-wrap { position:absolute; bottom:16px; left:0; right:0; display:flex; justify-content:center; z-index:20; }
+  .dots { display:flex; gap:6px; }
+  .dots span { width:8px; height:8px; border-radius:50%; background:rgba(43,36,25,0.2); transition:background 0.3s,transform 0.3s; }
+  .dots span.is-active { background:#6FA86D; transform:scale(1.4); }
+  .float { animation:float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .interactive { cursor:pointer; transform-box:fill-box; transform-origin:center center; }
+  .interactive:hover { opacity:0.9; }
+  .do-bounce { animation:iBounce 0.6s cubic-bezier(0.36,0.07,0.19,0.97) both !important; }
+  @keyframes iBounce { 0%{transform:translateY(0) scale(1)} 25%{transform:translateY(-18px) scale(1.15)} 55%{transform:translateY(-4px) scale(0.96)} 75%{transform:translateY(-8px) scale(1.05)} 100%{transform:translateY(0) scale(1)} }
+  .do-shake { animation:iShake 0.55s ease both !important; }
+  @keyframes iShake { 0%,100%{transform:rotate(0deg)} 18%{transform:rotate(-22deg)} 38%{transform:rotate(18deg)} 58%{transform:rotate(-14deg)} 78%{transform:rotate(9deg)} }
+  .do-wobble { animation:iWobble 0.7s ease both !important; }
+  @keyframes iWobble { 0%,100%{transform:scaleX(1) scaleY(1)} 20%{transform:scaleX(1.25) scaleY(0.75)} 45%{transform:scaleX(0.85) scaleY(1.2)} 65%{transform:scaleX(1.1) scaleY(0.9)} 80%{transform:scaleX(0.96) scaleY(1.04)} }
+  .speech-bubble { position:absolute; background:white; border-radius:999px; padding:6px 16px; font-size:20px; font-family:"LXGW WenKai TC",serif; box-shadow:0 3px 0 rgba(0,0,0,0.12); pointer-events:none; white-space:nowrap; z-index:50; animation:bPop 0.3s ease forwards; }
+  @keyframes bPop { from{opacity:0} to{opacity:1} }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+<div class="book">
+
+  <div class="top">
+    <a class="back" href="../for-youngest.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+    <a href="../dashboard.html" class="dash-link" style="background:rgba(255,255,255,0.7);padding:8px 14px;border-radius:999px;text-decoration:none;font-size:16px;backdrop-filter:blur(8px);" title="仪表盘">📊</a>
+  </div>
+
+  <!-- PAGE 1 -->
+  <div class="page is-active" data-bg="cream" data-text="天上有一个又大又红的风筝，毛毛好想要。可是手心里，只有一枚小硬币。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="262" width="400" height="58" fill="#E9D9B0"/>
+        <!-- 大风筝 -->
+        <g id="p1-kite" class="float" transform="translate(300,90)">
+          <polygon points="0,-32 26,0 0,32 -26,0" fill="#E56B5A" stroke="#C24B3C" stroke-width="2"/>
+          <line x1="0" y1="-32" x2="0" y2="32" stroke="#C24B3C" stroke-width="1.5"/>
+          <line x1="-26" y1="0" x2="26" y2="0" stroke="#C24B3C" stroke-width="1.5"/>
+          <path d="M0,32 q8,14 -4,22 q12,6 4,20" fill="none" stroke="#F4C13E" stroke-width="2"/>
+        </g>
+        <!-- 毛毛 + 一枚硬币 -->
+        <g id="p1-maomao" transform="translate(150,200)">
+          <ellipse cx="0" cy="6" rx="22" ry="24" fill="#FFFDF6"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6"/>
+          <circle cx="-6" cy="-20" r="3" fill="#2B2419"/>
+          <circle cx="6" cy="-20" r="3" fill="#2B2419"/>
+          <polygon points="0,-23 10,-20 0,-17" fill="#E56B5A"/>
+          <circle cx="22" cy="6" r="9" fill="#F4C13E" stroke="#C98A3A" stroke-width="2"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>天上有个<span style="color:#E56B5A;">大风筝</span>，毛毛好想要。</h2>
+      <p class="small">可是手心里，只有<strong>一枚</strong>小硬币。</p>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page" data-bg="sky" data-text="爸爸拿来一个胖胖的存钱罐。爸爸说：每天放一颗硬币进去，好不好？">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="262" width="400" height="58" fill="#E9D9B0"/>
+        <!-- 存钱罐 -->
+        <g id="p2-piggy" transform="translate(200,190)">
+          <ellipse cx="0" cy="0" rx="42" ry="30" fill="#F4A799" stroke="#E56B5A" stroke-width="2"/>
+          <circle cx="36" cy="-2" r="14" fill="#F4A799" stroke="#E56B5A" stroke-width="2"/>
+          <circle cx="33" cy="-3" r="2.4" fill="#E56B5A"/>
+          <circle cx="40" cy="-3" r="2.4" fill="#E56B5A"/>
+          <circle cx="18" cy="-10" r="2.6" fill="#2B2419"/>
+          <path d="M-30,-14 q6,-8 12,0" fill="none" stroke="#2B2419" stroke-width="3" stroke-linecap="round"/>
+          <rect x="-8" y="-30" width="16" height="5" rx="2" fill="#2B2419"/>
+          <ellipse cx="-28" cy="26" rx="7" ry="6" fill="#E56B5A"/>
+          <ellipse cx="22" cy="26" rx="7" ry="6" fill="#E56B5A"/>
+          <path d="M-42,2 q-12,-2 -8,-12" fill="none" stroke="#E56B5A" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <!-- 爸爸 -->
+        <g id="p2-dad" transform="translate(95,170)">
+          <ellipse cx="0" cy="10" rx="32" ry="36" fill="#FFFDF6"/>
+          <circle cx="0" cy="-26" r="26" fill="#FFFDF6"/>
+          <circle cx="-9" cy="-28" r="7" fill="none" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="9" cy="-28" r="7" fill="none" stroke="#2B2419" stroke-width="2"/>
+          <line x1="-2" y1="-28" x2="2" y2="-28" stroke="#2B2419" stroke-width="2"/>
+          <polygon points="0,-30 13,-26 0,-22" fill="#E56B5A"/>
+        </g>
+        <!-- 毛毛 -->
+        <g id="p2-maomao" transform="translate(310,205)">
+          <ellipse cx="0" cy="6" rx="20" ry="22" fill="#FFFDF6"/>
+          <circle cx="0" cy="-16" r="16" fill="#FFFDF6"/>
+          <circle cx="-6" cy="-18" r="2.8" fill="#2B2419"/>
+          <circle cx="6" cy="-18" r="2.8" fill="#2B2419"/>
+          <polygon points="0,-21 -9,-18 0,-15" fill="#E56B5A"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>爸爸拿来一个<span style="color:#6FA86D;">胖胖的存钱罐</span>。</h2>
+      <p class="small">"每天放一颗硬币进去，好不好？"</p>
+    </div>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="page" data-bg="peach" data-text="第一天，第二天，第三天……罐子里只有浅浅几颗。毛毛等不及了：怎么这么慢呀？">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="262" width="400" height="58" fill="#E9D9B0"/>
+        <!-- 玻璃罐，浅浅几颗硬币 -->
+        <g transform="translate(140,180)">
+          <path d="M-32,-44 L-32,46 Q-32,60 -18,60 L18,60 Q32,60 32,46 L32,-44 Z" fill="#A8C2DE" opacity="0.45" stroke="#4B7BA8" stroke-width="2"/>
+          <rect x="-36" y="-52" width="72" height="10" rx="4" fill="#4B7BA8"/>
+          <rect x="-8" y="-50" width="16" height="4" rx="2" fill="#2B2419"/>
+          <ellipse cx="-10" cy="52" rx="11" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+          <ellipse cx="10" cy="48" rx="11" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+          <ellipse cx="0" cy="44" rx="11" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+        </g>
+        <!-- 毛毛，着急 -->
+        <g id="p3-maomao" transform="translate(270,195)">
+          <ellipse cx="0" cy="6" rx="22" ry="24" fill="#FFFDF6"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6"/>
+          <circle cx="-6" cy="-18" r="3" fill="#2B2419"/>
+          <circle cx="6" cy="-18" r="3" fill="#2B2419"/>
+          <polygon points="0,-23 10,-20 0,-17" fill="#E56B5A"/>
+          <path d="M-4,-30 q6,-6 12,0" fill="none" stroke="#8C7C66" stroke-width="2" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>第一天，第二天，第三天……</h2>
+      <p class="small">罐子里只有<strong>浅浅几颗</strong>。<br>毛毛等不及了："怎么这么慢呀？"</p>
+    </div>
+  </div>
+
+  <!-- PAGE 4 -->
+  <div class="page" data-bg="mint" data-text="爸爸说：别急。你看，我们在菜地里也埋了一颗小豆子。它现在还藏在土里，悄悄长根呢。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="200" width="400" height="120" fill="#C49A5E"/>
+        <rect x="0" y="200" width="400" height="14" fill="#6FA86D"/>
+        <!-- 土里的小豆子 -->
+        <g id="p4-seed" transform="translate(230,238)">
+          <ellipse cx="0" cy="0" rx="10" ry="8" fill="#E8C27A" stroke="#A9803A" stroke-width="2"/>
+          <path d="M0,8 q-3,12 -2,24" fill="none" stroke="#8C5E22" stroke-width="2" stroke-linecap="round"/>
+          <path d="M0,8 q3,10 5,20" fill="none" stroke="#8C5E22" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <!-- 爸爸 -->
+        <g id="p4-dad" transform="translate(110,150)">
+          <ellipse cx="0" cy="10" rx="32" ry="36" fill="#FFFDF6"/>
+          <circle cx="0" cy="-26" r="26" fill="#FFFDF6"/>
+          <circle cx="-9" cy="-28" r="7" fill="none" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="9" cy="-28" r="7" fill="none" stroke="#2B2419" stroke-width="2"/>
+          <line x1="-2" y1="-28" x2="2" y2="-28" stroke="#2B2419" stroke-width="2"/>
+          <polygon points="0,-30 13,-26 0,-22" fill="#E56B5A"/>
+        </g>
+        <!-- 毛毛 -->
+        <g id="p4-maomao" transform="translate(310,165)">
+          <ellipse cx="0" cy="6" rx="20" ry="22" fill="#FFFDF6"/>
+          <circle cx="0" cy="-16" r="16" fill="#FFFDF6"/>
+          <circle cx="-6" cy="-18" r="2.8" fill="#2B2419"/>
+          <circle cx="6" cy="-18" r="2.8" fill="#2B2419"/>
+          <polygon points="0,-19 -9,-16 0,-13" fill="#E56B5A"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>爸爸说："<span style="color:#6FA86D;">别急</span>。"</h2>
+      <p class="small">"菜地里也埋了一颗小豆子。<br>它还藏在土里，<strong>悄悄长根</strong>呢。"</p>
+    </div>
+  </div>
+
+  <!-- PAGE 5 -->
+  <div class="page" data-bg="yellow" data-text="一天天过去。小豆子冒出芽，越长越快；硬币也越堆越高，越来越多。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="240" width="400" height="80" fill="#C49A5E"/>
+        <rect x="0" y="240" width="400" height="12" fill="#6FA86D"/>
+        <!-- 长高的豆苗 -->
+        <g id="p5-sprout" transform="translate(110,240)">
+          <path d="M0,0 q-2,-50 0,-90" fill="none" stroke="#6FA86D" stroke-width="5" stroke-linecap="round"/>
+          <path d="M0,-30 q-22,-8 -30,-26 q22,2 30,18" fill="#6FA86D"/>
+          <path d="M0,-55 q22,-8 30,-26 q-22,2 -30,18" fill="#8FBF85"/>
+          <path d="M0,-80 q-20,-6 -26,-22 q20,2 26,14" fill="#6FA86D"/>
+        </g>
+        <!-- 越堆越高的硬币罐 -->
+        <g transform="translate(290,170)">
+          <path d="M-32,-44 L-32,76 Q-32,90 -18,90 L18,90 Q32,90 32,76 L32,-44 Z" fill="#A8C2DE" opacity="0.45" stroke="#4B7BA8" stroke-width="2"/>
+          <rect x="-36" y="-52" width="72" height="10" rx="4" fill="#4B7BA8"/>
+          <rect x="-8" y="-50" width="16" height="4" rx="2" fill="#2B2419"/>
+          <ellipse cx="-10" cy="82" rx="11" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+          <ellipse cx="10" cy="78" rx="11" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+          <ellipse cx="-8" cy="66" rx="11" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+          <ellipse cx="12" cy="58" rx="11" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+          <ellipse cx="-6" cy="48" rx="11" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+          <ellipse cx="8" cy="38" rx="11" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+          <ellipse cx="-4" cy="28" rx="11" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>一天天过去——</h2>
+      <p class="small">小豆子<strong>越长越快</strong>，<br>硬币也<strong>越堆越高</strong>。</p>
+    </div>
+  </div>
+
+  <!-- PAGE 6 -->
+  <div class="page" data-bg="coral" data-text="一棵小豆子，结出好多好多新豆子。存钱罐，满出来啦！毛毛终于买到了那个大风筝。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="250" width="400" height="70" fill="#C49A5E"/>
+        <rect x="0" y="250" width="400" height="12" fill="#6FA86D"/>
+        <!-- 结满豆子的豆株 -->
+        <g transform="translate(95,250)">
+          <path d="M0,0 q-2,-54 0,-96" fill="none" stroke="#6FA86D" stroke-width="5" stroke-linecap="round"/>
+          <path d="M0,-40 q-22,-8 -30,-26 q22,2 30,18" fill="#6FA86D"/>
+          <path d="M0,-66 q22,-8 30,-26 q-22,2 -30,18" fill="#8FBF85"/>
+          <ellipse cx="-22" cy="-30" rx="5" ry="9" fill="#8FBF85" stroke="#5C8B58" stroke-width="1.5" transform="rotate(-30 -22 -30)"/>
+          <ellipse cx="20" cy="-58" rx="5" ry="9" fill="#8FBF85" stroke="#5C8B58" stroke-width="1.5" transform="rotate(25 20 -58)"/>
+          <ellipse cx="-8" cy="-84" rx="5" ry="9" fill="#8FBF85" stroke="#5C8B58" stroke-width="1.5"/>
+          <ellipse cx="14" cy="-30" rx="5" ry="9" fill="#8FBF85" stroke="#5C8B58" stroke-width="1.5" transform="rotate(20 14 -30)"/>
+        </g>
+        <!-- 满出来的存钱罐 -->
+        <g transform="translate(300,200)">
+          <path d="M-30,-30 L-30,48 Q-30,60 -18,60 L18,60 Q30,60 30,48 L30,-30 Z" fill="#A8C2DE" opacity="0.45" stroke="#4B7BA8" stroke-width="2"/>
+          <rect x="-34" y="-38" width="68" height="9" rx="4" fill="#4B7BA8"/>
+          <ellipse cx="-8" cy="48" rx="10" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+          <ellipse cx="10" cy="40" rx="10" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+          <ellipse cx="-6" cy="30" rx="10" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+          <ellipse cx="8" cy="20" rx="10" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+          <ellipse cx="-14" cy="-44" rx="10" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+          <ellipse cx="6" cy="-50" rx="10" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+          <ellipse cx="18" cy="-40" rx="10" ry="5" fill="#F4C13E" stroke="#C98A3A" stroke-width="1.5"/>
+        </g>
+        <!-- 风筝 -->
+        <g class="float" transform="translate(210,70)">
+          <polygon points="0,-26 22,0 0,26 -22,0" fill="#E56B5A" stroke="#C24B3C" stroke-width="2"/>
+          <line x1="0" y1="-26" x2="0" y2="26" stroke="#C24B3C" stroke-width="1.5"/>
+          <line x1="-22" y1="0" x2="22" y2="0" stroke="#C24B3C" stroke-width="1.5"/>
+        </g>
+        <!-- 毛毛，开心 -->
+        <g id="p6-maomao" transform="translate(205,210)">
+          <ellipse cx="0" cy="6" rx="22" ry="24" fill="#FFFDF6"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6"/>
+          <circle cx="-6" cy="-20" r="3" fill="#2B2419"/>
+          <circle cx="6" cy="-20" r="3" fill="#2B2419"/>
+          <polygon points="0,-23 10,-20 0,-17" fill="#E56B5A"/>
+          <line x1="14" y1="-2" x2="40" y2="-58" stroke="#8C7C66" stroke-width="1.5"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>一颗小豆子，结出<span style="color:#6FA86D;">好多好多</span>新豆子！</h2>
+      <p class="small">存钱罐满出来啦——<br>毛毛<strong>买到了大风筝</strong>。</p>
+    </div>
+  </div>
+
+  <!-- LAST PAGE -->
+  <div class="page" data-bg="cream" data-text="给小弟弟。你每天存的一点点，会悄悄长大。每天一点点，时间久了就会变好多好多。">
+    <div class="end-card">
+      <h2>给小弟弟 🪴</h2>
+      <p>你每天存的一点点，会悄悄长大——</p>
+      <p style="font-size:32px;color:#6FA86D;font-weight:700;margin:16px 0;">"每天一点点。"</p>
+      <p style="font-size:16px;color:#5C4F3D;">积少成多，时间久了就会变好多好多。</p>
+      <button class="read-aloud" style="margin-top:24px;" onclick="goTo(0)">🔄 再讲一遍</button>
+    </div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
+
+</div>
+<script src="../fo-utils.js"></script>
+<script>
+  const BOOK_ID = '20-piggy-garden'; const BOOK_TITLE = '毛毛的存钱罐'; const BOOK_TOTAL = 7;
+
+  function getInteractionLayer(el) {
+    if (!el) return null;
+    if (el._interactionLayer) return el._interactionLayer;
+    const isSvgGroup = el.namespaceURI === 'http://www.w3.org/2000/svg' && el.tagName.toLowerCase() === 'g';
+    if (!isSvgGroup || !el.hasAttribute('transform')) { el._interactionLayer = el; return el; }
+    const layer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    layer.setAttribute('data-interaction-layer', '');
+    if (el.classList.contains('float')) {
+      el.classList.remove('float');
+      layer.classList.add('float');
+      layer.style.animationDelay = el.style.animationDelay || '';
+      el.style.animationDelay = '';
+    }
+    while (el.firstChild) layer.appendChild(el.firstChild);
+    el.appendChild(layer);
+    el._interactionLayer = layer;
+    return layer;
+  }
+  function placeSpeechBubble(scene, el, msg) {
+    const er = el.getBoundingClientRect(); const sr = scene.getBoundingClientRect();
+    const b = document.createElement('div'); b.className = 'speech-bubble'; b.textContent = msg;
+    b.style.maxWidth = Math.max(120, sr.width - 24) + 'px'; scene.appendChild(b);
+    const br = b.getBoundingClientRect();
+    let left = er.left + er.width / 2 - sr.left;
+    let top = er.top - sr.top - br.height - 10;
+    if (top < 8) top = Math.min(sr.height - br.height - 8, er.bottom - sr.top + 10);
+    left = Math.max(12 + br.width / 2, Math.min(sr.width - 12 - br.width / 2, left));
+    const bubbles = Array.from(scene.querySelectorAll('.speech-bubble')).filter(x => x !== b);
+    for (const other of bubbles) {
+      const or = other.getBoundingClientRect();
+      const overlaps = !(left + br.width / 2 < or.left - sr.left || left - br.width / 2 > or.right - sr.left || top + br.height < or.top - sr.top || top > or.bottom - sr.top);
+      if (overlaps) top = Math.min(sr.height - br.height - 8, or.bottom - sr.top + 8);
+    }
+    b.style.left = left + 'px'; b.style.top = Math.max(8, top) + 'px'; b.style.transform = 'translateX(-50%)';
+    setTimeout(() => b.remove(), 1500);
+  }
+  function makeInteractive(el, animClass, msg) {
+    if (!el) return;
+    const target = getInteractionLayer(el);
+    el.classList.add('interactive');
+    el.addEventListener('click', function () {
+      if (el._busy) return; el._busy = true;
+      target.classList.remove(animClass); void target.getBoundingClientRect(); target.classList.add(animClass);
+      if (msg) { const scene = el.closest('.scene'); if (scene) placeSpeechBubble(scene, el, msg); }
+      setTimeout(() => { target.classList.remove(animClass); el._busy = false; }, 750);
+    });
+  }
+
+  const pages = document.querySelectorAll('.page');
+  const total = pages.length;
+  const dots = document.getElementById('dots');
+  let current = 0;
+  for (let i = 0; i < total; i++) { const d = document.createElement('span'); if (i === 0) d.classList.add('is-active'); dots.appendChild(d); }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    speechSynthesis.cancel();
+    pages.forEach((p, i) => p.classList.toggle('is-active', i === idx));
+    dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx));
+    current = idx;
+    document.getElementById('prev').disabled = idx === 0;
+    document.getElementById('next').disabled = idx === total - 1;
+    if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL);
+  }
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+  document.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') goTo(current - 1); if (e.key === 'ArrowRight') goTo(current + 1); });
+  let _tx = 0;
+  document.addEventListener('touchstart', e => { _tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - _tx; if (Math.abs(dx) > 50) dx < 0 ? goTo(current + 1) : goTo(current - 1); });
+  document.getElementById('readBtn').addEventListener('click', () => {
+    const text = pages[current].dataset.text;
+    if (!text || !window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text); u.lang = 'zh-CN'; u.rate = 0.85; u.pitch = 1.1; speechSynthesis.speak(u);
+  });
+
+  goTo(0);
+  makeInteractive(document.getElementById('p1-kite'), 'do-wobble', '我想要你～🪁');
+  makeInteractive(document.getElementById('p2-piggy'), 'do-wobble', '叮当～投一颗 🪙');
+  makeInteractive(document.getElementById('p3-maomao'), 'do-shake', '怎么这么慢～');
+  makeInteractive(document.getElementById('p4-seed'), 'do-wobble', '我在长根呢～🌱');
+  makeInteractive(document.getElementById('p5-sprout'), 'do-bounce', '我长高啦！🌿');
+  makeInteractive(document.getElementById('p6-maomao'), 'do-bounce', '我买到啦！🪁');
+
+  document.addEventListener('DOMContentLoaded', () => { if (window.FO) FO.logHistory(BOOK_ID, BOOK_TITLE); });
+</script>
+</body>
+</html>
