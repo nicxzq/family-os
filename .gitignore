@@ -2,3 +2,6 @@ uploads/
 .obsidian/
 .tokenize/
 .env*.local
+storybooks/audio/
+.codex/
+_t
