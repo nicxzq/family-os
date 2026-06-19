@@ -600,7 +600,7 @@
 
   function goTo(idx) {
     if (idx < 0 || idx >= total) return;
-    speechSynthesis.cancel();
+    stopNarration();
 
     if (idx === current) {
       pages.forEach((p, i) => {
@@ -662,9 +662,10 @@
     if (Math.abs(dx) > 50) dx < 0 ? goTo(current + 1) : goTo(current - 1);
   });
 
-  // 朗读
-  document.getElementById('readBtn').addEventListener('click', () => {
-    const text = pages[current].dataset.text;
+  // 朗读：优先播放 GPT-SoVITS 配音（default 声音），缺失时回退到浏览器朗读
+  var _foAudio = null;
+
+  function speakBrowser(text) {
     if (!text || !window.speechSynthesis) return;
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
@@ -672,6 +673,22 @@
     u.rate = 0.85;
     u.pitch = 1.1;
     speechSynthesis.speak(u);
+  }
+
+  function stopNarration() {
+    if (window.speechSynthesis) speechSynthesis.cancel();
+    if (_foAudio) { _foAudio.pause(); _foAudio = null; }
+  }
+
+  document.getElementById('readBtn').addEventListener('click', () => {
+    stopNarration();
+    const text = pages[current].dataset.text;
+    const src = `audio/01-try-it/page-${current + 1}.wav`;
+    const audio = new Audio(src);
+    _foAudio = audio;
+    // 配音文件不存在 / 加载失败时，回退到浏览器朗读
+    audio.addEventListener('error', () => { _foAudio = null; speakBrowser(text); });
+    audio.play().catch(() => { _foAudio = null; speakBrowser(text); });
   });
 
   goTo(0);
