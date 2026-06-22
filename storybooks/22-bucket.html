@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>毛毛和小桶</title>
+<meta name="description" content="关于「用对工具，一次能做好多」的绘本动画。">
+<meta property="og:title" content="毛毛和小桶">
+<meta property="og:description" content="关于「用对工具，一次能做好多」的绘本动画。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/storybooks/22-bucket">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:"LXGW WenKai TC","LXGW WenKai",serif;background:#F8F2E2;min-height:100vh;overflow:hidden}.book{width:100vw;height:100vh;position:relative;overflow:hidden}.top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:20px 32px;z-index:20}.back,.dash-link{text-decoration:none;color:#5C4F3D;font-size:16px;background:rgba(255,255,255,.7);padding:8px 16px;border-radius:999px;backdrop-filter:blur(8px)}.read-aloud{background:#E56B5A;color:white;border:0;padding:10px 18px;border-radius:999px;font-family:inherit;font-size:16px;cursor:pointer;box-shadow:0 3px 0 rgba(43,36,25,.15)}.page{position:absolute;inset:0;display:flex;flex-direction:column;padding:72px 0 48px;opacity:0;pointer-events:none;transition:opacity .6s ease}.page.is-active{opacity:1;pointer-events:auto}.page[data-bg=cream]{background:#F8F2E2}.page[data-bg=peach]{background:#FBE3D5}.page[data-bg=mint]{background:#D7EBC9}.page[data-bg=sky]{background:#D7E7F4}.page[data-bg=yellow]{background:#FBE39A}.scene{flex:1;min-height:0;position:relative;width:100%;overflow:hidden}.scene svg{width:100%;height:100%}.text{flex-shrink:0;padding:12px 24px 8px;text-align:center}.text h2{font-size:clamp(22px,4.5vw,34px);line-height:1.4;color:#2B2419;font-weight:500;text-wrap:balance}.text .big{font-size:clamp(28px,5.5vw,42px);line-height:1.3;color:#E56B5A;font-weight:700;margin-top:8px}.text .small{font-size:clamp(14px,2.8vw,16px);line-height:1.6;color:#5C4F3D;margin-top:8px}.end-card{margin:auto;background:#FFFDF6;padding:32px;border-radius:24px;max-width:480px;width:calc(100% - 48px);box-shadow:0 8px 0 rgba(0,0,0,.06),0 24px 48px -16px rgba(0,0,0,.2);text-align:center}.end-card h2{font-size:28px;color:#E56B5A;margin-bottom:16px}.end-card p{font-size:19px;color:#2B2419;line-height:1.7;margin-bottom:12px}.nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.88);border:0;width:56px;height:56px;border-radius:50%;font-size:24px;cursor:pointer;box-shadow:0 3px 0 rgba(43,36,25,.15);font-family:inherit;color:#2B2419;z-index:20;backdrop-filter:blur(4px)}.nav-btn:disabled{opacity:.3;pointer-events:none}#prev{left:12px}#next{right:12px}.dots-wrap{position:absolute;bottom:16px;left:0;right:0;display:flex;justify-content:center;z-index:20}.dots{display:flex;gap:6px}.dots span{width:8px;height:8px;border-radius:50%;background:rgba(43,36,25,.2);transition:background .3s,transform .3s}.dots span.is-active{background:#E56B5A;transform:scale(1.4)}.float{animation:float 3s ease-in-out infinite}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}.interactive{cursor:pointer;transform-box:fill-box;transform-origin:center center}.interactive:hover{opacity:.9}.do-bounce{animation:iBounce .6s cubic-bezier(.36,.07,.19,.97) both!important}@keyframes iBounce{0%,100%{transform:translateY(0) scale(1)}25%{transform:translateY(-18px) scale(1.15)}55%{transform:translateY(-4px) scale(.96)}75%{transform:translateY(-8px) scale(1.05)}}.do-shake{animation:iShake .55s ease both!important}@keyframes iShake{0%,100%{transform:rotate(0)}18%{transform:rotate(-22deg)}38%{transform:rotate(18deg)}58%{transform:rotate(-14deg)}78%{transform:rotate(9deg)}}.do-wobble{animation:iWobble .7s ease both!important}@keyframes iWobble{0%,100%{transform:scale(1)}20%{transform:scaleX(1.25) scaleY(.75)}45%{transform:scaleX(.85) scaleY(1.2)}65%{transform:scaleX(1.1) scaleY(.9)}80%{transform:scaleX(.96) scaleY(1.04)}}.speech-bubble{position:absolute;background:#FFFDF6;border-radius:999px;padding:6px 16px;font-size:20px;font-family:"LXGW WenKai TC",serif;box-shadow:0 3px 0 rgba(43,36,25,.15);pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:50;animation:bPop .3s ease forwards}@keyframes bPop{from{opacity:0}to{opacity:1}}.cb{fill:#FFFDF6;stroke:#2B2419;stroke-width:1.5}.cb-sm{fill:#FFFDF6;stroke:#2B2419;stroke-width:1.3}.ce{fill:#2B2419}.ck{fill:#E56B5A}.cd{fill:none;stroke:#2B2419;stroke-linecap:round}.s15{stroke-width:1.5}.s2{stroke-width:2}.paper{fill:#FFFDF6}.ink{fill:#2B2419}.mute{fill:#8C7C66}.coral{fill:#E56B5A}.yellow{fill:#F4C13E}.green{fill:#6FA86D}.green-soft{fill:#B5D4A8}.blue{fill:#4B7BA8}.blue-soft{fill:#A8C2DE}.cream-deep{fill:#F1E8D0}.none{fill:none}
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+<div class="book">
+  <div class="top"><a class="back" href="../for-youngest.html">← 回绘本目录</a><button class="read-aloud" id="readBtn">🔊 念给我听</button><a href="../dashboard.html" class="dash-link" title="仪表盘">📊</a></div>
+
+  <div class="page is-active" data-bg="peach" data-text="海边，毛毛发现了一个大潮水坑。她想把海水运进去，让小鱼住进来。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <circle cx="350" cy="44" r="26" class="yellow" opacity=".85"/>
+      <rect x="0" y="162" width="400" height="88" fill="#5BA4CF" opacity=".52"/>
+      <path d="M0,166 Q100,154 200,166 Q300,178 400,166" fill="none" stroke="#FFFDF6" stroke-width="2.5" opacity=".6"/>
+      <rect x="0" y="242" width="400" height="78" fill="#EDD9A4"/>
+      <ellipse cx="294" cy="260" rx="52" ry="14" fill="#C49A5E" opacity=".62"/>
+      <ellipse cx="294" cy="262" rx="20" ry="6" class="blue-soft" opacity=".4"/>
+      <g id="p1-maomao" transform="translate(150,236)">
+        <ellipse cx="0" cy="10" rx="22" ry="24" class="cb"/>
+        <circle cx="0" cy="-20" r="18" class="cb"/>
+        <circle cx="-6" cy="-23" r="2.8" class="ce"/>
+        <circle cx="6" cy="-23" r="2.8" class="ce"/>
+        <polygon points="0,-16 10,-12 0,-9" class="ck"/>
+        <path d="M-4,-10 L4,-10" class="cd s2"/>
+        <line x1="18" y1="2" x2="42" y2="-2" class="cd s2"/>
+      </g>
+      <rect x="178" y="142" width="132" height="36" rx="14" class="paper" stroke="#8C7C66" stroke-width="1"/>
+      <polygon points="184,178 198,178 191,192" class="paper" stroke="#8C7C66" stroke-width="1"/>
+      <text x="244" y="165" font-size="13" text-anchor="middle" class="ink">小鱼快住进来！</text>
+    </svg></div>
+    <div class="text"><h2>海边，毛毛发现了一个大潮水坑。</h2><p class="small">她想把海水运进去，让小鱼住进来。</p></div>
+  </div>
+
+  <div class="page" data-bg="sky" data-text="毛毛用双手捧水走回来——走啊走，到了坑边，水都漏光了。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <rect x="0" y="162" width="400" height="88" fill="#4A90C4" opacity=".48"/>
+      <path d="M0,166 Q100,154 200,166 Q300,178 400,166" fill="none" stroke="#FFFDF6" stroke-width="2.5" opacity=".55"/>
+      <rect x="0" y="242" width="400" height="78" fill="#EDD9A4"/>
+      <ellipse cx="290" cy="260" rx="52" ry="14" fill="#C49A5E" opacity=".6"/>
+      <ellipse cx="290" cy="263" rx="11" ry="4" class="blue-soft" opacity=".5"/>
+      <circle cx="196" cy="250" r="2" class="blue-soft" opacity=".6"/>
+      <circle cx="222" cy="246" r="1.8" class="blue-soft" opacity=".55"/>
+      <circle cx="248" cy="250" r="1.5" class="blue-soft" opacity=".5"/>
+      <g id="p2-maomao" transform="translate(162,234)">
+        <ellipse cx="0" cy="10" rx="22" ry="24" class="cb"/>
+        <circle cx="0" cy="-20" r="18" class="cb"/>
+        <path d="M-8,-25 Q-6,-28 -4,-25" class="cd s15"/>
+        <path d="M4,-25 Q6,-28 8,-25" class="cd s15"/>
+        <polygon points="0,-16 10,-12 0,-9" class="ck"/>
+        <path d="M-5,-10 L5,-10" class="cd s2"/>
+        <line x1="-18" y1="2" x2="-36" y2="10" class="cd s2"/>
+        <line x1="18" y1="2" x2="36" y2="10" class="cd s2"/>
+        <circle cx="-30" cy="22" r="2.2" class="blue-soft" opacity=".8"/>
+        <circle cx="30" cy="22" r="2.2" class="blue-soft" opacity=".8"/>
+        <circle cx="0" cy="26" r="1.8" class="blue-soft" opacity=".7"/>
+      </g>
+    </svg></div>
+    <div class="text"><h2>毛毛用双手捧水走回来——</h2><p class="big">水都漏光了！</p></div>
+  </div>
+
+  <div class="page" data-bg="yellow" data-text="她跑了好多趟，坑里还是只有一点点水。毛毛累坏了，坐在沙滩上叹气。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <rect x="0" y="162" width="400" height="88" fill="#4A90C4" opacity=".4"/>
+      <path d="M0,166 Q100,154 200,166 Q300,178 400,166" fill="none" stroke="#FFFDF6" stroke-width="2" opacity=".5"/>
+      <rect x="0" y="242" width="400" height="78" fill="#EDD9A4"/>
+      <ellipse cx="114" cy="254" rx="3.5" ry="2" fill="#D4A870" opacity=".65"/>
+      <ellipse cx="132" cy="250" rx="3.5" ry="2" fill="#D4A870" opacity=".6"/>
+      <ellipse cx="150" cy="254" rx="3.5" ry="2" fill="#D4A870" opacity=".6"/>
+      <ellipse cx="168" cy="250" rx="3.5" ry="2" fill="#D4A870" opacity=".55"/>
+      <ellipse cx="186" cy="254" rx="3.5" ry="2" fill="#D4A870" opacity=".5"/>
+      <ellipse cx="204" cy="250" rx="3.5" ry="2" fill="#D4A870" opacity=".5"/>
+      <ellipse cx="294" cy="260" rx="52" ry="14" fill="#C49A5E" opacity=".58"/>
+      <ellipse cx="294" cy="263" rx="16" ry="5" class="blue-soft" opacity=".55"/>
+      <g id="p3-maomao" transform="translate(148,248)">
+        <ellipse cx="0" cy="2" rx="24" ry="13" class="cb"/>
+        <circle cx="-4" cy="-18" r="18" class="cb"/>
+        <path d="M-10,-23 Q-8,-26 -6,-23" class="cd s15"/>
+        <path d="M-2,-23 Q0,-26 2,-23" class="cd s15"/>
+        <polygon points="-4,-14 6,-10 -4,-7" class="ck"/>
+        <path d="M-9,-8 L-2,-8" class="cd s2"/>
+        <circle cx="18" cy="-22" r="3" class="blue-soft" opacity=".8"/>
+        <circle cx="24" cy="-13" r="2" class="blue-soft" opacity=".65"/>
+      </g>
+    </svg></div>
+    <div class="text"><h2>跑了好多趟，坑里还是这么少。</h2><p class="big">累坏啦……</p></div>
+  </div>
+
+  <div class="page" data-bg="mint" data-text="就在这时，毛毛看见沙滩上有一只小红桶。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <rect x="0" y="162" width="400" height="88" fill="#4A90C4" opacity=".38"/>
+      <path d="M0,166 Q100,154 200,166 Q300,178 400,166" fill="none" stroke="#FFFDF6" stroke-width="2" opacity=".5"/>
+      <rect x="0" y="242" width="400" height="78" fill="#EDD9A4"/>
+      <g id="p4-bucket" transform="translate(278,224)">
+        <path d="M-20,0 L-16,38 L16,38 L20,0 Z" class="coral"/>
+        <path d="M-18,3 Q0,-16 18,3" fill="none" stroke="#E56B5A" stroke-width="3.5" stroke-linecap="round"/>
+        <rect x="-14" y="4" width="6" height="28" rx="3" fill="#FFFDF6" opacity=".28"/>
+        <path d="M-16,38 L16,38 L13,18 L-13,18 Z" class="blue-soft" opacity=".7"/>
+      </g>
+      <line x1="278" y1="200" x2="278" y2="192" stroke="#F4C13E" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="270" y1="196" x2="286" y2="196" stroke="#F4C13E" stroke-width="1.8" stroke-linecap="round"/>
+      <g id="p4-maomao" transform="translate(150,236)">
+        <ellipse cx="0" cy="10" rx="22" ry="24" class="cb"/>
+        <circle cx="0" cy="-20" r="18" class="cb"/>
+        <circle cx="-6" cy="-23" r="3.5" class="ce"/>
+        <circle cx="6" cy="-23" r="3.5" class="ce"/>
+        <polygon points="0,-16 10,-12 0,-9" class="ck"/>
+        <path d="M-7,-10 Q0,-4 7,-10" class="cd s2"/>
+        <line x1="18" y1="2" x2="42" y2="0" class="cd s2"/>
+      </g>
+    </svg></div>
+    <div class="text"><h2>就在这时，毛毛看见沙滩上</h2><p class="big">有一只小红桶！</p></div>
+  </div>
+
+  <div class="page" data-bg="sky" data-text="毛毛用小桶舀水，一桶顶好多捧！一趟、两趟、三趟——水坑装满啦！">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <rect x="0" y="162" width="400" height="88" fill="#4A90C4" opacity=".5"/>
+      <path d="M0,166 Q100,154 200,166 Q300,178 400,166" fill="none" stroke="#FFFDF6" stroke-width="2.5" opacity=".62"/>
+      <rect x="0" y="242" width="400" height="78" fill="#EDD9A4"/>
+      <ellipse cx="290" cy="258" rx="52" ry="14" fill="#C49A5E" opacity=".58"/>
+      <ellipse cx="290" cy="258" rx="48" ry="11" class="blue-soft" opacity=".85"/>
+      <path d="M258,258 Q274,253 290,258 Q306,263 322,258" fill="none" stroke="#FFFDF6" stroke-width="1.5" opacity=".8"/>
+      <path d="M90,234 Q104,228 90,222" fill="none" stroke="#2B2419" stroke-width="1.5" opacity=".22" stroke-linecap="round"/>
+      <path d="M78,238 Q92,232 78,226" fill="none" stroke="#2B2419" stroke-width="1.5" opacity=".18" stroke-linecap="round"/>
+      <g id="p5-maomao" class="float" transform="translate(152,232)">
+        <ellipse cx="0" cy="10" rx="22" ry="24" class="cb"/>
+        <circle cx="0" cy="-20" r="18" class="cb"/>
+        <circle cx="-6" cy="-23" r="2.8" class="ce"/>
+        <circle cx="6" cy="-23" r="2.8" class="ce"/>
+        <polygon points="0,-16 10,-12 0,-9" class="ck"/>
+        <path d="M-8,-10 Q0,-3 8,-10" class="cd s2"/>
+        <line x1="18" y1="2" x2="40" y2="-4" class="cd s2"/>
+      </g>
+      <g id="p5-bucket" transform="translate(187,218)">
+        <path d="M-14,0 L-11,28 L11,28 L14,0 Z" class="coral"/>
+        <path d="M-12,2 Q0,-13 12,2" fill="none" stroke="#E56B5A" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M-11,28 L11,28 L9,12 L-9,12 Z" class="blue-soft" opacity=".85"/>
+      </g>
+    </svg></div>
+    <div class="text"><h2>一桶顶好多捧！</h2><p class="small">一趟、两趟、三趟——水坑装满啦！</p></div>
+  </div>
+
+  <div class="page" data-bg="cream" data-text="爸爸走过来说：用对了工具，力气才没白花。毛毛点点头，笑了。">
+    <div class="scene"><svg viewBox="0 0 400 320">
+      <rect x="0" y="254" width="400" height="66" fill="#EDD9A4"/>
+      <ellipse cx="80" cy="264" rx="42" ry="10" class="blue-soft" opacity=".6"/>
+      <path d="M48,264 Q64,259 80,264 Q96,269 112,264" fill="none" stroke="#FFFDF6" stroke-width="1.5" opacity=".8"/>
+      <g transform="translate(76,244)">
+        <path d="M-16,-2 L-13,24 L13,24 L16,-2 Z" class="coral" opacity=".75"/>
+        <path d="M-14,0 Q0,-13 14,0" fill="none" stroke="#E56B5A" stroke-width="2.5" stroke-linecap="round"/>
+      </g>
+      <g id="p6-maomao" transform="translate(150,234)">
+        <ellipse cx="0" cy="10" rx="22" ry="24" class="cb"/>
+        <circle cx="0" cy="-20" r="18" class="cb"/>
+        <circle cx="-6" cy="-23" r="2.8" class="ce"/>
+        <circle cx="6" cy="-23" r="2.8" class="ce"/>
+        <polygon points="0,-16 10,-12 0,-9" class="ck"/>
+        <path d="M-8,-10 Q0,-3 8,-10" class="cd s2"/>
+      </g>
+      <g id="p6-dad" transform="translate(260,224)">
+        <ellipse cx="0" cy="8" rx="28" ry="32" class="cb"/>
+        <circle cx="0" cy="-30" r="22" class="cb"/>
+        <circle cx="-8" cy="-33" r="6" class="none" stroke="#2B2419" stroke-width="1.5"/>
+        <circle cx="8" cy="-33" r="6" class="none" stroke="#2B2419" stroke-width="1.5"/>
+        <line x1="-2" y1="-33" x2="2" y2="-33" class="cd s15"/>
+        <polygon points="0,-24 12,-20 0,-16" class="ck"/>
+        <path d="M-7,-18 Q0,-13 7,-18" class="cd s2"/>
+      </g>
+      <rect x="110" y="106" width="166" height="56" rx="14" class="paper" stroke="#2B2419" stroke-width="1.2"/>
+      <polygon points="230,162 246,162 250,178" class="paper" stroke="#2B2419" stroke-width="1.2"/>
+      <text x="193" y="128" font-size="13" text-anchor="middle" class="ink">用对了工具，</text>
+      <text x="193" y="150" font-size="13" text-anchor="middle" class="blue" font-weight="700">力气才没白花。</text>
+    </svg></div>
+    <div class="text"><h2>爸爸走过来说：</h2><p class="big">"用对工具，力气才没白花。"</p></div>
+  </div>
+
+  <div class="page" data-bg="cream" data-text="记住：用对工具，一次能做好多。">
+    <div class="end-card"><h2>给小弟弟 🪣</h2><p>记住：</p><p style="font-size:32px;color:#E56B5A;font-weight:700;margin:16px 0;line-height:1.4;">"用对工具，<br>一次能做好多。"</p><p style="font-size:16px;color:#5C4F3D;">找到好工具，力气才没白花。</p><button class="read-aloud" style="margin-top:24px" onclick="goTo(0)">🔄 再讲一遍</button></div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button><div class="dots-wrap"><div class="dots" id="dots"></div></div><button class="nav-btn" id="next" aria-label="下一页">→</button>
+</div>
+<script src="../fo-utils.js"></script>
+<script>
+const BOOK_ID='22-bucket';const BOOK_TITLE='毛毛和小桶';const BOOK_TOTAL=7;
+function getInteractionLayer(el){if(!el)return null;if(el._interactionLayer)return el._interactionLayer;const isSvgGroup=el.namespaceURI==='http://www.w3.org/2000/svg'&&el.tagName.toLowerCase()==='g';if(!isSvgGroup||!el.hasAttribute('transform')){el._interactionLayer=el;return el}const layer=document.createElementNS('http://www.w3.org/2000/svg','g');layer.setAttribute('data-interaction-layer','');if(el.classList.contains('float')){el.classList.remove('float');layer.classList.add('float');layer.style.animationDelay=el.style.animationDelay||'';el.style.animationDelay=''}while(el.firstChild)layer.appendChild(el.firstChild);el.appendChild(layer);el._interactionLayer=layer;return layer}
+function placeSpeechBubble(scene,el,msg){const er=el.getBoundingClientRect(),sr=scene.getBoundingClientRect(),b=document.createElement('div');b.className='speech-bubble';b.textContent=msg;b.style.maxWidth=Math.max(120,sr.width-24)+'px';b.style.overflow='hidden';b.style.textOverflow='ellipsis';b.style.whiteSpace='nowrap';scene.appendChild(b);const br=b.getBoundingClientRect();let left=er.left+er.width/2-sr.left,top=er.top-sr.top-br.height-10;if(top<8)top=Math.min(sr.height-br.height-8,er.bottom-sr.top+10);left=Math.max(12+br.width/2,Math.min(sr.width-12-br.width/2,left));Array.from(scene.querySelectorAll('.speech-bubble')).filter(x=>x!==b).forEach(other=>{const or=other.getBoundingClientRect();const overlaps=!(left+br.width/2<or.left-sr.left||left-br.width/2>or.right-sr.left||top+br.height<or.top-sr.top||top>or.bottom-sr.top);if(overlaps)top=Math.min(sr.height-br.height-8,or.bottom-sr.top+8)});b.style.left=left+'px';b.style.top=Math.max(8,top)+'px';b.style.transform='translateX(-50%)';setTimeout(()=>b.remove(),1500)}
+function makeInteractive(el,animClass,msg){if(!el)return;const target=getInteractionLayer(el);el.classList.add('interactive');el.addEventListener('click',function(){if(el._busy)return;el._busy=true;target.classList.remove(animClass);void target.getBoundingClientRect();target.classList.add(animClass);if(msg){const scene=el.closest('.scene');if(scene)placeSpeechBubble(scene,el,msg)}setTimeout(()=>{target.classList.remove(animClass);el._busy=false},750)})}
+const pages=document.querySelectorAll('.page'),total=pages.length,dots=document.getElementById('dots');let current=0;for(let i=0;i<total;i++){const d=document.createElement('span');if(i===0)d.classList.add('is-active');dots.appendChild(d)}function goTo(idx){if(idx<0||idx>=total)return;speechSynthesis.cancel();pages.forEach((p,i)=>p.classList.toggle('is-active',i===idx));dots.querySelectorAll('span').forEach((s,i)=>s.classList.toggle('is-active',i===idx));current=idx;document.getElementById('prev').disabled=idx===0;document.getElementById('next').disabled=idx===total-1;if(window.FO)FO.logProgress(BOOK_ID,idx,BOOK_TOTAL)}document.getElementById('prev').addEventListener('click',()=>goTo(current-1));document.getElementById('next').addEventListener('click',()=>goTo(current+1));document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')goTo(current-1);if(e.key==='ArrowRight')goTo(current+1)});let _tx=0;document.addEventListener('touchstart',e=>{_tx=e.touches[0].clientX},{passive:true});document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-_tx;if(Math.abs(dx)>50)dx<0?goTo(current+1):goTo(current-1)});document.getElementById('readBtn').addEventListener('click',()=>{const text=pages[current].dataset.text;if(!text||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='zh-CN';u.rate=.85;u.pitch=1.1;speechSynthesis.speak(u)});goTo(0);makeInteractive(document.getElementById('p1-maomao'),'do-wobble','我来运水！');makeInteractive(document.getElementById('p2-maomao'),'do-shake','漏光啦……');makeInteractive(document.getElementById('p3-maomao'),'do-shake','太累了……');makeInteractive(document.getElementById('p4-bucket'),'do-bounce','用我！用我！');makeInteractive(document.getElementById('p4-maomao'),'do-wobble','小红桶！');makeInteractive(document.getElementById('p5-maomao'),'do-bounce','一桶好多！');makeInteractive(document.getElementById('p5-bucket'),'do-wobble','哗～');makeInteractive(document.getElementById('p6-maomao'),'do-bounce','用对啦！');makeInteractive(document.getElementById('p6-dad'),'do-bounce','聪明！');document.addEventListener('DOMContentLoaded',()=>{if(window.FO)FO.logHistory(BOOK_ID,BOOK_TITLE)});
+</script>
+</body>
+</html>
