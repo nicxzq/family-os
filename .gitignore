@@ -5,3 +5,5 @@ uploads/
 storybooks/audio/
 .codex/
 _t
+.claude/settings.local.json
+.DS_Store

@@ -1,0 +1,258 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: F03 · 源: 专注的真相 05「多巴胺系统被劫持的恶果」 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>注意力被切碎，到底亏了什么 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--coral); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--coral-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--coral-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 关于注意力</span>
+    <h1>注意力被切碎，<br>到底亏了什么</h1>
+
+    <p class="hook">
+      你有没有过这种晚上：一边写作业，<br>
+      手机"叮"一声就切过去看一眼，再切回来——<br>
+      切了几十次，作业没写多少，<span class="em">人却累得不行。</span>
+    </p>
+
+    <!-- 拆解 1 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>每次"切一下"，都要交一笔费</h3>
+      <p>注意力不是水龙头，说开就开、说关就关。你刚沉进一件事，脑子里装着前因后果；一被打断切走，这些就散了。等你切回来，得<strong>从头把它们重新"装载"一遍</strong>——这段重新进入的时间，就是切换的成本。</p>
+      <p>所以同样一个小时，"一直切来切去"和"安安静静做一件事"，产出可以差很多。不是你笨，是时间被一次次切换<strong>悄悄抽掉了</strong>。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="连续专注与频繁切换的对比示意">
+          <text x="30" y="34" font-size="15" fill="#5C4F3D">安静做一件事：</text>
+          <rect x="30" y="44" width="510" height="26" rx="6" fill="#6FA86D"/>
+          <text x="285" y="62" text-anchor="middle" font-size="14" fill="#FFFDF6">真正在做事</text>
+
+          <text x="30" y="118" font-size="15" fill="#5C4F3D">一直切来切去：</text>
+          <!-- work segments -->
+          <rect x="30"  y="128" width="70" height="26" rx="5" fill="#6FA86D"/>
+          <rect x="135" y="128" width="60" height="26" rx="5" fill="#6FA86D"/>
+          <rect x="230" y="128" width="55" height="26" rx="5" fill="#6FA86D"/>
+          <rect x="320" y="128" width="60" height="26" rx="5" fill="#6FA86D"/>
+          <rect x="415" y="128" width="50" height="26" rx="5" fill="#6FA86D"/>
+          <rect x="500" y="128" width="40" height="26" rx="5" fill="#6FA86D"/>
+          <!-- switch-cost gaps -->
+          <rect x="100" y="128" width="35" height="26" rx="5" fill="#F4A799"/>
+          <rect x="195" y="128" width="35" height="26" rx="5" fill="#F4A799"/>
+          <rect x="285" y="128" width="35" height="26" rx="5" fill="#F4A799"/>
+          <rect x="380" y="128" width="35" height="26" rx="5" fill="#F4A799"/>
+          <rect x="465" y="128" width="35" height="26" rx="5" fill="#F4A799"/>
+          <rect x="116" y="172" width="14" height="14" rx="3" fill="#F4A799"/>
+          <text x="138" y="184" font-size="13" fill="#5C4F3D">红色 = 每次切换，重新"进入"的损耗</text>
+        </svg>
+        <figcaption>同样长的一段时间，切换越多，真正做事的部分越少（示意）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>身边"永远在线"的屏幕，越来越多</h3>
+      <p>为什么我们会忍不住一直切？因为每一块亮着的屏幕，都是一次"切一下"的邀请。《专注的真相》的作者数了数自己身边的屏幕：两部手机、一部安卓机、一个 iPad、一台笔记本、两台台式机（还外接一块显示器）、客厅卧室工作室各一台电视——<strong>加起来 11 块</strong>，开车时特斯拉中控还得再算一块。</p>
+      <p>这不是他一个人的特殊情况，今天几乎人人如此。屏幕越多，邀请越多，注意力被切碎得也越碎。</p>
+      <figure>
+        <svg viewBox="0 0 600 180" role="img" aria-label="身边永远在线的屏幕数量">
+          <g fill="#A8C2DE" stroke="#4B7BA8" stroke-width="2">
+            <rect x="40"  y="30" width="48" height="34" rx="4"/>
+            <rect x="104" y="30" width="48" height="34" rx="4"/>
+            <rect x="168" y="30" width="48" height="34" rx="4"/>
+            <rect x="232" y="30" width="48" height="34" rx="4"/>
+            <rect x="296" y="30" width="48" height="34" rx="4"/>
+            <rect x="40"  y="84" width="48" height="34" rx="4"/>
+            <rect x="104" y="84" width="48" height="34" rx="4"/>
+            <rect x="168" y="84" width="48" height="34" rx="4"/>
+            <rect x="232" y="84" width="48" height="34" rx="4"/>
+            <rect x="296" y="84" width="48" height="34" rx="4"/>
+            <rect x="40"  y="138" width="48" height="34" rx="4"/>
+          </g>
+          <text x="470" y="100" text-anchor="middle" font-size="64" fill="#E56B5A" font-weight="700">11</text>
+          <text x="470" y="138" text-anchor="middle" font-size="16" fill="#5C4F3D">块永远在线的屏幕</text>
+        </svg>
+        <figcaption>每一块亮着的屏，都是一次"切过来看看"的邀请</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>最坑的地方：你感觉不到</h3>
+      <p>如果摔一跤骨折了，你会疼、会肿、会知道要去看医生。可大脑是一个<strong>藏在里面的器官</strong>——长期被短视频这类东西反复"劫持"，它会发生真实的、不容易逆转的变化，但你<strong>不疼不痒，自己根本察觉不到</strong>。</p>
+      <p>正因为感觉不到，很多人会以为"我就是刷会儿手机，没事"。书里把这件事说得很重：这不只是个坏习惯，它是在悄悄改变你大脑的结构。看不见，不等于没发生。</p>
+      <figure>
+        <svg viewBox="0 0 600 170" role="img" aria-label="看不见的损伤示意">
+          <path d="M300,40 q70,-10 86,46 q14,52 -36,66 q-50,16 -86,-8 q-44,-30 -22,-74 q18,-32 58,-30 Z" fill="#FBE3D5" stroke="#E56B5A" stroke-width="2.5"/>
+          <path d="M300,52 q-14,18 4,32 q-20,14 0,30 q-16,16 6,26" fill="none" stroke="#E56B5A" stroke-width="2" opacity="0.7"/>
+          <text x="300" y="120" text-anchor="middle" font-size="52" fill="#E56B5A" font-weight="700">?</text>
+          <text x="470" y="80" font-size="17" fill="#2B2419">不疼</text>
+          <text x="470" y="106" font-size="17" fill="#2B2419">不痒</text>
+          <text x="470" y="132" font-size="17" fill="#E56B5A" font-weight="700">却已经在变</text>
+        </svg>
+        <figcaption>大脑受了影响，自己往往无从知晓</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>一组真实的数据</h3>
+      <p>这不是吓唬人。美国疾控中心的数据显示，被诊断为多动症（ADHD，一种典型的注意力缺乏症状）的儿童比例，从 2003 年的将近 <strong>8%</strong> 升到 2011 年的 <strong>11%</strong>——而这段时间，正好是移动互联网快速铺开的时候。</p>
+      <p>按年龄看，发病率的增幅更明显：越大的孩子，涨得越多。注意力变难，是真的正在发生的事。</p>
+      <figure>
+        <svg viewBox="0 0 600 230" role="img" aria-label="不同年龄段多动症发病率增幅">
+          <line x1="70" y1="190" x2="560" y2="190" stroke="#8C7C66" stroke-width="2"/>
+          <!-- 33% -->
+          <rect x="110" y="100" width="90" height="90" rx="6" fill="#F4C13E"/>
+          <text x="155" y="92" text-anchor="middle" font-size="18" fill="#2B2419" font-weight="700">+33%</text>
+          <text x="155" y="210" text-anchor="middle" font-size="14" fill="#5C4F3D">5–9 岁</text>
+          <!-- 47% -->
+          <rect x="255" y="63" width="90" height="127" rx="6" fill="#E89A4C"/>
+          <text x="300" y="55" text-anchor="middle" font-size="18" fill="#2B2419" font-weight="700">+47%</text>
+          <text x="300" y="210" text-anchor="middle" font-size="14" fill="#5C4F3D">10–14 岁</text>
+          <!-- 52% -->
+          <rect x="400" y="50" width="90" height="140" rx="6" fill="#E56B5A"/>
+          <text x="445" y="42" text-anchor="middle" font-size="18" fill="#2B2419" font-weight="700">+52%</text>
+          <text x="445" y="210" text-anchor="middle" font-size="14" fill="#5C4F3D">15–17 岁</text>
+        </svg>
+        <figcaption>各年龄段多动症发病率的增幅（数据来源：美国疾控中心，《专注的真相》引用）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"大脑是看不见、摸不着的器官——<br>如果它受伤了，<br>我们自己并不知道，甚至无从知晓。"</p>
+      <span class="src">—— 《专注的真相》</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>昨天你认真做一件事的时候，被"切走"过几次？是它来找你，还是你去找它？</summary>
+        <p class="hint">没有标准答案。分清"被打扰"和"主动去刷"，是夺回注意力的第一步。</p>
+      </details>
+      <details>
+        <summary>你身边有几块"永远在线"的屏幕？哪一块是你现在就能关掉、或挪走的？</summary>
+        <p class="hint">不用全关。少一块亮着的屏，就少一份"切一下"的邀请。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>挑一个晚上，做一次<strong>"单线程实验"</strong>：做一件事时，把手机调静音、放到<strong>另一个房间</strong>，做完再回去看。结束后记两个数字——<strong>这一晚你想切走几次</strong>，以及<strong>真正去切了几次</strong>。下次再做，看能不能把第二个数字压小一点。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="../for-eldest.html">← 返回</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '04-switching-cost';
+    const READER_TITLE = '注意力被切碎，到底亏了什么';
+
+    // progress bar
+    const bar = document.getElementById('bar');
+    function updateBar(){
+      const h = document.documentElement;
+      const max = (h.scrollHeight - h.clientHeight) || 1;
+      bar.style.width = Math.min(100, (h.scrollTop / max) * 100) + '%';
+    }
+    addEventListener('scroll', updateBar, { passive:true });
+    updateBar();
+
+    // member button (same logic as games/index.html)
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) {
+      el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>';
+      el.onclick = function(){ location.href = '../dashboard.html'; };
+    } else {
+      el.innerHTML = '<span>登录</span>';
+      el.onclick = function(){ location.href = '../login.html'; };
+    }
+
+    // try button → mark read
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){
+      tryBtn.textContent = '已加入本周 ✓';
+      tryBtn.classList.add('done');
+      if (window.FO) FO.logProgress(READER_ID, 1, 1);
+    });
+
+    // log history; mark read when action card seen
+    document.addEventListener('DOMContentLoaded', function(){
+      if (window.FO) FO.logHistory(READER_ID, READER_TITLE);
+    });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if (e.isIntersecting && window.FO) { FO.logProgress(READER_ID, 1, 1); io.disconnect(); } });
+      }, { threshold: 0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
