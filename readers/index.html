@@ -14,23 +14,23 @@
 <style>
   * { box-sizing:border-box; }
   body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; }
-  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
-  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
-  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
-  .wrap { max-width:720px; margin:0 auto; padding:12px 20px 80px; }
-  .hero h1 { font-size:clamp(26px,6vw,38px); margin:18px 0 8px; }
-  .hero p { color:var(--ink-soft); font-size:var(--font-size-body-lg); line-height:1.7; margin:0 0 8px; }
-  .group-title { display:flex; align-items:center; gap:10px; margin:34px 0 12px; font-size:var(--font-size-title-sm); color:var(--ink-soft); }
-  .group-title::after { content:""; flex:1; height:1px; background:var(--cream-deep); }
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
-  .card { display:block; text-decoration:none; color:inherit; background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:20px; transition:transform .15s; border-top:4px solid var(--accent,#E56B5A); }
-  .card:hover { transform:translateY(-3px); }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:var(--space-2xl) var(--space-5xl); background:var(--glass-btn); backdrop-filter:blur(var(--space-xl)); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:var(--space-tag-gap) var(--space-2xl); border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:var(--space-md); background:var(--paper); border:0; border-radius:var(--radius-full); padding:var(--space-sm) var(--space-2xl) var(--space-sm) var(--space-sm); font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+  .wrap { max-width:var(--size-content-narrow); margin:0 auto; padding:var(--space-xl) var(--space-5xl) var(--space-page-bottom); }
+  .hero h1 { font-size:clamp(var(--font-size-hero-sm), 6vw, var(--font-size-hero)); margin:var(--space-4xl) 0 var(--space-md); }
+  .hero p { color:var(--ink-soft); font-size:var(--font-size-body-lg); line-height:1.7; margin:0 0 var(--space-md); }
+  .group-title { display:flex; align-items:center; gap:var(--space-lg); margin:var(--space-section) 0 var(--space-xl); font-size:var(--font-size-title-sm); color:var(--ink-soft); }
+  .group-title::after { content:""; flex:1; height:var(--size-hairline); background:var(--cream-deep); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(var(--size-grid-card-min),1fr)); gap:var(--space-2xl); }
+  .card { display:block; text-decoration:none; color:inherit; background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:var(--space-5xl); transition:transform .15s; border-top:var(--size-border-accent) solid var(--accent, var(--coral)); }
+  .card:hover { transform:translateY(calc(var(--space-chart-gap) * -1)); }
   .card .code { font-size:var(--font-size-note); color:var(--ink-mute); letter-spacing:.06em; }
-  .card h3 { font-size:var(--font-size-title); margin:6px 0 6px; line-height:1.35; }
+  .card h3 { font-size:var(--font-size-title); margin:var(--space-sm) 0; line-height:1.35; }
   .card .sub { font-size:var(--font-size-note); color:var(--ink-soft); line-height:1.6; }
   .card.soon { pointer-events:none; opacity:.55; border-top-color:var(--cream-deep); background:var(--cream-deep); box-shadow:none; }
-  .card.soon .tag { display:inline-block; margin-top:10px; font-size:var(--font-size-sm); color:var(--ink-mute); background:var(--paper); padding:3px 10px; border-radius:var(--radius-full); }
-  .card.done .tag { display:inline-block; margin-top:10px; font-size:var(--font-size-sm); color:var(--paper); background:var(--green); padding:3px 10px; border-radius:var(--radius-full); }
+  .card.soon .tag { display:inline-block; margin-top:var(--space-lg); font-size:var(--font-size-sm); color:var(--ink-mute); background:var(--paper); padding:var(--space-chart-gap) var(--space-lg); border-radius:var(--radius-full); }
+  .card.done .tag { display:inline-block; margin-top:var(--space-lg); font-size:var(--font-size-sm); color:var(--paper); background:var(--green); padding:var(--space-chart-gap) var(--space-lg); border-radius:var(--radius-full); }
   .card.is-locked { position:relative; opacity:.82; }
   .card.is-locked::after { content:"🔒"; position:absolute; top:var(--space-xl); right:var(--space-2xl); font-size:var(--font-size-ui); opacity:.7; }
 </style>
@@ -54,20 +54,20 @@
     // 新增一篇：在对应分组里加一行 [篇号, 标题, 副标题, 文件(或null=敬请期待), 强调色]
     const READERS = {
       '专注 · 注意力': [
-        ['F01','多巴胺不是快乐物质','你以为的"快乐"，其实是"想要"', '02-dopamine.html', '#E56B5A'],
-        ['F02','短视频为什么刷不完','它被设计成"刷不完"的', '03-short-video.html', '#E56B5A'],
-        ['F03','注意力被切碎，到底亏了什么','一直切来切去，代价有多大', '04-switching-cost.html', '#E56B5A'],
-        ['F04','注意力是你唯一真正拥有的','为什么刷完反而更累', '01-attention-scarce.html', '#E56B5A'],
-        ['F05','识字，不等于会用文字','短视频正在抹掉你用文字的能力', '05-power-of-words.html', '#E56B5A'],
+        ['F01','多巴胺不是快乐物质','你以为的"快乐"，其实是"想要"', '02-dopamine.html', 'var(--coral)'],
+        ['F02','短视频为什么刷不完','它被设计成"刷不完"的', '03-variable-reward.html', 'var(--coral)'],
+        ['F03','注意力被切碎，到底亏了什么','一直切来切去，代价有多大', '04-switching-cost.html', 'var(--coral)'],
+        ['F04','注意力是你唯一真正拥有的','为什么刷完反而更累', '01-attention-scarce.html', 'var(--coral)'],
+        ['F05','识字，不等于会用文字','短视频正在抹掉你用文字的能力', '05-power-of-words.html', 'var(--coral)'],
       ],
       '把时间当作朋友': [
-        ['T01','你不是大脑的奴隶','谁主谁仆', null, '#4B7BA8'],
+        ['T01','你不是大脑的奴隶','谁主谁仆', null, 'var(--blue)'],
       ],
       '学习的真相': [
-        ['L01','大脑的使用说明','先读说明书', null, '#6FA86D'],
+        ['L01','大脑的使用说明','先读说明书', null, 'var(--green)'],
       ],
     };
-    const ACCENT_DEFAULT = '#E56B5A';
+    const ACCENT_DEFAULT = 'var(--coral)';
     const box = document.getElementById('groups');
     Object.keys(READERS).forEach(function(g){
       const h = document.createElement('div'); h.className='group-title'; h.textContent=g; box.appendChild(h);

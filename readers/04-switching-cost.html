@@ -15,44 +15,44 @@
   :root { --accent: var(--coral); }
   * { box-sizing: border-box; }
   body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
-  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
-  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
-  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
-  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+  .progress-bar { position:fixed; top:0; left:0; height:var(--space-xs); width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:var(--space-2xl) var(--space-5xl); background:var(--glass-btn); backdrop-filter:blur(var(--space-xl)); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:var(--space-tag-gap) var(--space-2xl); border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:var(--space-md); background:var(--paper); border:0; border-radius:var(--radius-full); padding:var(--space-sm) var(--space-2xl) var(--space-sm) var(--space-sm); font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
 
-  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
-  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--coral-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
-  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
-  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .wrap { max-width:var(--size-content-narrow); margin:0 auto; padding:var(--space-md) var(--space-5xl) var(--space-page-bottom-lg); }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--coral-soft); padding:var(--space-xs) var(--space-xl); border-radius:var(--radius-full); margin-top:var(--space-3xl); }
+  h1 { font-size:clamp(var(--font-size-hero-md), 6vw, var(--font-size-hero)); line-height:1.3; margin:var(--space-2xl) 0 var(--space-md); }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:var(--space-4xl) 0 var(--space-sm); }
   .hook .em { color:var(--accent); font-weight:700; }
 
-  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
-  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
-  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:var(--space-7xl) var(--space-7xl) var(--space-6xl); margin:var(--space-6xl) 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 var(--space-xl); }
+  .card p { margin:0 0 var(--space-xl); font-size:var(--font-size-body-lg); }
   .card p:last-child { margin-bottom:0; }
-  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+  .step-no { display:inline-block; width:calc(var(--font-size-title) + var(--space-lg)); height:calc(var(--font-size-title) + var(--space-lg)); line-height:calc(var(--font-size-title) + var(--space-lg)); text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:var(--space-md); }
 
-  figure { margin:14px 0 4px; }
+  figure { margin:var(--space-2xl) 0 var(--space-xs); }
   figure svg { width:100%; height:auto; display:block; }
-  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:var(--space-md); }
 
-  .quote { text-align:center; padding:30px 24px; }
-  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
-  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+  .quote { text-align:center; padding:var(--space-9xl) var(--space-7xl); }
+  .quote p { font-size:clamp(var(--font-size-title), 5vw, var(--font-size-hero-md)); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:var(--space-2xl); }
 
-  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:var(--space-lg) 0; border-bottom:var(--size-hairline) dashed var(--cream-deep); }
   .reflect summary::-webkit-details-marker { display:none; }
-  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:var(--space-lg); transition:transform .2s; }
   .reflect details[open] summary::before { transform:rotate(90deg); }
-  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:var(--space-md) 0 var(--space-xs) var(--space-5xl); }
 
-  .action { border:2px solid var(--accent); background:var(--coral-soft); }
+  .action { border:var(--size-border) solid var(--accent); background:var(--coral-soft); }
   .action h3 { color:var(--ink); }
-  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try { margin-top:var(--space-2xl); background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:var(--space-tag-x) var(--space-7xl); font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
   .action .try.done { background:var(--green); pointer-events:none; }
 
-  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
-  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager { display:flex; justify-content:space-between; margin-top:var(--space-8xl); font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:var(--space-lg) var(--space-4xl); border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
   .pager a.disabled { opacity:.4; pointer-events:none; }
 </style>
 <script src="/fo-gate.js"></script></head>
@@ -81,26 +81,26 @@
       <p>所以同样一个小时，"一直切来切去"和"安安静静做一件事"，产出可以差很多。不是你笨，是时间被一次次切换<strong>悄悄抽掉了</strong>。</p>
       <figure>
         <svg viewBox="0 0 600 210" role="img" aria-label="连续专注与频繁切换的对比示意">
-          <text x="30" y="34" font-size="15" fill="#5C4F3D">安静做一件事：</text>
-          <rect x="30" y="44" width="510" height="26" rx="6" fill="#6FA86D"/>
-          <text x="285" y="62" text-anchor="middle" font-size="14" fill="#FFFDF6">真正在做事</text>
+          <text x="30" y="34" font-size="15" fill="var(--ink-soft)">安静做一件事：</text>
+          <rect x="30" y="44" width="510" height="26" rx="6" fill="var(--green)"/>
+          <text x="285" y="62" text-anchor="middle" font-size="14" fill="var(--paper)">真正在做事</text>
 
-          <text x="30" y="118" font-size="15" fill="#5C4F3D">一直切来切去：</text>
+          <text x="30" y="118" font-size="15" fill="var(--ink-soft)">一直切来切去：</text>
           <!-- work segments -->
-          <rect x="30"  y="128" width="70" height="26" rx="5" fill="#6FA86D"/>
-          <rect x="135" y="128" width="60" height="26" rx="5" fill="#6FA86D"/>
-          <rect x="230" y="128" width="55" height="26" rx="5" fill="#6FA86D"/>
-          <rect x="320" y="128" width="60" height="26" rx="5" fill="#6FA86D"/>
-          <rect x="415" y="128" width="50" height="26" rx="5" fill="#6FA86D"/>
-          <rect x="500" y="128" width="40" height="26" rx="5" fill="#6FA86D"/>
+          <rect x="30"  y="128" width="70" height="26" rx="5" fill="var(--green)"/>
+          <rect x="135" y="128" width="60" height="26" rx="5" fill="var(--green)"/>
+          <rect x="230" y="128" width="55" height="26" rx="5" fill="var(--green)"/>
+          <rect x="320" y="128" width="60" height="26" rx="5" fill="var(--green)"/>
+          <rect x="415" y="128" width="50" height="26" rx="5" fill="var(--green)"/>
+          <rect x="500" y="128" width="40" height="26" rx="5" fill="var(--green)"/>
           <!-- switch-cost gaps -->
-          <rect x="100" y="128" width="35" height="26" rx="5" fill="#F4A799"/>
-          <rect x="195" y="128" width="35" height="26" rx="5" fill="#F4A799"/>
-          <rect x="285" y="128" width="35" height="26" rx="5" fill="#F4A799"/>
-          <rect x="380" y="128" width="35" height="26" rx="5" fill="#F4A799"/>
-          <rect x="465" y="128" width="35" height="26" rx="5" fill="#F4A799"/>
-          <rect x="116" y="172" width="14" height="14" rx="3" fill="#F4A799"/>
-          <text x="138" y="184" font-size="13" fill="#5C4F3D">红色 = 每次切换，重新"进入"的损耗</text>
+          <rect x="100" y="128" width="35" height="26" rx="5" fill="var(--coral-soft)"/>
+          <rect x="195" y="128" width="35" height="26" rx="5" fill="var(--coral-soft)"/>
+          <rect x="285" y="128" width="35" height="26" rx="5" fill="var(--coral-soft)"/>
+          <rect x="380" y="128" width="35" height="26" rx="5" fill="var(--coral-soft)"/>
+          <rect x="465" y="128" width="35" height="26" rx="5" fill="var(--coral-soft)"/>
+          <rect x="116" y="172" width="14" height="14" rx="3" fill="var(--coral-soft)"/>
+          <text x="138" y="184" font-size="13" fill="var(--ink-soft)">红色 = 每次切换，重新"进入"的损耗</text>
         </svg>
         <figcaption>同样长的一段时间，切换越多，真正做事的部分越少（示意）</figcaption>
       </figure>
@@ -113,7 +113,7 @@
       <p>这不是他一个人的特殊情况，今天几乎人人如此。屏幕越多，邀请越多，注意力被切碎得也越碎。</p>
       <figure>
         <svg viewBox="0 0 600 180" role="img" aria-label="身边永远在线的屏幕数量">
-          <g fill="#A8C2DE" stroke="#4B7BA8" stroke-width="2">
+          <g fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2">
             <rect x="40"  y="30" width="48" height="34" rx="4"/>
             <rect x="104" y="30" width="48" height="34" rx="4"/>
             <rect x="168" y="30" width="48" height="34" rx="4"/>
@@ -126,8 +126,8 @@
             <rect x="296" y="84" width="48" height="34" rx="4"/>
             <rect x="40"  y="138" width="48" height="34" rx="4"/>
           </g>
-          <text x="470" y="100" text-anchor="middle" font-size="64" fill="#E56B5A" font-weight="700">11</text>
-          <text x="470" y="138" text-anchor="middle" font-size="16" fill="#5C4F3D">块永远在线的屏幕</text>
+          <text x="470" y="100" text-anchor="middle" font-size="64" fill="var(--coral)" font-weight="700">11</text>
+          <text x="470" y="138" text-anchor="middle" font-size="16" fill="var(--ink-soft)">块永远在线的屏幕</text>
         </svg>
         <figcaption>每一块亮着的屏，都是一次"切过来看看"的邀请</figcaption>
       </figure>
@@ -140,12 +140,12 @@
       <p>正因为感觉不到，很多人会以为"我就是刷会儿手机，没事"。书里把这件事说得很重：这不只是个坏习惯，它是在悄悄改变你大脑的结构。看不见，不等于没发生。</p>
       <figure>
         <svg viewBox="0 0 600 170" role="img" aria-label="看不见的损伤示意">
-          <path d="M300,40 q70,-10 86,46 q14,52 -36,66 q-50,16 -86,-8 q-44,-30 -22,-74 q18,-32 58,-30 Z" fill="#FBE3D5" stroke="#E56B5A" stroke-width="2.5"/>
-          <path d="M300,52 q-14,18 4,32 q-20,14 0,30 q-16,16 6,26" fill="none" stroke="#E56B5A" stroke-width="2" opacity="0.7"/>
-          <text x="300" y="120" text-anchor="middle" font-size="52" fill="#E56B5A" font-weight="700">?</text>
-          <text x="470" y="80" font-size="17" fill="#2B2419">不疼</text>
-          <text x="470" y="106" font-size="17" fill="#2B2419">不痒</text>
-          <text x="470" y="132" font-size="17" fill="#E56B5A" font-weight="700">却已经在变</text>
+          <path d="M300,40 q70,-10 86,46 q14,52 -36,66 q-50,16 -86,-8 q-44,-30 -22,-74 q18,-32 58,-30 Z" fill="var(--page-bg-peach)" stroke="var(--coral)" stroke-width="2.5"/>
+          <path d="M300,52 q-14,18 4,32 q-20,14 0,30 q-16,16 6,26" fill="none" stroke="var(--coral)" stroke-width="2" opacity="0.7"/>
+          <text x="300" y="120" text-anchor="middle" font-size="52" fill="var(--coral)" font-weight="700">?</text>
+          <text x="470" y="80" font-size="17" fill="var(--ink)">不疼</text>
+          <text x="470" y="106" font-size="17" fill="var(--ink)">不痒</text>
+          <text x="470" y="132" font-size="17" fill="var(--coral)" font-weight="700">却已经在变</text>
         </svg>
         <figcaption>大脑受了影响，自己往往无从知晓</figcaption>
       </figure>
@@ -158,19 +158,19 @@
       <p>按年龄看，发病率的增幅更明显：越大的孩子，涨得越多。注意力变难，是真的正在发生的事。</p>
       <figure>
         <svg viewBox="0 0 600 230" role="img" aria-label="不同年龄段多动症发病率增幅">
-          <line x1="70" y1="190" x2="560" y2="190" stroke="#8C7C66" stroke-width="2"/>
+          <line x1="70" y1="190" x2="560" y2="190" stroke="var(--ink-mute)" stroke-width="2"/>
           <!-- 33% -->
-          <rect x="110" y="100" width="90" height="90" rx="6" fill="#F4C13E"/>
-          <text x="155" y="92" text-anchor="middle" font-size="18" fill="#2B2419" font-weight="700">+33%</text>
-          <text x="155" y="210" text-anchor="middle" font-size="14" fill="#5C4F3D">5–9 岁</text>
+          <rect x="110" y="100" width="90" height="90" rx="6" fill="var(--yellow)"/>
+          <text x="155" y="92" text-anchor="middle" font-size="18" fill="var(--ink)" font-weight="700">+33%</text>
+          <text x="155" y="210" text-anchor="middle" font-size="14" fill="var(--ink-soft)">5–9 岁</text>
           <!-- 47% -->
-          <rect x="255" y="63" width="90" height="127" rx="6" fill="#E89A4C"/>
-          <text x="300" y="55" text-anchor="middle" font-size="18" fill="#2B2419" font-weight="700">+47%</text>
-          <text x="300" y="210" text-anchor="middle" font-size="14" fill="#5C4F3D">10–14 岁</text>
+          <rect x="255" y="63" width="90" height="127" rx="6" fill="var(--coral-soft)"/>
+          <text x="300" y="55" text-anchor="middle" font-size="18" fill="var(--ink)" font-weight="700">+47%</text>
+          <text x="300" y="210" text-anchor="middle" font-size="14" fill="var(--ink-soft)">10–14 岁</text>
           <!-- 52% -->
-          <rect x="400" y="50" width="90" height="140" rx="6" fill="#E56B5A"/>
-          <text x="445" y="42" text-anchor="middle" font-size="18" fill="#2B2419" font-weight="700">+52%</text>
-          <text x="445" y="210" text-anchor="middle" font-size="14" fill="#5C4F3D">15–17 岁</text>
+          <rect x="400" y="50" width="90" height="140" rx="6" fill="var(--coral)"/>
+          <text x="445" y="42" text-anchor="middle" font-size="18" fill="var(--ink)" font-weight="700">+52%</text>
+          <text x="445" y="210" text-anchor="middle" font-size="14" fill="var(--ink-soft)">15–17 岁</text>
         </svg>
         <figcaption>各年龄段多动症发病率的增幅（数据来源：美国疾控中心，《专注的真相》引用）</figcaption>
       </figure>
