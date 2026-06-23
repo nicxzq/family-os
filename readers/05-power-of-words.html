@@ -15,44 +15,44 @@
   :root { --accent: var(--coral); }
   * { box-sizing: border-box; }
   body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
-  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
-  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
-  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
-  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+  .progress-bar { position:fixed; top:0; left:0; height:var(--space-xs); width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:var(--space-2xl) var(--space-5xl); background:var(--glass-btn); backdrop-filter:blur(var(--space-xl)); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:var(--space-tag-gap) var(--space-2xl); border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:var(--space-md); background:var(--paper); border:0; border-radius:var(--radius-full); padding:var(--space-sm) var(--space-2xl) var(--space-sm) var(--space-sm); font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
 
-  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
-  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--coral-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
-  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
-  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .wrap { max-width:var(--size-content-narrow); margin:0 auto; padding:var(--space-md) var(--space-5xl) var(--space-page-bottom-lg); }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--coral-soft); padding:var(--space-xs) var(--space-xl); border-radius:var(--radius-full); margin-top:var(--space-3xl); }
+  h1 { font-size:clamp(var(--font-size-hero-md), 6vw, var(--font-size-hero)); line-height:1.3; margin:var(--space-2xl) 0 var(--space-md); }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:var(--space-4xl) 0 var(--space-sm); }
   .hook .em { color:var(--accent); font-weight:700; }
 
-  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
-  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
-  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:var(--space-7xl) var(--space-7xl) var(--space-6xl); margin:var(--space-6xl) 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 var(--space-xl); }
+  .card p { margin:0 0 var(--space-xl); font-size:var(--font-size-body-lg); }
   .card p:last-child { margin-bottom:0; }
-  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+  .step-no { display:inline-block; width:calc(var(--font-size-title) + var(--space-lg)); height:calc(var(--font-size-title) + var(--space-lg)); line-height:calc(var(--font-size-title) + var(--space-lg)); text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:var(--space-md); }
 
-  figure { margin:14px 0 4px; }
+  figure { margin:var(--space-2xl) 0 var(--space-xs); }
   figure svg { width:100%; height:auto; display:block; }
-  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:var(--space-md); }
 
-  .quote { text-align:center; padding:30px 24px; }
-  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
-  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+  .quote { text-align:center; padding:var(--space-9xl) var(--space-7xl); }
+  .quote p { font-size:clamp(var(--font-size-title), 5vw, var(--font-size-hero-md)); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:var(--space-2xl); }
 
-  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:var(--space-lg) 0; border-bottom:var(--size-hairline) dashed var(--cream-deep); }
   .reflect summary::-webkit-details-marker { display:none; }
-  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:var(--space-lg); transition:transform .2s; }
   .reflect details[open] summary::before { transform:rotate(90deg); }
-  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:var(--space-md) 0 var(--space-xs) var(--space-5xl); }
 
-  .action { border:2px solid var(--accent); background:var(--coral-soft); }
+  .action { border:var(--size-border) solid var(--accent); background:var(--coral-soft); }
   .action h3 { color:var(--ink); }
-  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try { margin-top:var(--space-2xl); background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:var(--space-tag-x) var(--space-7xl); font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
   .action .try.done { background:var(--green); pointer-events:none; }
 
-  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
-  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager { display:flex; justify-content:space-between; margin-top:var(--space-8xl); font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:var(--space-lg) var(--space-4xl); border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
   .pager a.disabled { opacity:.4; pointer-events:none; }
 </style>
 <script src="/fo-gate.js"></script></head>
@@ -82,28 +82,28 @@
       <figure>
         <svg viewBox="0 0 600 200" role="img" aria-label="说话会消失，文字能跨越时间">
           <!-- 说话：声波渐隐 -->
-          <text x="30" y="40" font-size="15" fill="#5C4F3D">说出口的话：</text>
-          <g fill="none" stroke="#8C7C66" stroke-width="2.5" stroke-linecap="round">
+          <text x="30" y="40" font-size="15" fill="var(--ink-soft)">说出口的话：</text>
+          <g fill="none" stroke="var(--ink-mute)" stroke-width="2.5" stroke-linecap="round">
             <path d="M70,70 q12,-14 0,-28" opacity="0.9"/>
             <path d="M92,74 q18,-18 0,-36" opacity="0.6"/>
             <path d="M116,78 q24,-22 0,-44" opacity="0.35"/>
             <path d="M142,82 q30,-26 0,-52" opacity="0.15"/>
           </g>
-          <text x="200" y="62" font-size="15" fill="#8C7C66">…说完就散了</text>
+          <text x="200" y="62" font-size="15" fill="var(--ink-mute)">…说完就散了</text>
 
           <!-- 文字：时间线 -->
-          <text x="30" y="128" font-size="15" fill="#5C4F3D">写下来的字：</text>
-          <line x1="70" y1="158" x2="560" y2="158" stroke="#E56B5A" stroke-width="3"/>
-          <polygon points="560,158 548,152 548,164" fill="#E56B5A"/>
-          <g font-size="13" fill="#5C4F3D" text-anchor="middle">
-            <circle cx="110" cy="158" r="6" fill="#E56B5A"/>
+          <text x="30" y="128" font-size="15" fill="var(--ink-soft)">写下来的字：</text>
+          <line x1="70" y1="158" x2="560" y2="158" stroke="var(--coral)" stroke-width="3"/>
+          <polygon points="560,158 548,152 548,164" fill="var(--coral)"/>
+          <g font-size="13" fill="var(--ink-soft)" text-anchor="middle">
+            <circle cx="110" cy="158" r="6" fill="var(--coral)"/>
             <text x="110" y="182">两千年前</text>
-            <circle cx="320" cy="158" r="6" fill="#E89A4C"/>
+            <circle cx="320" cy="158" r="6" fill="var(--coral-soft)"/>
             <text x="320" y="182">一百年前</text>
-            <circle cx="520" cy="158" r="6" fill="#F4C13E"/>
+            <circle cx="520" cy="158" r="6" fill="var(--yellow)"/>
             <text x="520" y="182">今天的你</text>
           </g>
-          <text x="300" y="146" font-size="14" fill="#E56B5A" text-anchor="middle">同一句话，跨过两千年还能被读到</text>
+          <text x="300" y="146" font-size="14" fill="var(--coral)" text-anchor="middle">同一句话，跨过两千年还能被读到</text>
         </svg>
         <figcaption>声音受空间和时间限制；文字两样都能突破（示意）</figcaption>
       </figure>
@@ -117,24 +117,24 @@
       <figure>
         <svg viewBox="0 0 600 210" role="img" aria-label="用文字的人和只刷视频的人的输入输出对比">
           <!-- 左：用文字 -->
-          <rect x="24" y="24" width="252" height="160" rx="10" fill="#FBE3D5"/>
-          <text x="150" y="50" text-anchor="middle" font-size="16" fill="#2B2419" font-weight="700">用文字的人</text>
-          <text x="48" y="86" font-size="14" fill="#5C4F3D">输入 ↓</text>
-          <rect x="48" y="96" width="204" height="30" rx="6" fill="#6FA86D"/>
-          <text x="150" y="116" text-anchor="middle" font-size="14" fill="#FFFDF6">读：把别人的想法读进来</text>
-          <text x="48" y="148" font-size="14" fill="#5C4F3D">输出 ↑</text>
-          <rect x="48" y="158" width="204" height="22" rx="6" fill="#4B7BA8"/>
-          <text x="150" y="173" text-anchor="middle" font-size="13" fill="#FFFDF6">写：把自己的想法说清楚</text>
+          <rect x="24" y="24" width="252" height="160" rx="10" fill="var(--page-bg-peach)"/>
+          <text x="150" y="50" text-anchor="middle" font-size="16" fill="var(--ink)" font-weight="700">用文字的人</text>
+          <text x="48" y="86" font-size="14" fill="var(--ink-soft)">输入 ↓</text>
+          <rect x="48" y="96" width="204" height="30" rx="6" fill="var(--green)"/>
+          <text x="150" y="116" text-anchor="middle" font-size="14" fill="var(--paper)">读：把别人的想法读进来</text>
+          <text x="48" y="148" font-size="14" fill="var(--ink-soft)">输出 ↑</text>
+          <rect x="48" y="158" width="204" height="22" rx="6" fill="var(--blue)"/>
+          <text x="150" y="173" text-anchor="middle" font-size="13" fill="var(--paper)">写：把自己的想法说清楚</text>
 
           <!-- 右：只刷视频 -->
-          <rect x="324" y="24" width="252" height="160" rx="10" fill="#F1E8D0"/>
-          <text x="450" y="50" text-anchor="middle" font-size="16" fill="#2B2419" font-weight="700">只刷视频的人</text>
-          <text x="348" y="86" font-size="14" fill="#5C4F3D">输入 ↓</text>
-          <rect x="348" y="96" width="204" height="30" rx="6" fill="#C9BBA0"/>
-          <text x="450" y="116" text-anchor="middle" font-size="14" fill="#5C4F3D">看画面、听声音</text>
-          <text x="348" y="148" font-size="14" fill="#5C4F3D">输出 ↑</text>
-          <rect x="348" y="158" width="204" height="22" rx="6" fill="#C9BBA0"/>
-          <text x="450" y="173" text-anchor="middle" font-size="13" fill="#5C4F3D">手指滑一下、点个赞</text>
+          <rect x="324" y="24" width="252" height="160" rx="10" fill="var(--cream-deep)"/>
+          <text x="450" y="50" text-anchor="middle" font-size="16" fill="var(--ink)" font-weight="700">只刷视频的人</text>
+          <text x="348" y="86" font-size="14" fill="var(--ink-soft)">输入 ↓</text>
+          <rect x="348" y="96" width="204" height="30" rx="6" fill="var(--cream-deep)"/>
+          <text x="450" y="116" text-anchor="middle" font-size="14" fill="var(--ink-soft)">看画面、听声音</text>
+          <text x="348" y="148" font-size="14" fill="var(--ink-soft)">输出 ↑</text>
+          <rect x="348" y="158" width="204" height="22" rx="6" fill="var(--cream-deep)"/>
+          <text x="450" y="173" text-anchor="middle" font-size="13" fill="var(--ink-soft)">手指滑一下、点个赞</text>
         </svg>
         <figcaption>识字却不读不写，行为上和文盲并无两样（《专注的真相》）</figcaption>
       </figure>
@@ -148,24 +148,24 @@
       <figure>
         <svg viewBox="0 0 600 170" role="img" aria-label="大脑用进废退两个方向">
           <!-- 用 → 变强 -->
-          <text x="150" y="40" text-anchor="middle" font-size="16" fill="#2B2419" font-weight="700">用文字 = 在练</text>
-          <g fill="#6FA86D">
+          <text x="150" y="40" text-anchor="middle" font-size="16" fill="var(--ink)" font-weight="700">用文字 = 在练</text>
+          <g fill="var(--green)">
             <rect x="70" y="120" width="26" height="20" rx="3"/>
             <rect x="118" y="104" width="26" height="36" rx="3"/>
             <rect x="166" y="84" width="26" height="56" rx="3"/>
           </g>
-          <text x="150" y="160" text-anchor="middle" font-size="13" fill="#6FA86D">↗ 越用越强</text>
+          <text x="150" y="160" text-anchor="middle" font-size="13" fill="var(--green)">↗ 越用越强</text>
 
-          <line x1="300" y1="60" x2="300" y2="150" stroke="#E0D6BE" stroke-width="2"/>
+          <line x1="300" y1="60" x2="300" y2="150" stroke="var(--cream-deep)" stroke-width="2"/>
 
           <!-- 废 → 退化 -->
-          <text x="450" y="40" text-anchor="middle" font-size="16" fill="#2B2419" font-weight="700">只刷 = 闲置</text>
-          <g fill="#C9897B">
+          <text x="450" y="40" text-anchor="middle" font-size="16" fill="var(--ink)" font-weight="700">只刷 = 闲置</text>
+          <g fill="var(--coral-soft)">
             <rect x="408" y="84" width="26" height="56" rx="3"/>
             <rect x="456" y="104" width="26" height="36" rx="3"/>
             <rect x="504" y="120" width="26" height="20" rx="3"/>
           </g>
-          <text x="450" y="160" text-anchor="middle" font-size="13" fill="#E56B5A">↘ 越闲越退化</text>
+          <text x="450" y="160" text-anchor="middle" font-size="13" fill="var(--coral)">↘ 越闲越退化</text>
         </svg>
         <figcaption>同样的时间，方向不同，大脑走向相反</figcaption>
       </figure>
@@ -178,21 +178,21 @@
       <p>书里给了个参考：注意广度<strong>低于 20 分钟，基本就没法做任何有意义的阅读</strong>了。而很多人现在，大概只剩下两分钟。好消息是——这个飞轮也能反过来转：每多用一次文字，就给它一个反方向的推力。</p>
       <figure>
         <svg viewBox="0 0 600 200" role="img" aria-label="注意力与自制力的负向飞轮">
-          <g fill="none" stroke="#E56B5A" stroke-width="2.5">
+          <g fill="none" stroke="var(--coral)" stroke-width="2.5">
             <path d="M300,40 a70,60 0 0 1 60,104"/>
             <path d="M360,144 a70,60 0 0 1 -120,0"/>
             <path d="M240,144 a70,60 0 0 1 60,-104"/>
           </g>
-          <polygon points="300,40 290,52 304,54" fill="#E56B5A"/>
-          <g font-size="13" fill="#2B2419" text-anchor="middle">
-            <rect x="232" y="18" width="136" height="26" rx="13" fill="#FBE3D5"/>
+          <polygon points="300,40 290,52 304,54" fill="var(--coral)"/>
+          <g font-size="13" fill="var(--ink)" text-anchor="middle">
+            <rect x="232" y="18" width="136" height="26" rx="13" fill="var(--page-bg-peach)"/>
             <text x="300" y="36">注意广度变短</text>
-            <rect x="356" y="150" width="150" height="26" rx="13" fill="#FBE3D5"/>
+            <rect x="356" y="150" width="150" height="26" rx="13" fill="var(--page-bg-peach)"/>
             <text x="431" y="168">更容易被短视频吸住</text>
-            <rect x="94" y="150" width="136" height="26" rx="13" fill="#FBE3D5"/>
+            <rect x="94" y="150" width="136" height="26" rx="13" fill="var(--page-bg-peach)"/>
             <text x="162" y="168">自制力变差</text>
           </g>
-          <text x="300" y="118" text-anchor="middle" font-size="14" fill="#E56B5A" font-weight="700">越滚越快</text>
+          <text x="300" y="118" text-anchor="middle" font-size="14" fill="var(--coral)" font-weight="700">越滚越快</text>
         </svg>
         <figcaption>负向飞轮：短→差→更短。反过来用文字，就能给它逆向的力</figcaption>
       </figure>

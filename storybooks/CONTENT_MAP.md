@@ -194,7 +194,7 @@
 | 篇 | 源章 | 核心 | 概念图建议 | status |
 |---|---|---|---|---|
 | F01 | 01–02 多巴胺 | 多巴胺是"想要"不是"快乐" | 期待 vs 满足曲线 | ✅ 已出 `readers/02-dopamine.html` |
-| F02 | 03–04 更隐蔽的毒 | 短视频如何劫持奖励系统 | 刷新即赌博的可变奖励 | ✅ 已出 `readers/03-short-video.html` |
+| F02 | 03–04 更隐蔽的毒 | 短视频如何劫持奖励系统 | 刷新即赌博的可变奖励 | ✅ 已出 `readers/03-variable-reward.html` |
 | F03 | 05 恶果 | 注意力碎片化的代价 | 切换成本示意 | ✅ 已出 `readers/04-switching-cost.html`（此前 status 漏更新，已在 index 上架，本次补登记） |
 | F04 | 07 稀缺资源 | 注意力是你唯一真正拥有的 | 三种资源对比（钱/时间/注意力） | ✅ 已出 `readers/01-attention-scarce.html`（样板） |
 | F05 | 10 善用文字 | 用文字夺回注意力 | 说话消失 vs 文字跨时空 / 用进废退 / 负向飞轮 | ✅ 已出 `readers/05-power-of-words.html` |
