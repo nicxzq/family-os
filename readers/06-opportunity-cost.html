@@ -1,0 +1,248 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: F06 · 源: 专注的真相 13「用来做这个就不能做那个」 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>用它做这个，就不能做那个 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--coral); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--coral-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--coral-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 关于注意力</span>
+    <h1>用它做这个，<br>就不能做那个</h1>
+
+    <p class="hook">
+      先想一件怪事：<br>
+      "我不要再刷手机了"——这句话你<strong>说过很多次，做到却很难</strong>。<br>
+      但"我今天不去操场踢球"，<span class="em">你几乎从来不用咬牙忍。</span>同样是不去做一件事，差别为什么这么大？
+    </p>
+
+    <!-- 拆解 1 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>时间和注意力，是"排他性资源"</h3>
+      <p>钱有一个特点：同一笔钱，买了这个就买不了那个。书里说，<strong>时间、精力、注意力、意志力也一样</strong>——它们都是"排他性资源"，用它来做这件事，就不能再用它去做那件事。</p>
+      <p>所以你的一天，不是一个可以无限装东西的口袋。它更像一个<strong>固定大小的杯子</strong>：装满了有用的，就没地方装没用的；反过来也一样。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="一天的注意力是一个固定大小的杯子">
+          <text x="300" y="30" text-anchor="middle" font-size="16" fill="#2B2419" font-weight="700">你一天的注意力（杯子大小是固定的）</text>
+          <!-- 左杯：被有意义的事占满 -->
+          <rect x="96" y="58" width="96" height="120" rx="8" fill="none" stroke="#8C7C66" stroke-width="2.5"/>
+          <rect x="100" y="92" width="88" height="84" rx="5" fill="#6FA86D"/>
+          <text x="144" y="142" text-anchor="middle" font-size="14" fill="#FFFDF6">想做的事</text>
+          <text x="144" y="196" text-anchor="middle" font-size="13" fill="#6FA86D">装满了 → 没剩多少</text>
+          <!-- 右杯：被刷视频占满 -->
+          <rect x="408" y="58" width="96" height="120" rx="8" fill="none" stroke="#8C7C66" stroke-width="2.5"/>
+          <rect x="412" y="92" width="88" height="84" rx="5" fill="#C9897B"/>
+          <text x="456" y="142" text-anchor="middle" font-size="14" fill="#FFFDF6">刷视频</text>
+          <text x="456" y="196" text-anchor="middle" font-size="13" fill="#E56B5A">装满了 → 没剩多少</text>
+          <text x="300" y="124" text-anchor="middle" font-size="22" fill="#8C7C66">⇄</text>
+        </svg>
+        <figcaption>同一只杯子，装了 A 就没空间给 B（示意）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>"忍住别做"，本身就特别费劲</h3>
+      <p>回到开头那件怪事。你不用忍住不踢球，是因为你<strong>本来就没特别想踢</strong>；而你要忍住不刷手机，是因为手机被设计得让你<strong>一直想</strong>。于是你得时时刻刻按住那个冲动。</p>
+      <p>书里点破了关键：<strong>克制和控制，是相当耗费整体脑力的</strong>。你真正的对手，不是某一段视频，而是"持续克制"这件事本身——它会把你的意志力一点点磨光。光靠"我要忍住"，多半会输。</p>
+      <figure>
+        <svg viewBox="0 0 600 180" role="img" aria-label="靠意志力硬扛会越扛越少">
+          <text x="300" y="28" text-anchor="middle" font-size="16" fill="#2B2419" font-weight="700">光靠"忍" = 意志力一格格被耗掉</text>
+          <!-- battery outline -->
+          <rect x="120" y="62" width="340" height="58" rx="10" fill="none" stroke="#8C7C66" stroke-width="3"/>
+          <rect x="460" y="80" width="12" height="22" rx="3" fill="#8C7C66"/>
+          <!-- cells, draining left→right -->
+          <rect x="132" y="74" width="58" height="34" rx="4" fill="#C9897B" opacity="0.30"/>
+          <rect x="196" y="74" width="58" height="34" rx="4" fill="#C9897B" opacity="0.45"/>
+          <rect x="260" y="74" width="58" height="34" rx="4" fill="#E07A68"/>
+          <rect x="324" y="74" width="58" height="34" rx="4" fill="#E56B5A"/>
+          <rect x="388" y="74" width="58" height="34" rx="4" fill="#E56B5A"/>
+          <text x="160" y="150" text-anchor="middle" font-size="13" fill="#8C7C66">早上：还能扛</text>
+          <text x="417" y="150" text-anchor="middle" font-size="13" fill="#E56B5A">晚上：扛不住了</text>
+        </svg>
+        <figcaption>越用力克制，越早耗光——这不是你不够自律</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>换个打法：用好习惯，把坏习惯挤出去</h3>
+      <p>书里给了一句反直觉的话：<strong>纵容好习惯，会有效地抑制坏习惯</strong>。意思是——别正面跟坏习惯死磕，去喂养一个好习惯，让它把资源占满。</p>
+      <p>作者讲过一个真实例子：很多人都知道乱花钱不好，可就是忍不住。直到有一天他们发现钱还有"投资"这个用法，开始投资之后，<strong>消费的欲望竟然自己消失了</strong>——不需要克制、不需要节制，毫不费力。因为更好的用法，把更差的用法<strong>挤出去了</strong>。</p>
+      <figure>
+        <svg viewBox="0 0 600 190" role="img" aria-label="好习惯长大，把坏习惯挤出杯子">
+          <rect x="240" y="40" width="120" height="130" rx="10" fill="none" stroke="#8C7C66" stroke-width="2.5"/>
+          <!-- good filling up -->
+          <rect x="244" y="92" width="112" height="74" rx="5" fill="#6FA86D"/>
+          <text x="300" y="136" text-anchor="middle" font-size="14" fill="#FFFDF6">好习惯长大</text>
+          <!-- bad being pushed out (drop spilling over top) -->
+          <path d="M300,40 q-26,-18 -44,-6 q14,-22 44,-12 q30,-10 44,12 q-18,-12 -44,6 Z" fill="#C9897B" opacity="0.55"/>
+          <text x="300" y="22" text-anchor="middle" font-size="13" fill="#E56B5A">坏习惯被挤出去 ↑</text>
+          <text x="300" y="186" text-anchor="middle" font-size="13" fill="#6FA86D">不用硬忍，自然就没空间了</text>
+        </svg>
+        <figcaption>把杯子用更好的东西装满，更差的东西自己就溢出去了</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>前提：你得先知道"什么更值得"</h3>
+      <p>这套打法有一个前提：<strong>你得分得清，什么好、什么差、什么和什么比起来更值得</strong>。好钢要用在刀刃上——可前提是，你知道哪儿是刀刃。</p>
+      <p>书里举了两个特别具体的"占满注意力"的好东西：一是<strong>户外运动，尤其是跑步</strong>（跑起来那半小时，你根本没法刷手机，还顺带保护视力）；二是<strong>学编程</strong>（让机器听你的话，这件事本身太迷人，注意力会被它牢牢占住）。它们的共同点是：不靠"少刷"，而是给你一件<strong>更想做</strong>的事。</p>
+      <figure>
+        <svg viewBox="0 0 600 150" role="img" aria-label="用更值得的活动占住那段时间">
+          <text x="300" y="26" text-anchor="middle" font-size="15" fill="#2B2419" font-weight="700">与其"删掉一件事"，不如"放进一件更值得的事"</text>
+          <g font-size="14" fill="#2B2419" text-anchor="middle">
+            <rect x="60" y="56" width="150" height="64" rx="12" fill="#D7EBC9"/>
+            <text x="135" y="86">🏃 跑步那半小时</text>
+            <text x="135" y="108" font-size="12" fill="#5C4F3D">手根本腾不出来刷</text>
+            <rect x="225" y="56" width="150" height="64" rx="12" fill="#D7E7F4"/>
+            <text x="300" y="86">⌨️ 写一段代码</text>
+            <text x="300" y="108" font-size="12" fill="#5C4F3D">指挥机器，太上头</text>
+            <rect x="390" y="56" width="150" height="64" rx="12" fill="#FBE39A"/>
+            <text x="465" y="86">📖 读一本好书</text>
+            <text x="465" y="108" font-size="12" fill="#5C4F3D">注意力被占满</text>
+          </g>
+        </svg>
+        <figcaption>挑你"真心想做"的那一件，把时间先占住（《专注的真相》举例）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"纵容好习惯，<br>会有效地抑制坏习惯。"</p>
+      <span class="src">—— 《专注的真相》：一旦把时间、精力、注意力用在更好的地方，就不大可能剩下什么去用在更差的地方。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>你最想戒掉的那个习惯，如果不靠"忍"，有没有一件更想做的事能顶上它的时间？</summary>
+        <p class="hint">没有标准答案。先别想"少做什么"，先想"多做什么"。写在你自己的本子上。</p>
+      </details>
+      <details>
+        <summary>你这一周里，哪段时间是"硬忍"撑过去的？换成"被一件好事占住"，会不会轻松一点？</summary>
+        <p class="hint">硬忍会耗光意志力；被占住几乎不费劲。它们走向相反的结果。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>挑一件你<strong>"一直说想做、却总说没时间"</strong>的事（运动、写代码、读一本书都行），给它<strong>固定一段时间</strong>，比如每天放学后的半小时。这一周，<strong>不去刻意"少刷手机"</strong>——只是先把那半小时占住。一周后回头看：你刷的时间，是不是自己变少了？</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="../for-eldest.html">← 返回</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '06-opportunity-cost';
+    const READER_TITLE = '用它做这个，就不能做那个';
+
+    // progress bar
+    const bar = document.getElementById('bar');
+    function updateBar(){
+      const h = document.documentElement;
+      const max = (h.scrollHeight - h.clientHeight) || 1;
+      bar.style.width = Math.min(100, (h.scrollTop / max) * 100) + '%';
+    }
+    addEventListener('scroll', updateBar, { passive:true });
+    updateBar();
+
+    // member button (same logic as games/index.html)
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) {
+      el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>';
+      el.onclick = function(){ location.href = '../dashboard.html'; };
+    } else {
+      el.innerHTML = '<span>登录</span>';
+      el.onclick = function(){ location.href = '../login.html'; };
+    }
+
+    // try button → mark read
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){
+      tryBtn.textContent = '已加入本周 ✓';
+      tryBtn.classList.add('done');
+      if (window.FO) FO.logProgress(READER_ID, 1, 1);
+    });
+
+    // log history; mark read when action card seen
+    document.addEventListener('DOMContentLoaded', function(){
+      if (window.FO) FO.logHistory(READER_ID, READER_TITLE);
+    });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if (e.isIntersecting && window.FO) { FO.logProgress(READER_ID, 1, 1); io.disconnect(); } });
+      }, { threshold: 0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
