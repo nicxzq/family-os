@@ -1,0 +1,263 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: F07 · 源: 专注的真相 14「冥想不一定最有效最普适」+ 15「你没想到最该专注的地方」 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>你最该专注的，可能不是作业 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--blue); --accent-soft: var(--blue-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 关于注意力</span>
+    <h1>你最该专注的，<br>可能不是作业</h1>
+
+    <p class="hook">
+      问你一个排序题：<br>
+      手机天天在抢你的注意力——你觉得<strong>它最先伤到的</strong>，是哪件事？<br>
+      大多数人会脱口而出："<span class="em">学习和工作。</span>"书里说，这个答案，恰恰排错了顺序。
+    </p>
+
+    <!-- 拆解 1 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>你的大脑，是一块每天都在耗电的电池</h3>
+      <p>书里给了一个特别准的比喻：<strong>大脑是人体最耗能的器官</strong>。上千亿个脑细胞同时工作，神经元之间靠"放电"沟通——这不是打比方，是和真实电网一样的放电。</p>
+      <p>所以你每天都在耗电。可怪事来了：人对手机的电量焦虑到能撑起一门租充电宝的生意，<strong>却对自己大脑的电量毫不在意</strong>。一旦缺电，CPU 再快、内存再大也没用，作业、考试、连过日子都会变糟。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="大脑是一块每天耗电的电池">
+          <text x="300" y="28" text-anchor="middle" font-size="16" fill="#2B2419" font-weight="700">你的大脑 = 一块每天都在放电的电池</text>
+          <!-- brain -->
+          <path d="M150,118 q-30,-2 -30,-30 q0,-26 26,-30 q4,-22 30,-22 q14,-14 32,-2 q24,-6 30,16 q22,4 18,28 q14,16 -4,34 q2,22 -26,22 q-16,12 -34,0 q-26,6 -32,-16 q-6,-2 -8,-22 Z"
+                fill="#A8C2DE" stroke="#4B7BA8" stroke-width="2.5"/>
+          <path d="M186,52 q-6,18 0,30 q-12,12 0,28 q-8,14 4,24" fill="none" stroke="#4B7BA8" stroke-width="2" opacity="0.7"/>
+          <text x="186" y="150" text-anchor="middle" font-size="13" fill="#4B7BA8">一直在耗电</text>
+          <!-- arrow -->
+          <text x="300" y="96" text-anchor="middle" font-size="26" fill="#8C7C66">→</text>
+          <!-- battery low -->
+          <rect x="380" y="62" width="150" height="58" rx="10" fill="none" stroke="#8C7C66" stroke-width="3"/>
+          <rect x="530" y="80" width="12" height="22" rx="3" fill="#8C7C66"/>
+          <rect x="392" y="74" width="34" height="34" rx="4" fill="#E56B5A"/>
+          <rect x="430" y="74" width="34" height="34" rx="4" fill="#C9897B" opacity="0.4"/>
+          <rect x="468" y="74" width="34" height="34" rx="4" fill="#C9897B" opacity="0.25"/>
+          <text x="455" y="150" text-anchor="middle" font-size="13" fill="#E56B5A">没人给它充电 → 越用越空</text>
+        </svg>
+        <figcaption>大脑耗电远超手机，却几乎没人为它"充电焦虑"（《专注的真相》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>真正的优先顺序：先充电，再干活</h3>
+      <p>那被手机干扰的事，到底该按什么顺序排重要性？书里给出的答案，可能和你想的完全相反：</p>
+      <p style="text-align:center;font-weight:700;color:var(--accent);font-size:var(--font-size-title);">睡眠 › 运动 › 放松 › 学习 › 工作</p>
+      <p>看出门道了吗？排在最前面的三件——睡眠、运动、放松——大多数人<strong>压根没把它们当成"要专注去做的事"</strong>。可它们才是给电池充电、扩容、优化的环节。电池没顾好，后面的学习和工作，都是带着半格电硬撑。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="睡眠运动放松是给大脑电池充电扩容优化">
+          <text x="300" y="26" text-anchor="middle" font-size="15" fill="#2B2419" font-weight="700">前三件事，是在伺候那块电池</text>
+          <g font-size="13.5" fill="#2B2419" text-anchor="middle">
+            <rect x="36" y="48" width="168" height="58" rx="12" fill="#D7E7F4"/>
+            <text x="120" y="74" font-size="15" font-weight="700">😴 睡眠</text>
+            <text x="120" y="95" font-size="12" fill="#5C4F3D">= 给电池充电</text>
+            <rect x="216" y="48" width="168" height="58" rx="12" fill="#D7EBC9"/>
+            <text x="300" y="74" font-size="15" font-weight="700">🏃 运动</text>
+            <text x="300" y="95" font-size="12" fill="#5C4F3D">= 给电池扩容</text>
+            <rect x="396" y="48" width="168" height="58" rx="12" fill="#FBE39A"/>
+            <text x="480" y="74" font-size="15" font-weight="700">🌿 放松</text>
+            <text x="480" y="95" font-size="12" fill="#5C4F3D">= 给电池优化</text>
+          </g>
+          <text x="300" y="138" text-anchor="middle" font-size="22" fill="#8C7C66">↓ 电池满了，才轮到 ↓</text>
+          <g font-size="13.5" fill="#5C4F3D" text-anchor="middle">
+            <rect x="156" y="156" width="130" height="40" rx="10" fill="#FFFDF6" stroke="#8C7C66" stroke-width="1.5"/>
+            <text x="221" y="181" font-size="14">📚 学习</text>
+            <rect x="314" y="156" width="130" height="40" rx="10" fill="#FFFDF6" stroke="#8C7C66" stroke-width="1.5"/>
+            <text x="379" y="181" font-size="14">💼 工作</text>
+          </g>
+        </svg>
+        <figcaption>差不多一小时运动，对大脑既是充电、又是维护、还是扩容（《专注的真相》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>最隐蔽的漏电口：睡前那几十分钟手机</h3>
+      <p>"睡前刷几十分钟手机，再把它放在枕边睡觉"——书里说，这已经是<strong>至少 99.99% 的人的习惯</strong>。看着不起眼，对睡眠的打击却很重。</p>
+      <p>眼睛睡前暴露在屏幕蓝光下，<strong>深度睡眠的时长会缩短至少四分之一</strong>；而且它会让你不知不觉睡得越来越晚，雪上加霜。更狠的是：<strong>一次睡不好，会拖累接下来两三天的效率</strong>。一个小动作，漏掉的是好几天的电。</p>
+      <figure>
+        <svg viewBox="0 0 600 170" role="img" aria-label="睡前刷手机让深度睡眠缩短四分之一">
+          <text x="300" y="26" text-anchor="middle" font-size="15" fill="#2B2419" font-weight="700">同样睡一晚，"深睡"差了一大块</text>
+          <!-- bar A: no phone -->
+          <text x="92" y="74" text-anchor="end" font-size="13" fill="#5C4F3D">不碰手机</text>
+          <rect x="104" y="56" width="380" height="28" rx="6" fill="#6FA86D"/>
+          <text x="294" y="75" text-anchor="middle" font-size="13" fill="#FFFDF6">完整的深度睡眠</text>
+          <!-- bar B: phone -->
+          <text x="92" y="124" text-anchor="end" font-size="13" fill="#5C4F3D">睡前刷</text>
+          <rect x="104" y="106" width="285" height="28" rx="6" fill="#6FA86D" opacity="0.55"/>
+          <rect x="389" y="106" width="95" height="28" rx="6" fill="#E56B5A" opacity="0.35"/>
+          <line x1="389" y1="100" x2="389" y2="140" stroke="#E56B5A" stroke-width="2" stroke-dasharray="4 3"/>
+          <text x="436" y="125" text-anchor="middle" font-size="12" fill="#E56B5A">少了 ¼</text>
+          <text x="300" y="160" text-anchor="middle" font-size="12" fill="#8C7C66">蓝光偷走的，是你最该补的那一段电</text>
+        </svg>
+        <figcaption>把手机放出卧室，是给大脑充满电最便宜的办法</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>练专注，不一定靠冥想</h3>
+      <p>说到练注意力，几乎所有书都推荐冥想。书里却说：其实有更好上手的办法。冥想是<strong>关闭各种器官、只盯住一处</strong>；而<strong>朗读、弹唱、跑步</strong>走的是相反的路——<strong>同时调动、协调更多器官</strong>，让外界根本插不进来。</p>
+      <p>两条路殊途同归：都会让你<strong>不由自主地高度专注，同时身体超级放松</strong>，时间一晃就过去——这就是人们常说的"心流"。它们的共同好处是：你不用咬牙逼自己专注，是被这件事<strong>自然吸住</strong>的。爱因斯坦拉小提琴、达·芬奇样样通，不是巧合。</p>
+      <figure>
+        <svg viewBox="0 0 600 150" role="img" aria-label="朗读弹唱跑步让人自然进入专注的心流">
+          <g font-size="14" fill="#2B2419" text-anchor="middle">
+            <rect x="40" y="46" width="150" height="60" rx="12" fill="#D7E7F4"/>
+            <text x="115" y="74">📖 朗读</text>
+            <text x="115" y="95" font-size="11.5" fill="#5C4F3D">眼口耳一起上</text>
+            <rect x="225" y="46" width="150" height="60" rx="12" fill="#D7EBC9"/>
+            <text x="300" y="74">🎸 弹唱</text>
+            <text x="300" y="95" font-size="11.5" fill="#5C4F3D">十指、喉、肺全调动</text>
+            <rect x="410" y="46" width="150" height="60" rx="12" fill="#FBE39A"/>
+            <text x="485" y="74">🏃 跑步</text>
+            <text x="485" y="95" font-size="11.5" fill="#5C4F3D">没法边跑边刷</text>
+          </g>
+          <text x="300" y="134" text-anchor="middle" font-size="13" fill="#4B7BA8" font-weight="700">→ 做着做着，就进入了"心流"</text>
+        </svg>
+        <figcaption>选一件真心喜欢、又得动用多个器官的事，专注会自己找上门</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"大脑时时刻刻都在耗电，<br>所以你必须拥有一个<br>更大容量的电池。"</p>
+      <span class="src">—— 《专注的真相》：睡眠是充电，运动是扩容，放松是优化。这三件，都值得你刻意专注去做。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>如果给昨天的自己排个顺序：睡眠、运动、放松、学习——你实际花的时间，是按什么顺序排的？</summary>
+        <p class="hint">没有标准答案。你"做"的顺序，往往才是你真正的价值观。写在你自己的本子上。</p>
+      </details>
+      <details>
+        <summary>你有没有一件"做着做着时间就没了"的事？那很可能就是属于你的心流活动。</summary>
+        <p class="hint">那种"一晃几小时、又累又轻松"的体验，正是大脑在健身房里撸铁。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>做一个<strong>五天小实验</strong>：睡前 30 分钟，把手机放到<strong>卧室外面</strong>充电（不是枕边、不是抽屉，是另一个房间）。每天早上花十秒给自己的精神打个分（1–10）。<strong>五天后回看那串分数</strong>——你会发现，让你白天更清醒的，可能不是多刷的题，而是没被偷走的那段深睡。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="../for-eldest.html">← 返回</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '07-brain-battery';
+    const READER_TITLE = '你最该专注的，可能不是作业';
+
+    // progress bar
+    const bar = document.getElementById('bar');
+    function updateBar(){
+      const h = document.documentElement;
+      const max = (h.scrollHeight - h.clientHeight) || 1;
+      bar.style.width = Math.min(100, (h.scrollTop / max) * 100) + '%';
+    }
+    addEventListener('scroll', updateBar, { passive:true });
+    updateBar();
+
+    // member button (same logic as games/index.html)
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) {
+      el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>';
+      el.onclick = function(){ location.href = '../dashboard.html'; };
+    } else {
+      el.innerHTML = '<span>登录</span>';
+      el.onclick = function(){ location.href = '../login.html'; };
+    }
+
+    // try button → mark read
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){
+      tryBtn.textContent = '已加入本周 ✓';
+      tryBtn.classList.add('done');
+      if (window.FO) FO.logProgress(READER_ID, 1, 1);
+    });
+
+    // log history; mark read when action card seen
+    document.addEventListener('DOMContentLoaded', function(){
+      if (window.FO) FO.logHistory(READER_ID, READER_TITLE);
+    });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if (e.isIntersecting && window.FO) { FO.logProgress(READER_ID, 1, 1); io.disconnect(); } });
+      }, { threshold: 0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
