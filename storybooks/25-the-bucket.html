@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>毛毛的小桶</title>
+<meta name="description" content="海边，毛毛想把海水运到沙坑里。用小手一捧一捧，又慢又漏。后来她找到一个小桶，一次就能运好多。关于「生产资料 · 用对工具，一次能做好多」。">
+<meta property="og:title" content="毛毛的小桶">
+<meta property="og:description" content="用对工具，一次能做好多。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/storybooks/25-the-bucket">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "LXGW WenKai TC","LXGW WenKai",serif; background:#F8F2E2; min-height:100vh; overflow:hidden; }
+  .book { width:100vw; height:100vh; position:relative; overflow:hidden; }
+  .top { position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:20px 32px; z-index:20; }
+  .back { text-decoration:none; color:#5C4F3D; font-size:16px; background:rgba(255,255,255,0.7); padding:8px 16px; border-radius:999px; backdrop-filter:blur(8px); }
+  .read-aloud { background:#4B7BA8; color:white; border:0; padding:10px 18px; border-radius:999px; font-family:inherit; font-size:16px; cursor:pointer; box-shadow:0 3px 0 rgba(0,0,0,0.1); }
+  .read-aloud:active { transform:translateY(1px); box-shadow:0 2px 0 rgba(0,0,0,0.1); }
+  .page { position:absolute; inset:0; display:flex; flex-direction:column; padding:72px 0 48px; opacity:0; pointer-events:none; transition:opacity 0.6s ease; }
+  .page.is-active { opacity:1; pointer-events:auto; }
+  .page[data-bg="cream"]  { background:#F8F2E2; }
+  .page[data-bg="peach"]  { background:#FBE3D5; }
+  .page[data-bg="mint"]   { background:#D7EBC9; }
+  .page[data-bg="sky"]    { background:#D7E7F4; }
+  .page[data-bg="yellow"] { background:#FBE39A; }
+  .page[data-bg="coral"]  { background:#F4A799; }
+  .page[data-bg="blue"]   { background:#A8C2DE; }
+  .scene { flex:1; min-height:0; position:relative; width:100%; overflow:hidden; }
+  .scene svg { width:100%; height:100%; }
+  .text { flex-shrink:0; padding:12px 24px 8px; text-align:center; }
+  .text h2 { font-size:clamp(22px,4.5vw,34px); line-height:1.4; color:#2B2419; font-weight:500; text-wrap:balance; }
+  .text .small { font-size:clamp(14px,2.8vw,16px); color:#5C4F3D; margin-top:8px; }
+  .end-card { margin:auto; background:white; padding:32px; border-radius:24px; max-width:480px; width:calc(100% - 48px); box-shadow:0 8px 0 rgba(0,0,0,0.06),0 24px 48px -16px rgba(0,0,0,0.2); text-align:center; }
+  .end-card h2 { font-size:28px; color:#4B7BA8; margin-bottom:16px; }
+  .end-card p { font-size:19px; color:#2B2419; line-height:1.7; margin-bottom:12px; }
+  .nav-btn { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.88); border:0; width:56px; height:56px; border-radius:50%; font-size:24px; cursor:pointer; box-shadow:0 3px 0 rgba(0,0,0,0.1); font-family:inherit; color:#2B2419; z-index:20; backdrop-filter:blur(4px); }
+  .nav-btn:disabled { opacity:0.3; pointer-events:none; }
+  .nav-btn:active { transform:translateY(calc(-50% + 1px)); box-shadow:0 2px 0 rgba(0,0,0,0.1); }
+  #prev { left:12px; } #next { right:12px; }
+  .dots-wrap { position:absolute; bottom:16px; left:0; right:0; display:flex; justify-content:center; z-index:20; }
+  .dots { display:flex; gap:6px; }
+  .dots span { width:8px; height:8px; border-radius:50%; background:rgba(43,36,25,0.2); transition:background 0.3s,transform 0.3s; }
+  .dots span.is-active { background:#4B7BA8; transform:scale(1.4); }
+  .float { animation:float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .interactive { cursor:pointer; transform-box:fill-box; transform-origin:center center; }
+  .interactive:hover { opacity:0.9; }
+  .do-bounce { animation:iBounce 0.6s cubic-bezier(0.36,0.07,0.19,0.97) both !important; }
+  @keyframes iBounce { 0%{transform:translateY(0) scale(1)} 25%{transform:translateY(-18px) scale(1.15)} 55%{transform:translateY(-4px) scale(0.96)} 75%{transform:translateY(-8px) scale(1.05)} 100%{transform:translateY(0) scale(1)} }
+  .do-shake { animation:iShake 0.55s ease both !important; }
+  @keyframes iShake { 0%,100%{transform:rotate(0deg)} 18%{transform:rotate(-22deg)} 38%{transform:rotate(18deg)} 58%{transform:rotate(-14deg)} 78%{transform:rotate(9deg)} }
+  .do-wobble { animation:iWobble 0.7s ease both !important; }
+  @keyframes iWobble { 0%,100%{transform:scaleX(1) scaleY(1)} 20%{transform:scaleX(1.25) scaleY(0.75)} 45%{transform:scaleX(0.85) scaleY(1.2)} 65%{transform:scaleX(1.1) scaleY(0.9)} 80%{transform:scaleX(0.96) scaleY(1.04)} }
+  .speech-bubble { position:absolute; background:white; border-radius:999px; padding:6px 16px; font-size:20px; font-family:"LXGW WenKai TC",serif; box-shadow:0 3px 0 rgba(0,0,0,0.12); pointer-events:none; white-space:nowrap; z-index:50; animation:bPop 0.3s ease forwards; }
+  @keyframes bPop { from{opacity:0} to{opacity:1} }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+<div class="book">
+
+  <div class="top">
+    <a class="back" href="../for-youngest.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+    <a href="../dashboard.html" class="dash-link" style="background:rgba(255,255,255,0.7);padding:8px 14px;border-radius:999px;text-decoration:none;font-size:16px;backdrop-filter:blur(8px);" title="仪表盘">📊</a>
+  </div>
+
+  <!-- PAGE 1 -->
+  <div class="page is-active" data-bg="sky" data-text="海边，毛毛挖了一个大大的沙坑。她想把海水装满它，做一个小小的海。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- sky -->
+        <rect x="0" y="0" width="400" height="200" fill="#CDE4F2"/>
+        <circle cx="60" cy="56" r="26" fill="#F4C13E"/>
+        <!-- sea -->
+        <rect x="0" y="150" width="400" height="60" fill="#7FB0D6"/>
+        <path d="M0,150 q20,-8 40,0 t40,0 t40,0 t40,0 t40,0 t40,0 t40,0 t40,0 t40,0" fill="none" stroke="#FFFDF6" stroke-width="2" opacity="0.6"/>
+        <!-- sand -->
+        <rect x="0" y="205" width="400" height="115" fill="#EBD9A8"/>
+        <!-- sand pit -->
+        <ellipse cx="300" cy="280" rx="56" ry="22" fill="#D9C189"/>
+        <ellipse cx="300" cy="276" rx="44" ry="15" fill="#CBB178"/>
+        <!-- Mao Mao with a little spade -->
+        <g id="p1-maomao" transform="translate(150,232)">
+          <ellipse cx="0" cy="6" rx="22" ry="24" fill="#FFFDF6"/>
+          <ellipse cx="20" cy="4" rx="10" ry="6" fill="#F4C13E" transform="rotate(-26 20 4)"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6"/>
+          <path d="M-7,-22 q4,-6 8,0" fill="none" stroke="#2B2419" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M3,-22 q4,-6 8,0" fill="none" stroke="#2B2419" stroke-width="2.5" stroke-linecap="round"/>
+          <polygon points="0,-15 9,-12 0,-9" fill="#E56B5A"/>
+          <!-- spade -->
+          <rect x="26" y="-6" width="4" height="26" rx="2" fill="#C0773C" transform="rotate(18 28 6)"/>
+          <rect x="30" y="14" width="14" height="10" rx="2" fill="#E56B5A" transform="rotate(18 37 19)"/>
+        </g>
+        <text x="300" y="250" text-anchor="middle" font-size="20" fill="#4B7BA8">✨</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>毛毛在海边挖了一个<span style="color:#4B7BA8;">大沙坑</span>。</h2>
+      <p class="small">她想把海水装满它，做一个小小的海。</p>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page" data-bg="blue" data-text="毛毛用小手一捧一捧地运水。可是手指缝里全漏光了，跑到沙坑只剩几滴。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="0" width="400" height="150" fill="#CDE4F2"/>
+        <rect x="0" y="120" width="400" height="50" fill="#7FB0D6"/>
+        <rect x="0" y="165" width="400" height="155" fill="#EBD9A8"/>
+        <ellipse cx="330" cy="270" rx="50" ry="20" fill="#D9C189"/>
+        <ellipse cx="330" cy="266" rx="38" ry="13" fill="#CBB178"/>
+        <!-- water dripping from hands -->
+        <g fill="#7FB0D6">
+          <ellipse cx="150" cy="210" rx="4" ry="6"/>
+          <ellipse cx="162" cy="226" rx="3" ry="5"/>
+          <ellipse cx="140" cy="232" rx="3" ry="5"/>
+          <ellipse cx="172" cy="244" rx="2.5" ry="4"/>
+        </g>
+        <!-- Mao Mao running with cupped hands, water leaking -->
+        <g id="p2-maomao" transform="translate(160,196) rotate(-4)">
+          <ellipse cx="0" cy="6" rx="22" ry="24" fill="#FFFDF6"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6"/>
+          <path d="M-9,-18 q4,5 8,0" fill="none" stroke="#2B2419" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M1,-18 q4,5 8,0" fill="none" stroke="#2B2419" stroke-width="2.5" stroke-linecap="round"/>
+          <polygon points="0,-13 9,-10 0,-7" fill="#E56B5A"/>
+          <!-- little cupped water -->
+          <path d="M-12,16 q12,10 24,0" fill="#A8D0EA" stroke="#7FB0D6" stroke-width="1.5"/>
+        </g>
+        <text x="210" y="150" text-anchor="middle" font-size="18" fill="#4B7BA8">滴…滴…</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>她用小手<span style="color:#4B7BA8;">一捧一捧</span>地运。</h2>
+      <p class="small">可是手缝里全漏光了，跑到沙坑只剩几滴。</p>
+    </div>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="page" data-bg="peach" data-text="跑了好多好多趟，毛毛累得直喘气，沙坑还是干干的。哎呀，这样太慢啦。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="0" width="400" height="150" fill="#CDE4F2"/>
+        <rect x="0" y="120" width="400" height="50" fill="#7FB0D6"/>
+        <rect x="0" y="165" width="400" height="155" fill="#EBD9A8"/>
+        <!-- still-dry pit -->
+        <ellipse cx="300" cy="272" rx="52" ry="21" fill="#D9C189"/>
+        <ellipse cx="300" cy="268" rx="40" ry="14" fill="#CBB178"/>
+        <text x="300" y="272" text-anchor="middle" font-size="12" fill="#A88B4E">还是干的</text>
+        <!-- footprints showing many trips -->
+        <g fill="#D9C189" opacity="0.8">
+          <ellipse cx="120" cy="250" rx="5" ry="8"/>
+          <ellipse cx="150" cy="262" rx="5" ry="8"/>
+          <ellipse cx="180" cy="252" rx="5" ry="8"/>
+          <ellipse cx="210" cy="264" rx="5" ry="8"/>
+          <ellipse cx="240" cy="254" rx="5" ry="8"/>
+        </g>
+        <!-- tired Mao Mao -->
+        <g id="p3-maomao" transform="translate(150,206)">
+          <ellipse cx="0" cy="6" rx="22" ry="24" fill="#FFFDF6"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6"/>
+          <path d="M-9,-20 q4,5 8,0" fill="none" stroke="#2B2419" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M1,-20 q4,5 8,0" fill="none" stroke="#2B2419" stroke-width="2.5" stroke-linecap="round"/>
+          <ellipse cx="-3" cy="-11" rx="4" ry="2.5" fill="#E56B5A" opacity="0.5"/>
+          <polygon points="0,-15 9,-12 0,-9" fill="#E56B5A"/>
+          <!-- sweat -->
+          <ellipse cx="16" cy="-22" rx="3" ry="5" fill="#7FB0D6"/>
+        </g>
+        <text x="190" y="150" text-anchor="middle" font-size="16" fill="#E07A30">呼…呼…</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>跑了好多趟，毛毛<span style="color:#E56B5A;">累得直喘气</span>。</h2>
+      <p class="small">沙坑还是干干的。“哎呀，这样太慢啦！”</p>
+    </div>
+  </div>
+
+  <!-- PAGE 4 -->
+  <div class="page" data-bg="yellow" data-text="这时，毛毛看见沙滩上有一个小桶。她眼睛一亮：用它装水，是不是能多装好多？">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="0" width="400" height="150" fill="#CDE4F2"/>
+        <rect x="0" y="120" width="400" height="50" fill="#7FB0D6"/>
+        <rect x="0" y="165" width="400" height="155" fill="#EBD9A8"/>
+        <!-- the bucket, highlighted -->
+        <g id="p4-bucket" transform="translate(280,236)">
+          <path d="M-26,-22 L26,-22 L20,30 L-20,30 Z" fill="#E56B5A"/>
+          <ellipse cx="0" cy="-22" rx="26" ry="8" fill="#F08C7E"/>
+          <path d="M-24,-22 q24,-30 48,0" fill="none" stroke="#C04A3C" stroke-width="3"/>
+          <ellipse cx="0" cy="-22" rx="18" ry="5" fill="#C84A3C"/>
+        </g>
+        <text x="280" y="178" text-anchor="middle" font-size="22" fill="#F4C13E">✨</text>
+        <!-- Mao Mao spotting it -->
+        <g id="p4-maomao" transform="translate(140,212)">
+          <ellipse cx="0" cy="6" rx="22" ry="24" fill="#FFFDF6"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6"/>
+          <circle cx="-5" cy="-20" r="3" fill="#2B2419"/>
+          <circle cx="6" cy="-20" r="3" fill="#2B2419"/>
+          <polygon points="0,-15 10,-12 0,-9" fill="#E56B5A"/>
+          <text x="18" y="-26" font-size="18" fill="#F4C13E">!</text>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>咦，沙滩上有一个<span style="color:#E56B5A;">小桶</span>！</h2>
+      <p class="small">毛毛眼睛一亮：“用它装水，是不是能多装好多？”</p>
+    </div>
+  </div>
+
+  <!-- PAGE 5 -->
+  <div class="page" data-bg="mint" data-text="毛毛拎起小桶，一次就舀了满满一桶水。哗啦——沙坑一下子就装满啦！用对了工具，一次就能做好多。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="0" width="400" height="150" fill="#CDE4F2"/>
+        <rect x="0" y="120" width="400" height="50" fill="#7FB0D6"/>
+        <rect x="0" y="165" width="400" height="155" fill="#EBD9A8"/>
+        <!-- filled pit -->
+        <ellipse cx="300" cy="274" rx="54" ry="22" fill="#6FA8CF"/>
+        <ellipse cx="300" cy="270" rx="42" ry="15" fill="#8FC0E0"/>
+        <ellipse cx="288" cy="268" rx="8" ry="3" fill="#FFFDF6" opacity="0.7"/>
+        <!-- pour -->
+        <path d="M210,210 q6,30 70,46" fill="none" stroke="#8FC0E0" stroke-width="7" stroke-linecap="round" opacity="0.8"/>
+        <text x="250" y="220" text-anchor="middle" font-size="16" fill="#4B7BA8">哗啦～</text>
+        <!-- Mao Mao tipping the bucket -->
+        <g id="p5-maomao" transform="translate(160,206)">
+          <ellipse cx="0" cy="6" rx="22" ry="24" fill="#FFFDF6"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6"/>
+          <path d="M-8,-22 q4,-6 8,0" fill="none" stroke="#2B2419" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M2,-22 q4,-6 8,0" fill="none" stroke="#2B2419" stroke-width="2.5" stroke-linecap="round"/>
+          <polygon points="0,-15 10,-12 0,-9" fill="#E56B5A"/>
+          <!-- bucket tipping -->
+          <g transform="translate(24,2) rotate(40)">
+            <path d="M-14,-12 L14,-12 L10,16 L-10,16 Z" fill="#E56B5A"/>
+            <ellipse cx="0" cy="-12" rx="14" ry="4" fill="#C84A3C"/>
+            <path d="M-13,-12 q13,-18 26,0" fill="none" stroke="#C04A3C" stroke-width="2.5"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>一桶水倒下去——<span style="color:#4B7BA8;">沙坑装满啦</span>！</h2>
+      <p class="small">用对了工具，一次就能做好多。</p>
+    </div>
+  </div>
+
+  <!-- LAST PAGE -->
+  <div class="page" data-bg="cream" data-text="给小弟弟。一捧一捧太慢，找到一个好工具，一次就能做好多。做事以前，先想想：有没有更好用的小桶？">
+    <div class="end-card">
+      <h2>给小弟弟 🪣</h2>
+      <p>用小手一捧一捧，又慢又漏；</p>
+      <p style="font-size:30px;color:#4B7BA8;font-weight:700;margin:16px 0;">“用对工具，<br>一次能做好多。”</p>
+      <p style="font-size:16px;color:#5C4F3D;">做事以前，先找一找——有没有一个更好用的“小桶”？</p>
+      <button class="read-aloud" style="margin-top:24px;" onclick="goTo(0)">🔄 再讲一遍</button>
+    </div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
+
+</div>
+<script src="../fo-utils.js"></script>
+<script>
+  const BOOK_ID = '25-the-bucket'; const BOOK_TITLE = '毛毛的小桶'; const BOOK_TOTAL = 6;
+
+  function getInteractionLayer(el) {
+    if (!el) return null;
+    if (el._interactionLayer) return el._interactionLayer;
+    const isSvgGroup = el.namespaceURI === 'http://www.w3.org/2000/svg' && el.tagName.toLowerCase() === 'g';
+    if (!isSvgGroup || !el.hasAttribute('transform')) { el._interactionLayer = el; return el; }
+    const layer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    layer.setAttribute('data-interaction-layer', '');
+    if (el.classList.contains('float')) {
+      el.classList.remove('float');
+      layer.classList.add('float');
+      layer.style.animationDelay = el.style.animationDelay || '';
+      el.style.animationDelay = '';
+    }
+    while (el.firstChild) layer.appendChild(el.firstChild);
+    el.appendChild(layer);
+    el._interactionLayer = layer;
+    return layer;
+  }
+  function placeSpeechBubble(scene, el, msg) {
+    const er = el.getBoundingClientRect(); const sr = scene.getBoundingClientRect();
+    const b = document.createElement('div'); b.className = 'speech-bubble'; b.textContent = msg;
+    b.style.maxWidth = Math.max(120, sr.width - 24) + 'px'; scene.appendChild(b);
+    const br = b.getBoundingClientRect();
+    let left = er.left + er.width / 2 - sr.left;
+    let top = er.top - sr.top - br.height - 10;
+    if (top < 8) top = Math.min(sr.height - br.height - 8, er.bottom - sr.top + 10);
+    left = Math.max(12 + br.width / 2, Math.min(sr.width - 12 - br.width / 2, left));
+    const bubbles = Array.from(scene.querySelectorAll('.speech-bubble')).filter(x => x !== b);
+    for (const other of bubbles) {
+      const or = other.getBoundingClientRect();
+      const overlaps = !(left + br.width / 2 < or.left - sr.left || left - br.width / 2 > or.right - sr.left || top + br.height < or.top - sr.top || top > or.bottom - sr.top);
+      if (overlaps) top = Math.min(sr.height - br.height - 8, or.bottom - sr.top + 8);
+    }
+    b.style.left = left + 'px'; b.style.top = Math.max(8, top) + 'px'; b.style.transform = 'translateX(-50%)';
+    setTimeout(() => b.remove(), 1500);
+  }
+  function makeInteractive(el, animClass, msg) {
+    if (!el) return;
+    const target = getInteractionLayer(el);
+    el.classList.add('interactive');
+    el.addEventListener('click', function () {
+      if (el._busy) return; el._busy = true;
+      target.classList.remove(animClass); void target.getBoundingClientRect(); target.classList.add(animClass);
+      if (msg) { const scene = el.closest('.scene'); if (scene) placeSpeechBubble(scene, el, msg); }
+      setTimeout(() => { target.classList.remove(animClass); el._busy = false; }, 750);
+    });
+  }
+
+  const pages = document.querySelectorAll('.page');
+  const total = pages.length;
+  const dots = document.getElementById('dots');
+  let current = 0;
+  for (let i = 0; i < total; i++) { const d = document.createElement('span'); if (i === 0) d.classList.add('is-active'); dots.appendChild(d); }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    speechSynthesis.cancel();
+    pages.forEach((p, i) => p.classList.toggle('is-active', i === idx));
+    dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx));
+    current = idx;
+    document.getElementById('prev').disabled = idx === 0;
+    document.getElementById('next').disabled = idx === total - 1;
+    if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL);
+  }
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+  document.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') goTo(current - 1); if (e.key === 'ArrowRight') goTo(current + 1); });
+  let _tx = 0;
+  document.addEventListener('touchstart', e => { _tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - _tx; if (Math.abs(dx) > 50) dx < 0 ? goTo(current + 1) : goTo(current - 1); });
+  document.getElementById('readBtn').addEventListener('click', () => {
+    const text = pages[current].dataset.text;
+    if (!text || !window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text); u.lang = 'zh-CN'; u.rate = 0.85; u.pitch = 1.1; speechSynthesis.speak(u);
+  });
+
+  goTo(0);
+  makeInteractive(document.getElementById('p1-maomao'), 'do-bounce', '我要做一个小海！');
+  makeInteractive(document.getElementById('p2-maomao'), 'do-shake',  '又漏光啦！');
+  makeInteractive(document.getElementById('p3-maomao'), 'do-shake',  '太慢啦…');
+  makeInteractive(document.getElementById('p4-bucket'), 'do-wobble', '用我呀！');
+  makeInteractive(document.getElementById('p4-maomao'), 'do-bounce', '有办法啦！');
+  makeInteractive(document.getElementById('p5-maomao'), 'do-bounce', '满啦！');
+
+  document.addEventListener('DOMContentLoaded', () => { if (window.FO) FO.logHistory(BOOK_ID, BOOK_TITLE); });
+</script>
+</body>
+</html>

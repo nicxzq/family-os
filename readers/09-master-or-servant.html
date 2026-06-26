@@ -1,0 +1,271 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: T01 · 源: 把时间当作朋友 第一章「醒悟」1.孰主孰仆 / 2.何谓心智 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>你不是大脑的奴隶 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--blue); --accent-soft: var(--blue-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 把时间当作朋友</span>
+    <h1>你不是<br>大脑的奴隶</h1>
+
+    <p class="hook">
+      你大概有过这种时候：明明跟自己说"就看五分钟"，结果一个多小时过去了；明明想早点睡，手却一直在划手机。<br>
+      那一刻，到底是<span class="em">"你"在做决定，还是你的大脑替你做了决定？</span><br>
+      这一篇想讲的，是一件可能改变你一生的小事——<strong>你和你的大脑，谁是主，谁是仆。</strong>
+    </p>
+
+    <!-- 拆解 1 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>一件神奇的事：你能用大脑，控制大脑</h3>
+      <p>书里说，人一生中"最震撼的经历"，是发现一个神奇的现象——<strong>我们竟然可以用自己的大脑，控制自己的大脑。</strong></p>
+      <p>这有多特别？你可以拿锤子去砸钉子，却没法用同一个锤子去砸它自己。可大脑不一样：你能停下来，想一想"我刚才那样想，对不对"。这种"把自己的思考当成思考对象"的能力，有个名字，叫<strong>元认知</strong>。它正是人和动物最大的区别。</p>
+      <figure>
+        <svg viewBox="0 0 600 180" role="img" aria-label="锤子砸不了自己，大脑却能控制大脑">
+          <text x="300" y="24" text-anchor="middle" font-size="15" fill="#2B2419" font-weight="700">同样是"作用在自己身上"，结果完全不同</text>
+          <!-- left: hammer cannot hit itself -->
+          <g>
+            <rect x="60" y="44" width="180" height="108" rx="12" fill="#F1E8D0"/>
+            <text x="150" y="70" text-anchor="middle" font-size="13" fill="#5C4F3D">锤子砸自己</text>
+            <text x="150" y="118" text-anchor="middle" font-size="40">🔨</text>
+            <text x="150" y="142" text-anchor="middle" font-size="20" fill="#E56B5A" font-weight="700">做不到 ✗</text>
+          </g>
+          <!-- right: brain controls brain -->
+          <g>
+            <rect x="360" y="44" width="180" height="108" rx="12" fill="#A8C2DE"/>
+            <text x="450" y="70" text-anchor="middle" font-size="13" fill="#2B2419">大脑控制大脑</text>
+            <text x="450" y="118" text-anchor="middle" font-size="40">🧠</text>
+            <path d="M430 96 a22 18 0 1 0 40 0" fill="none" stroke="#2B4A6E" stroke-width="3" marker-end="url(#ar)"/>
+            <text x="450" y="142" text-anchor="middle" font-size="20" fill="#2B4A6E" font-weight="700">做得到 ✓</text>
+          </g>
+          <defs>
+            <marker id="ar" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#2B4A6E"/>
+            </marker>
+          </defs>
+        </svg>
+        <figcaption>"我们甚至可以思考，我们的思考方式是否合理"——这就是元认知（《把时间当作朋友》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>分清主仆：大脑是"你的"，但不是"你"</h3>
+      <p>书里有一句话，值得你慢慢读三遍：<strong>"你的大脑并不是你，你的大脑是（属于）'你的'大脑。"</strong></p>
+      <p>意思是：你用它思考，它好像也在指挥你的行动——但你不该<strong>隶属于</strong>它，应该是它隶属于你。"跟着感觉走"，就是无意识地被大脑牵着跑；停下来想一想再决定，就是你在<strong>有意识地控制大脑</strong>。区别只在这一念之间。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="被大脑牵着走，与你牵着大脑走的对比">
+          <!-- left: dragged by brain -->
+          <g>
+            <rect x="40" y="40" width="240" height="140" rx="12" fill="#F1E8D0"/>
+            <text x="160" y="64" text-anchor="middle" font-size="13" fill="#5C4F3D">无意识 · 被牵着走</text>
+            <text x="92" y="138" text-anchor="middle" font-size="46">🧠</text>
+            <line x1="118" y1="128" x2="196" y2="138" stroke="#8C7C66" stroke-width="3" stroke-dasharray="5 4"/>
+            <text x="214" y="140" text-anchor="middle" font-size="26">🙂</text>
+            <text x="160" y="170" text-anchor="middle" font-size="12" fill="#8C7C66">大脑在前，人被拖着</text>
+          </g>
+          <!-- right: you lead brain -->
+          <g>
+            <rect x="320" y="40" width="240" height="140" rx="12" fill="#A8C2DE"/>
+            <text x="440" y="64" text-anchor="middle" font-size="13" fill="#2B2419">有意识 · 你牵着走</text>
+            <text x="372" y="140" text-anchor="middle" font-size="30" font-weight="700">🧍</text>
+            <line x1="392" y1="132" x2="470" y2="140" stroke="#2B4A6E" stroke-width="3"/>
+            <text x="492" y="144" text-anchor="middle" font-size="40">🧠</text>
+            <text x="440" y="170" text-anchor="middle" font-size="12" fill="#2B4A6E">人在前，大脑跟着</text>
+          </g>
+        </svg>
+        <figcaption>"运用心智获得解放"——翻身做大脑的主人，而不是它的奴隶</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>最极端的证明：连最坏的处境也夺不走它</h3>
+      <p>书里讲了一个人——奥地利的精神病学家<strong>维克多·弗兰克</strong>。他的父母、妻子、兄弟都死于纳粹之手，他自己被关进集中营，受尽折磨。可他在那里想明白了一件事：</p>
+      <p>人所拥有的一切都可以被剥夺，<strong>唯独一样不能——在任何境遇里，选择自己态度和生活方式的自由。</strong>于是身处牢笼，他仍在脑海里设想自己重获自由后站上讲台。<strong>能控制自己的大脑，就连最坏的处境也关不住你。</strong></p>
+      <figure>
+        <svg viewBox="0 0 600 170" role="img" aria-label="被铁栏围住的人，仍保有选择态度的自由">
+          <rect x="0" y="0" width="600" height="170" rx="12" fill="#EAF0F6"/>
+          <!-- bars -->
+          <g stroke="#8C7C66" stroke-width="6">
+            <line x1="120" y1="30" x2="120" y2="150"/>
+            <line x1="160" y1="30" x2="160" y2="150"/>
+            <line x1="200" y1="30" x2="200" y2="150"/>
+          </g>
+          <text x="160" y="166" text-anchor="middle" font-size="11" fill="#8C7C66">能被剥夺的：一切</text>
+          <!-- person -->
+          <text x="350" y="110" text-anchor="middle" font-size="48">🧍</text>
+          <!-- beam of freedom -->
+          <path d="M400 90 L560 50 L560 130 Z" fill="#F4C13E" opacity="0.35"/>
+          <text x="498" y="86" text-anchor="middle" font-size="13" fill="#2B2419" font-weight="700">选择态度</text>
+          <text x="498" y="106" text-anchor="middle" font-size="13" fill="#2B2419" font-weight="700">的自由</text>
+          <text x="498" y="138" text-anchor="middle" font-size="11" fill="#8C7C66">夺不走的那一样</text>
+        </svg>
+        <figcaption>"唯独人性最后的自由——选择一己态度的自由，不能被剥夺。"——弗兰克</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>好消息：这块"主人"的本领，可以越练越强</h3>
+      <p>书里把一个人的<strong>心智</strong>，定义成他"过往全部知识和经验的总和"——也包括由此形成的思考方法和模式。心智不等于智商：很多智商正常的人，会做出"聪明人办傻事"的判断，正是因为心智还没被开启。</p>
+      <p>而心智这东西，<strong>"上不封顶，下无保底"</strong>。一旦开启，它会像滚雪球一样越长越快；但如果中途出错，也可能停滞甚至倒退。换句话说——你今天怎样对待自己的大脑，决定了它往哪个方向长。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="心智从同一起点出发，可以成长、停滞或倒退">
+          <line x1="70" y1="170" x2="560" y2="170" stroke="#C9B79A" stroke-width="2"/>
+          <line x1="70" y1="30" x2="70" y2="170" stroke="#C9B79A" stroke-width="2"/>
+          <circle cx="70" cy="120" r="5" fill="#2B2419"/>
+          <text x="64" y="138" text-anchor="end" font-size="11" fill="#8C7C66">今天</text>
+          <!-- up -->
+          <path d="M70 120 Q300 110 560 40" fill="none" stroke="#6FA86D" stroke-width="3.5"/>
+          <text x="566" y="44" font-size="12" fill="#6FA86D" font-weight="700">成长（上不封顶）</text>
+          <!-- flat -->
+          <path d="M70 120 L560 120" fill="none" stroke="#8C7C66" stroke-width="2.5" stroke-dasharray="6 5"/>
+          <text x="566" y="124" font-size="12" fill="#8C7C66">停滞</text>
+          <!-- down -->
+          <path d="M70 120 Q300 140 560 165" fill="none" stroke="#E56B5A" stroke-width="3"/>
+          <text x="566" y="168" font-size="12" fill="#E56B5A" font-weight="700">倒退（下无保底）</text>
+        </svg>
+        <figcaption>同一个起点，三种走向——选哪条，取决于你是不是大脑的主人（《把时间当作朋友》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"不要再让自己'跟着感觉走'，<br>成为大脑的奴隶，<br>而是翻身做大脑的主人。"</p>
+      <span class="src">—— 《把时间当作朋友》第一章「醒悟」：这就是所谓的"运用心智获得解放"。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>回想最近一次"跟着感觉走"、事后有点后悔的事。如果当时你"停下来想三秒"，可能会怎么选？</summary>
+        <p class="hint">没有标准答案。重点不是责怪自己，而是看清——那一刻，是你在做主，还是大脑在做主。写在你自己的本子上。</p>
+      </details>
+      <details>
+        <summary>弗兰克在最坏的处境里都没放弃"选择态度的自由"。在你自己不太顺的时候，你还能选择的那一点点东西，是什么？</summary>
+        <p class="hint">哪怕只是"我决定怎么看这件事"，那也已经是你在当大脑的主人了。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>给自己做一个<strong>"暂停三秒"实验</strong>：这一周，每当你感到一股冲动——想刷手机、想放弃、想发火——先别动手，<strong>在心里默数三秒</strong>，问一句："现在是'我'要这么做，还是我的大脑想这么做？"然后再决定。每天睡前，在本子上记一笔今天<strong>成功暂停了几次</strong>。一周后回看那串数字，你或许会发现：当主人，其实就是从这多出来的三秒开始的。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="../for-eldest.html">← 返回</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '09-master-or-servant';
+    const READER_TITLE = '你不是大脑的奴隶';
+
+    // progress bar
+    const bar = document.getElementById('bar');
+    function updateBar(){
+      const h = document.documentElement;
+      const max = (h.scrollHeight - h.clientHeight) || 1;
+      bar.style.width = Math.min(100, (h.scrollTop / max) * 100) + '%';
+    }
+    addEventListener('scroll', updateBar, { passive:true });
+    updateBar();
+
+    // member button (same logic as games/index.html)
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) {
+      el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>';
+      el.onclick = function(){ location.href = '../dashboard.html'; };
+    } else {
+      el.innerHTML = '<span>登录</span>';
+      el.onclick = function(){ location.href = '../login.html'; };
+    }
+
+    // try button → mark read
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){
+      tryBtn.textContent = '已加入本周 ✓';
+      tryBtn.classList.add('done');
+      if (window.FO) FO.logProgress(READER_ID, 1, 1);
+    });
+
+    // log history; mark read when action card seen
+    document.addEventListener('DOMContentLoaded', function(){
+      if (window.FO) FO.logHistory(READER_ID, READER_TITLE);
+    });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if (e.isIntersecting && window.FO) { FO.logProgress(READER_ID, 1, 1); io.disconnect(); } });
+      }, { threshold: 0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
