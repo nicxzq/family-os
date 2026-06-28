@@ -1,0 +1,239 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: T02 · 源: 把时间当作朋友 第〇章「困境」1.问题 / 2.慌乱 / 3.解决 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>时间，其实管不了 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--green); --accent-soft: var(--green-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 把时间当作朋友</span>
+    <h1>时间，<br>其实管不了</h1>
+
+    <p class="hook">
+      你大概有过这样一个下午：决心"正式开始"写作业，坐下没几分钟，先去倒了杯水，又顺手看了会儿手机，换了首歌，回了条消息……<br>
+      等你一抬头看表，<span class="em">两个小时过去了，一页都没写完。</span><br>
+      这一篇想讲一件听起来反常、却可能让你松一口气的事——<strong>时间根本没法管理；你真正能管的，只有自己。</strong>
+    </p>
+
+    <!-- 拆解 1 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>"没时间了"的恐慌，会让人既勤奋又懒惰</h3>
+      <p>书的作者教过几万名学生，他发现绝大多数人身上都有一对矛盾：<strong>"既勤奋又懒惰"</strong>。一边周末早起挤公交去上课、恨不得废寝忘食；一边又满脑子找捷径，最好"不费吹灰之力"就把事办成。</p>
+      <p>他举了个真实的例子：有学生认真到要把一本范文集里的 185 篇全背下来，却来问他——"考场上默写一篇，会不会被判雷同？"如此用功，怎么会懒？根子在于一句反复闪现的话：<strong>"没时间了。"</strong>这种恐慌，逼出虚假的勤奋，也逼出投机的懒惰。</p>
+      <figure>
+        <svg viewBox="0 0 600 180" role="img" aria-label="没时间了的恐慌同时催生虚假勤奋与投机偷懒">
+          <text x="300" y="26" text-anchor="middle" font-size="15" fill="#2B2419" font-weight="700">同一种恐慌，逼出两种相反的样子</text>
+          <ellipse cx="300" cy="64" rx="92" ry="26" fill="#E56B5A"/>
+          <text x="300" y="69" text-anchor="middle" font-size="16" fill="#FFFDF6" font-weight="700">"没时间了！"</text>
+          <line x1="250" y1="86" x2="150" y2="120" stroke="#8C7C66" stroke-width="2.5"/>
+          <line x1="350" y1="86" x2="450" y2="120" stroke="#8C7C66" stroke-width="2.5"/>
+          <g>
+            <rect x="46" y="122" width="208" height="44" rx="10" fill="#F1E8D0"/>
+            <text x="150" y="142" text-anchor="middle" font-size="14" fill="#5C4F3D" font-weight="700">虚假的勤奋</text>
+            <text x="150" y="160" text-anchor="middle" font-size="12" fill="#8C7C66">忙到废寝忘食，却没成效</text>
+          </g>
+          <g>
+            <rect x="346" y="122" width="208" height="44" rx="10" fill="#F1E8D0"/>
+            <text x="450" y="142" text-anchor="middle" font-size="14" fill="#5C4F3D" font-weight="700">投机的偷懒</text>
+            <text x="450" y="160" text-anchor="middle" font-size="12" fill="#8C7C66">死找捷径，最好不费力</text>
+          </g>
+        </svg>
+        <figcaption>"既勤奋又懒惰"——都来自对"时间压力"的恐慌（《把时间当作朋友》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>钥匙不在锁上：盯着"时间管理"没用</h3>
+      <p>书里打了个比方：一扇门被锁住了，你想找钥匙——可钥匙一定<strong>不在锁孔里</strong>，否则门就不会是锁着的。"没时间了"的尴尬，就是那把锁；死盯着这把锁，打不开门。</p>
+      <p>很少有人注意到：<strong>"时间管理"其实是个虚假的概念。</strong>时间不服从任何人。你没法冲它喊"慢一点"，也没法叫它"快一点"，它只会用自己的速度自顾自地流逝，不受你影响。所以，从"管理时间"入手解决问题，注定徒劳——钥匙在别处。</p>
+      <figure>
+        <svg viewBox="0 0 600 170" role="img" aria-label="时间像一条自顾自流逝的河，喊快喊慢都不理会">
+          <rect x="0" y="0" width="600" height="170" rx="12" fill="#EAF2E6"/>
+          <path d="M30 96 H560" stroke="#6FA86D" stroke-width="10" stroke-linecap="round"/>
+          <path d="M540 96 l-16 -9 v18 z" fill="#6FA86D"/>
+          <text x="300" y="40" text-anchor="middle" font-size="14" fill="#5C4F3D" font-weight="700">时间：只朝一个方向，匀速流逝</text>
+          <g font-size="13" fill="#8C7C66">
+            <text x="150" y="138" text-anchor="middle">喊"慢一点"——它不理</text>
+            <text x="450" y="138" text-anchor="middle">喊"快一点"——它也不理</text>
+          </g>
+          <text x="150" y="84" text-anchor="middle" font-size="20">🗣️</text>
+          <text x="450" y="84" text-anchor="middle" font-size="20">🗣️</text>
+        </svg>
+        <figcaption>"我们无法管理时间"——它只自顾自地流逝（《把时间当作朋友》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>问题出在我们自己身上</h3>
+      <p>你可能听过那个经典方法：把事情分成"重要/不重要""紧急/不紧急"，先做"又重要又紧急"的。听上去很有道理，实际用起来却常常失灵。为什么？因为<strong>你往往没有足够的能力，去判断一件事到底重不重要、急不急</strong>。方法是对的，可操作的人是你。</p>
+      <p>于是结论变得很朴素：<strong>我们无法管理时间，真正能管理的，是我们自己。</strong>这话听着简单，接受起来却不容易——因为它常常和你过去"想当然"的观念相反，而人最难接受的，正是与已有观念相左的东西。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="重要紧急四象限因为难以判断而失灵，真正的着力点是管理自己">
+          <text x="150" y="24" text-anchor="middle" font-size="14" fill="#2B2419" font-weight="700">看上去很科学的方法</text>
+          <g stroke="#C9B79A" stroke-width="2">
+            <line x1="60" y1="44" x2="240" y2="44"/><line x1="60" y1="44" x2="60" y2="170"/>
+            <line x1="60" y1="170" x2="240" y2="170"/><line x1="240" y1="44" x2="240" y2="170"/>
+            <line x1="150" y1="44" x2="150" y2="170"/><line x1="60" y1="107" x2="240" y2="107"/>
+          </g>
+          <text x="105" y="82" text-anchor="middle" font-size="22" fill="#8C7C66">？</text>
+          <text x="195" y="82" text-anchor="middle" font-size="22" fill="#8C7C66">？</text>
+          <text x="105" y="146" text-anchor="middle" font-size="22" fill="#8C7C66">？</text>
+          <text x="195" y="146" text-anchor="middle" font-size="22" fill="#8C7C66">？</text>
+          <text x="150" y="190" text-anchor="middle" font-size="12" fill="#8C7C66">可你常常分不清，哪个该填进哪格</text>
+          <path d="M270 107 H320" stroke="#2B2419" stroke-width="3" marker-end="url(#ag)"/>
+          <rect x="330" y="70" width="230" height="74" rx="14" fill="#B5D4A8"/>
+          <text x="445" y="100" text-anchor="middle" font-size="16" fill="#2B2419" font-weight="700">真正的着力点</text>
+          <text x="445" y="126" text-anchor="middle" font-size="15" fill="#3C5A38">管理自己，不是管理时间</text>
+          <defs>
+            <marker id="ag" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#2B2419"/>
+            </marker>
+          </defs>
+        </svg>
+        <figcaption>"我们真正能够管理的，是我们自己"（《把时间当作朋友》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>唯一的解法，是相信积累</h3>
+      <p>那"管理自己"具体管什么？书给出的答案只有四个字：<strong>一切都靠积累。</strong>你管不住流逝的时间，但你能决定今天往里面放进什么——多读的一页、多练的一次、多想清楚的一个问题，都会被时间替你存起来。</p>
+      <p>关键在那一句：<strong>"深信积累的力量，时间就是你的朋友；否则，它就是你的敌人。"</strong>同样的时间流过两个人，区别不在谁更会"管时间"，而在谁一直在往里存东西。把它当朋友，它就站在你这边。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="相信积累时间是朋友曲线向上，不积累时间是敌人曲线走平">
+          <line x1="70" y1="170" x2="560" y2="170" stroke="#C9B79A" stroke-width="2"/>
+          <line x1="70" y1="30" x2="70" y2="170" stroke="#C9B79A" stroke-width="2"/>
+          <text x="64" y="186" text-anchor="end" font-size="11" fill="#8C7C66">起点</text>
+          <text x="556" y="186" text-anchor="end" font-size="11" fill="#8C7C66">时间 →</text>
+          <path d="M70 158 Q330 150 560 44" fill="none" stroke="#6FA86D" stroke-width="3.5"/>
+          <text x="566" y="46" font-size="12" fill="#6FA86D" font-weight="700">相信积累 → 时间是朋友</text>
+          <path d="M70 158 L560 150" fill="none" stroke="#E56B5A" stroke-width="3" stroke-dasharray="6 5"/>
+          <text x="566" y="152" font-size="12" fill="#E56B5A" font-weight="700">不积累 → 时间是敌人</text>
+          <g fill="#6FA86D">
+            <circle cx="180" cy="156" r="3"/><circle cx="290" cy="148" r="3"/>
+            <circle cx="400" cy="120" r="3"/><circle cx="490" cy="80" r="3"/>
+          </g>
+        </svg>
+        <figcaption>同样的时间，存与不存，几年后差距巨大（《把时间当作朋友》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"我们无法管理时间。<br>我们真正能够管理的，<br>是我们自己。"</p>
+      <span class="src">—— 《把时间当作朋友》第〇章「困境」：深信积累的力量，时间就是你的朋友。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>回想那个"两小时没写完一页"的下午。真正卡住你的，是"时间不够"，还是别的什么？</summary>
+        <p class="hint">没有标准答案。试着把"没时间了"翻译成更具体的一句话——比如"我一直在被打断"，或"我没真的开始"。写在你自己的本子上。</p>
+      </details>
+      <details>
+        <summary>如果时间管不了，那这一周你打算往里"存"进去的，是哪一件小事？</summary>
+        <p class="hint">越小越好、越能每天重复越好。能被你重复存进去的，才会被时间替你放大。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>做一个<strong>"估时实验"</strong>：这一周，每开始一件事之前，先在本子上写下"我猜它要花 ___ 分钟"；做完，再记下"实际用了 ___ 分钟"。一周记 5 件就好。周末回看这两列数字，你或许会发现——自己习惯性地<strong>高估或低估</strong>。这不是为了责怪自己，而是因为"管理自己"的第一步，是先看清自己到底是怎样的。能预测自己，才谈得上安排自己。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="09-master-or-servant.html">← 你不是大脑的奴隶</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '10-time-unmanageable';
+    const READER_TITLE = '时间，其实管不了';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
