@@ -1,0 +1,226 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: T03 · 源: 把时间当作朋友 第二章「现实」1.速成绝无可能 / 2.交换才是硬道理 / 6.与时间做朋友 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>没有捷径，只有交换 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--coral); --accent-soft: var(--coral-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 把时间当作朋友</span>
+    <h1>没有捷径，<br>只有交换</h1>
+
+    <p class="hook">
+      你大概有过这样的开头：新学一样东西——吉他、编程、滑板、一门外语，<br>
+      头几天看不到自己"变厉害"，就开始烦，开始上网找"7 天速成""一个月精通"。<br>
+      这一篇想讲一件你可能不爱听、却迟早受用的事——<strong>速成根本不存在；真正能用的，只有一个字：换。</strong>
+    </p>
+
+    <!-- 拆解 1 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>"想马上看到结果"，是写在天性里的</h3>
+      <p>几乎人人都想速成，连老人家的劝告都先说"戒躁"——可说了千百年，我们还是急。书里点破了根子：人有一种<strong>"希望欲望马上得到满足"</strong>的天性。最好不劳而获；退一步，也要"劳"得尽量少、"获"得尽量多、最好马上拿到。</p>
+      <p>书里举了个例子：赌场里的老虎机最受"赌鬼"欢迎，不是因为更容易赢，而是<strong>拉一下手柄，5 秒之内就能知道结果</strong>。是输是赢都不重要，重要的是"马上"。减肥广告说"当天见效"、培训班叫"一招制敌"，全在喂你这条天性。看懂这一点，你才不会怪自己"没耐心"——这是出厂设置，但你可以校准它。</p>
+      <figure>
+        <svg viewBox="0 0 600 180" role="img" aria-label="老虎机5秒出结果对比真实成长需要很久">
+          <text x="150" y="26" text-anchor="middle" font-size="14" fill="var(--ink)" font-weight="700">天性想要的</text>
+          <rect x="70" y="44" width="160" height="92" rx="12" fill="var(--coral-soft)"/>
+          <text x="150" y="84" text-anchor="middle" font-size="30" fill="var(--coral)" font-weight="700">5 秒</text>
+          <text x="150" y="112" text-anchor="middle" font-size="13" fill="var(--ink-soft)">拉一下，马上出结果</text>
+          <text x="300" y="96" text-anchor="middle" font-size="22" fill="var(--ink-mute)">≠</text>
+          <text x="450" y="26" text-anchor="middle" font-size="14" fill="var(--ink)" font-weight="700">真实长本事</text>
+          <rect x="370" y="44" width="160" height="92" rx="12" fill="var(--green-soft)"/>
+          <text x="450" y="84" text-anchor="middle" font-size="26" fill="var(--green)" font-weight="700">很久</text>
+          <text x="450" y="112" text-anchor="middle" font-size="13" fill="var(--ink-soft)">一点一点，慢慢长出来</text>
+        </svg>
+        <figcaption>"马上出结果"是天性的诱饵；真本事从来不在 5 秒里（《把时间当作朋友》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>有些阶段，谁都跨不过去</h3>
+      <p>浮躁还有第二个根：很多人不懂"<strong>有些阶段就是无法跨越</strong>"。他们总不现实地盼着找到一个法子，"啪"一下就到终点。可书里举了个谁都驳不倒的例子——<strong>没有人能今天怀孕、明天生产</strong>。从受精到出生，大约 40 周，这个阶段无从跨越。再聪明、再有力气，一位母亲也得等这么久。</p>
+      <p>学东西也一样。你跳过的每一步，迟早要回来补；省下的时间是借来的，连本带利还。承认"这一段就是要花时间"，听上去泄气，其实是松绑——你不必再为"怎么还没成"而内耗。</p>
+      <figure>
+        <svg viewBox="0 0 600 150" role="img" aria-label="一个必经的阶段无法跳过的时间线">
+          <line x1="50" y1="80" x2="550" y2="80" stroke="var(--ink-mute)" stroke-width="3"/>
+          <circle cx="80" cy="80" r="9" fill="var(--green)"/>
+          <text x="80" y="112" text-anchor="middle" font-size="13" fill="var(--ink-soft)">开始</text>
+          <circle cx="520" cy="80" r="9" fill="var(--green)"/>
+          <text x="520" y="112" text-anchor="middle" font-size="13" fill="var(--ink-soft)">长成</text>
+          <rect x="170" y="62" width="260" height="36" rx="8" fill="var(--green-soft)"/>
+          <text x="300" y="86" text-anchor="middle" font-size="15" fill="var(--ink)" font-weight="700">必须走完的那一段</text>
+          <path d="M170 40 q130 -34 260 0" fill="none" stroke="var(--coral)" stroke-width="2.5" stroke-dasharray="7 6"/>
+          <text x="300" y="32" text-anchor="middle" font-size="13" fill="var(--coral)" font-weight="700">想抄近道？跳不过去 ✕</text>
+        </svg>
+        <figcaption>"无论做什么都需要时间，而且可能需要很多时间"（《把时间当作朋友》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>速成不行，那就"换"</h3>
+      <p>速成不可能，那怎么办？书给的答案只有一个字：<strong>换</strong>。"一分耕耘，一分收获"，说到底也是这一个字。不成熟的人有个通病——整天想"我要……"，却没注意自己其实"一无所有"。<strong>每个人都从起点出发，最初都一无所有，然后用努力、用勤奋，去换能换到的东西。</strong></p>
+      <p>积累多的人为什么稳？因为他的"我要"可以用"我有"来换；就算暂时不够，凭已有的努力和经验，假以时日也能换来，于是越换越多，形成良性循环。而积累少的人，"我要"的火越烧越旺，却没有东西可换，急也没用。<strong>差别不在谁更想要，在谁手里有可换的东西。</strong></p>
+      <figure>
+        <svg viewBox="0 0 600 170" role="img" aria-label="用我有的去换我要的良性循环">
+          <rect x="60" y="58" width="150" height="56" rx="12" fill="var(--green-soft)"/>
+          <text x="135" y="82" text-anchor="middle" font-size="15" fill="var(--ink)" font-weight="700">我有的</text>
+          <text x="135" y="102" text-anchor="middle" font-size="12" fill="var(--ink-soft)">努力 · 勤奋 · 经验</text>
+          <rect x="390" y="58" width="150" height="56" rx="12" fill="var(--coral-soft)"/>
+          <text x="465" y="82" text-anchor="middle" font-size="15" fill="var(--ink)" font-weight="700">我要的</text>
+          <text x="465" y="102" text-anchor="middle" font-size="12" fill="var(--ink-soft)">本事 · 成果 · 机会</text>
+          <path d="M218 78 H384" stroke="var(--ink)" stroke-width="2.5" marker-end="url(#ar)"/>
+          <text x="300" y="70" text-anchor="middle" font-size="16" fill="var(--ink)" font-weight="700">换</text>
+          <path d="M384 100 H218" stroke="var(--green)" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ag)"/>
+          <text x="300" y="132" text-anchor="middle" font-size="12" fill="var(--green)">换到的，又变成新的"我有的"</text>
+          <defs>
+            <marker id="ar" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink)"/></marker>
+            <marker id="ag" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--green)"/></marker>
+          </defs>
+        </svg>
+        <figcaption>"给我什么我就用好什么，积累到一定程度再去换能换的东西"（《把时间当作朋友》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>一张纸，就能让你脚踏实地</h3>
+      <p>书里给了个特别朴素的工具：拿一张纸，从中间划开，<strong>左边写"我有的"，右边写"我要的"</strong>，逐条列出来。然后冷静地做两件事：先划掉那些<strong>现在的"我有"根本换不来</strong>的"我要"；再在剩下能换到的里面，圈出真正重要、不可或缺的那几个。</p>
+      <p>就算列到最后发现"自己几乎什么都没有"，也别灰心——对一个正常人来说，<strong>"还有时间、还有精力、还有正常的智商"，就已经够了</strong>。这张纸的魔力，是每次你冒出"我要……"，它都把你拽回来想一句"那我有什么"，瞬间脚踏实地。</p>
+      <figure>
+        <svg viewBox="0 0 600 180" role="img" aria-label="一张纸分成我有的和我要的两栏">
+          <rect x="60" y="30" width="480" height="130" rx="12" fill="var(--cream)" stroke="var(--cream-deep)" stroke-width="2"/>
+          <line x1="300" y1="30" x2="300" y2="160" stroke="var(--cream-deep)" stroke-width="2"/>
+          <text x="180" y="56" text-anchor="middle" font-size="15" fill="var(--green)" font-weight="700">我有的</text>
+          <text x="420" y="56" text-anchor="middle" font-size="15" fill="var(--coral)" font-weight="700">我要的</text>
+          <g font-size="13" fill="var(--ink-soft)">
+            <text x="90" y="86">· 每天 1 小时</text>
+            <text x="90" y="110">· 一台旧吉他</text>
+            <text x="90" y="134">· 不怕枯燥</text>
+            <text x="330" y="86">· 弹完一整首</text>
+            <text x="330" y="110">· 上台不发抖</text>
+            <text x="330" y="134" fill="var(--ink-mute)" text-decoration="line-through">· 一周变大神</text>
+          </g>
+        </svg>
+        <figcaption>左栏盘点本钱，右栏划掉"换不来的"——剩下的，就是这周能开始换的（《把时间当作朋友》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"告诉自己：<br>我有不足，我需要时间，<br>我没办法一蹴而就。"</p>
+      <span class="src">—— 《把时间当作朋友》第二章「现实」。时间是现实的人的朋友，是不现实的人的敌人。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>最近有没有一件事，你因为"没马上变厉害"就想放弃？它真正需要的，会不会本来就是更长的时间？</summary>
+        <p class="hint">没有标准答案。试着估一估：这件事，靠谱的人大概练了多久才像样？把这个数字写下来，再看自己练了几天。</p>
+      </details>
+      <details>
+        <summary>如果只能用"我现在已经有的东西"去换，你最想换到的那一样，是什么？</summary>
+        <p class="hint">越具体越好。"我要变厉害"换不动；"我有每天 20 分钟，想换会弹一首完整的歌"——这种就换得动。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>做一张<strong>"我有 / 我要"清单</strong>：拿张纸划成两半，左边尽量多地写下你现在<strong>已经拥有</strong>的（时间、工具、已会的本事、能帮你的人），右边写下你<strong>想要</strong>的。然后划掉右边那些"现在的我有"完全换不来的，给剩下的排个序。<strong>这周只挑最上面那一个，开始用左边的东西去换它</strong>——哪怕每天只换 15 分钟。一周后回看：你往里"存"进去的，时间都替你记着。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="10-time-unmanageable.html">← 时间，其实管不了</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '11-accept-reality';
+    const READER_TITLE = '没有捷径，只有交换';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
