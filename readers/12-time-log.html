@@ -1,0 +1,220 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: T04 · 源: 把时间当作朋友 第三章「管理」6.感知时间 / 7.记录开销（柳比歇夫的事件—时间日志） -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>你的时间，到底去哪了 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--blue); --accent-soft: var(--blue-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 把时间当作朋友</span>
+    <h1>你的时间，<br>到底去哪了</h1>
+
+    <p class="hook">
+      想想昨天下午——它过去了，可你说得清它去哪了吗？<br>
+      "好像也没干啥，一下午就没了。"<br>
+      这一篇想给你一个朴素到有点土的工具：<span class="em">一支笔、一个本子，把时间花在哪记下来。</span>不是逼自己自律，而是先<strong>看清</strong>。看清了，你才管得动。
+    </p>
+
+    <!-- 拆解 1 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>管不了时间，但能"看清"它</h3>
+      <p>上一篇说过：时间没法管理，能管理的只有你自己。可"管理自己"听着太大、太虚，从哪儿下手？书里给的第一步特别具体——<strong>先搞清楚自己的时间都花到哪里去了。</strong></p>
+      <p>这和管钱是一个道理：<strong>理财的第一步，是弄清楚自己的钱都花在了什么地方</strong>；感知时间的第一步，也是弄清楚自己的时间都用来做了些什么。钱花没了你还有账单提醒，时间花没了却悄无声息——所以更需要你亲手把它记下来，它才"看得见、摸得着"。</p>
+      <figure>
+        <svg viewBox="0 0 600 170" role="img" aria-label="管钱要记账，管时间也要记账">
+          <rect x="60" y="44" width="200" height="92" rx="12" fill="var(--green-soft)"/>
+          <text x="160" y="74" text-anchor="middle" font-size="15" fill="var(--ink)" font-weight="700">钱花在哪？</text>
+          <text x="160" y="104" text-anchor="middle" font-size="13" fill="var(--ink-soft)">→ 先记账</text>
+          <text x="300" y="96" text-anchor="middle" font-size="20" fill="var(--ink-mute)">≈</text>
+          <rect x="340" y="44" width="200" height="92" rx="12" fill="var(--blue-soft)"/>
+          <text x="440" y="74" text-anchor="middle" font-size="15" fill="var(--ink)" font-weight="700">时间花在哪？</text>
+          <text x="440" y="104" text-anchor="middle" font-size="13" fill="var(--ink-soft)">→ 先记时</text>
+        </svg>
+        <figcaption>"正如理财第一步是弄清钱花在哪，感知时间的第一步就是搞清时间用在了哪"（《把时间当作朋友》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>有个人，这样记了一辈子</h3>
+      <p>书里讲了一位苏联昆虫学家——<strong>柳比歇夫</strong>。他从 26 岁开始，给自己做一种"<strong>事件—时间日志</strong>"：每做完一件事，就在后面记下花了多少时间。比如：</p>
+      <p style="font-family:monospace;background:var(--cream);border-left:3px solid var(--accent);padding:12px 14px;font-size:15px;line-height:1.7;">分类昆虫学（画两张图）——3 小时 15 分<br>鉴定袋蛾——20 分<br>给斯拉瓦写信——2 小时 45 分</p>
+      <p>这样的记录，他坚持了 <strong>56 年</strong>，一直到去世。靠着它，他清楚地知道自己每年、每月真正做了什么，留下了 70 多部学术著作。神奇的不是他多自律，而是这套方法朴素到——<strong>每天只花十来分钟就能记完。</strong></p>
+      <figure>
+        <svg viewBox="0 0 600 150" role="img" aria-label="柳比歇夫坚持记录56年的时间线">
+          <line x1="60" y1="80" x2="540" y2="80" stroke="var(--ink-mute)" stroke-width="3"/>
+          <circle cx="90" cy="80" r="9" fill="var(--blue)"/>
+          <text x="90" y="110" text-anchor="middle" font-size="13" fill="var(--ink-soft)">26 岁</text>
+          <circle cx="510" cy="80" r="9" fill="var(--blue)"/>
+          <text x="510" y="110" text-anchor="middle" font-size="13" fill="var(--ink-soft)">82 岁</text>
+          <rect x="120" y="62" width="360" height="36" rx="8" fill="var(--blue-soft)"/>
+          <text x="300" y="86" text-anchor="middle" font-size="15" fill="var(--ink)" font-weight="700">每天记一笔 · 连续 56 年</text>
+          <text x="300" y="40" text-anchor="middle" font-size="13" fill="var(--blue)" font-weight="700">每天只需约 10 分钟</text>
+        </svg>
+        <figcaption>"做这件事其实每天只需要花 10 分钟左右……并因此受益无穷"（《把时间当作朋友》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>记"花了多久"，比记"做了啥"更值钱</h3>
+      <p>很多人也写日记，但只记"<strong>做了什么</strong>"：今天背了单词、写了作业。这叫"基于结果"的记录。柳比歇夫高明在多写一样东西——<strong>每件事花了多少时间</strong>，这叫"基于过程"的记录。</p>
+      <p>差别看着小，用处大：<strong>当结果不好的时候，过程记录能帮你找到原因。</strong>"这周英语没进步"——翻开本子一看，原来一周只真正学了 40 分钟，时间全漏在了刷手机和发呆上。没有记录，你只会怪自己"笨"；有了记录，你看见的是"时间漏在了哪"，那是能改的。</p>
+      <figure>
+        <svg viewBox="0 0 600 175" role="img" aria-label="只记做了什么对比同时记花了多久">
+          <rect x="50" y="40" width="230" height="110" rx="12" fill="var(--cream)" stroke="var(--cream-deep)" stroke-width="2"/>
+          <text x="165" y="64" text-anchor="middle" font-size="14" fill="var(--ink-mute)" font-weight="700">只记结果</text>
+          <text x="70" y="92" font-size="13" fill="var(--ink-soft)">· 背了单词</text>
+          <text x="70" y="116" font-size="13" fill="var(--ink-soft)">· 写了作业</text>
+          <text x="165" y="142" text-anchor="middle" font-size="12" fill="var(--ink-mute)">→ 不好时找不到原因</text>
+          <rect x="320" y="40" width="230" height="110" rx="12" fill="var(--blue-soft)"/>
+          <text x="435" y="64" text-anchor="middle" font-size="14" fill="var(--ink)" font-weight="700">记结果＋时间</text>
+          <text x="340" y="92" font-size="13" fill="var(--ink)">· 背单词 —— 15 分</text>
+          <text x="340" y="116" font-size="13" fill="var(--ink)">· 刷手机 —— 90 分</text>
+          <text x="435" y="142" text-anchor="middle" font-size="12" fill="var(--blue)" font-weight="700">→ 一眼看见时间漏在哪</text>
+        </svg>
+        <figcaption>"基于过程的记录……结果不好的时候更容易找到缘由"（《把时间当作朋友》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>记着记着，你对时间的"手感"会变准</h3>
+      <p>书里说，作者实践了不到两个星期，就体会到一个意外的好处：<strong>这种记录会让你对时间的感觉越来越精确。</strong>以前你估"半小时能写完作业"，结果两小时还没完，于是焦虑、自责。记得多了，你慢慢知道——同样一件事，你真实要花多久。</p>
+      <p>估得准，目标就定得现实；目标现实，就基本能达成；能达成，焦虑自然就少了。书里把这叫"<strong>战胜焦虑</strong>"。它不是靠打鸡血，而是靠你手里那本越来越准的"时间账"。</p>
+      <figure>
+        <svg viewBox="0 0 600 175" role="img" aria-label="估计时间和实际时间从差很多到逐渐贴合">
+          <text x="60" y="34" font-size="13" fill="var(--ink-soft)">估计</text>
+          <text x="60" y="150" font-size="13" fill="var(--ink-soft)">实际</text>
+          <g font-size="0">
+            <rect x="120" y="22" width="40" height="22" rx="4" fill="var(--coral-soft)"/>
+            <rect x="120" y="118" width="120" height="22" rx="4" fill="var(--ink-mute)"/>
+            <rect x="290" y="22" width="60" height="22" rx="4" fill="var(--coral-soft)"/>
+            <rect x="290" y="118" width="100" height="22" rx="4" fill="var(--ink-mute)"/>
+            <rect x="460" y="22" width="92" height="22" rx="4" fill="var(--blue)"/>
+            <rect x="460" y="118" width="100" height="22" rx="4" fill="var(--blue)"/>
+          </g>
+          <text x="180" y="100" text-anchor="middle" font-size="12" fill="var(--ink-mute)">第 1 周：差很多</text>
+          <text x="510" y="100" text-anchor="middle" font-size="12" fill="var(--blue)" font-weight="700">几周后：基本贴合</text>
+        </svg>
+        <figcaption>"它会使你对时间的感觉越来越精确"——估得准，就能定出真正现实可行的目标（《把时间当作朋友》）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"感知时间的第一步，<br>就是要搞清楚<br>自己的时间都用来做了些什么。"</p>
+      <span class="src">—— 《把时间当作朋友》第三章「管理」。看不见的东西，没法管理；记下来，它才看得见。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>凭印象，你觉得自己昨天在手机/游戏上花了多久？如果真去记一次，你猜真实数字会比印象大还是小？</summary>
+        <p class="hint">没有标准答案。多数人会发现真实数字比印象大不少——这正是为什么"记录"比"凭感觉"靠谱。</p>
+      </details>
+      <details>
+        <summary>有件你一直"没进步"的事，会不会其实是你真正投入的时间，比你以为的少得多？</summary>
+        <p class="hint">先别怪自己。把这件事这周花的分钟数老老实实记下来，再下结论也不迟。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>做<strong>三天"事件—时间日志"</strong>：找个小本子或手机备忘录，连续 3 天，每天睡前花 3 分钟，把当天做过的几件主要的事写下来，<strong>每件后面记上大概花了多久</strong>（像"打游戏——70 分钟""写作业——25 分钟"）。第三天结束，回头看一眼：<strong>哪段时间，花得和你想的最不一样？</strong>不用评判，先看见就好。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="11-accept-reality.html">← 没有捷径，只有交换</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '12-time-log';
+    const READER_TITLE = '你的时间，到底去哪了';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
