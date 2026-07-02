@@ -1,0 +1,210 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: T07 · 源: 把时间当作朋友 第六章「交流」§1 学会倾听（走神机制 / 模式拼接 / 过早质疑 / 回顾与预期 / 事实与看法 / 给说者反应） -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>会听的人，其实很少 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--blue); --accent-soft: var(--blue-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 把时间当作朋友</span>
+    <h1>会听的人，<br>其实很少</h1>
+
+    <p class="hook">
+      同一个老师，同一堂课，讲给一整个班的人听。可下课后你会发现：<span class="em">真正听懂、抓住重点的，永远只有那么几个。</span><br>
+      我们从小学"说话"、学"阅读"，却几乎没上过一节"怎么听"的课——好像"听"是天生就会的。<br>
+      可事实是：<strong>一段交流成不成，往往不取决于说的人，而取决于听的人。</strong>这一篇，讲怎么把"听"练成一种真本事。
+    </p>
+
+    <!-- 拆解 1 · 走神 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>你以为在听，其实大脑在偷偷溜号</h3>
+      <p>人说话的速度，远远低于人思考的速度。别人一句话还没说完，你的脑子早就转完好几圈了——于是那些"多出来"的脑力没处放，就自动开始走神。</p>
+      <p>可怕的是它会"上瘾"：第一次溜号只有几分之一秒，回过神来发现好像没错过什么，大脑就"证明"了自己游刃有余，于是下一次溜得更久、更放心……直到真的错过了关键信息还不自知。更麻烦的是，说话的人为了讲清楚，总把最重要的结论<strong>留在后面</strong>。结果就是：<strong>说的人信息越来越重要，听的人接收得却越来越少、越来越碎。</strong></p>
+      <figure>
+        <svg viewBox="0 0 600 176" role="img" aria-label="说话速度远低于思考速度，中间的空档就是大脑走神的地方">
+          <text x="60" y="42" font-size="14" fill="var(--ink-soft)">说话速度</text>
+          <rect x="150" y="28" width="150" height="26" rx="8" fill="var(--blue)"/>
+          <text x="60" y="104" font-size="14" fill="var(--ink-soft)">思考速度</text>
+          <rect x="150" y="90" width="404" height="26" rx="8" fill="var(--green)"/>
+          <!-- gap bracket -->
+          <line x1="300" y1="64" x2="300" y2="150" stroke="var(--coral)" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <line x1="554" y1="64" x2="554" y2="150" stroke="var(--coral)" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <path d="M300 150 H554" stroke="var(--coral)" stroke-width="2"/>
+          <text x="427" y="170" text-anchor="middle" font-size="13" fill="var(--coral)" font-weight="700">这段空档 → 大脑就跑去走神了</text>
+        </svg>
+        <figcaption>"人类讲话的速度往往远低于思考的速度，所以我们在倾听的过程中常常会出现走神的现象。"（《把时间当作朋友》第六章·交流）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 过早质疑 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>最忌讳的一件事：没等人说完就反驳</h3>
+      <p>"质疑精神"是好东西，但放错了地方就成了绊脚石。倾听时最该忍住的，就是<strong>过早质疑</strong>——话才听一半，就急着在心里（或嘴上）反对。</p>
+      <p>为什么？因为一个人刚开口时，论证是最不完整的，这时候你觉得"他漏洞百出、不堪一击"——这几乎一定是错觉。真正的证据、迂回的说理、意味深长的结论，都还在后面。更糟的是，一旦你进入"反驳"模式，就会像"视而不见"一样"听而不闻"，把后面真正有用的部分全挡在门外。<strong>接收，不等于接受</strong>：先让信息进来，不代表你要照单全收；但一上来就拒收，你连判断的机会都没有了。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="说者的论证随时间越来越完整，过早打断只看到最弱的开头">
+          <line x1="60" y1="164" x2="560" y2="164" stroke="var(--ink-mute)" stroke-width="1.5"/>
+          <line x1="60" y1="164" x2="60" y2="28" stroke="var(--ink-mute)" stroke-width="1.5"/>
+          <text x="60" y="20" text-anchor="middle" font-size="12" fill="var(--ink-mute)">论证的完整度</text>
+          <text x="556" y="182" text-anchor="end" font-size="12" fill="var(--ink-mute)">他讲的进度 →</text>
+          <path d="M60 158 Q260 150 380 96 T552 40" fill="none" stroke="var(--blue)" stroke-width="3.5"/>
+          <!-- early interrupt -->
+          <line x1="150" y1="164" x2="150" y2="150" stroke="var(--coral)" stroke-width="2"/>
+          <circle cx="150" cy="152" r="6" fill="var(--coral)"/>
+          <text x="150" y="196" text-anchor="middle" font-size="12" fill="var(--coral)">过早质疑：只看到最弱的开头</text>
+          <!-- listen to the end -->
+          <circle cx="552" cy="40" r="7" fill="var(--green)"/>
+          <text x="520" y="30" text-anchor="end" font-size="12" fill="var(--green)" font-weight="700">听到最后，才看得清全貌</text>
+        </svg>
+        <figcaption>"就算需要质疑，也一定要等到对方把话说完。"（《把时间当作朋友》第六章·交流）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 回顾与预期 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>把多出来的脑力，用在"回顾"和"预期"上</h3>
+      <p>既然思考比说话快、脑子一定有富余，那就别让它去走神，而是派它做两件事：<strong>回顾</strong>——他刚才到底讲了什么、要点之间是什么关系；<strong>预期</strong>——照这个逻辑，他下一句可能要讲什么。光是"预期"这一个动作，就会自动把你的注意力拉回来，还让你"听到"很多本来会漏掉的东西。</p>
+      <p>还有一把好用的尺子：把对方说的话分成两类。是<strong>事实</strong>，就想一想"这是真的吗、可靠吗"；是<strong>看法</strong>，就想一想"他为什么会这么看、根源在哪"。很多人逻辑混乱，不是因为逻辑难，而是嫌"想"太麻烦、干脆不想。最后，如果你是能被说话人看见的听众，给他一点回应——一个点头、一句"那你看我这么理解对不对？"——他会讲得更清楚，甚至自己就把疏漏补上了。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="倾听时用富余脑力做回顾与预期，并把内容分成事实与看法两类去想">
+          <rect x="240" y="26" width="120" height="40" rx="10" fill="var(--accent-soft)"/>
+          <text x="300" y="51" text-anchor="middle" font-size="15" fill="var(--ink)" font-weight="700">现在听到的</text>
+          <!-- 回顾 left -->
+          <line x1="238" y1="46" x2="120" y2="46" stroke="var(--blue)" stroke-width="3"/>
+          <path d="M120 46 l14 -6 v12 Z" fill="var(--blue)"/>
+          <text x="120" y="34" text-anchor="middle" font-size="13" fill="var(--blue)" font-weight="700">回顾</text>
+          <text x="120" y="70" text-anchor="middle" font-size="12" fill="var(--ink-soft)">他刚讲了什么？</text>
+          <!-- 预期 right -->
+          <line x1="362" y1="46" x2="480" y2="46" stroke="var(--green)" stroke-width="3"/>
+          <path d="M480 46 l-14 -6 v12 Z" fill="var(--green)"/>
+          <text x="480" y="34" text-anchor="middle" font-size="13" fill="var(--green)" font-weight="700">预期</text>
+          <text x="480" y="70" text-anchor="middle" font-size="12" fill="var(--ink-soft)">下一句会讲什么？</text>
+          <!-- 事实 / 看法 -->
+          <rect x="86" y="120" width="200" height="66" rx="10" fill="var(--cream-deep)"/>
+          <text x="186" y="146" text-anchor="middle" font-size="15" fill="var(--ink)" font-weight="700">如果是"事实"</text>
+          <text x="186" y="170" text-anchor="middle" font-size="13" fill="var(--ink-soft)">→ 这真的可靠吗？</text>
+          <rect x="314" y="120" width="200" height="66" rx="10" fill="var(--cream-deep)"/>
+          <text x="414" y="146" text-anchor="middle" font-size="15" fill="var(--ink)" font-weight="700">如果是"看法"</text>
+          <text x="414" y="170" text-anchor="middle" font-size="13" fill="var(--ink-soft)">→ 他为什么这么想？</text>
+        </svg>
+        <figcaption>"在倾听的过程中，我们可以利用多余的脑力处理两个方向的信息：'回顾'与'预期'。"（《把时间当作朋友》第六章·交流）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"交流的有效与否，<br>往往更取决于听者<br>而非说者。"</p>
+      <span class="src">—— 《把时间当作朋友》第六章「交流」。会不会听，几乎能决定一个人能走多远——因为绝大多数时候，你的成长都依赖听懂某些人的话。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>回想上一次你和别人"越聊越僵"、最后差点吵起来——是对方没说清，还是你没等他说完、太早下了结论？</summary>
+        <p class="hint">没有标准答案。书里说，很多认真的交谈最后变成争吵，被忽略的关键常常在听者一方：该确认时武断下定论，该回应时沉默。写在你自己的本子上。</p>
+      </details>
+      <details>
+        <summary>你更像"一听就信"的人，还是"一听就想反驳"的人？这两种习惯，哪一种更容易让你停止进步？</summary>
+        <p class="hint">没有标准答案。接收状态未必有害（除非全盘照收）；但排斥状态会让人永远进不来新东西——因为拒绝接收，就无从接受。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>做一周的<strong>"忍住不打断"实验</strong>。这周和别人（老师、家人、同学）认真说话时，给自己定一条铁规矩：<strong>不管多想反驳，都等对方把这段话完整说完，再开口。</strong>开口前先用一句确认："<strong>那你看我这么理解对不对——你的意思是……？</strong>"每成功一次就记一笔，记满 <strong>7 次</strong>。一周下来留意两件事：你有没有发现"听到最后，自己的疑问其实变了"？对方是不是因为你在认真听，讲得越来越清楚？</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="14-thinking-traps.html">← 三个思维陷阱</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '15-listening';
+    const READER_TITLE = '会听的人，其实很少';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
