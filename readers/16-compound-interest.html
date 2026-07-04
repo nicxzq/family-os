@@ -1,0 +1,199 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: T08 · 源: 把时间当作朋友 第七章「应用」§ 积累/复利（复利公式 S=P(1+i)^n；莎士比亚算法 vs 夏洛克算法；"怕麻烦"是坏习惯的高利贷；罗森茨威格老鼠实验） -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>积累不是加法，是乘法 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--green); --accent-soft: var(--green-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 把时间当作朋友</span>
+    <h1>积累不是加法，<br>是乘法</h1>
+
+    <p class="hook">
+      一个问题：你有 10 万元，年利率 10%，什么都不做，<span class="em">30 年后会变成多少？</span><br>
+      多数人心里的答案接近 40 万——本金加上每年的利息，30 年嘛，10 万 × 10% × 30 ＝ 30 万利息，一共 40 万，听起来已经不少了。<br>
+      可真实的答案是 <strong>174.5 万</strong>——超过本金的 17 倍。差出去的那 130 多万，就藏在两个字里：<strong>利滚利</strong>。这不只是钱的规律，也是习惯、技能、健康的规律。
+    </p>
+
+    <!-- 拆解 1 · 复利公式与两种算法 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>莎士比亚的算法，和夏洛克的算法</h3>
+      <p>复利的公式并不复杂：<strong>S = P(1+i)ⁿ</strong>——P 是本金，i 是每期的利率，n 是期数，S 是最终的本利和。10 万本金、年息 10%、放 30 年，代入公式就是 174.5 万，而不是 40 万。</p>
+      <p>差别出在"怎么算"上。很多人默认用的是<strong>莎士比亚的算法</strong>：一年 365 天，每天进步一点点，最终收获就是简单地把 365 个"一点点"加起来。可现实运行的其实是<strong>夏洛克的算法</strong>——每天的进步不是加在原来的基础上，而是<strong>乘</strong>在原来的基础上，一年下来的结果接近 P(1+i)，是指数级增长，不是线性叠加。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="简单相加是一条直线，复利增长的曲线前期缓慢、后期陡然拉开差距">
+          <line x1="50" y1="180" x2="560" y2="180" stroke="var(--ink-mute)" stroke-width="1.5"/>
+          <line x1="50" y1="180" x2="50" y2="20" stroke="var(--ink-mute)" stroke-width="1.5"/>
+          <text x="50" y="14" text-anchor="middle" font-size="12" fill="var(--ink-mute)">本利和</text>
+          <text x="556" y="198" text-anchor="end" font-size="12" fill="var(--ink-mute)">时间 →</text>
+          <!-- linear -->
+          <line x1="50" y1="172" x2="520" y2="110" stroke="var(--ink-soft)" stroke-width="2.5" stroke-dasharray="5 4"/>
+          <text x="440" y="100" font-size="13" fill="var(--ink-soft)" font-weight="700">莎士比亚算法（简单相加）</text>
+          <!-- exponential -->
+          <path d="M50 172 C 260 168, 400 150, 470 90 S 540 20, 552 18" fill="none" stroke="var(--green)" stroke-width="3.5"/>
+          <text x="330" y="150" font-size="13" fill="var(--green)" font-weight="700">夏洛克算法（利滚利）</text>
+          <circle cx="552" cy="18" r="6" fill="var(--green)"/>
+        </svg>
+        <figcaption>"如若真的每天进步一点点，一年下来，收获最终很可能是 P(1+i)……这是夏洛克的算法——指数级增长。"（《把时间当作朋友》第七章·应用）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 好习惯与坏习惯都在利滚利 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>复利不分好坏——它对坏习惯同样生效</h3>
+      <p>"习惯决定命运"，说的正是复利。好习惯养成得越早，一生的收益就越大。但反过来同样成立：<strong>坏习惯也在收复利，而且利息高得像"高利贷"。</strong></p>
+      <p>书里点名了一个最常见的例子——<strong>"怕麻烦"</strong>。学习效果差，往往是"怕麻烦"造成的疏漏；工作成绩差，往往是"怕麻烦"导致的偷懒。它的可怕之处在于：单看一次，利息并不高，"不马上致命"，就像一种慢性病，等到最终恶果一起爆发时，连本带利已经高到还不起。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="好习惯的复利曲线缓慢上升变陡，坏习惯的复利曲线缓慢下滑变陡，早期都不明显，后期才看清代价">
+          <line x1="50" y1="100" x2="560" y2="100" stroke="var(--ink-mute)" stroke-width="1.5" stroke-dasharray="3 4"/>
+          <text x="560" y="96" text-anchor="end" font-size="11" fill="var(--ink-mute)">今天的起点</text>
+          <!-- good habit up -->
+          <path d="M60 100 C 220 98, 360 85, 470 40 S 540 8, 550 6" fill="none" stroke="var(--green)" stroke-width="3.5"/>
+          <text x="330" y="55" font-size="13" fill="var(--green)" font-weight="700">好习惯：利滚利地变好</text>
+          <!-- bad habit down -->
+          <path d="M60 100 C 220 102, 360 118, 470 158 S 540 190, 550 194" fill="none" stroke="var(--coral)" stroke-width="3.5"/>
+          <text x="330" y="178" font-size="13" fill="var(--coral)" font-weight="700">坏习惯："怕麻烦"的高利贷</text>
+          <circle cx="60" cy="100" r="5" fill="var(--ink-soft)"/>
+        </svg>
+        <figcaption>"'怕麻烦'之类的坏习惯……'利息'并不高，甚至很低，只不过它'利滚利'……正因如此，坏习惯会在它的宿主身上'永垂不朽'。"（《把时间当作朋友》第七章·应用）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 罗森茨威格的老鼠实验 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>连环境本身，也在替你计复利</h3>
+      <p>生物心理学家罗森茨威格做过一个实验：把遗传素质差不多的老鼠分成三组——"标准环境"（普通笼子）、"贫乏环境"（单独隔离、几乎没有刺激）、"丰富环境"（一群老鼠住在有秋千、滑梯、木架梯的宽敞笼子里）。几个月后，"丰富环境"组最活跃，"贫乏环境"组最迟钝；解剖发现，两组老鼠在大脑皮层厚度、神经纤维数量等多项指标上都有明显差异。</p>
+      <p>每天多一点点刺激、多一点点被认真对待，单看一天几乎看不出任何区别——它也在利滚利，只不过利率、本金都藏在看不见的地方，几个月、几年后才会显出结果。</p>
+      <figure>
+        <svg viewBox="0 0 600 190" role="img" aria-label="贫乏环境、标准环境、丰富环境三组老鼠的大脑活跃程度呈阶梯上升">
+          <line x1="60" y1="160" x2="560" y2="160" stroke="var(--ink-mute)" stroke-width="1.5"/>
+          <rect x="110" y="112" width="90" height="48" rx="6" fill="var(--coral-soft)"/>
+          <text x="155" y="100" text-anchor="middle" font-size="13" fill="var(--ink)" font-weight="700">贫乏环境</text>
+          <text x="155" y="180" text-anchor="middle" font-size="12" fill="var(--ink-mute)">最迟钝</text>
+          <rect x="255" y="80" width="90" height="80" rx="6" fill="var(--blue-soft)"/>
+          <text x="300" y="68" text-anchor="middle" font-size="13" fill="var(--ink)" font-weight="700">标准环境</text>
+          <rect x="400" y="34" width="90" height="126" rx="6" fill="var(--green-soft)"/>
+          <text x="445" y="22" text-anchor="middle" font-size="13" fill="var(--ink)" font-weight="700">丰富环境</text>
+          <text x="445" y="180" text-anchor="middle" font-size="12" fill="var(--ink-mute)">最活跃</text>
+        </svg>
+        <figcaption>罗森茨威格的老鼠实验：处在"丰富环境"中的老鼠几个月后最为活跃，"贫乏环境"组则明显迟钝（《把时间当作朋友》第七章·应用）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"相信积累的力量，<br>本质上就是相信<br>复利的力量。"</p>
+      <span class="src">—— 《把时间当作朋友》第七章「应用」。任何积累都需要时间，而且必然需要漫长的时间——这正是大多数人不肯积累、不愿积累的原因。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>你现在有没有一个"利息不高，但每天都在利滚利"的好习惯？如果没有，你愿意从哪一件很小的事开始？</summary>
+        <p class="hint">没有标准答案。书里说，好习惯养成得越早，一生的收益就越大——重点不是这件事听起来多厉害，而是它能不能每天做、能不能一直做。</p>
+      </details>
+      <details>
+        <summary>有没有一件事，你一直因为"怕麻烦"而回避？它现在可能已经利滚利成什么样子了？</summary>
+        <p class="hint">没有标准答案。"怕麻烦"最可怕的地方是"不马上致命"——正因为看不出眼前的坏处，才更容易被忽略，越拖利息越高。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>挑<strong>一件你想坚持的小事</strong>（比如每天读 10 页书、运动 15 分钟、背 5 个单词），连续做 <strong>21 天</strong>。每天在本子上打一个勾，再给自己"今天做到了多少"打个 1–5 分。21 天后回头翻一遍记录，看看这条曲线是不是也像复利一样——<strong>前面几乎看不出变化，后面开始悄悄加速。</strong>如果中间断了一天也没关系，接着记，复利要的是长期趋势，不是完美无缺。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="15-listening.html">← 会听的人，其实很少</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '16-compound-interest';
+    const READER_TITLE = '积累不是加法，是乘法';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
