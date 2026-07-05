@@ -1,0 +1,510 @@
+<!doctype html>
+<!-- CONTENT_MAP: 会看说明书·L01「说明书」绘本化 → storybooks/33-the-little-train.html · 场景:客厅地毯·新火车轨道(新场景,池外新想) · 尾页:🚂(新) · shelf 第32本 · 核心:不会的时候,先看看说明书——有人把方法画好啦 · 源:学习的真相 02「说明书」(学习只不过是认真阅读说明书而已;绝大多数人就是不看说明书) -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>毛毛的小火车</title>
+<meta name="description" content="毛毛的新火车轨道怎么拼都拼不上，急得直跺脚。爸爸从箱子里找出一张图画说明书——原来有人把怎么拼一步一步画好啦。照着做，小火车呜呜地跑起来啦！">
+<meta property="og:title" content="毛毛的小火车">
+<meta property="og:description" content="毛毛的新火车轨道怎么拼都拼不上，急得直跺脚。爸爸从箱子里找出一张图画说明书——原来有人把怎么拼一步一步画好啦。照着做，小火车呜呜地跑起来啦！">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/storybooks/33-the-little-train">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="毛毛的小火车">
+<meta name="twitter:description" content="不会的时候，先看看说明书——有人把方法画好啦。">
+<meta name="twitter:image" content="https://family.carlxu.cn/og.png">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "LXGW WenKai TC","LXGW WenKai",serif; background:#F8F2E2; min-height:100vh; overflow:hidden; }
+  .book { width:100vw; height:100vh; position:relative; overflow:hidden; }
+
+  .top { position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:20px 32px; z-index:20; }
+  .back { text-decoration:none; color:#5C4F3D; font-size:16px; background:rgba(255,255,255,0.7); padding:8px 16px; border-radius:999px; backdrop-filter:blur(8px); }
+  .read-aloud { background:#4B7BA8; color:white; border:0; padding:10px 18px; border-radius:999px; font-family:inherit; font-size:16px; cursor:pointer; box-shadow:0 3px 0 rgba(0,0,0,0.1); }
+  .read-aloud:active { transform:translateY(1px); box-shadow:0 2px 0 rgba(0,0,0,0.1); }
+
+  .page { position:absolute; inset:0; display:flex; flex-direction:column; padding:72px 0 48px; opacity:0; pointer-events:none; transition:opacity 0.6s ease; }
+  .page.is-active { opacity:1; pointer-events:auto; }
+  .page[data-bg="cream"]  { background:#F8F2E2; }
+  .page[data-bg="peach"]  { background:#FBE3D5; }
+  .page[data-bg="mint"]   { background:#D7EBC9; }
+  .page[data-bg="sky"]    { background:#D7E7F4; }
+  .page[data-bg="yellow"] { background:#FBE39A; }
+  .page[data-bg="coral"]  { background:#F4A799; }
+  .page[data-bg="blue"]   { background:#A8C2DE; }
+
+  .scene { flex:1; min-height:0; position:relative; width:100%; overflow:hidden; }
+  .scene svg { width:100%; height:100%; }
+
+  .text { flex-shrink:0; padding:12px 24px 8px; text-align:center; }
+  .text h2 { font-size:clamp(22px,4.5vw,34px); line-height:1.4; color:#2B2419; font-weight:500; text-wrap:balance; }
+  .text .big { font-size:clamp(28px,5.5vw,44px); line-height:1.3; color:#4B7BA8; font-weight:700; margin-top:8px; }
+  .text .small { font-size:clamp(14px,2.8vw,16px); color:#5C4F3D; margin-top:8px; }
+
+  .end-card { margin:auto; background:white; padding:32px; border-radius:24px; max-width:480px; width:calc(100% - 48px); box-shadow:0 8px 0 rgba(0,0,0,0.06),0 24px 48px -16px rgba(0,0,0,0.2); text-align:center; }
+  .end-card h2 { font-size:28px; color:#4B7BA8; margin-bottom:16px; }
+  .end-card p { font-size:19px; color:#2B2419; line-height:1.7; margin-bottom:12px; }
+
+  .nav-btn { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.88); border:0; width:56px; height:56px; border-radius:50%; font-size:24px; cursor:pointer; box-shadow:0 3px 0 rgba(0,0,0,0.1); font-family:inherit; color:#2B2419; z-index:20; backdrop-filter:blur(4px); }
+  .nav-btn:disabled { opacity:0.3; pointer-events:none; }
+  .nav-btn:active { transform:translateY(calc(-50% + 1px)); box-shadow:0 2px 0 rgba(0,0,0,0.1); }
+  #prev { left:12px; } #next { right:12px; }
+
+  .dots-wrap { position:absolute; bottom:16px; left:0; right:0; display:flex; justify-content:center; z-index:20; }
+  .dots { display:flex; gap:6px; }
+  .dots span { width:8px; height:8px; border-radius:50%; background:rgba(43,36,25,0.2); transition:background 0.3s,transform 0.3s; }
+  .dots span.is-active { background:#4B7BA8; transform:scale(1.4); }
+
+  .float { animation:float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .pop { animation:pop 0.6s ease; }
+  @keyframes pop { 0%{transform:scale(0);opacity:0} 60%{transform:scale(1.15)} 100%{transform:scale(1);opacity:1} }
+  .interactive { cursor:pointer; transform-box:fill-box; transform-origin:center center; }
+  .interactive:hover { opacity:0.9; }
+  .do-bounce { animation:iBounce 0.6s cubic-bezier(0.36,0.07,0.19,0.97) both !important; }
+  @keyframes iBounce { 0%{transform:translateY(0) scale(1)} 25%{transform:translateY(-18px) scale(1.15)} 55%{transform:translateY(-4px) scale(0.96)} 75%{transform:translateY(-8px) scale(1.05)} 100%{transform:translateY(0) scale(1)} }
+  .do-shake { animation:iShake 0.55s ease both !important; }
+  @keyframes iShake { 0%,100%{transform:rotate(0deg)} 18%{transform:rotate(-22deg)} 38%{transform:rotate(18deg)} 58%{transform:rotate(-14deg)} 78%{transform:rotate(9deg)} }
+  .do-wobble { animation:iWobble 0.7s ease both !important; }
+  @keyframes iWobble { 0%,100%{transform:scaleX(1) scaleY(1)} 20%{transform:scaleX(1.25) scaleY(0.75)} 45%{transform:scaleX(0.85) scaleY(1.2)} 65%{transform:scaleX(1.1) scaleY(0.9)} 80%{transform:scaleX(0.96) scaleY(1.04)} }
+
+  .speech-bubble { position:absolute; background:white; border-radius:999px; padding:6px 16px; font-size:20px; font-family:"LXGW WenKai TC",serif; box-shadow:0 3px 0 rgba(0,0,0,0.12); pointer-events:none; white-space:nowrap; z-index:50; animation:bPop 0.3s ease forwards; }
+  @keyframes bPop { from{opacity:0} to{opacity:1} }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+<div class="book">
+
+  <div class="top">
+    <a class="back" href="../for-youngest.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+    <a href="../dashboard.html" class="dash-link" style="background:rgba(255,255,255,0.7);padding:8px 14px;border-radius:999px;text-decoration:none;font-size:16px;backdrop-filter:blur(8px);" title="仪表盘">📊</a>
+  </div>
+
+  <!-- PAGE 1 · 新玩具到啦 -->
+  <div class="page is-active" data-bg="cream" data-text="叮咚！毛毛的新玩具到啦——一盒小火车轨道！毛毛哗啦一下打开箱子，零件撒了一地毯。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- living-room rug -->
+        <ellipse cx="200" cy="290" rx="185" ry="52" fill="#E8C9A8"/>
+        <ellipse cx="200" cy="290" rx="150" ry="40" fill="#F0D9BC"/>
+        <!-- window hint -->
+        <rect x="292" y="46" width="76" height="66" rx="8" fill="#D7E7F4" stroke="#8C7C66" stroke-width="2"/>
+        <line x1="330" y1="46" x2="330" y2="112" stroke="#8C7C66" stroke-width="2"/>
+        <!-- open box -->
+        <g id="p1-box" transform="translate(282,244)">
+          <rect x="-38" y="-22" width="76" height="44" rx="6" fill="#B98A4A"/>
+          <polygon points="-38,-22 -58,-42 -18,-42 -2,-22" fill="#CFa065"/>
+          <polygon points="38,-22 58,-42 18,-42 2,-22" fill="#A87B3E"/>
+          <text x="0" y="6" text-anchor="middle" font-size="13" fill="#FFFDF6" font-weight="700">小火车</text>
+        </g>
+        <!-- scattered track pieces -->
+        <g stroke="#4B7BA8" stroke-width="5" fill="none" stroke-linecap="round">
+          <path d="M96 268 q 16 -12 34 -4"/>
+          <line x1="150" y1="284" x2="188" y2="278"/>
+          <path d="M206 292 q 18 8 34 -2"/>
+          <line x1="120" y1="296" x2="94" y2="288"/>
+        </g>
+        <!-- little blue train -->
+        <g id="p1-train" transform="translate(196,246)">
+          <rect x="-24" y="-14" width="34" height="20" rx="5" fill="#4B7BA8"/>
+          <rect x="10" y="-6" width="16" height="12" rx="3" fill="#E56B5A"/>
+          <rect x="-18" y="-24" width="12" height="12" rx="3" fill="#4B7BA8"/>
+          <circle cx="-14" cy="8" r="5" fill="#2B2419"/>
+          <circle cx="0" cy="8" r="5" fill="#2B2419"/>
+          <circle cx="17" cy="8" r="4" fill="#2B2419"/>
+        </g>
+        <!-- 毛毛 excited -->
+        <g id="p1-maomao" transform="translate(118,222)">
+          <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="-6" cy="-20" r="3" fill="#2B2419"/>
+          <circle cx="7" cy="-20" r="3" fill="#2B2419"/>
+          <polygon points="2,-13 14,-10 2,-7" fill="#E56B5A"/>
+          <path d="M-6,-9 Q2,-3 9,-9" stroke="#2B2419" stroke-width="1.4" fill="none"/>
+          <ellipse cx="-22" cy="-8" rx="8" ry="13" fill="#F4C13E" transform="rotate(-55 -22 -8)"/>
+          <ellipse cx="22" cy="-8" rx="8" ry="13" fill="#F4C13E" transform="rotate(55 22 -8)"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>叮咚！新玩具到啦！</h2>
+      <p class="small">一盒小火车轨道——零件哗啦撒了一地毯。</p>
+    </div>
+  </div>
+
+  <!-- PAGE 2 · 硬拼拼不上 -->
+  <div class="page" data-bg="peach" data-text="毛毛使劲拼呀拼，把弯弯的硬接在直直的上。咔哒——接不上！小火车一开就翻倒了。毛毛急得直跺脚：这个玩具坏了吧！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <ellipse cx="200" cy="290" rx="185" ry="52" fill="#F3C7B4"/>
+        <ellipse cx="200" cy="290" rx="150" ry="40" fill="#F8DBC9"/>
+        <!-- mismatched track: a curve jammed against a straight, gap visible -->
+        <g stroke="#4B7BA8" stroke-width="6" fill="none" stroke-linecap="round">
+          <line x1="110" y1="270" x2="182" y2="262"/>
+          <path d="M196 254 q 26 -18 52 -6"/>
+        </g>
+        <!-- gap marks -->
+        <g stroke="#E56B5A" stroke-width="2.5" stroke-linecap="round">
+          <line x1="186" y1="248" x2="194" y2="268"/>
+          <line x1="194" y1="248" x2="186" y2="268"/>
+        </g>
+        <!-- tipped-over train -->
+        <g id="p2-train" transform="translate(262,262) rotate(38)">
+          <rect x="-24" y="-14" width="34" height="20" rx="5" fill="#4B7BA8"/>
+          <rect x="10" y="-6" width="16" height="12" rx="3" fill="#E56B5A"/>
+          <rect x="-18" y="-24" width="12" height="12" rx="3" fill="#4B7BA8"/>
+          <circle cx="-14" cy="8" r="5" fill="#2B2419"/>
+          <circle cx="0" cy="8" r="5" fill="#2B2419"/>
+          <circle cx="17" cy="8" r="4" fill="#2B2419"/>
+        </g>
+        <!-- 毛毛 frustrated, stomping -->
+        <g id="p2-maomao" transform="translate(130,220)">
+          <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <line x1="-9" y1="-24" x2="-3" y2="-21" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+          <line x1="9" y1="-24" x2="3" y2="-21" stroke="#2B2419" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="-6" cy="-18" r="2.6" fill="#2B2419"/>
+          <circle cx="6" cy="-18" r="2.6" fill="#2B2419"/>
+          <polygon points="2,-12 14,-9 2,-6" fill="#E56B5A"/>
+          <path d="M-7,-6 Q0,-10 7,-6" stroke="#2B2419" stroke-width="1.4" fill="none"/>
+          <ellipse cx="-24" cy="2" rx="8" ry="13" fill="#F4C13E" transform="rotate(-80 -24 2)"/>
+          <ellipse cx="24" cy="2" rx="8" ry="13" fill="#F4C13E" transform="rotate(80 24 2)"/>
+        </g>
+        <!-- angry puffs -->
+        <g fill="#E56B5A" opacity="0.8">
+          <circle cx="98" cy="176" r="3"/>
+          <circle cx="108" cy="166" r="4"/>
+          <circle cx="120" cy="160" r="3"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>咔哒——接不上！</h2>
+      <p class="small">小火车一开就翻倒。"这个玩具坏了吧！"</p>
+    </div>
+  </div>
+
+  <!-- PAGE 3 · 爸爸拿出说明书 -->
+  <div class="page" data-bg="sky" data-text="爸爸走过来，没有帮她拼，也没有讲大道理。他从箱子里翻出一张大大的图画纸：看，这是说明书——有人早就把怎么拼，一步一步画好啦。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <ellipse cx="200" cy="290" rx="185" ry="52" fill="#BBD6EC"/>
+        <ellipse cx="200" cy="290" rx="150" ry="40" fill="#CFE2F2"/>
+        <!-- the picture manual, big and central -->
+        <g id="p3-manual" transform="translate(200,150)">
+          <rect x="-58" y="-44" width="116" height="88" rx="8" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <text x="0" y="-26" text-anchor="middle" font-size="13" fill="#4B7BA8" font-weight="700">拼一拼 · 说明书</text>
+          <!-- step 1: curve -->
+          <circle cx="-34" cy="0" r="9" fill="#A8C2DE"/>
+          <text x="-34" y="4" text-anchor="middle" font-size="10" fill="#2B2419" font-weight="700">1</text>
+          <path d="M-18 4 q 8 -10 20 -4" stroke="#4B7BA8" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <!-- step 2: straight -->
+          <circle cx="-34" cy="26" r="9" fill="#A8C2DE"/>
+          <text x="-34" y="30" text-anchor="middle" font-size="10" fill="#2B2419" font-weight="700">2</text>
+          <line x1="-18" y1="26" x2="6" y2="26" stroke="#4B7BA8" stroke-width="3.5" stroke-linecap="round"/>
+          <!-- little circle result -->
+          <circle cx="34" cy="14" r="14" fill="none" stroke="#6FA86D" stroke-width="3.5"/>
+        </g>
+        <!-- Dad with glasses, pointing -->
+        <g id="p3-dad" transform="translate(94,212)">
+          <ellipse cx="0" cy="14" rx="32" ry="36" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="0" cy="-30" r="26" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="-9" cy="-32" r="7" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="9" cy="-32" r="7" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <line x1="-2" y1="-32" x2="2" y2="-32" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="-9" cy="-32" r="2.5" fill="#2B2419"/>
+          <circle cx="9" cy="-32" r="2.5" fill="#2B2419"/>
+          <polygon points="3,-24 17,-20 3,-16" fill="#E56B5A"/>
+          <ellipse cx="30" cy="-8" rx="9" ry="15" fill="#F4C13E" transform="rotate(55 30 -8)"/>
+          <ellipse cx="-28" cy="6" rx="9" ry="15" fill="#F4C13E" transform="rotate(-20 -28 6)"/>
+        </g>
+        <!-- 毛毛 looking up, curious -->
+        <g id="p3-maomao" transform="translate(306,234)">
+          <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5" transform="rotate(-8)"/>
+          <circle cx="-7" cy="-20" r="3" fill="#2B2419"/>
+          <circle cx="5" cy="-21" r="3" fill="#2B2419"/>
+          <polygon points="-2,-13 -14,-10 -2,-7" fill="#F4C13E"/>
+          <path d="M-9,-8 Q-2,-4 5,-8" stroke="#2B2419" stroke-width="1.4" fill="none"/>
+          <ellipse cx="-20" cy="0" rx="8" ry="13" fill="#F4C13E" transform="rotate(-30 -20 0)"/>
+          <ellipse cx="20" cy="0" rx="8" ry="13" fill="#F4C13E" transform="rotate(30 20 0)"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>"看，这是说明书。"</h2>
+      <p class="small">有人早就把怎么拼，一步一步画好啦。</p>
+    </div>
+  </div>
+
+  <!-- PAGE 4 · 照着一步一步拼 -->
+  <div class="page" data-bg="mint" data-text="毛毛和爸爸把说明书铺在地毯上，照着图，一步一步来：第一步，找弯弯的；第二步，接直直的……咔哒！咔哒！轨道连成了一个大圆圈！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <ellipse cx="200" cy="290" rx="185" ry="52" fill="#B8D89A"/>
+        <ellipse cx="200" cy="290" rx="150" ry="40" fill="#CBE4B0"/>
+        <!-- manual spread on rug -->
+        <g transform="translate(96,282)">
+          <rect x="-34" y="-24" width="68" height="48" rx="6" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5" transform="rotate(-6)"/>
+          <path d="M-18 -4 q 6 -8 16 -3" stroke="#4B7BA8" stroke-width="2.5" fill="none" transform="rotate(-6)"/>
+          <line x1="-18" y1="10" x2="4" y2="10" stroke="#4B7BA8" stroke-width="2.5" transform="rotate(-6)" stroke-linecap="round"/>
+        </g>
+        <!-- track loop closing -->
+        <g id="p4-track" transform="translate(238,238)">
+          <ellipse cx="0" cy="0" rx="92" ry="42" fill="none" stroke="#4B7BA8" stroke-width="6"/>
+          <g stroke="#FFFDF6" stroke-width="2" opacity="0.9">
+            <line x1="-92" y1="-6" x2="-92" y2="6"/>
+            <line x1="92" y1="-6" x2="92" y2="6"/>
+            <line x1="-6" y1="-42" x2="6" y2="-42"/>
+            <line x1="-6" y1="42" x2="6" y2="42"/>
+          </g>
+          <text x="0" y="-56" text-anchor="middle" font-size="15" fill="#6FA86D" font-weight="700">咔哒！咔哒！</text>
+        </g>
+        <!-- 毛毛 placing last piece -->
+        <g id="p4-maomao" transform="translate(150,196)">
+          <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="-6" cy="-20" r="3" fill="#2B2419"/>
+          <circle cx="7" cy="-20" r="3" fill="#2B2419"/>
+          <polygon points="2,-13 14,-10 2,-7" fill="#F4C13E"/>
+          <path d="M-6,-9 Q2,-3 9,-9" stroke="#2B2419" stroke-width="1.4" fill="none"/>
+          <ellipse cx="26" cy="0" rx="8" ry="13" fill="#F4C13E" transform="rotate(62 26 0)"/>
+          <ellipse cx="-22" cy="4" rx="8" ry="13" fill="#F4C13E" transform="rotate(-24 -22 4)"/>
+        </g>
+        <!-- Dad watching warmly, further left -->
+        <g id="p4-dad" transform="translate(62,190)">
+          <ellipse cx="0" cy="14" rx="28" ry="32" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="0" cy="-26" r="23" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="-8" cy="-28" r="6" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="8" cy="-28" r="6" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <line x1="-2" y1="-28" x2="2" y2="-28" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="-8" cy="-28" r="2.2" fill="#2B2419"/>
+          <circle cx="8" cy="-28" r="2.2" fill="#2B2419"/>
+          <polygon points="3,-20 15,-17 3,-14" fill="#E56B5A"/>
+          <path d="M-6,-12 Q1,-7 8,-12" stroke="#2B2419" stroke-width="1.4" fill="none"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>第一步，第二步……</h2>
+      <p class="small">照着图一步一步来，轨道连成了一个大圆圈！</p>
+    </div>
+  </div>
+
+  <!-- PAGE 5 · 小火车跑起来 -->
+  <div class="page" data-bg="yellow" data-text="呜——呜——！小火车绕着圆圈，欢快地跑起来啦！毛毛拍着翅膀笑：原来不是玩具坏了，是我没看说明书。说明书里都写着呢！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <ellipse cx="200" cy="290" rx="185" ry="52" fill="#EAD98A"/>
+        <ellipse cx="200" cy="290" rx="150" ry="40" fill="#F2E4A5"/>
+        <!-- closed loop -->
+        <ellipse cx="200" cy="248" rx="120" ry="46" fill="none" stroke="#4B7BA8" stroke-width="6"/>
+        <!-- train running on loop, slight tilt -->
+        <g id="p5-train" transform="translate(116,222) rotate(-12)">
+          <rect x="-26" y="-16" width="38" height="22" rx="5" fill="#4B7BA8"/>
+          <rect x="12" y="-7" width="18" height="13" rx="3" fill="#E56B5A"/>
+          <rect x="-20" y="-27" width="13" height="13" rx="3" fill="#4B7BA8"/>
+          <circle cx="-15" cy="9" r="5.5" fill="#2B2419"/>
+          <circle cx="1" cy="9" r="5.5" fill="#2B2419"/>
+          <circle cx="20" cy="9" r="4.5" fill="#2B2419"/>
+          <g stroke="#8C7C66" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.7">
+            <path d="M-16 -34 q 5 -5 12 -3"/>
+            <path d="M-20 -42 q 7 -6 15 -4"/>
+          </g>
+        </g>
+        <text x="118" y="150" text-anchor="middle" font-size="17" fill="#E56B5A" font-weight="700">呜——呜——！</text>
+        <!-- 毛毛 cheering inside the loop -->
+        <g id="p5-maomao" transform="translate(238,214)">
+          <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="-6" cy="-20" r="3" fill="#2B2419"/>
+          <circle cx="7" cy="-20" r="3" fill="#2B2419"/>
+          <polygon points="2,-13 14,-10 2,-7" fill="#F4C13E"/>
+          <path d="M-7,-9 Q0,-2 8,-9" stroke="#2B2419" stroke-width="1.4" fill="none"/>
+          <ellipse cx="-22" cy="-8" rx="8" ry="13" fill="#F4C13E" transform="rotate(-55 -22 -8)"/>
+          <ellipse cx="22" cy="-8" rx="8" ry="13" fill="#F4C13E" transform="rotate(55 22 -8)"/>
+        </g>
+        <!-- manual kept beside her like a treasure -->
+        <g id="p5-manual" transform="translate(322,238)">
+          <rect x="-26" y="-20" width="52" height="40" rx="5" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5" transform="rotate(6)"/>
+          <path d="M-14 -4 q 5 -7 13 -3" stroke="#4B7BA8" stroke-width="2.2" fill="none" transform="rotate(6)"/>
+          <line x1="-14" y1="8" x2="4" y2="8" stroke="#4B7BA8" stroke-width="2.2" transform="rotate(6)" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>小火车跑起来啦！</h2>
+      <p class="big">"说明书里都写着呢！"</p>
+    </div>
+  </div>
+
+  <!-- LAST PAGE — end-card -->
+  <div class="page" data-bg="blue" data-text="给小弟弟。不会的时候，别着急，先找找说明书——有人早就把方法，一步一步画好啦。">
+    <div class="end-card">
+      <h2>给小弟弟 🚂</h2>
+      <p>不会的时候，别着急，先找找说明书——有人早就把方法，一步一步画好啦。</p>
+      <p style="font-size:32px;color:#4B7BA8;font-weight:700;margin:16px 0;">"先看一看，说明书里都写着呢。"</p>
+      <p style="font-size:16px;color:#5C4F3D;">新玩具、新拼图、新的小机器——盒子里那张画着 1、2、3 的纸，就是它的小秘密。</p>
+      <button class="read-aloud" style="margin-top:24px;" onclick="goTo(0)">🔄 再讲一遍</button>
+    </div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
+
+</div>
+<script src="../fo-utils.js"></script>
+<script>
+  const BOOK_ID = '33-the-little-train'; const BOOK_TITLE = '毛毛的小火车'; const BOOK_TOTAL = 6;
+
+  function getInteractionLayer(el) {
+    if (!el) return null;
+    if (el._interactionLayer) return el._interactionLayer;
+    const isSvgGroup = el.namespaceURI === 'http://www.w3.org/2000/svg' && el.tagName.toLowerCase() === 'g';
+    if (!isSvgGroup || !el.hasAttribute('transform')) {
+      el._interactionLayer = el;
+      return el;
+    }
+    const layer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    layer.setAttribute('data-interaction-layer', '');
+    if (el.classList.contains('float')) {
+      el.classList.remove('float');
+      layer.classList.add('float');
+      layer.style.animationDelay = el.style.animationDelay || '';
+      el.style.animationDelay = '';
+    }
+    while (el.firstChild) layer.appendChild(el.firstChild);
+    el.appendChild(layer);
+    el._interactionLayer = layer;
+    return layer;
+  }
+
+  function placeSpeechBubble(scene, el, msg) {
+    const er = el.getBoundingClientRect();
+    const sr = scene.getBoundingClientRect();
+    const b = document.createElement('div');
+    b.className = 'speech-bubble';
+    b.textContent = msg;
+    b.style.maxWidth = Math.max(120, sr.width - 24) + 'px';
+    b.style.overflow = 'hidden';
+    b.style.textOverflow = 'ellipsis';
+    b.style.whiteSpace = 'nowrap';
+    scene.appendChild(b);
+
+    const br = b.getBoundingClientRect();
+    let left = er.left + er.width / 2 - sr.left;
+    let top = er.top - sr.top - br.height - 10;
+    if (top < 8) top = Math.min(sr.height - br.height - 8, er.bottom - sr.top + 10);
+    left = Math.max(12 + br.width / 2, Math.min(sr.width - 12 - br.width / 2, left));
+
+    const bubbles = Array.from(scene.querySelectorAll('.speech-bubble')).filter(x => x !== b);
+    for (const other of bubbles) {
+      const or = other.getBoundingClientRect();
+      const overlaps = !(left + br.width / 2 < or.left - sr.left || left - br.width / 2 > or.right - sr.left || top + br.height < or.top - sr.top || top > or.bottom - sr.top);
+      if (overlaps) top = Math.min(sr.height - br.height - 8, or.bottom - sr.top + 8);
+    }
+
+    b.style.left = left + 'px';
+    b.style.top = Math.max(8, top) + 'px';
+    b.style.transform = 'translateX(-50%)';
+    setTimeout(() => b.remove(), 1500);
+  }
+
+  function makeInteractive(el, animClass, msg) {
+    if (!el) return;
+    const target = getInteractionLayer(el);
+    el.classList.add('interactive');
+    el.addEventListener('click', function () {
+      if (el._busy) return;
+      el._busy = true;
+      target.classList.remove(animClass);
+      void target.getBoundingClientRect();
+      target.classList.add(animClass);
+      if (msg) {
+        const scene = el.closest('.scene');
+        if (scene) placeSpeechBubble(scene, el, msg);
+      }
+      setTimeout(() => { target.classList.remove(animClass); el._busy = false; }, 750);
+    });
+  }
+
+  const pages = document.querySelectorAll('.page');
+  const total  = pages.length;
+  const dots   = document.getElementById('dots');
+  let current  = 0;
+
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('span');
+    if (i === 0) d.classList.add('is-active');
+    dots.appendChild(d);
+  }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    speechSynthesis.cancel();
+    pages.forEach((p, i) => p.classList.toggle('is-active', i === idx));
+    dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx));
+    current = idx;
+    document.getElementById('prev').disabled = idx === 0;
+    document.getElementById('next').disabled = idx === total - 1;
+    if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL);
+  }
+
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  goTo(current - 1);
+    if (e.key === 'ArrowRight') goTo(current + 1);
+  });
+
+  let _tx = 0;
+  document.addEventListener('touchstart', e => { _tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - _tx;
+    if (Math.abs(dx) > 50) dx < 0 ? goTo(current + 1) : goTo(current - 1);
+  });
+
+  document.getElementById('readBtn').addEventListener('click', () => {
+    const text = pages[current].dataset.text;
+    if (!text || !window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-CN'; u.rate = 0.85; u.pitch = 1.1;
+    speechSynthesis.speak(u);
+  });
+
+  goTo(0);
+
+  // Interactions — one or two per scene page
+  makeInteractive(document.getElementById('p1-maomao'), 'do-bounce', '新玩具！');
+  makeInteractive(document.getElementById('p1-box'), 'do-wobble', '哗啦——');
+  makeInteractive(document.getElementById('p1-train'), 'do-wobble', '呜呜？');
+  makeInteractive(document.getElementById('p2-maomao'), 'do-shake', '拼不上嘛！');
+  makeInteractive(document.getElementById('p2-train'), 'do-shake', '哎哟——');
+  makeInteractive(document.getElementById('p3-dad'), 'do-bounce', '看，说明书。');
+  makeInteractive(document.getElementById('p3-manual'), 'do-wobble', '一步一步画好啦');
+  makeInteractive(document.getElementById('p3-maomao'), 'do-bounce', '咦？');
+  makeInteractive(document.getElementById('p4-maomao'), 'do-bounce', '咔哒！');
+  makeInteractive(document.getElementById('p4-dad'), 'do-bounce', '就是这样。');
+  makeInteractive(document.getElementById('p4-track'), 'do-wobble', '连成圈啦！');
+  makeInteractive(document.getElementById('p5-train'), 'do-bounce', '呜——呜——！');
+  makeInteractive(document.getElementById('p5-maomao'), 'do-bounce', '都写着呢！');
+  makeInteractive(document.getElementById('p5-manual'), 'do-wobble', '我的小秘密');
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.FO) FO.logHistory(BOOK_ID, BOOK_TITLE);
+  });
+</script>
+</body>
+</html>
