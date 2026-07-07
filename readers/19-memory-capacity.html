@@ -1,0 +1,227 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: L03 · 源: 学习的真相 13「记忆容量」（内存↔短期记忆/海马体、硬盘↔长期记忆/大脑皮层；大脑=贝叶斯推理机=基于记忆的预测系统：输入→匹配→预测→验证；"她那美丽的"阅读预测、天阴带伞、燕子低飞；记忆是意识与时间观念的基础；相机式记忆是杜撰、大脑没有Google式搜索；记忆的核心是信息之间的关联、没有被关联的信息无法属于记忆；口诀=额外关联：一三五七八十腊/饿的话每日熬一鹰/山巅一寺一壶酒；背π100万位的记忆大师无一是顶尖科学家；月份歌谣副作用；砖头≠房子；最佳记忆法=短时间内足量重复（乘法表）；根本手段=扩大知识量：识字vs不识字记忆力≥1倍、多语vs单语+1/5、多语vs不识字≥3倍；聪明靠后天积累；记忆容量是长期观念的前提） -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>过目不忘，是编出来的 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--blue); --accent-soft: var(--blue-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 学习的真相</span>
+    <h1>过目不忘，<br>是编出来的</h1>
+
+    <p class="hook">
+      电视剧和小说里，总有那种"书页翻一眼就全背下来"的天才，还有个专门的词：相机式记忆。你多半羡慕过——每个被"记不住"折磨过的人都羡慕过。但书里说得很干脆：<span class="em">这种能力是杜撰的</span>。我们的大脑里压根没有内建一个像 Google 搜索引擎那样的装置，没有任何人的大脑能把一切输入原样永久保存、随取随用。<br>
+      更有意思的是后半句：就算过目不忘真的存在，它也会让一个正常人<strong>变得更不聪明</strong>。想知道为什么，得先弄清记忆到底是怎么工作的。
+    </p>
+
+    <!-- 拆解 1 · 大脑是预测机 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>你的大脑是一台"预测机"</h3>
+      <p>计算机的存储是仿生设计：速度快、容量小的<strong>内存</strong>，模仿的是人的<strong>短期记忆</strong>（也叫工作记忆，主要由海马体集中处理）；速度慢、容量大的<strong>硬盘</strong>，模仿的是<strong>长期记忆</strong>——它们分散保存在大脑皮层之中。</p>
+      <p>为什么记忆这么重要？因为大脑本质上是一台<strong>贝叶斯推理机</strong>——一个基于记忆的预测系统。每个新输入进来，大脑就调用相关的记忆模型去匹配，做出预测，再等待验证：出门看到天阴了，你顺手拿把伞，这就是一次"输入—预测—验证"。读书时也一样——读到"她那美丽的……"这五个字，你的大脑已经在飞快剔除选项："她"排除了男性，接下来大概是眼睛、脸庞，多半不会是眼镜，更不会是帽子。<strong>你时时刻刻都在预测，而预测的全部依据，就是记忆。</strong></p>
+      <p>反过来：如果你见过燕子低飞之后下雨，却记不住，那下次看到燕子低飞，你的大脑不会做出任何预测。记忆储备越低，可调用的模型就越少，预测能力就越差——书里说得不客气：预测能力过低，就是所谓的"弱智"。记忆甚至是意识和时间观念的基础：假如每晚把你的大脑"重置"回早上，白天发生的一切连接都被抹去，你连"自己做过什么"都无法承认。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="阅读预测示意：读到她那美丽的，大脑不断剔除不可能的选项，留下眼睛脸庞等少数候选">
+          <g text-anchor="middle">
+            <rect x="30" y="72" width="170" height="56" rx="12" fill="var(--blue-soft)"/>
+            <text x="115" y="97" font-size="17" fill="var(--ink)" font-weight="700">"她那美丽的……"</text>
+            <text x="115" y="118" font-size="12" fill="var(--ink-soft)">每读一个字都在预测</text>
+            <text x="240" y="105" font-size="26" fill="var(--ink-mute)">→</text>
+            <g font-size="15" font-weight="700">
+              <rect x="290" y="26" width="110" height="36" rx="18" fill="var(--green-soft)"/>
+              <text x="345" y="49" fill="var(--ink)">眼睛 ✓</text>
+              <rect x="430" y="26" width="110" height="36" rx="18" fill="var(--green-soft)"/>
+              <text x="485" y="49" fill="var(--ink)">脸庞 ✓</text>
+              <g opacity="0.55">
+                <rect x="290" y="86" width="110" height="36" rx="18" fill="var(--coral-soft)"/>
+                <text x="345" y="109" fill="var(--ink)">眼镜 ✗</text>
+                <rect x="430" y="86" width="110" height="36" rx="18" fill="var(--coral-soft)"/>
+                <text x="485" y="109" fill="var(--ink)">帽子 ✗</text>
+                <rect x="360" y="146" width="110" height="36" rx="18" fill="var(--coral-soft)"/>
+                <text x="415" y="169" fill="var(--ink)">瞳孔 ✗</text>
+              </g>
+            </g>
+            <text x="300" y="204" font-size="12" fill="var(--ink-mute)">预测的依据全部来自记忆——记忆越多，预测越快越准</text>
+          </g>
+        </svg>
+        <figcaption>大脑=基于记忆的预测系统：不停剔除不可能的选项（《学习的真相》13·记忆容量）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 记忆的核心是关联 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>记忆的核心不是信息，而是关联</h3>
+      <p>大脑天然就是一个神经元网络，所以记忆也只能是一个网络：任何一个节点，若是和其他节点没有任何联系，它就不属于这个网络——<strong>没有被关联起来的信息，无法属于记忆</strong>。这就是为什么各种记忆法看起来"有效"：口诀"一三五七八十腊，31 天永不差"、谐音"饿的话，每日熬一鹰"（俄德法美日奥意英）、"山巅一寺一壶酒"（3.1415926）……它们的本质全都一样：原本的关联记不住，就<strong>人为造一条额外的关联</strong>。</p>
+      <p>但额外关联是有副作用的。上过国际学校的孩子用一首歌谣记十二个月份的中英对照，结果长大后每次要用某个月份，都恨不得把整首歌从头唱一遍才反应过来——典型的"不必要的关联降低工作效率"。那些记忆奇人也一样：有位乌克兰人能在两分钟内记住 5100 个数字、背出圆周率 100 万位，打破了此前 83431 位的世界纪录——用的依然是关联记忆术，不是什么相机式记忆。而你可以观察一个事实：<strong>我们知道的任何记忆大师，都不是顶尖的科学家或思想家</strong>。</p>
+      <p>书里有个很好的类比：科学由事实构成，正如房子由砖头砌成；但一堆砖头放在那里，不会自动成为房子。把"科学"换成"知识"、"事实"换成"信息"也一样成立——<strong>仅仅往脑子里塞信息，不会让你更聪明</strong>。恰恰相反：无意义的信息和没必要的关联越多，大脑在其中寻找有意义连接的难度，会成几何级数地提高。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="砖头与房子的类比：散落的信息砖头不会自动变成知识的房子，关联才是砌墙的水泥">
+          <g text-anchor="middle">
+            <g fill="var(--coral-soft)" stroke="var(--coral)" stroke-width="1.6">
+              <rect x="66" y="120" width="40" height="20" rx="3" transform="rotate(-14 86 130)"/>
+              <rect x="118" y="132" width="40" height="20" rx="3" transform="rotate(9 138 142)"/>
+              <rect x="92" y="88" width="40" height="20" rx="3" transform="rotate(22 112 98)"/>
+              <rect x="150" y="96" width="40" height="20" rx="3" transform="rotate(-8 170 106)"/>
+              <rect x="110" y="150" width="40" height="20" rx="3"/>
+            </g>
+            <text x="130" y="192" font-size="14" fill="var(--ink)" font-weight="700">一堆信息 ≠ 知识</text>
+            <text x="300" y="115" font-size="26" fill="var(--ink-mute)">→</text>
+            <text x="300" y="140" font-size="12" fill="var(--ink-soft)">关联=水泥</text>
+            <g stroke="var(--blue)" stroke-width="1.6" fill="var(--blue-soft)">
+              <rect x="410" y="140" width="44" height="20" rx="2"/>
+              <rect x="456" y="140" width="44" height="20" rx="2"/>
+              <rect x="502" y="140" width="44" height="20" rx="2"/>
+              <rect x="432" y="118" width="44" height="20" rx="2"/>
+              <rect x="478" y="118" width="44" height="20" rx="2"/>
+              <rect x="455" y="96" width="44" height="20" rx="2"/>
+            </g>
+            <polygon points="477,52 410,96 546,96" fill="var(--blue)" opacity="0.85"/>
+            <text x="478" y="192" font-size="14" fill="var(--blue)" font-weight="700">被关联起来，才是记忆</text>
+          </g>
+        </svg>
+        <figcaption>房子由砖头砌成，但一堆砖头不会自动成为房子（《学习的真相》13·记忆容量）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 两个朴素的方法 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>两个朴素得让人失望的方法</h3>
+      <p><strong>方法一：短时间内足量重复。</strong>书里的结论出人意料：到最后，最佳的记忆法真的就只有"死记硬背"——换个不容易误解的说法，就是短时间内重复足够多遍，并且<strong>尽量不建立不必要的关联</strong>。我们成长过程中做过的最正确的记忆经历就是背乘法表：没有借用任何记忆法，好处是大脑皮层上从未为它建立过任何多余的关联。（顺带一提：英美国家的人上学时没背过乘法表——用英文朗读它实在太费劲了。）</p>
+      <p><strong>方法二：不断扩大知识量。</strong>这才是最重要的提高记忆能力的手段，朴素到几乎没人愿意信。原理还是网络：知识网络越大、节点越多，一个新节点进来时，能和它产生关联的"抓手"就越多，它就能更快更好地接进网络里。所以记忆力的运行机制和学习机制一模一样——<strong>你记得越多，就记得越快、越好、越容易</strong>。</p>
+      <p>这不是鸡汤，有测算数据：一个识字的人，记忆力（包括记忆容量、回忆的准确度和速度）比不识字的人<strong>高出至少一倍</strong>；多语使用者平均比单语使用者再高出约 1/5；于是多语使用者比不识字的人记忆力<strong>高出三倍以上</strong>。从这个角度看，"学习让人变聪明"不是空话，只能是事实——聪明，几乎全部靠后天积累。而用正确朴素的方法提高记忆容量，甚至是建立长期观念的前提。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="记忆力对比条形图：不识字为基准1倍，识字至少2倍，多语使用者3倍以上">
+          <g font-size="14" fill="var(--ink)">
+            <text x="30" y="52" font-weight="700">不识字</text>
+            <rect x="120" y="36" width="90" height="24" rx="12" fill="var(--ink-mute)" opacity="0.5"/>
+            <text x="222" y="54" fill="var(--ink-soft)">1×</text>
+            <text x="30" y="112" font-weight="700">识字</text>
+            <rect x="120" y="96" width="190" height="24" rx="12" fill="var(--blue-soft)"/>
+            <text x="322" y="114" fill="var(--ink-soft)">≥ 2×</text>
+            <text x="30" y="172" font-weight="700">多语使用者</text>
+            <rect x="120" y="156" width="290" height="24" rx="12" fill="var(--blue)"/>
+            <text x="422" y="174" fill="var(--blue)" font-weight="700">≥ 3×</text>
+          </g>
+          <text x="300" y="204" font-size="12" fill="var(--ink-mute)" text-anchor="middle">记忆力 = 记忆容量 + 回忆的准确度 + 速度（书中测算）</text>
+        </svg>
+        <figcaption>知识量越大，节点越多，新东西越容易"挂"上去（《学习的真相》13·记忆容量）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"记忆的核心并不是信息本身，<br>而是信息之间的关联。"</p>
+      <span class="src">—— 《学习的真相》13「记忆容量」。同一章还有后半句：没有被关联起来的信息，无法属于记忆。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>想一个你怎么都记不住的东西——某个单词、公式或年代。它是不是一块"孤零零的砖头"？试着给它找两个抓手：它像什么？和你已经知道的什么有关？</summary>
+        <p class="hint">没有标准答案，写在你自己的本子上。抓手可以很朴素：在哪儿见过类似的、能不能用它造个句、它和哪门课的哪个知识点挨着。</p>
+      </details>
+      <details>
+        <summary>你用过哪些口诀、谐音记忆法？有没有像"月份歌谣"那样，每次都得从头唱一遍才想起来的时刻？考完试之后，那些口诀还剩下什么？</summary>
+        <p class="hint">没有标准答案。书里也承认记忆术对付考试有点用——它只是提醒你：额外关联是有代价的，别把记忆术当成记忆力本身。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>做一个<strong>抓手实验</strong>：挑出本周必须记住的 5 个新知识点，分成两组。前 3 个，每个写下 <strong>2 条它和你已知知识的关联</strong>（它像什么？在哪儿见过类似的？）；后 2 个，只用"短时间内足量重复"——念 3 遍，不加任何花哨口诀。周末合上本子自测：两组各记住了几个？哪组回忆得更快？把结论记成一行字。你会亲手测出自己大脑的记忆机制。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="18-use-it-or-lose-it.html">← 不练的手，不属于你的大脑</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '19-memory-capacity';
+    const READER_TITLE = '过目不忘，是编出来的';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
