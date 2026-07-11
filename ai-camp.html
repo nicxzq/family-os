@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,noai,noimageai">
+  <title>暑期 AI 创造营 · 家庭操作系统</title>
+  <meta name="description" content="用游戏点火，经历一次完整创作，把真实学习麻烦做成自己愿意使用的作品。">
+  <meta property="og:title" content="暑期 AI 创造营">
+  <meta property="og:description" content="孩子负责创造，AI 负责协助。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://family.carlxu.cn/ai-camp">
+  <meta property="og:image" content="https://family.carlxu.cn/ai-camp-og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="camp-page">
+  <header class="camp-topbar">
+    <div class="wrap camp-topbar-inner">
+      <a class="camp-back" href="for-eldest.html">← 回到哥哥的入口</a>
+      <a class="camp-home" href="index.html">家庭操作系统</a>
+    </div>
+  </header>
+
+  <main class="wrap camp-main">
+    <section class="camp-hero" aria-labelledby="camp-title">
+      <p class="camp-eyebrow">36 小时 · 18 个小闭环 · 一个真实作品</p>
+      <h1 id="camp-title">暑期 AI 创造营</h1>
+      <p class="camp-lead">游戏是入口，乐高、画画和实验是灵感。最后把一个真实学习麻烦，做成自己愿意使用的学习冒险伙伴。</p>
+      <div class="camp-principles" aria-label="创造营铁律">
+        <span>孩子负责决定</span><span>AI 负责协助</span><span>先验收，再下单</span><span>存档不是认输</span>
+      </div>
+    </section>
+
+    <section class="camp-progress-panel" aria-labelledby="progress-title">
+      <div class="camp-section-heading">
+        <div><p class="camp-kicker">今天的地图</p><h2 id="progress-title">每完成一格，留下一个证据</h2></div>
+        <p id="camp-greeting" class="camp-greeting">从 E1 咒语对决开始。</p>
+      </div>
+      <div class="camp-progress-track" aria-label="总进度"><span id="camp-progress-fill"></span></div>
+      <p id="camp-progress-copy" class="camp-progress-copy" aria-live="polite"></p>
+      <nav id="camp-phase-nav" class="camp-phase-nav" aria-label="任务阶段"></nav>
+    </section>
+
+    <section id="tasks" class="camp-section" aria-labelledby="tasks-title">
+      <div class="camp-section-heading">
+        <div><p class="camp-kicker">任务地图</p><h2 id="tasks-title">做小步，留证据</h2></div>
+        <p class="camp-section-note">勾选前要先写下证据：截图、草图、链接，或自己的发现。</p>
+      </div>
+      <div id="camp-task-groups" class="camp-task-groups"></div>
+    </section>
+
+    <section id="ideas" class="camp-section camp-two-column" aria-label="灵感与项目工作台">
+      <article class="camp-card camp-idea-card">
+        <p class="camp-kicker">灵感实验室</p><h2>任何怪点子先放这里</h2>
+        <p>不急着做完。先记下它为什么好玩、想给谁玩。</p>
+        <form id="idea-form" class="camp-form">
+          <label>我想做什么<input name="idea" required maxlength="80" placeholder="例如：让乐高机关变成闯关游戏"></label>
+          <label>为什么我想做<textarea name="why" required maxlength="160" placeholder="它哪里让我觉得有趣？"></textarea></label>
+          <button class="camp-button" type="submit">投进灵感箱</button>
+        </form>
+        <div id="idea-list" class="camp-entry-list" aria-live="polite"></div>
+      </article>
+
+      <article id="project" class="camp-card camp-project-card">
+        <p class="camp-kicker">项目工作台</p><h2>毕业作品的一页蓝图</h2>
+        <p>先决定谁会用、他有什么麻烦；功能少一点没关系。</p>
+        <form id="project-form" class="camp-form">
+          <label>作品名字<input name="name" maxlength="60" placeholder="先给它起个临时代号"></label>
+          <label>给谁玩 / 用<input name="audience" maxlength="80" placeholder="例如：不想练口算的同学"></label>
+          <label>真实麻烦<textarea name="problem" maxlength="180" placeholder="它在什么时刻最麻烦？"></textarea></label>
+          <label>一句话玩法<textarea name="corePlay" maxlength="180" placeholder="玩家做什么，怎样得到反馈？"></textarea></label>
+          <label>必备功能（最多三个）<textarea name="musts" maxlength="180" placeholder="没有它，作品就不成立"></textarea></label>
+          <label>愿望功能（现在不做）<textarea name="wishes" maxlength="180" placeholder="想到了先记下，不立刻加"></textarea></label>
+        </form>
+      </article>
+    </section>
+
+    <section id="logs" class="camp-section camp-two-column" aria-label="造物日志与试玩反馈">
+      <article class="camp-card">
+        <p class="camp-kicker">造物日志</p><h2>每次只记三句话</h2>
+        <form id="log-form" class="camp-form">
+          <label>今天做的是<select name="task" id="log-task" required></select></label>
+          <label>AI 做了什么<textarea name="ai" required maxlength="180"></textarea></label>
+          <label>我自己决定了什么<textarea name="choice" required maxlength="180"></textarea></label>
+          <label>我发现了什么<textarea name="found" required maxlength="180"></textarea></label>
+          <label>证据链接或说明<input name="evidence" maxlength="180" placeholder="截图、文件名或一句说明"></label>
+          <button class="camp-button" type="submit">存下今天的造物日志</button>
+        </form>
+        <div id="log-list" class="camp-entry-list" aria-live="polite"></div>
+      </article>
+
+      <article id="feedback" class="camp-card">
+        <p class="camp-kicker">试玩与反馈</p><h2>真实玩家比夸奖更有用</h2>
+        <form id="feedback-form" class="camp-form">
+          <label>试玩者<input name="player" required maxlength="40" placeholder="家人、同学或表亲"></label>
+          <label>他最喜欢什么<textarea name="like" required maxlength="160"></textarea></label>
+          <label>他在哪里停住 / 看不懂<textarea name="stuck" required maxlength="160"></textarea></label>
+          <label>我决定<textarea name="decision" required maxlength="160" placeholder="这次只改哪一条，为什么？"></textarea></label>
+          <button class="camp-button" type="submit">收下这条真话</button>
+        </form>
+        <div id="feedback-list" class="camp-entry-list" aria-live="polite"></div>
+      </article>
+    </section>
+
+    <section id="weekly" class="camp-section camp-two-column" aria-label="每周复盘与家长角">
+      <article class="camp-card">
+        <p class="camp-kicker">每周十分钟复盘</p><h2>过程比打钩重要</h2>
+        <form id="weekly-form" class="camp-form">
+          <label>我本周最得意的时刻<textarea name="win" required maxlength="160"></textarea></label>
+          <label>我本周最卡的地方<textarea name="stuck" required maxlength="160"></textarea></label>
+          <label>下周我只想做的一小步<textarea name="next" required maxlength="160"></textarea></label>
+          <label>父母这周的自检<textarea name="parent" required maxlength="160" placeholder="有没有代做、催进度或没有认真试玩？"></textarea></label>
+          <button class="camp-button" type="submit">完成这周复盘</button>
+        </form>
+        <div id="weekly-list" class="camp-entry-list" aria-live="polite"></div>
+      </article>
+
+      <article class="camp-card camp-parent-card">
+        <p class="camp-kicker">家长角</p><h2>今天只需要做好这三件事</h2>
+        <ol class="camp-parent-list">
+          <li><strong>当玩家。</strong>认真玩两分钟，说真实体验，不直接给方案。</li>
+          <li><strong>问一个问题。</strong>“如果只能留一个功能，你留哪个？”</li>
+          <li><strong>守住边界。</strong>不碰键盘、不代写、不催进度；烦躁时先说“存档休息”。</li>
+        </ol>
+        <p class="camp-parent-quote">不问“今天做了多少”，问“今天哪一步是你自己决定的？”</p>
+        <a class="camp-text-link" href="weekly-review.html">打开家庭每周复盘表 →</a>
+      </article>
+    </section>
+
+    <section id="data" class="camp-section camp-data-section" aria-labelledby="data-title">
+      <div class="camp-section-heading"><div><p class="camp-kicker">数据保险箱</p><h2 id="data-title">记录只留在这台设备</h2></div></div>
+      <p>控制台不会上传孩子的想法、日志或反馈。换电脑前先导出；导入会覆盖当前记录。</p>
+      <div class="camp-data-actions">
+        <button class="camp-button" id="export-data" type="button">导出我的创造营记录</button>
+        <label class="camp-button camp-button-secondary" for="import-data">导入以前的记录</label>
+        <input id="import-data" type="file" accept="application/json" hidden>
+        <button class="camp-text-button" id="clear-data" type="button">清空这台设备的记录</button>
+      </div>
+      <p id="camp-data-message" class="camp-data-message" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer class="camp-footer">暑期 AI 创造营 · 孩子负责创造，AI 负责协助</footer>
+
+  <script src="fo-utils.js"></script>
+  <script src="ai-camp-data.js"></script>
+  <script>
+    (function () {
+      const KEY = 'fo_ai_camp_2026';
+      const data = window.AICampData;
+      const taskGroups = document.getElementById('camp-task-groups');
+      const message = document.getElementById('camp-data-message');
+      let state = load();
+
+      function cloneDefaultState() {
+        return JSON.parse(JSON.stringify(data.defaultState()));
+      }
+
+      function load() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(KEY));
+          if (!saved || typeof saved !== 'object') return cloneDefaultState();
+          return Object.assign(cloneDefaultState(), saved, {
+            tasks: saved.tasks || {},
+            ideas: saved.ideas || [],
+            project: Object.assign(cloneDefaultState().project, saved.project || {}),
+            logs: saved.logs || [],
+            feedback: saved.feedback || [],
+            weekly: saved.weekly || []
+          });
+        } catch (error) {
+          return cloneDefaultState();
+        }
+      }
+
+      function save() {
+        localStorage.setItem(KEY, JSON.stringify(state));
+      }
+
+      function make(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text) node.textContent = text;
+        return node;
+      }
+
+      function taskRecord(id) {
+        return Object.assign({ done: false, evidence: '' }, state.tasks[id] || {});
+      }
+
+      function setMessage(text) {
+        message.textContent = text;
+      }
+
+      function renderProgress() {
+        const done = data.tasks.filter(function (task) { return taskRecord(task.id).done; }).length;
+        const percent = Math.round((done / data.tasks.length) * 100);
+        document.getElementById('camp-progress-fill').style.width = percent + '%';
+        document.getElementById('camp-progress-copy').textContent = '已完成 ' + done + ' / ' + data.tasks.length + ' 个任务 · ' + percent + '%';
+        const member = window.FO && window.FO.getMember ? window.FO.getMember() : null;
+        document.getElementById('camp-greeting').textContent = member ? member.name + '，今天想推进哪一小步？' : '从 E1 咒语对决开始。';
+      }
+
+      function renderPhaseNav() {
+        const phases = [
+          { id: 'explore', label: '探索者实验室', color: 'green' },
+          { id: 'game', label: '游戏改造厂', color: 'blue' },
+          { id: 'learn', label: '学习冒险伙伴', color: 'coral' }
+        ];
+        const nav = document.getElementById('camp-phase-nav');
+        nav.innerHTML = '';
+        phases.forEach(function (phase) {
+          const matching = data.tasks.filter(function (task) { return task.phase === phase.id; });
+          const done = matching.filter(function (task) { return taskRecord(task.id).done; }).length;
+          const link = make('a', 'camp-phase-pill camp-phase-' + phase.color, phase.label + ' ' + done + '/' + matching.length);
+          link.href = '#phase-' + phase.id;
+          nav.appendChild(link);
+        });
+      }
+
+      function renderTasks() {
+        taskGroups.innerHTML = '';
+        const phases = ['explore', 'game', 'learn'];
+        phases.forEach(function (phase) {
+          const phaseTasks = data.tasks.filter(function (task) { return task.phase === phase; });
+          const section = make('section', 'camp-phase-group');
+          section.id = 'phase-' + phase;
+          const heading = make('div', 'camp-phase-heading');
+          heading.dataset.color = phaseTasks[0].color;
+          heading.appendChild(make('p', 'camp-kicker', phaseTasks[0].phaseTitle));
+          heading.appendChild(make('h3', '', phase === 'explore' ? '先做出兴趣证据' : phase === 'game' ? '把改造跑成工程闭环' : '让学习变成值得玩的挑战'));
+          section.appendChild(heading);
+          const grid = make('div', 'camp-task-grid');
+          phaseTasks.forEach(function (task) {
+            const record = taskRecord(task.id);
+            const card = make('article', 'camp-task-card' + (record.done ? ' is-done' : ''));
+            card.dataset.color = task.color;
+            const top = make('div', 'camp-task-top');
+            const label = make('label', 'camp-task-toggle');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = record.done;
+            checkbox.setAttribute('aria-label', '完成 ' + task.id + ' ' + task.title);
+            checkbox.addEventListener('change', function () {
+              const latest = taskRecord(task.id);
+              if (checkbox.checked && !latest.evidence.trim()) {
+                checkbox.checked = false;
+                setMessage(task.id + ' 先留下一条完成证据，才能点亮。');
+                return;
+              }
+              state.tasks[task.id] = Object.assign(latest, { done: checkbox.checked });
+              save(); renderAll();
+            });
+            label.appendChild(checkbox);
+            label.appendChild(make('span', '', task.id));
+            top.appendChild(label);
+            top.appendChild(make('span', 'camp-task-status', record.done ? '已点亮' : '待挑战'));
+            card.appendChild(top);
+            card.appendChild(make('h4', '', task.title));
+            card.appendChild(make('p', 'camp-task-summary', task.summary));
+            const evidenceLabel = make('label', 'camp-task-evidence-label', '完成证据');
+            const evidence = document.createElement('textarea');
+            evidence.maxLength = 200;
+            evidence.placeholder = task.evidence;
+            evidence.value = record.evidence;
+            evidence.addEventListener('input', function () {
+              state.tasks[task.id] = Object.assign(taskRecord(task.id), { evidence: evidence.value });
+              save();
+            });
+            evidenceLabel.appendChild(evidence);
+            card.appendChild(evidenceLabel);
+            grid.appendChild(card);
+          });
+          section.appendChild(grid);
+          taskGroups.appendChild(section);
+        });
+      }
+
+      function renderIdeaList() {
+        renderEntryList('idea-list', state.ideas, function (item) {
+          return item.idea + ' · ' + item.why;
+        }, '还没有灵感。做完一个微任务就来记一条。');
+      }
+
+      function renderEntryList(id, entries, formatter, emptyText) {
+        const list = document.getElementById(id);
+        list.innerHTML = '';
+        if (!entries.length) {
+          list.appendChild(make('p', 'camp-empty', emptyText));
+          return;
+        }
+        entries.slice().reverse().forEach(function (entry, index) {
+          const row = make('div', 'camp-entry');
+          row.appendChild(make('p', '', formatter(entry)));
+          const remove = make('button', 'camp-entry-remove', '删除');
+          remove.type = 'button';
+          remove.addEventListener('click', function () {
+            entries.splice(entries.length - 1 - index, 1);
+            save(); renderAll();
+          });
+          row.appendChild(remove);
+          list.appendChild(row);
+        });
+      }
+
+      function fillProjectForm() {
+        const form = document.getElementById('project-form');
+        Object.keys(state.project).forEach(function (key) {
+          const field = form.elements[key];
+          if (field) field.value = state.project[key];
+        });
+      }
+
+      function renderLogs() {
+        renderEntryList('log-list', state.logs, function (entry) {
+          return entry.task + ' · 我决定：' + entry.choice + ' · 我发现：' + entry.found;
+        }, '第一条造物日志，会成为以后复盘的证据。');
+      }
+
+      function renderFeedback() {
+        renderEntryList('feedback-list', state.feedback, function (entry) {
+          return entry.player + '：最喜欢 ' + entry.like + ' · 我决定 ' + entry.decision;
+        }, '还没有试玩反馈。请玩家说真话。');
+      }
+
+      function renderWeekly() {
+        renderEntryList('weekly-list', state.weekly, function (entry) {
+          return '下周的一小步：' + entry.next;
+        }, '周日十分钟，一起把这周说清楚。');
+      }
+
+      function renderTaskOptions() {
+        const select = document.getElementById('log-task');
+        select.innerHTML = '';
+        data.tasks.forEach(function (task) {
+          const option = document.createElement('option');
+          option.value = task.id;
+          option.textContent = task.id + ' ' + task.title;
+          select.appendChild(option);
+        });
+      }
+
+      function renderAll() {
+        renderProgress(); renderPhaseNav(); renderTasks(); renderIdeaList(); fillProjectForm(); renderLogs(); renderFeedback(); renderWeekly();
+      }
+
+      document.getElementById('idea-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const form = new FormData(event.currentTarget);
+        state.ideas.push({ idea: form.get('idea').trim(), why: form.get('why').trim(), at: Date.now() });
+        save(); event.currentTarget.reset(); renderAll(); setMessage('灵感已收好。先不用决定现在做不做。');
+      });
+
+      document.getElementById('project-form').addEventListener('input', function (event) {
+        const field = event.target.name;
+        if (!field) return;
+        state.project[field] = event.target.value;
+        save();
+      });
+
+      document.getElementById('log-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const form = new FormData(event.currentTarget);
+        state.logs.push({ task: form.get('task'), ai: form.get('ai').trim(), choice: form.get('choice').trim(), found: form.get('found').trim(), evidence: form.get('evidence').trim(), at: Date.now() });
+        save(); event.currentTarget.reset(); renderAll(); setMessage('今天的造物日志已保存。');
+      });
+
+      document.getElementById('feedback-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const form = new FormData(event.currentTarget);
+        state.feedback.push({ player: form.get('player').trim(), like: form.get('like').trim(), stuck: form.get('stuck').trim(), decision: form.get('decision').trim(), at: Date.now() });
+        save(); event.currentTarget.reset(); renderAll(); setMessage('这条真话已保存。');
+      });
+
+      document.getElementById('weekly-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const form = new FormData(event.currentTarget);
+        state.weekly.push({ win: form.get('win').trim(), stuck: form.get('stuck').trim(), next: form.get('next').trim(), parent: form.get('parent').trim(), at: Date.now() });
+        save(); event.currentTarget.reset(); renderAll(); setMessage('本周复盘已保存。');
+      });
+
+      document.getElementById('export-data').addEventListener('click', function () {
+        const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'ai-camp-record.json';
+        link.click();
+        URL.revokeObjectURL(link.href);
+        setMessage('记录已导出。换电脑前把这个文件保管好。');
+      });
+
+      document.getElementById('import-data').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function () {
+          try {
+            const imported = JSON.parse(reader.result);
+            if (!imported || typeof imported !== 'object' || !window.confirm('导入会覆盖这台设备现在的创造营记录，继续吗？')) return;
+            localStorage.setItem(KEY, JSON.stringify(imported));
+            state = load(); renderAll(); setMessage('以前的记录已导入。');
+          } catch (error) {
+            setMessage('这个文件不是有效的创造营记录。');
+          }
+        };
+        reader.readAsText(file);
+        event.target.value = '';
+      });
+
+      document.getElementById('clear-data').addEventListener('click', function () {
+        if (!window.confirm('确定清空这台设备上的全部创造营记录吗？请先导出。')) return;
+        state = cloneDefaultState(); save(); renderAll(); setMessage('这台设备上的记录已清空。');
+      });
+
+      renderTaskOptions(); renderAll();
+    }());
+  </script>
+</body>
+</html>

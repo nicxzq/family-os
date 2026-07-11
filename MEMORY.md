@@ -7,6 +7,7 @@
 - [2026-06-23] 站点保持纯静态 HTML/CSS/JS,不引入构建步骤 — 线上直接由 Vercel 以 clean URLs 暴露页面;本地开发只需静态服务器
 - [2026-06-23] 共享视觉 token 统一放在 `styles.css` — 页面可加局部样式,但不得在 HTML/JS 中硬编码 UI 数值
 - [2026-06-23] 交互游戏默认遵守 `docs/GAME_UI_STANDARD.md` — 核心玩法与主控件需在首屏相邻,避免桌面端/移动端来回滚动
+- [2026-07-11] 暑期 AI 创造营作为家庭内部小项目接入根路由 `ai-camp.html`（线上 `/ai-camp`）：任务、想法、日志、版本和反馈只存浏览器 `localStorage` 键 `fo_ai_camp_2026`，不写入 Supabase；入口必须同时在首页工具箱、哥哥页和仪表盘可见。
 
 ## 踩坑 / Gotchas
 - 本地访问通常需要带 `.html` 后缀,因为只有线上 Vercel 配了 `cleanUrls: true`
