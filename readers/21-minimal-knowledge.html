@@ -1,0 +1,243 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: L05 · 源: 学习的真相 18「最少必要」（MAKE：Minimal Actionable Knowledge and Experience＝最少的可执行的知识和经验；英语MAKE=音标/查词典/语法书(+搜索引擎)；乐器MAKE=标准音高/识谱/节奏感/基本指法，五线谱一句话"中间那根线是西"；文字创作MAKE=足够的感知+识字数量足够；绘画MAKE=眼手协调+几何构图(直线是曲度为零的曲线)；应付考试MAKE=足够的写字速度+足够的理解速度，写字太慢是最大罪魁祸首，提高理解速度唯一方法=无限度提高人工语言阅读量；学练用造四模块：延伸到应用才及格、延伸到创造才有真正意义；学校失败五原因(刚需缺失/灌输消灭主动/关键点无短时间足量重复/考试成唯一用处/及格=够用帮凶)；大脑天生短视，学习能力"出道即巅峰"，主动须靠干涉与挣扎重新获得；顺序：把主动从后往前加在"造"上最划算，从前往后每格都要重新加强；下棋=相同棋子相同规则、顺序决定输赢；有策略=知轻重论先后；简单并不见得容易：一切最少必要知识就是基础，只能通过逼迫学习、需要短时间内足量重复；最少必要经验=至少一次在一个领域通过逼迫+短时间足量重复打下扎实基础，是学渣学霸之间的金线，李笑来的最少必要经验=少年宫学BASIC；达尔文"除了傻子，人在智力上差别并不大，不同的只是热情和努力"；马斯克"人们的能力比他们想象的要强"；优秀教练必备能力=甄别该领域最少必要知识，学生若无最少必要经验，用当前任务打造它就是教练最大的任务） -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>入门需要的，比你想的少 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--coral); --accent-soft: var(--coral-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--blue); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 学习的真相</span>
+    <h1>入门需要的，<br>比你想的少</h1>
+
+    <p class="hook">
+      很多人一听"五线谱"三个字就摇头：那得学多久啊。可是识谱的入场券其实只有一句话——<span class="em">"中间那根线是西"</span>：哆来咪发嗦啦西，往上接着数，往下倒着数。知道这一句，你就可以开始认谱了。<br>
+      几乎每一样你想学的东西，都有这么一张短得惊人的"入场券"。真正的问题是：<span class="em">你有多少想学的事，卡在"等我先学完、先准备好"上，一直没有开始？</span>
+    </p>
+
+    <!-- 拆解 1 · MAKE：最少必要知识 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>MAKE：那张短清单</h3>
+      <p>《学习的真相》给这个东西起了名字，还杜撰了一个英文缩写：<strong>MAKE，Minimal Actionable Knowledge and Experience——"最少的可执行的知识和经验"</strong>。意思是：任何领域都能提炼出一小把知识，掌握了它，你就可以<strong>马上开始用</strong>。</p>
+      <p>书里一口气给了好几张清单。学英语的最少必要知识只有三件：<strong>学会音标、学会查词典、有一本语法书</strong>——遇到不认识的词查词典，词都认识却读不懂就查语法书，今天还可以加上搜索引擎，然后就可以直接去"用"英语了（英语最大的用处本来就是阅读）。弹奏乐器：<strong>标准音高、能够识谱、节奏感、基本指法</strong>，四样在手就可以开始弹。文字创作只有两条：<strong>足够的感知，加上足够的识字数量</strong>——自然语言本来就是用来记录和表达感知的。绘画也是两条：<strong>眼手协调训练</strong>和<strong>几何构图训练</strong>——天下所有图形都以几何形状为基础，连直线都是曲度为零的曲线。</p>
+      <p>最让家长意外的是这张：<strong>应付学校考试</strong>的最少必要知识，第一是<strong>足够的写字速度</strong>，第二是<strong>足够的理解速度</strong>。写字太慢是最大的罪魁祸首——课堂上注意力都花在写字上，听到的就少，遗漏的就多。而提高理解速度只有一个朴素的办法：<strong>无限度提高阅读量</strong>，尤其是数学、物理这类"人工语言"的阅读量——读再多小说帮不上，快速阅读培训更是百害而无一利，因为输入再快，处理速度跟不上都没用。</p>
+      <figure>
+        <svg viewBox="0 0 600 260" role="img" aria-label="四个领域的最少必要知识清单：英语三件、乐器四件、写作两条、绘画两条，底部是应付考试的两条">
+          <g text-anchor="middle">
+            <rect x="16" y="16" width="136" height="150" rx="12" fill="var(--coral-soft)" opacity="0.5"/>
+            <text x="84" y="44" font-size="15" fill="var(--ink)" font-weight="700">英语</text>
+            <g font-size="12.5" fill="var(--ink-soft)">
+              <text x="84" y="72">音标</text>
+              <text x="84" y="96">查词典</text>
+              <text x="84" y="120">语法书</text>
+              <text x="84" y="144">(+搜索引擎)</text>
+            </g>
+            <rect x="164" y="16" width="136" height="150" rx="12" fill="var(--blue-soft)" opacity="0.55"/>
+            <text x="232" y="44" font-size="15" fill="var(--ink)" font-weight="700">乐器</text>
+            <g font-size="12.5" fill="var(--ink-soft)">
+              <text x="232" y="72">标准音高</text>
+              <text x="232" y="96">能够识谱</text>
+              <text x="232" y="120">节奏感</text>
+              <text x="232" y="144">基本指法</text>
+            </g>
+            <rect x="312" y="16" width="136" height="150" rx="12" fill="var(--green-soft)" opacity="0.55"/>
+            <text x="380" y="44" font-size="15" fill="var(--ink)" font-weight="700">文字创作</text>
+            <g font-size="12.5" fill="var(--ink-soft)">
+              <text x="380" y="80">足够的感知</text>
+              <text x="380" y="112">识字数量足够</text>
+            </g>
+            <rect x="460" y="16" width="124" height="150" rx="12" fill="var(--yellow-soft)" opacity="0.7"/>
+            <text x="522" y="44" font-size="15" fill="var(--ink)" font-weight="700">绘画</text>
+            <g font-size="12.5" fill="var(--ink-soft)">
+              <text x="522" y="80">眼手协调</text>
+              <text x="522" y="112">几何构图</text>
+            </g>
+            <rect x="16" y="186" width="568" height="56" rx="12" fill="none" stroke="var(--coral)" stroke-width="2" stroke-dasharray="6 5"/>
+            <text x="300" y="211" font-size="14" fill="var(--ink)" font-weight="700">应付学校考试：足够的写字速度 ＋ 足够的理解速度</text>
+            <text x="300" y="232" font-size="12" fill="var(--ink-soft)">理解速度只有一个办法提：无限度提高（人工语言的）阅读量</text>
+          </g>
+        </svg>
+        <figcaption>每张清单都短得惊人——掌握它，就可以马上开始"用"（《学习的真相》18·最少必要）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 学练用造与顺序 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>顺序反过来，才最划算</h3>
+      <p>为什么要这么急着"开始用"？因为学习一共四个模块：<strong>学、练、用、造</strong>——求学、练习、应用、创造。书里的标准很硬：<strong>延伸到"用"才算及格，延伸到"造"才有真正的意义</strong>。学校教育普遍失败，恰恰是因为学生感觉不到刚需、灌输消灭了主动、关键点上从没做到短时间内足量重复，最后<strong>考试竟成了学和练的唯一用处</strong>——你就是这样把英语学废的。可考试顶多算"练"，它根本不是"用"。</p>
+      <p>主动也不是天上掉下来的。人脑天生为生存设计、天然短视，所以学习能力对大多数人来说是"出道即巅峰"，不加干涉就一路下滑。<strong>主动必须靠干涉和挣扎才能重新获得</strong>。那么问题来了：学练用造四个模块，主动最先加在哪一格最划算？</p>
+      <p>答案有点反直觉：<strong>从后往前</strong>。只要你把主动强加到"造"上——既然已经开始创造，应用就只能主动，练习也只能主动，连求学都自动变主动了。反过来从前往后走，每一格都得重新使一次劲：主动学不一定引发主动练，主动练不一定引发主动用。这就像下棋：双方棋子相同、规则相同，马都走日、象都走田，最后却有输赢——<strong>决定输赢的是顺序</strong>。所谓有策略，说穿了就六个字：<strong>知轻重，论先后</strong>。所以任何领域的学习，都要尽快走到"用"和"造"。</p>
+      <figure>
+        <svg viewBox="0 0 600 220" role="img" aria-label="学练用造四个模块：把主动加在造上，会自动带动前面三格；从前往后则每一格都要重新加强">
+          <g text-anchor="middle">
+            <rect x="24" y="70" width="110" height="60" rx="12" fill="var(--blue-soft)"/>
+            <text x="79" y="106" font-size="17" fill="var(--ink)" font-weight="700">学</text>
+            <rect x="166" y="70" width="110" height="60" rx="12" fill="var(--blue-soft)"/>
+            <text x="221" y="106" font-size="17" fill="var(--ink)" font-weight="700">练</text>
+            <rect x="308" y="70" width="110" height="60" rx="12" fill="var(--green-soft)"/>
+            <text x="363" y="106" font-size="17" fill="var(--ink)" font-weight="700">用</text>
+            <text x="363" y="152" font-size="12" fill="var(--green)" font-weight="700">及格线</text>
+            <rect x="450" y="70" width="126" height="60" rx="12" fill="var(--coral-soft)"/>
+            <text x="513" y="99" font-size="17" fill="var(--ink)" font-weight="700">造</text>
+            <text x="513" y="119" font-size="11.5" fill="var(--ink-soft)">真正的意义在这</text>
+            <text x="150" y="106" font-size="18" fill="var(--ink-mute)">→</text>
+            <text x="292" y="106" font-size="18" fill="var(--ink-mute)">→</text>
+            <text x="434" y="106" font-size="18" fill="var(--ink-mute)">→</text>
+            <text x="513" y="44" font-size="14" fill="var(--coral)" font-weight="700">★ 把"主动"加在这里</text>
+            <path d="M478 150 Q 300 208 92 138" stroke="var(--coral)" stroke-width="2.2" fill="none"/>
+            <text x="300" y="196" font-size="13" fill="var(--coral)" font-weight="700">前面三格自动跟着主动——从后往前，最划算</text>
+            <text x="300" y="24" font-size="12.5" fill="var(--ink-mute)">从前往后走？每一格都得重新使一次劲，相当低效</text>
+          </g>
+        </svg>
+        <figcaption>顺序决定输赢：尽快走到"用"和"造"（《学习的真相》18·最少必要）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 简单不等于容易 + 最少必要经验 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>一条金线：最少必要经验</h3>
+      <p>先泼一瓢冷水：清单虽短，<strong>简单并不见得容易</strong>。一切所谓的最少必要知识，就是人们常说的"基础"；而任何基础，都需要<strong>短时间内足量重复</strong>才能打牢——耗时费力，这是不可否认也无法更改的事实。音标要一个个啃，指法要一遍遍练，短清单只是让你不再绕路，不是让你不用走路。</p>
+      <p>MAKE 的后半截是"经验"。书里说，人生最重要的<strong>最少必要经验</strong>只有一条：<strong>你至少有过一次，至少在一个领域，通过逼迫（无论来自外部还是内部），做到短时间内足量重复，最终真正打下了一个扎实的基础</strong>。这是学渣和学霸之间的一条金线：从未有过这种经验的人，啥啥都基础差、都不够用，永远走不到"用"和"造"；而只要有过一次，它就会根植在大脑里，学任何新东西时被反复调用、反复验证、越用越强。作者自己的那一次，是少年时在少年宫学编程语言 BASIC——此后不管学什么，他都知道"我能的，只不过需要花时间而已"，连错误都成了奖励。</p>
+      <p>达尔文说过：除了傻子，人在智力上差别并不大，不同的只是热情和努力。马斯克说：我为了实现目标学会了一切需要学的东西，我认为大多数人都能做到，只是他们往往自我设限——<strong>人们的能力比他们想象的要强</strong>。书里提醒：千万别把这当鸡汤，这只不过是事实——能这么说的人，都是因为有最少必要经验垫底。所以一个优秀的教练，最大的任务就是两件事：<strong>甄别这个领域的最少必要知识</strong>；如果学生还没有最少必要经验，就<strong>用当前的任务帮他打造一次</strong>。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="学渣与学霸之间的金线：至少一次通过逼迫和短时间足量重复打下扎实基础的经验">
+          <g text-anchor="middle">
+            <line x1="300" y1="30" x2="300" y2="170" stroke="var(--yellow)" stroke-width="4"/>
+            <text x="300" y="20" font-size="13.5" fill="var(--ink)" font-weight="700">金线：一次"打下扎实基础"的经验</text>
+            <rect x="30" y="46" width="230" height="112" rx="14" fill="var(--cream-deep)"/>
+            <text x="145" y="76" font-size="14.5" fill="var(--ink)" font-weight="700">从未有过</text>
+            <g font-size="12" fill="var(--ink-soft)">
+              <text x="145" y="102">基础差，啥啥都不够用</text>
+              <text x="145" y="124">主动没有根基</text>
+              <text x="145" y="146">被排挤在"用"和"造"之外</text>
+            </g>
+            <rect x="340" y="46" width="230" height="112" rx="14" fill="var(--green-soft)" opacity="0.6"/>
+            <text x="455" y="76" font-size="14.5" fill="var(--ink)" font-weight="700">有过一次</text>
+            <g font-size="12" fill="var(--ink-soft)">
+              <text x="455" y="102">学什么都被再次调用</text>
+              <text x="455" y="124">"我能的，只是需要时间"</text>
+              <text x="455" y="146">反复验证 → 固化成根基</text>
+            </g>
+            <text x="300" y="190" font-size="12" fill="var(--ink-mute)">逼迫 ＋ 短时间内足量重复 → 扎实基础（有一次，就够翻越这条线）</text>
+          </g>
+        </svg>
+        <figcaption>学渣和学霸之间的金线，不是天赋，是一次经验（《学习的真相》18·最少必要）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"简单并不见得容易。"</p>
+      <span class="src">—— 《学习的真相》18「最少必要」。清单很短，但清单上的每一项都要短时间内足量重复才能打牢——短清单让你不绕路，不是让你不走路。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>你有没有一件"一直想学、但还没开始"的事——滑板、吉他、编程、画画？试着替它列一张最少必要知识清单，很可能不超过三条。是哪三条？又是什么让你一直觉得"还不能开始"？</summary>
+        <p class="hint">没有标准答案，写在你自己的本子上。提示：如果清单列出来发现只有两三条，那"没准备好"多半不是知识问题，而是没想过自己可以直接去"用"。</p>
+      </details>
+      <details>
+        <summary>回想你学得最扎实的一样本领——骑车、游泳、口算、一款玩得很好的游戏。它是不是也有过一段"短时间内足量重复"的日子？那段经历就是你的"最少必要经验"——下次学新东西卡住时，你能把它调出来对自己说什么？</summary>
+        <p class="hint">没有标准答案。作者的那一次是少年宫的 BASIC，之后一生反复调用。你的那一次同样算数——它证明的不是你会骑车，而是"我能打下基础"。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>做一次<strong>"最短入场券"实验</strong>：挑一样你想学但一直没开始的东西，第一天，只做一件事——写下它的最少必要知识，<strong>不超过 3 条</strong>（查资料、问会的人都行）。第二、三天，只学这 3 条。第四天起，<strong>马上去"用"</strong>：做出一个最小的真东西——弹出一小段曲子、写一段能跑的代码、画一张完整的小画。周末记两个数：从"开始学"到"第一次用"隔了几天？和你原来以为需要的时间差多少？</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="20-model-matching.html">← 你看到的，是大脑猜出来的</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '21-minimal-knowledge';
+    const READER_TITLE = '入门需要的，比你想的少';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>

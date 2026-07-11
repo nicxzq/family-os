@@ -1,0 +1,566 @@
+<!doctype html>
+<!-- CONTENT_MAP: 模型匹配·L04「模型匹配/改良构建」绘本化 → storybooks/35-the-new-bike.html · 场景:门前小路·学骑自行车(新场景,池外新想) · 尾页:🚲(新) · shelf 第34本 · 核心:碰到新东西先找"它像我会的什么"(模型匹配),不一样的地方再慢慢改(模型改良) · 源:学习的真相 14「模型匹配」15「改良构建」(用最熟悉的模型做预测;学习=习得+应用+改良+构建) -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>毛毛学骑车</title>
+<meta name="description" content="毛毛有了一辆新自行车，好高呀，她不敢骑。爸爸只问了一个问题：它像不像你天天骑的平衡车？毛毛用会的本领先上手，不一样的踏板慢慢改——风吹过来，毛毛骑起来啦！">
+<meta property="og:title" content="毛毛学骑车">
+<meta property="og:description" content="碰到新东西别害怕，先想一想：它像不像我已经会的东西？新本领，藏在旧本领里。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/storybooks/35-the-new-bike">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="毛毛学骑车">
+<meta name="twitter:description" content="新本领，藏在旧本领里。">
+<meta name="twitter:image" content="https://family.carlxu.cn/og.png">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "LXGW WenKai TC","LXGW WenKai",serif; background:#F8F2E2; min-height:100vh; overflow:hidden; }
+  .book { width:100vw; height:100vh; position:relative; overflow:hidden; }
+
+  .top { position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:20px 32px; z-index:20; }
+  .back { text-decoration:none; color:#5C4F3D; font-size:16px; background:rgba(255,255,255,0.7); padding:8px 16px; border-radius:999px; backdrop-filter:blur(8px); }
+  .read-aloud { background:#E56B5A; color:white; border:0; padding:10px 18px; border-radius:999px; font-family:inherit; font-size:16px; cursor:pointer; box-shadow:0 3px 0 rgba(0,0,0,0.1); }
+  .read-aloud:active { transform:translateY(1px); box-shadow:0 2px 0 rgba(0,0,0,0.1); }
+
+  .page { position:absolute; inset:0; display:flex; flex-direction:column; padding:72px 0 48px; opacity:0; pointer-events:none; transition:opacity 0.6s ease; }
+  .page.is-active { opacity:1; pointer-events:auto; }
+  .page[data-bg="cream"]  { background:#F8F2E2; }
+  .page[data-bg="peach"]  { background:#FBE3D5; }
+  .page[data-bg="mint"]   { background:#D7EBC9; }
+  .page[data-bg="sky"]    { background:#D7E7F4; }
+  .page[data-bg="yellow"] { background:#FBE39A; }
+  .page[data-bg="coral"]  { background:#F4A799; }
+  .page[data-bg="blue"]   { background:#A8C2DE; }
+
+  .scene { flex:1; min-height:0; position:relative; width:100%; overflow:hidden; }
+  .scene svg { width:100%; height:100%; }
+
+  .text { flex-shrink:0; padding:12px 24px 8px; text-align:center; }
+  .text h2 { font-size:clamp(22px,4.5vw,34px); line-height:1.4; color:#2B2419; font-weight:500; text-wrap:balance; }
+  .text .big { font-size:clamp(28px,5.5vw,44px); line-height:1.3; color:#E56B5A; font-weight:700; margin-top:8px; }
+  .text .small { font-size:clamp(14px,2.8vw,16px); color:#5C4F3D; margin-top:8px; }
+
+  .end-card { margin:auto; background:white; padding:32px; border-radius:24px; max-width:480px; width:calc(100% - 48px); box-shadow:0 8px 0 rgba(0,0,0,0.06),0 24px 48px -16px rgba(0,0,0,0.2); text-align:center; }
+  .end-card h2 { font-size:28px; color:#E56B5A; margin-bottom:16px; }
+  .end-card p { font-size:19px; color:#2B2419; line-height:1.7; margin-bottom:12px; }
+
+  .nav-btn { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.88); border:0; width:56px; height:56px; border-radius:50%; font-size:24px; cursor:pointer; box-shadow:0 3px 0 rgba(0,0,0,0.1); font-family:inherit; color:#2B2419; z-index:20; backdrop-filter:blur(4px); }
+  .nav-btn:disabled { opacity:0.3; pointer-events:none; }
+  .nav-btn:active { transform:translateY(calc(-50% + 1px)); box-shadow:0 2px 0 rgba(0,0,0,0.1); }
+  #prev { left:12px; } #next { right:12px; }
+
+  .dots-wrap { position:absolute; bottom:16px; left:0; right:0; display:flex; justify-content:center; z-index:20; }
+  .dots { display:flex; gap:6px; }
+  .dots span { width:8px; height:8px; border-radius:50%; background:rgba(43,36,25,0.2); transition:background 0.3s,transform 0.3s; }
+  .dots span.is-active { background:#E56B5A; transform:scale(1.4); }
+
+  .float { animation:float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .pop { animation:pop 0.6s ease; }
+  @keyframes pop { 0%{transform:scale(0);opacity:0} 60%{transform:scale(1.15)} 100%{transform:scale(1);opacity:1} }
+  .interactive { cursor:pointer; transform-box:fill-box; transform-origin:center center; }
+  .interactive:hover { opacity:0.9; }
+  .do-bounce { animation:iBounce 0.6s cubic-bezier(0.36,0.07,0.19,0.97) both !important; }
+  @keyframes iBounce { 0%{transform:translateY(0) scale(1)} 25%{transform:translateY(-18px) scale(1.15)} 55%{transform:translateY(-4px) scale(0.96)} 75%{transform:translateY(-8px) scale(1.05)} 100%{transform:translateY(0) scale(1)} }
+  .do-shake { animation:iShake 0.55s ease both !important; }
+  @keyframes iShake { 0%,100%{transform:rotate(0deg)} 18%{transform:rotate(-22deg)} 38%{transform:rotate(18deg)} 58%{transform:rotate(-14deg)} 78%{transform:rotate(9deg)} }
+  .do-wobble { animation:iWobble 0.7s ease both !important; }
+  @keyframes iWobble { 0%,100%{transform:scaleX(1) scaleY(1)} 20%{transform:scaleX(1.25) scaleY(0.75)} 45%{transform:scaleX(0.85) scaleY(1.2)} 65%{transform:scaleX(1.1) scaleY(0.9)} 80%{transform:scaleX(0.96) scaleY(1.04)} }
+
+  .speech-bubble { position:absolute; background:white; border-radius:999px; padding:6px 16px; font-size:20px; font-family:"LXGW WenKai TC",serif; box-shadow:0 3px 0 rgba(0,0,0,0.12); pointer-events:none; white-space:nowrap; z-index:50; animation:bPop 0.3s ease forwards; }
+  @keyframes bPop { from{opacity:0} to{opacity:1} }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+<div class="book">
+
+  <div class="top">
+    <a class="back" href="../for-youngest.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+    <a href="../dashboard.html" class="dash-link" style="background:rgba(255,255,255,0.7);padding:8px 14px;border-radius:999px;text-decoration:none;font-size:16px;backdrop-filter:blur(8px);" title="仪表盘">📊</a>
+  </div>
+
+  <!-- PAGE 1 · 新自行车好高呀 -->
+  <div class="page is-active" data-bg="sky" data-text="毛毛有了一辆新自行车，两个大轮子，还有踏板，好高呀！毛毛躲在爸爸身后，小声说：我，我不会骑……">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- ground / path -->
+        <ellipse cx="200" cy="300" rx="220" ry="70" fill="#B8D89A"/>
+        <path d="M0 268 Q 200 250 400 268 L400 320 L0 320 Z" fill="#E8DCC0"/>
+        <!-- fence -->
+        <g stroke="#8C7C66" stroke-width="4" stroke-linecap="round">
+          <line x1="30" y1="176" x2="30" y2="226"/>
+          <line x1="66" y1="176" x2="66" y2="226"/>
+          <line x1="102" y1="176" x2="102" y2="226"/>
+          <line x1="14" y1="190" x2="118" y2="190"/>
+          <line x1="14" y1="212" x2="118" y2="212"/>
+        </g>
+        <!-- bush -->
+        <g fill="#6FA86D">
+          <circle cx="356" cy="244" r="18"/><circle cx="376" cy="252" r="14"/><circle cx="340" cy="254" r="12"/>
+        </g>
+        <!-- the new blue bike, on kickstand -->
+        <g id="p1-bike" transform="translate(284,232)">
+          <circle cx="-35" cy="20" r="20" fill="none" stroke="#2B2419" stroke-width="3"/>
+          <circle cx="35" cy="20" r="20" fill="none" stroke="#2B2419" stroke-width="3"/>
+          <circle cx="-35" cy="20" r="3" fill="#2B2419"/>
+          <circle cx="35" cy="20" r="3" fill="#2B2419"/>
+          <path d="M-35 20 L-10 -8 L20 -8 L35 20 M-10 -8 L0 18 L20 -8 M0 18 L35 20" stroke="#4B7BA8" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="0" cy="18" r="5" fill="#F4C13E"/>
+          <line x1="0" y1="18" x2="11" y2="28" stroke="#2B2419" stroke-width="2.5"/>
+          <rect x="7" y="26" width="11" height="4" rx="2" fill="#2B2419"/>
+          <line x1="-10" y1="-8" x2="-14" y2="-17" stroke="#4B7BA8" stroke-width="4" stroke-linecap="round"/>
+          <rect x="-25" y="-22" width="20" height="5" rx="2.5" fill="#2B2419"/>
+          <line x1="20" y1="-8" x2="25" y2="-19" stroke="#4B7BA8" stroke-width="4" stroke-linecap="round"/>
+          <path d="M20 -19 q 10 -4 15 2" stroke="#2B2419" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <line x1="-4" y1="22" x2="-12" y2="40" stroke="#8C7C66" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <!-- sparkle on the new bike -->
+        <g fill="#F4C13E">
+          <polygon points="330,166 333,173 340,176 333,179 330,186 327,179 320,176 327,173"/>
+        </g>
+        <!-- Dad standing -->
+        <g id="p1-dad" transform="translate(150,216)">
+          <ellipse cx="0" cy="14" rx="32" ry="36" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="0" cy="-30" r="26" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="-9" cy="-32" r="7" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="9" cy="-32" r="7" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <line x1="-2" y1="-32" x2="2" y2="-32" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="-9" cy="-32" r="2.5" fill="#2B2419"/>
+          <circle cx="9" cy="-32" r="2.5" fill="#2B2419"/>
+          <polygon points="3,-24 17,-20 3,-16" fill="#E56B5A"/>
+          <path d="M-6,-14 Q1,-9 8,-14" stroke="#2B2419" stroke-width="1.4" fill="none"/>
+          <ellipse cx="30" cy="-2" rx="9" ry="15" fill="#F4C13E" transform="rotate(40 30 -2)"/>
+          <ellipse cx="-28" cy="8" rx="9" ry="15" fill="#F4C13E" transform="rotate(-20 -28 8)"/>
+        </g>
+        <!-- 毛毛 peeking from behind Dad -->
+        <g id="p1-maomao" transform="translate(96,244)">
+          <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="-6" cy="-20" r="3" fill="#2B2419"/>
+          <circle cx="7" cy="-20" r="3" fill="#2B2419"/>
+          <polygon points="2,-13 14,-10 2,-7" fill="#E56B5A"/>
+          <path d="M-6,-6 Q1,-9 7,-6" stroke="#2B2419" stroke-width="1.4" fill="none"/>
+          <ellipse cx="-22" cy="0" rx="8" ry="13" fill="#F4C13E" transform="rotate(-24 -22 0)"/>
+          <ellipse cx="22" cy="0" rx="8" ry="13" fill="#F4C13E" transform="rotate(24 22 0)"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>新自行车，好高呀！</h2>
+      <p class="small">毛毛躲在爸爸身后，小声说："我，我不会骑……"</p>
+    </div>
+  </div>
+
+  <!-- PAGE 2 · 爸爸的一个问题 -->
+  <div class="page" data-bg="peach" data-text="爸爸不着急，把毛毛的小平衡车推了过来，问：毛毛你看，新车像不像你天天骑的平衡车呀？">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <ellipse cx="200" cy="300" rx="220" ry="70" fill="#B8D89A"/>
+        <path d="M0 268 Q 200 250 400 268 L400 320 L0 320 Z" fill="#E8DCC0"/>
+        <!-- Dad, presenting the balance bike -->
+        <g id="p2-dad" transform="translate(96,214)">
+          <ellipse cx="0" cy="14" rx="32" ry="36" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="0" cy="-30" r="26" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="-9" cy="-32" r="7" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="9" cy="-32" r="7" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <line x1="-2" y1="-32" x2="2" y2="-32" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="-9" cy="-32" r="2.5" fill="#2B2419"/>
+          <circle cx="9" cy="-32" r="2.5" fill="#2B2419"/>
+          <polygon points="3,-24 17,-20 3,-16" fill="#E56B5A"/>
+          <path d="M-6,-14 Q1,-9 8,-14" stroke="#2B2419" stroke-width="1.4" fill="none"/>
+          <ellipse cx="32" cy="0" rx="9" ry="15" fill="#F4C13E" transform="rotate(62 32 0)"/>
+          <ellipse cx="-28" cy="8" rx="9" ry="15" fill="#F4C13E" transform="rotate(-20 -28 8)"/>
+        </g>
+        <!-- the little green balance bike (no pedals) -->
+        <g id="p2-bbike" transform="translate(186,252)">
+          <circle cx="-24" cy="13" r="13" fill="none" stroke="#2B2419" stroke-width="2.5"/>
+          <circle cx="24" cy="13" r="13" fill="none" stroke="#2B2419" stroke-width="2.5"/>
+          <circle cx="-24" cy="13" r="2.5" fill="#2B2419"/>
+          <circle cx="24" cy="13" r="2.5" fill="#2B2419"/>
+          <path d="M-24 13 L-4 -4 L18 -4 L24 13" stroke="#6FA86D" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <line x1="-6" y1="-4" x2="-8" y2="-10" stroke="#6FA86D" stroke-width="3.5" stroke-linecap="round"/>
+          <rect x="-17" y="-14" width="16" height="4" rx="2" fill="#2B2419"/>
+          <line x1="18" y1="-4" x2="22" y2="-14" stroke="#6FA86D" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M16 -14 q 8 -3 13 1" stroke="#2B2419" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- the new blue bike -->
+        <g id="p2-bike" transform="translate(312,232)">
+          <circle cx="-35" cy="20" r="20" fill="none" stroke="#2B2419" stroke-width="3"/>
+          <circle cx="35" cy="20" r="20" fill="none" stroke="#2B2419" stroke-width="3"/>
+          <circle cx="-35" cy="20" r="3" fill="#2B2419"/>
+          <circle cx="35" cy="20" r="3" fill="#2B2419"/>
+          <path d="M-35 20 L-10 -8 L20 -8 L35 20 M-10 -8 L0 18 L20 -8 M0 18 L35 20" stroke="#4B7BA8" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="0" cy="18" r="5" fill="#F4C13E"/>
+          <line x1="0" y1="18" x2="11" y2="28" stroke="#2B2419" stroke-width="2.5"/>
+          <rect x="7" y="26" width="11" height="4" rx="2" fill="#2B2419"/>
+          <line x1="-10" y1="-8" x2="-14" y2="-17" stroke="#4B7BA8" stroke-width="4" stroke-linecap="round"/>
+          <rect x="-25" y="-22" width="20" height="5" rx="2.5" fill="#2B2419"/>
+          <line x1="20" y1="-8" x2="25" y2="-19" stroke="#4B7BA8" stroke-width="4" stroke-linecap="round"/>
+          <path d="M20 -19 q 10 -4 15 2" stroke="#2B2419" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <line x1="-4" y1="22" x2="-12" y2="40" stroke="#8C7C66" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <!-- 毛毛 between them, looking -->
+        <g id="p2-maomao" transform="translate(238,182)">
+          <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="-6" cy="-20" r="3" fill="#2B2419"/>
+          <circle cx="7" cy="-20" r="3" fill="#2B2419"/>
+          <polygon points="-2,-13 -14,-10 -2,-7" fill="#E56B5A"/>
+          <path d="M-6,-8 Q1,-5 7,-8" stroke="#2B2419" stroke-width="1.4" fill="none"/>
+          <ellipse cx="-22" cy="0" rx="8" ry="13" fill="#F4C13E" transform="rotate(-24 -22 0)"/>
+          <ellipse cx="22" cy="0" rx="8" ry="13" fill="#F4C13E" transform="rotate(24 22 0)"/>
+        </g>
+        <!-- comparing look: dotted line between the two bikes -->
+        <path d="M212 236 Q 250 210 278 228" stroke="#E56B5A" stroke-width="2.5" stroke-dasharray="5 6" fill="none"/>
+        <text x="246" y="118" text-anchor="middle" font-size="30" fill="#E56B5A" font-weight="700">像不像？</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>"它像不像你的平衡车？"</h2>
+      <p class="small">爸爸不催也不讲道理，只问了一个问题。</p>
+    </div>
+  </div>
+
+  <!-- PAGE 3 · 这个我会呀 -->
+  <div class="page" data-bg="mint" data-text="毛毛歪着头想：平衡车也是两个轮子，也会摇摇晃晃——摇晃的时候不摔倒，这个我会呀！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <ellipse cx="200" cy="300" rx="220" ry="70" fill="#B8D89A"/>
+        <path d="M0 268 Q 200 250 400 268 L400 320 L0 320 Z" fill="#E8DCC0"/>
+        <!-- 毛毛 thinking, head tilted -->
+        <g id="p3-maomao" transform="translate(150,238)">
+          <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <g transform="rotate(-10)">
+            <circle cx="0" cy="-18" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+            <circle cx="-6" cy="-20" r="3" fill="#2B2419"/>
+            <circle cx="7" cy="-20" r="3" fill="#2B2419"/>
+            <polygon points="2,-13 14,-10 2,-7" fill="#E56B5A"/>
+            <path d="M-6,-8 Q1,-4 8,-8" stroke="#2B2419" stroke-width="1.4" fill="none"/>
+          </g>
+          <ellipse cx="-22" cy="0" rx="8" ry="13" fill="#F4C13E" transform="rotate(-24 -22 0)"/>
+          <ellipse cx="20" cy="-6" rx="8" ry="13" fill="#F4C13E" transform="rotate(50 20 -6)"/>
+        </g>
+        <!-- thought bubbles up to the cloud -->
+        <circle cx="196" cy="176" r="6" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.4"/>
+        <circle cx="216" cy="148" r="9" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.4"/>
+        <!-- thought cloud with the balance bike inside -->
+        <g id="p3-cloud" transform="translate(272,100)">
+          <g fill="#FFFDF6" stroke="#2B2419" stroke-width="1.6">
+            <ellipse cx="0" cy="0" rx="78" ry="48"/>
+          </g>
+          <g transform="translate(-6,10)">
+            <circle cx="-22" cy="10" r="11" fill="none" stroke="#2B2419" stroke-width="2.2"/>
+            <circle cx="22" cy="10" r="11" fill="none" stroke="#2B2419" stroke-width="2.2"/>
+            <path d="M-22 10 L-4 -4 L16 -4 L22 10" stroke="#6FA86D" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <rect x="-15" y="-13" width="14" height="4" rx="2" fill="#2B2419"/>
+            <line x1="16" y1="-4" x2="20" y2="-13" stroke="#6FA86D" stroke-width="3" stroke-linecap="round"/>
+            <path d="M14 -13 q 7 -3 12 1" stroke="#2B2419" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- wobble arcs -->
+          <g stroke="#E56B5A" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.85">
+            <path d="M-56 -18 q 6 -7 13 -1"/>
+            <path d="M44 -22 q 6 -7 13 -1"/>
+          </g>
+          <text x="0" y="-28" text-anchor="middle" font-size="13" fill="#5C4F3D">摇摇晃晃……我不摔倒！</text>
+        </g>
+        <!-- sparkle eyes effect -->
+        <g fill="#F4C13E">
+          <polygon points="108,150 111,157 118,160 111,163 108,170 105,163 98,160 105,157"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>"这个我会呀！"</h2>
+      <p class="small">平衡车也是两个轮子，摇摇晃晃的时候不摔倒——毛毛早就会啦！</p>
+    </div>
+  </div>
+
+  <!-- PAGE 4 · 先用会的办法 -->
+  <div class="page" data-bg="yellow" data-text="毛毛用骑平衡车的办法，脚在地上滑呀滑——咦，真的不倒！可是踏板跟平衡车不一样，脚该放哪儿呢？">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <ellipse cx="200" cy="300" rx="220" ry="70" fill="#B8D89A"/>
+        <path d="M0 268 Q 200 250 400 268 L400 320 L0 320 Z" fill="#E8DCC0"/>
+        <!-- the bike, being glided -->
+        <g id="p4-bike" transform="translate(210,240)">
+          <circle cx="-35" cy="20" r="20" fill="none" stroke="#2B2419" stroke-width="3"/>
+          <circle cx="35" cy="20" r="20" fill="none" stroke="#2B2419" stroke-width="3"/>
+          <circle cx="-35" cy="20" r="3" fill="#2B2419"/>
+          <circle cx="35" cy="20" r="3" fill="#2B2419"/>
+          <path d="M-35 20 L-10 -8 L20 -8 L35 20 M-10 -8 L0 18 L20 -8 M0 18 L35 20" stroke="#4B7BA8" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="0" cy="18" r="5" fill="#F4C13E"/>
+          <line x1="0" y1="18" x2="11" y2="28" stroke="#2B2419" stroke-width="2.5"/>
+          <rect x="7" y="26" width="11" height="4" rx="2" fill="#2B2419"/>
+          <line x1="-10" y1="-8" x2="-14" y2="-17" stroke="#4B7BA8" stroke-width="4" stroke-linecap="round"/>
+          <rect x="-25" y="-22" width="20" height="5" rx="2.5" fill="#2B2419"/>
+          <line x1="20" y1="-8" x2="25" y2="-19" stroke="#4B7BA8" stroke-width="4" stroke-linecap="round"/>
+          <path d="M20 -19 q 10 -4 15 2" stroke="#2B2419" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- 毛毛 on the saddle, gliding like a balance bike -->
+        <g id="p4-maomao" transform="translate(196,188)">
+          <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="-4" cy="-20" r="3" fill="#2B2419"/>
+          <circle cx="8" cy="-20" r="3" fill="#2B2419"/>
+          <polygon points="4,-13 16,-10 4,-7" fill="#E56B5A"/>
+          <path d="M-4,-8 Q3,-4 10,-8" stroke="#2B2419" stroke-width="1.4" fill="none"/>
+          <ellipse cx="24" cy="0" rx="8" ry="13" fill="#F4C13E" transform="rotate(70 24 0)"/>
+          <ellipse cx="-20" cy="4" rx="8" ry="13" fill="#F4C13E" transform="rotate(-30 -20 4)"/>
+        </g>
+        <!-- gliding puffs -->
+        <g fill="#8C7C66" opacity="0.55">
+          <circle cx="132" cy="272" r="4"/><circle cx="118" cy="264" r="3"/><circle cx="144" cy="262" r="3"/>
+        </g>
+        <!-- question near the pedal -->
+        <g id="p4-pedal" transform="translate(258,262)">
+          <text x="0" y="0" text-anchor="middle" font-size="34" fill="#4B7BA8" font-weight="700">?</text>
+        </g>
+        <text x="120" y="120" text-anchor="middle" font-size="20" fill="#6FA86D" font-weight="700">滑呀滑——不倒！</text>
+        <text x="286" y="150" text-anchor="middle" font-size="15" fill="#5C4F3D">踏板放哪儿呀？</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>先用会的办法试！</h2>
+      <p class="small">脚滑呀滑，真的不倒！咦——踏板跟平衡车不一样，脚放哪儿？</p>
+    </div>
+  </div>
+
+  <!-- PAGE 5 · 骑起来啦 -->
+  <div class="page" data-bg="sky" data-text="不一样的地方就慢慢改：先滑一段，再把脚放上踏板，蹬一下，两下……风吹过来，毛毛骑起来啦！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <ellipse cx="200" cy="300" rx="220" ry="70" fill="#B8D89A"/>
+        <path d="M0 268 Q 200 250 400 268 L400 320 L0 320 Z" fill="#E8DCC0"/>
+        <!-- flowers -->
+        <g fill="#E56B5A">
+          <circle cx="60" cy="290" r="4"/><circle cx="352" cy="292" r="4"/>
+        </g>
+        <!-- wind swirls -->
+        <g stroke="#4B7BA8" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.6">
+          <path d="M64 110 q 20 -12 40 0 q 14 8 28 0"/>
+          <path d="M96 148 q 18 -10 36 0"/>
+        </g>
+        <!-- Dad clapping behind -->
+        <g id="p5-dad" transform="translate(78,224)">
+          <ellipse cx="0" cy="14" rx="28" ry="32" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="0" cy="-26" r="23" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="-8" cy="-28" r="6" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="8" cy="-28" r="6" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <line x1="-2" y1="-28" x2="2" y2="-28" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="-8" cy="-28" r="2.2" fill="#2B2419"/>
+          <circle cx="8" cy="-28" r="2.2" fill="#2B2419"/>
+          <polygon points="3,-20 15,-17 3,-14" fill="#E56B5A"/>
+          <path d="M-6,-12 Q1,-7 8,-12" stroke="#2B2419" stroke-width="1.4" fill="none"/>
+          <ellipse cx="26" cy="-8" rx="9" ry="14" fill="#F4C13E" transform="rotate(60 26 -8)"/>
+        </g>
+        <!-- the bike riding, slight tilt of joy -->
+        <g id="p5-bike" transform="translate(254,236) rotate(-3)">
+          <circle cx="-35" cy="20" r="20" fill="none" stroke="#2B2419" stroke-width="3"/>
+          <circle cx="35" cy="20" r="20" fill="none" stroke="#2B2419" stroke-width="3"/>
+          <circle cx="-35" cy="20" r="3" fill="#2B2419"/>
+          <circle cx="35" cy="20" r="3" fill="#2B2419"/>
+          <path d="M-35 20 L-10 -8 L20 -8 L35 20 M-10 -8 L0 18 L20 -8 M0 18 L35 20" stroke="#4B7BA8" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="0" cy="18" r="5" fill="#F4C13E"/>
+          <line x1="0" y1="18" x2="8" y2="30" stroke="#2B2419" stroke-width="2.5"/>
+          <rect x="4" y="28" width="11" height="4" rx="2" fill="#2B2419"/>
+          <line x1="-10" y1="-8" x2="-14" y2="-17" stroke="#4B7BA8" stroke-width="4" stroke-linecap="round"/>
+          <rect x="-25" y="-22" width="20" height="5" rx="2.5" fill="#2B2419"/>
+          <line x1="20" y1="-8" x2="25" y2="-19" stroke="#4B7BA8" stroke-width="4" stroke-linecap="round"/>
+          <path d="M20 -19 q 10 -4 15 2" stroke="#2B2419" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- 毛毛 riding, cheering -->
+        <g id="p5-maomao" transform="translate(240,184)">
+          <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="0" cy="-18" r="18" fill="#FFFDF6" stroke="#2B2419" stroke-width="1.5"/>
+          <circle cx="-4" cy="-20" r="3" fill="#2B2419"/>
+          <circle cx="8" cy="-20" r="3" fill="#2B2419"/>
+          <polygon points="4,-13 16,-10 4,-7" fill="#E56B5A"/>
+          <path d="M-5,-9 Q2,-2 10,-9" stroke="#2B2419" stroke-width="1.4" fill="none"/>
+          <ellipse cx="24" cy="-6" rx="8" ry="13" fill="#F4C13E" transform="rotate(60 24 -6)"/>
+          <ellipse cx="-22" cy="-6" rx="8" ry="13" fill="#F4C13E" transform="rotate(-55 -22 -6)"/>
+        </g>
+        <!-- speed lines -->
+        <g stroke="#8C7C66" stroke-width="2.5" stroke-linecap="round" opacity="0.6">
+          <line x1="158" y1="228" x2="184" y2="228"/>
+          <line x1="150" y1="248" x2="178" y2="248"/>
+        </g>
+        <text x="200" y="80" text-anchor="middle" font-size="20" fill="#6FA86D" font-weight="700">蹬一下，两下……</text>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>骑起来啦！</h2>
+      <p class="big">"找到像的，再改一改！"</p>
+    </div>
+  </div>
+
+  <!-- LAST PAGE — end-card -->
+  <div class="page" data-bg="cream" data-text="给小弟弟。碰到新东西别害怕，先想一想：它像不像我已经会的东西？新本领，藏在旧本领里。">
+    <div class="end-card">
+      <h2>给小弟弟 🚲</h2>
+      <p>碰到不会的新东西，先别怕，想一想：它像不像我已经会的什么？</p>
+      <p style="font-size:32px;color:#E56B5A;font-weight:700;margin:16px 0;">"新本领，藏在旧本领里。"</p>
+      <p style="font-size:16px;color:#5C4F3D;">用会的那部分先上手，不一样的地方再慢慢改——就像平衡车帮毛毛学会了骑自行车。</p>
+      <button class="read-aloud" style="margin-top:24px;" onclick="goTo(0)">🔄 再讲一遍</button>
+    </div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
+
+</div>
+<script src="../fo-utils.js"></script>
+<script>
+  const BOOK_ID = '35-the-new-bike'; const BOOK_TITLE = '毛毛学骑车'; const BOOK_TOTAL = 6;
+
+  function getInteractionLayer(el) {
+    if (!el) return null;
+    if (el._interactionLayer) return el._interactionLayer;
+    const isSvgGroup = el.namespaceURI === 'http://www.w3.org/2000/svg' && el.tagName.toLowerCase() === 'g';
+    if (!isSvgGroup || !el.hasAttribute('transform')) {
+      el._interactionLayer = el;
+      return el;
+    }
+    const layer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    layer.setAttribute('data-interaction-layer', '');
+    if (el.classList.contains('float')) {
+      el.classList.remove('float');
+      layer.classList.add('float');
+      layer.style.animationDelay = el.style.animationDelay || '';
+      el.style.animationDelay = '';
+    }
+    while (el.firstChild) layer.appendChild(el.firstChild);
+    el.appendChild(layer);
+    el._interactionLayer = layer;
+    return layer;
+  }
+
+  function placeSpeechBubble(scene, el, msg) {
+    const er = el.getBoundingClientRect();
+    const sr = scene.getBoundingClientRect();
+    const b = document.createElement('div');
+    b.className = 'speech-bubble';
+    b.textContent = msg;
+    b.style.maxWidth = Math.max(120, sr.width - 24) + 'px';
+    b.style.overflow = 'hidden';
+    b.style.textOverflow = 'ellipsis';
+    b.style.whiteSpace = 'nowrap';
+    scene.appendChild(b);
+
+    const br = b.getBoundingClientRect();
+    let left = er.left + er.width / 2 - sr.left;
+    let top = er.top - sr.top - br.height - 10;
+    if (top < 8) top = Math.min(sr.height - br.height - 8, er.bottom - sr.top + 10);
+    left = Math.max(12 + br.width / 2, Math.min(sr.width - 12 - br.width / 2, left));
+
+    const bubbles = Array.from(scene.querySelectorAll('.speech-bubble')).filter(x => x !== b);
+    for (const other of bubbles) {
+      const or = other.getBoundingClientRect();
+      const overlaps = !(left + br.width / 2 < or.left - sr.left || left - br.width / 2 > or.right - sr.left || top + br.height < or.top - sr.top || top > or.bottom - sr.top);
+      if (overlaps) top = Math.min(sr.height - br.height - 8, or.bottom - sr.top + 8);
+    }
+
+    b.style.left = left + 'px';
+    b.style.top = Math.max(8, top) + 'px';
+    b.style.transform = 'translateX(-50%)';
+    setTimeout(() => b.remove(), 1500);
+  }
+
+  function makeInteractive(el, animClass, msg) {
+    if (!el) return;
+    const target = getInteractionLayer(el);
+    el.classList.add('interactive');
+    el.addEventListener('click', function () {
+      if (el._busy) return;
+      el._busy = true;
+      target.classList.remove(animClass);
+      void target.getBoundingClientRect();
+      target.classList.add(animClass);
+      if (msg) {
+        const scene = el.closest('.scene');
+        if (scene) placeSpeechBubble(scene, el, msg);
+      }
+      setTimeout(() => { target.classList.remove(animClass); el._busy = false; }, 750);
+    });
+  }
+
+  const pages = document.querySelectorAll('.page');
+  const total  = pages.length;
+  const dots   = document.getElementById('dots');
+  let current  = 0;
+
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('span');
+    if (i === 0) d.classList.add('is-active');
+    dots.appendChild(d);
+  }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    speechSynthesis.cancel();
+    pages.forEach((p, i) => p.classList.toggle('is-active', i === idx));
+    dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx));
+    current = idx;
+    document.getElementById('prev').disabled = idx === 0;
+    document.getElementById('next').disabled = idx === total - 1;
+    if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL);
+  }
+
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  goTo(current - 1);
+    if (e.key === 'ArrowRight') goTo(current + 1);
+  });
+
+  let _tx = 0;
+  document.addEventListener('touchstart', e => { _tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - _tx;
+    if (Math.abs(dx) > 50) dx < 0 ? goTo(current + 1) : goTo(current - 1);
+  });
+
+  document.getElementById('readBtn').addEventListener('click', () => {
+    const text = pages[current].dataset.text;
+    if (!text || !window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-CN'; u.rate = 0.85; u.pitch = 1.1;
+    speechSynthesis.speak(u);
+  });
+
+  goTo(0);
+
+  // Interactions — at least one per scene page
+  makeInteractive(document.getElementById('p1-maomao'), 'do-shake', '我不会骑……');
+  makeInteractive(document.getElementById('p1-dad'), 'do-bounce', '别怕别怕～');
+  makeInteractive(document.getElementById('p1-bike'), 'do-wobble', '我是新车！');
+  makeInteractive(document.getElementById('p2-dad'), 'do-bounce', '像不像呀？');
+  makeInteractive(document.getElementById('p2-bbike'), 'do-wobble', '是我呀！');
+  makeInteractive(document.getElementById('p2-bike'), 'do-wobble', '我也是两个轮子～');
+  makeInteractive(document.getElementById('p2-maomao'), 'do-bounce', '咦？');
+  makeInteractive(document.getElementById('p3-maomao'), 'do-bounce', '这个我会！');
+  makeInteractive(document.getElementById('p3-cloud'), 'do-wobble', '摇摇晃晃～');
+  makeInteractive(document.getElementById('p4-maomao'), 'do-wobble', '滑呀滑——');
+  makeInteractive(document.getElementById('p4-pedal'), 'do-shake', '脚放哪儿？');
+  makeInteractive(document.getElementById('p5-maomao'), 'do-bounce', '骑起来啦！');
+  makeInteractive(document.getElementById('p5-dad'), 'do-bounce', '好办法！');
+  makeInteractive(document.getElementById('p5-bike'), 'do-wobble', '呼——');
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.FO) FO.logHistory(BOOK_ID, BOOK_TITLE);
+  });
+</script>
+</body>
+</html>

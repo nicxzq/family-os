@@ -1,0 +1,496 @@
+<!doctype html>
+<!-- CONTENT_MAP: 最少必要·L05「最少必要」绘本化 → storybooks/36-paper-plane.html · 场景:阳台·折纸飞机(新场景,池外新想) · 尾页:✈️(新) · shelf 第35本 · 核心:想学新本领不用等全部学会,先学最少的两折就能开始玩,边玩边变好(MAKE最少必要知识,6岁具象版) · 源:学习的真相 18「最少必要」(最少的可执行的知识和经验;掌握最少必要知识就马上开始用) -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>毛毛的纸飞机</title>
+<meta name="description" content="毛毛想折纸飞机，可折纸书上好多好多步骤，学到哪一天呀？爸爸说：先学最少的两折——对折、折翅膀，会这两下就能飞。毛毛的小飞机真的飞起来啦，以后每天多学一个小折法，越飞越远！">
+<meta property="og:title" content="毛毛的纸飞机">
+<meta property="og:description" content="想学新本领，不用等全部学会——先学最少的，马上飞起来。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/storybooks/36-paper-plane">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="毛毛的纸飞机">
+<meta name="twitter:description" content="想学新本领，不用等全部学会——先学最少的，马上飞起来。">
+<meta name="twitter:image" content="https://family.carlxu.cn/og.png">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "LXGW WenKai TC","LXGW WenKai",serif; background:#F8F2E2; min-height:100vh; overflow:hidden; }
+  .book { width:100vw; height:100vh; position:relative; overflow:hidden; }
+
+  .top { position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:20px 32px; z-index:20; }
+  .back { text-decoration:none; color:#5C4F3D; font-size:16px; background:rgba(255,255,255,0.7); padding:8px 16px; border-radius:999px; backdrop-filter:blur(8px); }
+  .read-aloud { background:#4B7BA8; color:white; border:0; padding:10px 18px; border-radius:999px; font-family:inherit; font-size:16px; cursor:pointer; box-shadow:0 3px 0 rgba(0,0,0,0.1); }
+  .read-aloud:active { transform:translateY(1px); box-shadow:0 2px 0 rgba(0,0,0,0.1); }
+
+  .page { position:absolute; inset:0; display:flex; flex-direction:column; padding:72px 0 48px; opacity:0; pointer-events:none; transition:opacity 0.6s ease; }
+  .page.is-active { opacity:1; pointer-events:auto; }
+  .page[data-bg="cream"]  { background:#F8F2E2; }
+  .page[data-bg="peach"]  { background:#FBE3D5; }
+  .page[data-bg="mint"]   { background:#D7EBC9; }
+  .page[data-bg="sky"]    { background:#D7E7F4; }
+  .page[data-bg="yellow"] { background:#FBE39A; }
+  .page[data-bg="coral"]  { background:#F4A799; }
+  .page[data-bg="blue"]   { background:#A8C2DE; }
+
+  .scene { flex:1; min-height:0; position:relative; width:100%; overflow:hidden; }
+  .scene svg { width:100%; height:100%; }
+
+  .text { flex-shrink:0; padding:12px 24px 8px; text-align:center; }
+  .text h2 { font-size:clamp(22px,4.5vw,34px); line-height:1.4; color:#2B2419; font-weight:500; text-wrap:balance; }
+  .text .big { font-size:clamp(28px,5.5vw,44px); line-height:1.3; color:#4B7BA8; font-weight:700; margin-top:8px; }
+  .text .small { font-size:clamp(14px,2.8vw,16px); color:#5C4F3D; margin-top:8px; }
+
+  .end-card { margin:auto; background:white; padding:32px; border-radius:24px; max-width:480px; width:calc(100% - 48px); box-shadow:0 8px 0 rgba(0,0,0,0.06),0 24px 48px -16px rgba(0,0,0,0.2); text-align:center; }
+  .end-card h2 { font-size:28px; color:#4B7BA8; margin-bottom:16px; }
+  .end-card p { font-size:19px; color:#2B2419; line-height:1.7; margin-bottom:12px; }
+
+  .nav-btn { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.88); border:0; width:56px; height:56px; border-radius:50%; font-size:24px; cursor:pointer; box-shadow:0 3px 0 rgba(0,0,0,0.1); font-family:inherit; color:#2B2419; z-index:20; backdrop-filter:blur(4px); }
+  .nav-btn:disabled { opacity:0.3; pointer-events:none; }
+  .nav-btn:active { transform:translateY(calc(-50% + 1px)); box-shadow:0 2px 0 rgba(0,0,0,0.1); }
+  #prev { left:12px; } #next { right:12px; }
+
+  .dots-wrap { position:absolute; bottom:16px; left:0; right:0; display:flex; justify-content:center; z-index:20; }
+  .dots { display:flex; gap:6px; }
+  .dots span { width:8px; height:8px; border-radius:50%; background:rgba(43,36,25,0.2); transition:background 0.3s,transform 0.3s; }
+  .dots span.is-active { background:#4B7BA8; transform:scale(1.4); }
+
+  .float { animation:float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .pop { animation:pop 0.6s ease; }
+  @keyframes pop { 0%{transform:scale(0);opacity:0} 60%{transform:scale(1.15)} 100%{transform:scale(1);opacity:1} }
+  .interactive { cursor:pointer; transform-box:fill-box; transform-origin:center center; }
+  .interactive:hover { opacity:0.9; }
+  .do-bounce { animation:iBounce 0.6s cubic-bezier(0.36,0.07,0.19,0.97) both !important; }
+  @keyframes iBounce { 0%{transform:translateY(0) scale(1)} 25%{transform:translateY(-18px) scale(1.15)} 55%{transform:translateY(-4px) scale(0.96)} 75%{transform:translateY(-8px) scale(1.05)} 100%{transform:translateY(0) scale(1)} }
+  .do-shake { animation:iShake 0.55s ease both !important; }
+  @keyframes iShake { 0%,100%{transform:rotate(0deg)} 18%{transform:rotate(-22deg)} 38%{transform:rotate(18deg)} 58%{transform:rotate(-14deg)} 78%{transform:rotate(9deg)} }
+  .do-wobble { animation:iWobble 0.7s ease both !important; }
+  @keyframes iWobble { 0%,100%{transform:scaleX(1) scaleY(1)} 20%{transform:scaleX(1.25) scaleY(0.75)} 45%{transform:scaleX(0.85) scaleY(1.2)} 65%{transform:scaleX(1.1) scaleY(0.9)} 80%{transform:scaleX(0.96) scaleY(1.04)} }
+
+  .speech-bubble { position:absolute; background:white; border-radius:999px; padding:6px 16px; font-size:20px; font-family:"LXGW WenKai TC",serif; box-shadow:0 3px 0 rgba(0,0,0,0.12); pointer-events:none; white-space:nowrap; z-index:50; animation:bPop 0.3s ease forwards; }
+  @keyframes bPop { from{opacity:0} to{opacity:1} }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+<div class="book">
+
+  <div class="top">
+    <a class="back" href="../for-youngest.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+    <a href="../dashboard.html" class="dash-link" style="background:rgba(255,255,255,0.7);padding:8px 14px;border-radius:999px;text-decoration:none;font-size:16px;backdrop-filter:blur(8px);" title="仪表盘">📊</a>
+  </div>
+
+  <!-- PAGE 1 · 阳台上飞来一架纸飞机 -->
+  <div class="page is-active" data-bg="sky" data-text="毛毛在阳台上浇花。嗖——一架白色的纸飞机从天上滑过来，稳稳落在她脚边。哇，飞得好远呀！毛毛捡起来说：我也想折一架！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid meet">
+        <rect x="0" y="0" width="400" height="200" fill="#D7E7F4"/>
+        <circle cx="330" cy="52" r="26" fill="#F4C13E"/>
+        <ellipse cx="90" cy="60" rx="34" ry="13" fill="#FFFDF6" opacity="0.9"/>
+        <ellipse cx="150" cy="45" rx="24" ry="10" fill="#FFFDF6" opacity="0.7"/>
+        <rect x="0" y="200" width="400" height="120" fill="#F1E8D0"/>
+        <g stroke="#8C7C66" stroke-width="4">
+          <line x1="20" y1="145" x2="20" y2="205"/>
+          <line x1="70" y1="145" x2="70" y2="205"/>
+          <line x1="120" y1="145" x2="120" y2="205"/>
+          <line x1="170" y1="145" x2="170" y2="205"/>
+          <line x1="220" y1="145" x2="220" y2="205"/>
+          <line x1="270" y1="145" x2="270" y2="205"/>
+          <line x1="320" y1="145" x2="320" y2="205"/>
+          <line x1="370" y1="145" x2="370" y2="205"/>
+        </g>
+        <rect x="8" y="138" width="384" height="8" rx="4" fill="#5C4F3D"/>
+        <g transform="translate(348,232)">
+          <path d="M-14 0 Q -14 -16 0 -16 Q 14 -16 14 0 L 10 22 L -10 22 Z" fill="#E56B5A"/>
+          <path d="M0 -16 Q -12 -32 -2 -40 M0 -16 Q 10 -30 4 -42" stroke="#6FA86D" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="-2" cy="-42" r="6" fill="#6FA86D"/>
+          <circle cx="5" cy="-44" r="6" fill="#6FA86D"/>
+        </g>
+        <g id="p1-plane" transform="translate(255,210)">
+          <g transform="rotate(-12)">
+            <polygon points="-30,0 30,-8 6,4 -2,14" fill="#FFFDF6" stroke="#4B7BA8" stroke-width="2" stroke-linejoin="round"/>
+            <line x1="-30" y1="0" x2="6" y2="4" stroke="#4B7BA8" stroke-width="1.6"/>
+          </g>
+          <path d="M-46 -14 q -14 8 -8 22" stroke="#A8C2DE" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="2 7"/>
+        </g>
+        <g id="p1-maomao" transform="translate(140,240)" class="float">
+          <ellipse cx="0" cy="30" rx="20" ry="4" fill="#2B2419" opacity="0.08"/>
+          <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6"/>
+          <ellipse cx="10" cy="10" rx="9" ry="13" fill="#F4C13E" transform="rotate(18 10 10)"/>
+          <circle cx="0" cy="-20" r="18" fill="#FFFDF6"/>
+          <circle cx="-6" cy="-22" r="3" fill="#2B2419"/>
+          <circle cx="6" cy="-22" r="3" fill="#2B2419"/>
+          <polygon points="0,-19 11,-15 0,-11" fill="#E56B5A"/>
+          <line x1="-7" y1="32" x2="-7" y2="26" stroke="#F4C13E" stroke-width="3" stroke-linecap="round"/>
+          <line x1="7" y1="32" x2="7" y2="26" stroke="#F4C13E" stroke-width="3" stroke-linecap="round"/>
+          <g transform="translate(-26,14)">
+            <path d="M0 0 L 10 -3 L 10 8 Q 5 12 0 8 Z" fill="#4B7BA8"/>
+            <path d="M2 -1 Q 6 -8 10 -3" stroke="#4B7BA8" stroke-width="2.5" fill="none"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>嗖——一架纸飞机滑进阳台，飞得好远呀！</h2>
+      <p class="small">毛毛捡起来："我也想折一架！"</p>
+    </div>
+  </div>
+
+  <!-- PAGE 2 · 折纸书上好多好多步骤 -->
+  <div class="page" data-bg="peach" data-text="毛毛翻开折纸书。呀，纸飞机的折法有好多好多步，一格一格，密密麻麻，数都数不完。毛毛的头垂下来了：这么多步，我要学到哪一天呀……">
+    <div class="scene">
+      <svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid meet">
+        <rect x="0" y="230" width="400" height="90" fill="#F1E8D0"/>
+        <g stroke="#8C7C66" stroke-width="4" opacity="0.5">
+          <line x1="40" y1="180" x2="40" y2="235"/>
+          <line x1="330" y1="180" x2="330" y2="235"/>
+          <line x1="380" y1="180" x2="380" y2="235"/>
+        </g>
+        <rect x="28" y="174" width="364" height="7" rx="3.5" fill="#5C4F3D" opacity="0.5"/>
+        <g id="p2-book" transform="translate(160,215)">
+          <rect x="-75" y="-45" width="150" height="90" rx="8" fill="#4B7BA8"/>
+          <rect x="-68" y="-38" width="66" height="76" rx="4" fill="#FFFDF6"/>
+          <rect x="2" y="-38" width="66" height="76" rx="4" fill="#FFFDF6"/>
+          <g fill="none" stroke="#8C7C66" stroke-width="1.4">
+            <rect x="-62" y="-32" width="16" height="14"/><rect x="-42" y="-32" width="16" height="14"/><rect x="-22" y="-32" width="14" height="14"/>
+            <rect x="-62" y="-13" width="16" height="14"/><rect x="-42" y="-13" width="16" height="14"/><rect x="-22" y="-13" width="14" height="14"/>
+            <rect x="-62" y="6" width="16" height="14"/><rect x="-42" y="6" width="16" height="14"/><rect x="-22" y="6" width="14" height="14"/>
+            <rect x="8" y="-32" width="16" height="14"/><rect x="28" y="-32" width="16" height="14"/><rect x="48" y="-32" width="14" height="14"/>
+            <rect x="8" y="-13" width="16" height="14"/><rect x="28" y="-13" width="16" height="14"/><rect x="48" y="-13" width="14" height="14"/>
+            <rect x="8" y="6" width="16" height="14"/><rect x="28" y="6" width="16" height="14"/><rect x="48" y="6" width="14" height="14"/>
+          </g>
+          <text x="0" y="38" font-size="12" text-anchor="middle" fill="#5C4F3D" font-family="LXGW WenKai TC">……还有好多页</text>
+        </g>
+        <g id="p2-maomao" transform="translate(300,225)">
+          <ellipse cx="0" cy="32" rx="20" ry="4" fill="#2B2419" opacity="0.08"/>
+          <ellipse cx="0" cy="10" rx="22" ry="24" fill="#FFFDF6"/>
+          <circle cx="0" cy="-16" r="18" fill="#FFFDF6"/>
+          <circle cx="-7" cy="-16" r="3" fill="#2B2419"/>
+          <circle cx="5" cy="-16" r="3" fill="#2B2419"/>
+          <path d="M-9 -24 q 3 -3 6 -1 M2 -25 q 3 -2 6 0" stroke="#2B2419" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <polygon points="-1,-13 -12,-9 -1,-5" fill="#E56B5A"/>
+          <line x1="-7" y1="34" x2="-7" y2="28" stroke="#F4C13E" stroke-width="3" stroke-linecap="round"/>
+          <line x1="7" y1="34" x2="7" y2="28" stroke="#F4C13E" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <g fill="#5C4F3D" font-family="LXGW WenKai TC">
+          <text x="322" y="140" font-size="20">？</text>
+          <text x="345" y="118" font-size="26">？</text>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>折纸书上一格一格，密密麻麻数不完。</h2>
+      <p class="small">"这么多步……我要学到哪一天呀？"</p>
+    </div>
+  </div>
+
+  <!-- PAGE 3 · 爸爸：先学最少的两折 -->
+  <div class="page" data-bg="mint" data-text="爸爸走过来，把书轻轻合上一半，说：不用全学会呀。想让它飞，先学最少的两折就够啦——第一折，对折；第二折，折翅膀。会这两下，就能飞。爸爸慢慢地折了一遍给毛毛看。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid meet">
+        <rect x="0" y="235" width="400" height="85" fill="#F1E8D0"/>
+        <g id="p3-dad" transform="translate(120,200)">
+          <ellipse cx="0" cy="46" rx="26" ry="5" fill="#2B2419" opacity="0.08"/>
+          <ellipse cx="0" cy="12" rx="32" ry="36" fill="#FFFDF6"/>
+          <circle cx="0" cy="-34" r="26" fill="#FFFDF6"/>
+          <circle cx="-10" cy="-36" r="7" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="10" cy="-36" r="7" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <line x1="-3" y1="-36" x2="3" y2="-36" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="-10" cy="-36" r="2.6" fill="#2B2419"/>
+          <circle cx="10" cy="-36" r="2.6" fill="#2B2419"/>
+          <polygon points="0,-30 13,-25 0,-21" fill="#E56B5A"/>
+          <line x1="-9" y1="50" x2="-9" y2="43" stroke="#F4C13E" stroke-width="3.4" stroke-linecap="round"/>
+          <line x1="9" y1="50" x2="9" y2="43" stroke="#F4C13E" stroke-width="3.4" stroke-linecap="round"/>
+        </g>
+        <g id="p3-steps" transform="translate(262,150)">
+          <rect x="-88" y="-52" width="176" height="108" rx="14" fill="#FFFDF6" stroke="#6FA86D" stroke-width="2.5"/>
+          <text x="0" y="-30" font-size="15" text-anchor="middle" fill="#6FA86D" font-family="LXGW WenKai TC" font-weight="700">最少的两折</text>
+          <g transform="translate(-42,8)">
+            <rect x="-24" y="-18" width="48" height="34" fill="#D7E7F4" stroke="#4B7BA8" stroke-width="1.6"/>
+            <line x1="0" y1="-18" x2="0" y2="16" stroke="#4B7BA8" stroke-width="1.6" stroke-dasharray="4 3"/>
+            <text x="0" y="34" font-size="13" text-anchor="middle" fill="#2B2419" font-family="LXGW WenKai TC">① 对折</text>
+          </g>
+          <g transform="translate(44,8)">
+            <polygon points="-26,12 0,-16 26,12 0,4" fill="#D7E7F4" stroke="#4B7BA8" stroke-width="1.6" stroke-linejoin="round"/>
+            <text x="0" y="34" font-size="13" text-anchor="middle" fill="#2B2419" font-family="LXGW WenKai TC">② 折翅膀</text>
+          </g>
+        </g>
+        <g id="p3-maomao" transform="translate(300,252)">
+          <ellipse cx="0" cy="26" rx="18" ry="4" fill="#2B2419" opacity="0.08"/>
+          <ellipse cx="0" cy="6" rx="20" ry="22" fill="#FFFDF6"/>
+          <circle cx="0" cy="-19" r="16" fill="#FFFDF6"/>
+          <circle cx="-5" cy="-21" r="2.8" fill="#2B2419"/>
+          <circle cx="6" cy="-21" r="2.8" fill="#2B2419"/>
+          <polygon points="0,-18 -10,-14 0,-10" fill="#E56B5A"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>爸爸说："不用全学会呀。先学<span style="color:#4B7BA8;font-weight:700;">最少的两折</span>——对折，折翅膀。"</h2>
+      <p class="small">"会这两下，就能飞。"爸爸慢慢折了一遍给毛毛看。</p>
+    </div>
+  </div>
+
+  <!-- PAGE 4 · 简简单单的飞机，飞起来啦 -->
+  <div class="page" data-bg="yellow" data-text="毛毛跟着折：对折，压平；折翅膀，压平。一架简简单单的小飞机折好啦！她踮起脚尖，胳膊一挥——小飞机摇摇晃晃地飞起来啦！虽然只飞过了花盆，可是，它真的飞起来了！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid meet">
+        <rect x="0" y="240" width="400" height="80" fill="#F1E8D0"/>
+        <g transform="translate(258,258)">
+          <path d="M-16 0 Q -16 -18 0 -18 Q 16 -18 16 0 L 11 26 L -11 26 Z" fill="#E56B5A"/>
+          <path d="M0 -18 Q -10 -34 -2 -42 M0 -18 Q 12 -32 6 -44" stroke="#6FA86D" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="-2" cy="-44" r="7" fill="#6FA86D"/>
+          <circle cx="7" cy="-46" r="7" fill="#6FA86D"/>
+        </g>
+        <g id="p4-plane" transform="translate(300,140)">
+          <g transform="rotate(-8)">
+            <polygon points="-28,0 28,-7 5,4 -2,13" fill="#FFFDF6" stroke="#4B7BA8" stroke-width="2" stroke-linejoin="round"/>
+            <line x1="-28" y1="0" x2="5" y2="4" stroke="#4B7BA8" stroke-width="1.6"/>
+          </g>
+          <path d="M-90 46 Q -50 10 -40 24 Q -60 40 -44 34" stroke="#4B7BA8" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="2 8"/>
+        </g>
+        <g id="p4-maomao" transform="translate(120,236)">
+          <ellipse cx="0" cy="34" rx="20" ry="4" fill="#2B2419" opacity="0.08"/>
+          <ellipse cx="0" cy="10" rx="22" ry="24" fill="#FFFDF6"/>
+          <ellipse cx="-14" cy="-6" rx="9" ry="14" fill="#F4C13E" transform="rotate(-40 -14 -6)"/>
+          <circle cx="2" cy="-20" r="18" fill="#FFFDF6"/>
+          <circle cx="-4" cy="-23" r="3" fill="#2B2419"/>
+          <circle cx="8" cy="-23" r="3" fill="#2B2419"/>
+          <polygon points="3,-19 14,-15 3,-11" fill="#E56B5A"/>
+          <line x1="-7" y1="36" x2="-7" y2="29" stroke="#F4C13E" stroke-width="3" stroke-linecap="round"/>
+          <line x1="7" y1="36" x2="7" y2="29" stroke="#F4C13E" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <g fill="#E56B5A" font-family="LXGW WenKai TC" font-weight="700">
+          <text x="180" y="120" font-size="22">飞起来啦！</text>
+        </g>
+        <g fill="#F4C13E">
+          <path d="M160 80 l 3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 z"/>
+          <path d="M245 66 l 2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5 -6 -6 -2.5 6 -2.5 z"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>一扔——小飞机摇摇晃晃，<span style="color:#4B7BA8;font-weight:700;">真的飞起来啦！</span></h2>
+      <p class="small">虽然只飞过了花盆，可是它真的飞了！</p>
+    </div>
+  </div>
+
+  <!-- PAGE 5 · 每天多学一个小折法，越飞越远 -->
+  <div class="page" data-bg="cream" data-text="从那天起，毛毛天天在阳台飞一会儿纸飞机，每天再多学一个小折法：尖尖头的，宽翅膀的。小飞机越飞越远，都飞过栏杆那头啦！卡梅拉在下面喊：哇，毛毛，教教我呀！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid meet">
+        <rect x="0" y="0" width="400" height="210" fill="#D7E7F4"/>
+        <circle cx="70" cy="50" r="22" fill="#F4C13E"/>
+        <ellipse cx="300" cy="42" rx="30" ry="11" fill="#FFFDF6" opacity="0.85"/>
+        <rect x="0" y="210" width="400" height="110" fill="#F1E8D0"/>
+        <g stroke="#8C7C66" stroke-width="4">
+          <line x1="30" y1="158" x2="30" y2="215"/>
+          <line x1="85" y1="158" x2="85" y2="215"/>
+          <line x1="140" y1="158" x2="140" y2="215"/>
+          <line x1="195" y1="158" x2="195" y2="215"/>
+        </g>
+        <rect x="18" y="151" width="188" height="8" rx="4" fill="#5C4F3D"/>
+        <g id="p5-planes" transform="translate(285,120)">
+          <g transform="rotate(-10)">
+            <polygon points="-26,0 26,-6 5,4 -2,12" fill="#FFFDF6" stroke="#4B7BA8" stroke-width="2" stroke-linejoin="round"/>
+          </g>
+          <g transform="translate(52,-34) rotate(-16) scale(0.8)">
+            <polygon points="-26,0 26,-6 5,4 -2,12" fill="#FFFDF6" stroke="#E56B5A" stroke-width="2" stroke-linejoin="round"/>
+          </g>
+          <path d="M-140 60 Q -60 30 -30 8" stroke="#A8C2DE" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="2 8"/>
+        </g>
+        <g id="p5-maomao" transform="translate(110,200)" class="float">
+          <ellipse cx="0" cy="32" rx="20" ry="4" fill="#2B2419" opacity="0.08"/>
+          <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6"/>
+          <ellipse cx="-13" cy="-8" rx="9" ry="14" fill="#F4C13E" transform="rotate(-35 -13 -8)"/>
+          <circle cx="2" cy="-20" r="18" fill="#FFFDF6"/>
+          <circle cx="-4" cy="-23" r="3" fill="#2B2419"/>
+          <circle cx="8" cy="-23" r="3" fill="#2B2419"/>
+          <polygon points="3,-19 14,-15 3,-11" fill="#E56B5A"/>
+          <line x1="-7" y1="34" x2="-7" y2="27" stroke="#F4C13E" stroke-width="3" stroke-linecap="round"/>
+          <line x1="7" y1="34" x2="7" y2="27" stroke="#F4C13E" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <g id="p5-kamela" transform="translate(310,262)">
+          <ellipse cx="0" cy="26" rx="17" ry="4" fill="#2B2419" opacity="0.08"/>
+          <g transform="rotate(8)">
+            <ellipse cx="0" cy="6" rx="19" ry="21" fill="#FFFDF6"/>
+            <circle cx="0" cy="-17" r="15" fill="#FFFDF6"/>
+            <circle cx="-5" cy="-19" r="2.8" fill="#2B2419"/>
+            <circle cx="5" cy="-19" r="2.8" fill="#2B2419"/>
+            <polygon points="0,-16 -10,-12 0,-8" fill="#E56B5A"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>每天多学一个小折法，小飞机越飞越远！</h2>
+      <p class="small">卡梅拉在楼下喊："哇，毛毛，教教我呀！"</p>
+    </div>
+  </div>
+
+  <!-- LAST PAGE — end-card -->
+  <div class="page" data-bg="cream" data-text="给小弟弟。想学新本领，不用等全部学会。先学最少的，马上飞起来。">
+    <div class="end-card">
+      <h2>给小弟弟 ✈️</h2>
+      <p>想学一样新本领，不用等把书上的每一步都学完。</p>
+      <p style="font-size:32px;color:#4B7BA8;font-weight:700;margin:16px 0;">"先学最少的，马上飞起来。"</p>
+      <p style="font-size:16px;color:#5C4F3D;">先会最少的两折，就能开始玩——边玩边学，一天一个新折法，越飞越远。</p>
+      <button class="read-aloud" style="margin-top:24px;" onclick="goTo(0)">🔄 再讲一遍</button>
+    </div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
+
+</div>
+<script src="../fo-utils.js"></script>
+<script>
+  const BOOK_ID = '36-paper-plane'; const BOOK_TITLE = '毛毛的纸飞机'; const BOOK_TOTAL = 6;
+
+  function getInteractionLayer(el) {
+    if (!el) return null;
+    if (el._interactionLayer) return el._interactionLayer;
+    const isSvgGroup = el.namespaceURI === 'http://www.w3.org/2000/svg' && el.tagName.toLowerCase() === 'g';
+    if (!isSvgGroup || !el.hasAttribute('transform')) {
+      el._interactionLayer = el;
+      return el;
+    }
+    const layer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    layer.setAttribute('data-interaction-layer', '');
+    if (el.classList.contains('float')) {
+      el.classList.remove('float');
+      layer.classList.add('float');
+      layer.style.animationDelay = el.style.animationDelay || '';
+      el.style.animationDelay = '';
+    }
+    while (el.firstChild) layer.appendChild(el.firstChild);
+    el.appendChild(layer);
+    el._interactionLayer = layer;
+    return layer;
+  }
+
+  function placeSpeechBubble(scene, el, msg) {
+    const er = el.getBoundingClientRect();
+    const sr = scene.getBoundingClientRect();
+    const b = document.createElement('div');
+    b.className = 'speech-bubble';
+    b.textContent = msg;
+    b.style.maxWidth = Math.max(120, sr.width - 24) + 'px';
+    b.style.overflow = 'hidden';
+    b.style.textOverflow = 'ellipsis';
+    b.style.whiteSpace = 'nowrap';
+    scene.appendChild(b);
+
+    const br = b.getBoundingClientRect();
+    let left = er.left + er.width / 2 - sr.left;
+    let top = er.top - sr.top - br.height - 10;
+    if (top < 8) top = Math.min(sr.height - br.height - 8, er.bottom - sr.top + 10);
+    left = Math.max(12 + br.width / 2, Math.min(sr.width - 12 - br.width / 2, left));
+
+    const bubbles = Array.from(scene.querySelectorAll('.speech-bubble')).filter(x => x !== b);
+    for (const other of bubbles) {
+      const or = other.getBoundingClientRect();
+      const overlaps = !(left + br.width / 2 < or.left - sr.left || left - br.width / 2 > or.right - sr.left || top + br.height < or.top - sr.top || top > or.bottom - sr.top);
+      if (overlaps) top = Math.min(sr.height - br.height - 8, or.bottom - sr.top + 8);
+    }
+
+    b.style.left = left + 'px';
+    b.style.top = Math.max(8, top) + 'px';
+    b.style.transform = 'translateX(-50%)';
+    setTimeout(() => b.remove(), 1500);
+  }
+
+  function makeInteractive(el, animClass, msg) {
+    if (!el) return;
+    const target = getInteractionLayer(el);
+    el.classList.add('interactive');
+    el.addEventListener('click', function () {
+      if (el._busy) return;
+      el._busy = true;
+      target.classList.remove(animClass);
+      void target.getBoundingClientRect();
+      target.classList.add(animClass);
+      if (msg) {
+        const scene = el.closest('.scene');
+        if (scene) placeSpeechBubble(scene, el, msg);
+      }
+      setTimeout(() => { target.classList.remove(animClass); el._busy = false; }, 750);
+    });
+  }
+
+  const pages = document.querySelectorAll('.page');
+  const total  = pages.length;
+  const dots   = document.getElementById('dots');
+  let current  = 0;
+
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('span');
+    if (i === 0) d.classList.add('is-active');
+    dots.appendChild(d);
+  }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    speechSynthesis.cancel();
+    pages.forEach((p, i) => p.classList.toggle('is-active', i === idx));
+    dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx));
+    current = idx;
+    document.getElementById('prev').disabled = idx === 0;
+    document.getElementById('next').disabled = idx === total - 1;
+    if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL);
+  }
+
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  goTo(current - 1);
+    if (e.key === 'ArrowRight') goTo(current + 1);
+  });
+
+  let _tx = 0;
+  document.addEventListener('touchstart', e => { _tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - _tx;
+    if (Math.abs(dx) > 50) dx < 0 ? goTo(current + 1) : goTo(current - 1);
+  });
+
+  document.getElementById('readBtn').addEventListener('click', () => {
+    const text = pages[current].dataset.text;
+    if (!text || !window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-CN'; u.rate = 0.85; u.pitch = 1.1;
+    speechSynthesis.speak(u);
+  });
+
+  goTo(0);
+
+  makeInteractive(document.getElementById('p1-plane'), 'do-bounce', '嗖——✈️');
+  makeInteractive(document.getElementById('p1-maomao'), 'do-bounce', '我也想折一架！🐣');
+  makeInteractive(document.getElementById('p2-book'), 'do-shake', '好多好多步……📖');
+  makeInteractive(document.getElementById('p2-maomao'), 'do-shake', '学到哪一天呀……');
+  makeInteractive(document.getElementById('p3-dad'), 'do-bounce', '先学最少的两折～');
+  makeInteractive(document.getElementById('p3-steps'), 'do-wobble', '对折，折翅膀！');
+  makeInteractive(document.getElementById('p4-plane'), 'do-wobble', '飞起来啦！');
+  makeInteractive(document.getElementById('p4-maomao'), 'do-bounce', '真的飞了！🐣');
+  makeInteractive(document.getElementById('p5-planes'), 'do-bounce', '越飞越远～✈️');
+  makeInteractive(document.getElementById('p5-maomao'), 'do-bounce', '一天一个新折法！');
+  makeInteractive(document.getElementById('p5-kamela'), 'do-wobble', '教教我呀！');
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.FO) FO.logHistory(BOOK_ID, BOOK_TITLE);
+  });
+</script>
+</body>
+</html>

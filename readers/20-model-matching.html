@@ -1,0 +1,242 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: L04 · 源: 学习的真相 14「模型匹配」+ 15「改良构建」（一切识别都是模型识别；空想性错觉四例：1954加拿大纸币魔鬼面庞/2001年9·11双塔浓烟魔鬼面庞/1976维京一号火星"人脸"/2022尼康摄影竞赛蚂蚁头颅正面照；识别=提取少量特征→用最熟悉最常用的模型做近似预测→验证或纠正；迷信者更快识别魔鬼脸=模型更熟悉；锤子钉子=任何预测依据都来自自己最熟悉的领域；具象模型复杂含混（桌子六条模糊标准）vs 抽象模型简单准确（圆的定义每个字无歧义）；大脑从一开始就是抽象机器；"女生天生不擅长数学"是胡说八道；科学=对整个世界无歧义的简单且准确的抽象；操作系统=模型+模型间关联，均须清晰准确必要；知识=主体what/机制why/用法how（由6个子模型精简为3个=模型改良实例）；学习=习得+应用+改良+构建模型；学习模型演化：2500年前孔子"学而时习之"（学+习）→1000年前宋·杨时《论学篇》（+行）→400年前清·颜元"学而必习，习又必行"→学练用造（求学/练习/应用/创造）；作者东北口音例子（取读糗、贼、磕碜——日常够用，讲课不够用→回去重练）；创造最能触发主动/自驱力=更主动；优秀教师创业失败=创造必然需要组合技能（销售/组织/协调/抗压）；只有创造才能最大限度反复触发学习、才是学习效果的最终检验标准；检验模型=必要二字、无需增减） -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>你看到的，是大脑猜出来的 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--green); --accent-soft: var(--green-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--blue); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 学习的真相</span>
+    <h1>你看到的，<br>是大脑猜出来的</h1>
+
+    <p class="hook">
+      1976 年，太空船维京一号从火星传回一张照片，无数人在一块岩石上看到了一张巨大的人脸；1954 年版的加拿大纸币上，人们在女王的头发里认出一张"魔鬼面庞"；2022 年尼康摄影竞赛里一张蚂蚁头部的正面特写获了奖，很多人看完直呼不适——因为它也"长着"一张魔鬼的脸。<br>
+      火星上当然没有脸，头发就是头发，蚂蚁只是蚂蚁。问题来了：<span class="em">你的大脑为什么非要看见一张脸？</span>答案会顺便解释：学习到底是怎么一回事。
+    </p>
+
+    <!-- 拆解 1 · 识别=模型匹配 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>看，从来不是照相，是猜</h3>
+      <p>心理学里有个专门的词，中文叫<strong>空想性错觉</strong>：大脑给一幅画面、一段声音强行赋予意义，而那个意义只是巧合——中国人叫"无中生有"。它在识别人脸时最常见，因为人一出生，脑子里就自带一个"人脸模型"：对刚出生的婴儿来说，判断一个会动的东西是不是人，主要就看它有没有脸。</p>
+      <p>这暴露了大脑的工作方式：<strong>一切识别，都是模型识别</strong>。模型是对事物若干主要特征的抽象组合。我们认东西时，大脑并不逐个细节对照，而是只提取少量重要特征，然后调用记忆里的模型去做预测——而且不求精确，大概对得上就开始猜，因为后面本来还有一个"验证或排除"的环节。我们之所以能在浓烟和岩石里"看到"脸，是因为人脸模型被调用的次数实在太多、太熟悉了，大脑总是<strong>先用最熟悉的模型去猜</strong>。书里还有个佐证：越迷信的人，越能快速认出"魔鬼面庞"——不是他们眼神好，是那个模型对他们来说更熟。</p>
+      <p>"手里拿着锤子的人，看什么都像钉子"，就是这个机制的经典案例：锤子在手，钉子模型就成了脑子里最重要的模型，看什么都先跟它配对。于是有了一个值得抄下来的结论：<strong>任何预测的依据，都来自自己最熟悉的领域</strong>。所以独立思考的起点，不是"相信直觉"，而是知道直觉只是一次待验证的猜测：验证失败就换模型、改模型；所有模型都不管用，就得建新模型——这个过程，就是独立思考的全过程。</p>
+      <figure>
+        <svg viewBox="0 0 600 230" role="img" aria-label="模型识别流程：新东西进来，提取少量特征，用最熟悉的模型做近似预测，再验证；验证失败则改模型换模型或建新模型">
+          <g text-anchor="middle">
+            <rect x="14" y="72" width="122" height="66" rx="12" fill="var(--blue-soft)"/>
+            <text x="75" y="99" font-size="15" fill="var(--ink)" font-weight="700">新东西进来</text>
+            <text x="75" y="121" font-size="11" fill="var(--ink-soft)">一团浓烟 · 一块岩石</text>
+            <text x="151" y="110" font-size="20" fill="var(--ink-mute)">→</text>
+            <rect x="166" y="72" width="122" height="66" rx="12" fill="var(--blue-soft)"/>
+            <text x="227" y="99" font-size="15" fill="var(--ink)" font-weight="700">提取少量特征</text>
+            <text x="227" y="121" font-size="11" fill="var(--ink-soft)">不逐个细节对照</text>
+            <text x="303" y="110" font-size="20" fill="var(--ink-mute)">→</text>
+            <rect x="318" y="72" width="128" height="66" rx="12" fill="var(--green-soft)"/>
+            <text x="382" y="99" font-size="15" fill="var(--ink)" font-weight="700">最熟悉的模型</text>
+            <text x="382" y="121" font-size="11" fill="var(--ink-soft)">调用次数最多的先来</text>
+            <text x="461" y="110" font-size="20" fill="var(--ink-mute)">→</text>
+            <rect x="476" y="72" width="110" height="66" rx="12" fill="var(--green-soft)"/>
+            <text x="531" y="99" font-size="15" fill="var(--ink)" font-weight="700">近似预测</text>
+            <text x="531" y="121" font-size="11" fill="var(--ink-soft)">大概对上就先猜</text>
+            <text x="531" y="168" font-size="13" fill="var(--green)" font-weight="700">✓ 验证成功</text>
+            <path d="M480 175 Q 382 214 382 146" stroke="var(--coral)" stroke-width="2" fill="none" marker-end="none"/>
+            <text x="400" y="205" font-size="13" fill="var(--coral)" font-weight="700">✗ 换模型 · 改模型 · 建新模型</text>
+            <text x="300" y="30" font-size="13" fill="var(--ink-mute)">任何预测的依据，都来自自己最熟悉的领域</text>
+          </g>
+        </svg>
+        <figcaption>大脑的工作过程：基于最熟悉的模型做近似预测，再验证或纠正（《学习的真相》14·模型匹配）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 抽象反而更简单 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>"桌子"居然比"圆"难</h3>
+      <p>直觉上，看得见摸得着的东西简单，抽象的东西难。书里的结论正好相反：<strong>我们给具象事物建的模型，其实更复杂、更含混；给抽象事物建的模型，反而更简单、更准确</strong>。</p>
+      <p>试试描述"什么是桌子"：平面要够大——多大算够大？说不清，太小就成了放花盆的架子。要够高——离地两米像亭子，40 厘米又成了茶几，界限在哪也说不清。平面得大致水平；有平面的柜子、台子又不算桌子；腿嘛，一条两条三条四条都见过，桌布垂下来看不见腿照样一眼认出；双层电脑桌有两个平面，也难不倒你。书里描述了六个方面，每一方面都含混不清——<strong>可你识别桌子只需要一瞬间</strong>。这也解释了为什么人工智能科学家想写出"在图片里认出猫"的算法竟那么难。</p>
+      <p>再看"圆"：从中心点到周边任何一点的距离完全相等的图形。一句话，<strong>每个字都毫无歧义</strong>。抽象模型必须简单、准确、无歧义，否则就没法被拿来继续搭建和组合。而我们在学校里学的语文、外语、数学、物理、化学，核心全是抽象概念——凡是真正重要的，几乎都看不见摸不着，全靠后天习得。所以书里说：<strong>大脑从一开始就是抽象机器</strong>，更擅长处理抽象事物。顺便撂下一句硬话：所谓"女生天生不擅长数学、抽象能力弱"，绝对是胡说八道——抽象能力不可能分性别，除非用的不是人脑。也因此值得真心崇尚科学：<strong>科学本质上就是对整个世界无歧义的、既简单又准确的抽象</strong>——基于它做预测更准，验证和试错的成本更低，有时几近于零。</p>
+      <figure>
+        <svg viewBox="0 0 600 240" role="img" aria-label="具象与抽象模型对比：桌子的模型复杂含混但一眼识别；圆的定义简单准确毫无歧义">
+          <g text-anchor="middle">
+            <rect x="20" y="20" width="264" height="188" rx="14" fill="var(--coral-soft)" opacity="0.45"/>
+            <text x="152" y="50" font-size="16" fill="var(--ink)" font-weight="700">桌子 · 具象模型</text>
+            <g font-size="12.5" fill="var(--ink-soft)">
+              <text x="152" y="82">平面要多大，才算"够大"？</text>
+              <text x="152" y="106">多高是桌子，多矮是茶几？</text>
+              <text x="152" y="130">几条腿都行，看不见腿也认得</text>
+              <text x="152" y="154">柜子有平面，却不是桌子</text>
+            </g>
+            <text x="152" y="190" font-size="13.5" fill="var(--coral)" font-weight="700">复杂、含混——却一瞬间认出</text>
+            <rect x="316" y="20" width="264" height="188" rx="14" fill="var(--green-soft)" opacity="0.55"/>
+            <text x="448" y="50" font-size="16" fill="var(--ink)" font-weight="700">圆 · 抽象模型</text>
+            <circle cx="448" cy="112" r="34" fill="none" stroke="var(--green)" stroke-width="2.5"/>
+            <line x1="448" y1="112" x2="482" y2="112" stroke="var(--green)" stroke-width="2"/>
+            <circle cx="448" cy="112" r="3" fill="var(--green)"/>
+            <text x="448" y="170" font-size="12.5" fill="var(--ink-soft)">到中心点的距离，处处相等</text>
+            <text x="448" y="190" font-size="13.5" fill="var(--green)" font-weight="700">简单、准确、每个字无歧义</text>
+            <text x="300" y="230" font-size="12.5" fill="var(--ink-mute)">科学 = 对整个世界无歧义的、简单且准确的抽象</text>
+          </g>
+        </svg>
+        <figcaption>与直觉相反：具象模型含混复杂，抽象模型简单准确（《学习的真相》14·模型匹配）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 学习=学练用造 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>学习 = 习得、应用、改良、构建模型</h3>
+      <p>既然大脑皮层上一切都是模型，那么一个人的"操作系统"就由两个要素构成：<strong>模型，以及模型之间的关联</strong>——两者都要清晰、准确、必要。于是一切抽象知识的学习，最终无非是<strong>习得、应用、改良、构建模型</strong>的过程。连"学习"这个模型本身，都是被一代代人改良出来的：2500 年前，孔子说"学而时习之"——他的学习模型有两个零件：<strong>学 + 习</strong>；1000 年前，宋代的杨时在《论学篇》里补上了"行"；400 年前，清代的颜元说"学而必习，习又必行"。而书的作者认为践行不该在学习之外，还把"行"进一步拆成两半，得到四个零件：<strong>求学、练习、应用、创造——学、练、用、造</strong>。</p>
+      <p>这个模型好在哪？它说清了卡住时该去哪一格。作者自己举例：他是东北人，日常说话把"取"读成"糗"、说"贼"、说"磕碜"，够用，就一直用；直到要去新东方面对天南海北的学生讲课，"应用"这一格不够用了——只好回去重<strong>练</strong>普通话；等到要讲自己写的课，"<strong>创造</strong>"又逼他去学逻辑、研究方法、发声技巧，甚至回头重练记忆力和断句。<strong>学习就是这样循环往复，而创造是其中最能触发主动的一格</strong>——我们夸一个人"自驱力强"，其实只是在说他更主动，而呵护创造的欲望，就是变主动的办法。创造还必然需要组合技能：书里说见过无数优秀教师自己开学校却失败——教学再杰出，缺了销售、组织、协调、抗压，创造就是不成立。所以，<strong>只有创造能最大限度地反复触发学习，也只有创造才是学习效果的最终检验标准</strong>。</p>
+      <p>最后，怎么判断你建的模型好不好？就两个字：<strong>必要</strong>。不必要的零件直接删掉；若干零件拼成新模型时做到"无需增减"——多一个是多余，少一个不完整。书里的示范：知识的结构原本用 5W1H 六个零件描述，后来发现 who、when、where 都只是不同的 what，精简成三个——<strong>主体（what）、机制（why）、用法（how）</strong>。这就是一次漂亮的模型改良。</p>
+      <figure>
+        <svg viewBox="0 0 600 240" role="img" aria-label="学习模型的演化时间线：孔子的学加习，杨时补行，颜元学而必习习又必行，到今天的学练用造四环循环">
+          <g text-anchor="middle">
+            <line x1="40" y1="60" x2="560" y2="60" stroke="var(--cream-deep)" stroke-width="3"/>
+            <circle cx="80" cy="60" r="6" fill="var(--ink-mute)"/>
+            <text x="80" y="34" font-size="12" fill="var(--ink-mute)">2500年前 · 孔子</text>
+            <text x="80" y="90" font-size="14" fill="var(--ink)" font-weight="700">学 + 习</text>
+            <circle cx="230" cy="60" r="6" fill="var(--ink-mute)"/>
+            <text x="230" y="34" font-size="12" fill="var(--ink-mute)">1000年前 · 杨时</text>
+            <text x="230" y="90" font-size="14" fill="var(--ink)" font-weight="700">＋ 行</text>
+            <circle cx="380" cy="60" r="6" fill="var(--ink-mute)"/>
+            <text x="380" y="34" font-size="12" fill="var(--ink-mute)">400年前 · 颜元</text>
+            <text x="380" y="90" font-size="13" fill="var(--ink)" font-weight="700">学而必习，习又必行</text>
+            <circle cx="520" cy="60" r="8" fill="var(--green)"/>
+            <text x="520" y="34" font-size="12" fill="var(--green)" font-weight="700">今天</text>
+            <text x="520" y="90" font-size="14" fill="var(--green)" font-weight="700">学·练·用·造</text>
+            <g font-size="15" font-weight="700">
+              <rect x="60" y="130" width="100" height="44" rx="22" fill="var(--green-soft)"/>
+              <text x="110" y="158" fill="var(--ink)">求学</text>
+              <rect x="190" y="130" width="100" height="44" rx="22" fill="var(--green-soft)"/>
+              <text x="240" y="158" fill="var(--ink)">练习</text>
+              <rect x="320" y="130" width="100" height="44" rx="22" fill="var(--green-soft)"/>
+              <text x="370" y="158" fill="var(--ink)">应用</text>
+              <rect x="450" y="130" width="100" height="44" rx="22" fill="var(--green)"/>
+              <text x="500" y="158" fill="var(--paper)">创造</text>
+            </g>
+            <g font-size="16" fill="var(--ink-mute)">
+              <text x="175" y="157">→</text><text x="305" y="157">→</text><text x="435" y="157">→</text>
+            </g>
+            <path d="M500 178 Q 305 236 112 178" stroke="var(--green)" stroke-width="2" fill="none"/>
+            <text x="305" y="222" font-size="13" fill="var(--green)" font-weight="700">创造会触发新的求学——循环往复，直到够用</text>
+          </g>
+        </svg>
+        <figcaption>"学习"这个模型本身，就是被一路改良出来的（《学习的真相》15·改良构建）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"基于最熟悉、最常用的抽象模型，<br>做出近似的、有待验证或纠正的预测。"</p>
+      <span class="src">—— 《学习的真相》14「模型匹配」对大脑工作过程的总结。书里说：深入理解这句话，能在极大程度上提高独立思考能力。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>"手里拿着锤子的人，看什么都像钉子。"——你手里有没有一把自己的"锤子"？回想最近一次你"一眼就认定"的判断（这人讨厌我 / 这门课没用 / 我肯定不行），它用的是哪个最熟悉的旧模型？后来验证过吗？</summary>
+        <p class="hint">没有标准答案，写在你自己的本子上。提醒：瞬间得到的结论只是近似、粗略的猜测，并不值得直接信赖——验证失败也不丢人，那只是完成了一次试错。</p>
+      </details>
+      <details>
+        <summary>孔子的"学＋习"过了两千多年才被补上"行"和"造"。想一样你正在学的东西（英语、数学、编程、乐器……），你现在停在哪一格：学过？练过？用过？有没有用它创造过什么——哪怕很小的东西？</summary>
+        <p class="hint">没有标准答案。如果一直停在"学"和"练"，可以想想能不能给它找一个真实的用处；如果已经在"用"，试试造一个小东西——创造是最能把人变主动的一格。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>做一个<strong>"猜—验"实验</strong>：连续 5 天，每天记下 1 个你大脑瞬间给出的判断——"这道题很难""他生气了""这本书无聊"，一行就够。当天想办法验证：题目真做不出来吗？他真在生气吗？周末盘点：5 条里猜中几条？给猜错的每一条补一行——当时用的是哪个"最熟悉的模型"？该改良它，还是该换一个？你会亲眼看到自己的大脑是怎么"猜"的。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="19-memory-capacity.html">← 过目不忘，是编出来的</a>
+      <a href="21-minimal-knowledge.html" id="next-piece">入门需要的，比你想的少 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '20-model-matching';
+    const READER_TITLE = '你看到的，是大脑猜出来的';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
