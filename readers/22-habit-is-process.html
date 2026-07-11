@@ -1,0 +1,231 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: L06 · 源: 学习的真相 19「流程而已」+ 20「必要关联」（习惯即流程：神经元网络按节能原则总走最直接最通畅所以最常用的连接，所谓习惯只不过是这种连接；结构化程序定理（1966）——天下一切任务的执行流程都由三个模块构成：顺序、循环、分支；最简单的习惯=两个模块的顺序连接，所以习惯是最简单的流程；姚明罚球固定顺序（运球5次→下蹲举球到头部高度停顿→投篮），486场NBA罚球命中率83.3%、最高赛季86.6%，对比同位置奥尼尔仅52.7%；做作业先做困难的、卡住时做几个简单的再回来——focus mode专注模式有惯性/diffuse mode游离模式在相关神经元间随机漫步常找到最恰当通道（阿基米德Eureka、牛顿苹果），先难后易还能提高脑力耐力；无法戒除已固化的连接，大脑不懂删除，所谓删除习惯只能靠刻意重复建立一个更直接更通畅的新连接去打败旧的，"21天建立习惯"多少一厢情愿；除短时间内足量重复外还要用三个基础学习习惯：复习(每隔一段重做一次)、复用(同一习惯用到多个领域)、检查(定期回顾复习复用的质量)，有外界监督要感激地采用；带启动条件的习惯=智能习惯=知道什么时候启动什么习惯（对应分支/判断）；所谓性格好坏、人品高低其实只不过是流程管理能力差异而已，于是人品可打造、性格可优化、情绪可控制；好习惯越早养成越好、且或多或少需要强制的辅助；ch20：知识=清晰准确必要的模型+模型之间清晰准确必要的关联，关联三种=分类、比较、因果，最普遍的比较=哪个更好/更重要/更优先，正对应流程里"哪个先做"） -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>复杂的本事，拆开都是流程 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--blue); --accent-soft: var(--blue-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 学习的真相</span>
+    <h1>复杂的本事，<br>拆开都是流程</h1>
+
+    <p class="hook">
+      姚明每次罚球前，都会做一套一模一样的动作：先运球五次，然后略微下蹲、把球举到和头一样高、停顿一下，再投出去。顺序从不改变。就靠这套固定动作，他在 486 场 NBA 里罚球命中率高达 <span class="em">83.3%</span>；而同样位置的奥尼尔，只有 <span class="em">52.7%</span>。<br>
+      一个"固定的顺序"，凭什么差出这么多？因为你以为的"本事"，底层其实是<span class="em">一段流程</span>——而流程，是可以拆开、看懂、重写的。
+    </p>
+
+    <!-- 拆解 1 · 习惯只是最简单的流程 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>习惯，就是你最常走的那条路</h3>
+      <p>《学习的真相》把话说得很硬：<strong>所谓的习惯，只不过是神经元之间——因为最直接、最通畅，所以最常用的那个连接</strong>。大脑这张网按"节能"办事，传信号时总优先选最好走的那条路；走得越多，那条路就越通畅，于是越走越自动。这就是习惯。</p>
+      <p>那复杂的本事呢？也一样。1966 年有一篇被称为"结构化程序定理"的著名论文说：<strong>天下一切任务的执行流程，都只由三个模块拼成——顺序、循环、分支</strong>。最简单的习惯，不过是"先做这个、再做那个"的<strong>顺序连接</strong>，三块里最基础的一块。加上"重复做"就是循环，加上"看情况决定做哪个"就是分支。姚明那套罚球动作，就是一段被练到自动的"顺序"。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="天下所有流程都由三个模块构成：顺序、循环、分支；习惯是最简单的顺序连接">
+          <g text-anchor="middle">
+            <!-- 顺序 -->
+            <text x="100" y="30" font-size="14.5" fill="var(--ink)" font-weight="700">顺序</text>
+            <circle cx="46" cy="70" r="15" fill="var(--blue-soft)"/><text x="46" y="75" font-size="13" fill="var(--ink)">A</text>
+            <text x="76" y="75" font-size="16" fill="var(--ink-mute)">→</text>
+            <circle cx="100" cy="70" r="15" fill="var(--blue-soft)"/><text x="100" y="75" font-size="13" fill="var(--ink)">B</text>
+            <text x="130" y="75" font-size="16" fill="var(--ink-mute)">→</text>
+            <circle cx="154" cy="70" r="15" fill="var(--blue-soft)"/><text x="154" y="75" font-size="13" fill="var(--ink)">C</text>
+            <text x="100" y="118" font-size="12" fill="var(--ink-soft)">先做这个，再做那个</text>
+            <!-- 循环 -->
+            <text x="300" y="30" font-size="14.5" fill="var(--ink)" font-weight="700">循环</text>
+            <circle cx="300" cy="70" r="15" fill="var(--green-soft)"/><text x="300" y="75" font-size="13" fill="var(--ink)">R</text>
+            <path d="M300 52 A 30 30 0 1 1 282 60" stroke="var(--green)" stroke-width="2.4" fill="none" marker-end="url(#ah)"/>
+            <text x="300" y="118" font-size="12" fill="var(--ink-soft)">重复做，直到做熟</text>
+            <!-- 分支 -->
+            <text x="500" y="30" font-size="14.5" fill="var(--ink)" font-weight="700">分支</text>
+            <path d="M500 52 l 20 20 l -20 20 l -20 -20 z" fill="var(--coral-soft)"/>
+            <text x="500" y="77" font-size="11" fill="var(--ink)">判断</text>
+            <text x="470" y="112" font-size="12" fill="var(--ink-soft)">是→</text>
+            <text x="532" y="112" font-size="12" fill="var(--ink-soft)">否→</text>
+            <text x="500" y="134" font-size="12" fill="var(--ink-soft)">看情况，走不同的路</text>
+            <line x1="200" y1="20" x2="200" y2="150" stroke="var(--cream-deep)" stroke-width="1.5"/>
+            <line x1="400" y1="20" x2="400" y2="150" stroke="var(--cream-deep)" stroke-width="1.5"/>
+            <text x="300" y="178" font-size="13" fill="var(--ink-mute)">这三块，能拼出天下任何一段流程——习惯，是最简单的"顺序"那一块</text>
+          </g>
+          <defs><marker id="ah" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 z" fill="var(--green)"/></marker></defs>
+        </svg>
+        <figcaption>顺序 · 循环 · 分支——本事拆到底，都是这三块（《学习的真相》19·流程而已）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 先难后易 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>为什么"先做难的"是更好的顺序</h3>
+      <p>既然习惯是可以设计的顺序，那就有好坏之分。做作业、做练习，先做简单的还是先做困难的？书里给的答案是：<strong>先做困难的；卡住了，就转去做几道简单的；然后再回来继续攻那道难题</strong>。这不是玄学，背后有脑科学。</p>
+      <p>人思考有两种模式。<strong>专注模式（focus mode）</strong>像运动的物体，有惯性——你想让它停，它不会立刻停。所以当你把脑力从难题上暂时移开、去做简单题时，刚才那股专注的劲儿有一部分不会熄火，而是转入<strong>游离模式（diffuse mode）</strong>，在相关的念头之间"随机漫步"，常常一不留神就撞见了最恰当的思路。阿基米德在浴缸里喊出 Eureka、牛顿在树下看苹果落地——灵光乍现之前，他们的大脑都在游离模式里。于是你回头再看那道卡住的难题，答案常常已经"意外地"冒出来了。先难后易还有个附带好处：像跑累了放慢速度接着跑、而不是干脆停下，它能<strong>练大你脑力的耐力</strong>。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="先做难题，卡住时转做简单题，专注模式转入游离模式在后台运行，回来时难题豁然开朗">
+          <g>
+            <text x="300" y="24" text-anchor="middle" font-size="13.5" fill="var(--ink-mute)">卡住时别死磕，也别停下——换个简单的做，让后台继续算</text>
+            <!-- 难题 -->
+            <rect x="20" y="52" width="120" height="60" rx="12" fill="var(--coral-soft)"/>
+            <text x="80" y="80" text-anchor="middle" font-size="14" fill="var(--ink)" font-weight="700">难题</text>
+            <text x="80" y="100" text-anchor="middle" font-size="11.5" fill="var(--ink-soft)">卡住了</text>
+            <text x="152" y="86" font-size="17" fill="var(--ink-mute)">→</text>
+            <!-- 简单题 -->
+            <rect x="172" y="52" width="140" height="60" rx="12" fill="var(--green-soft)"/>
+            <text x="242" y="80" text-anchor="middle" font-size="14" fill="var(--ink)" font-weight="700">转去做简单题</text>
+            <text x="242" y="100" text-anchor="middle" font-size="11.5" fill="var(--ink-soft)">专注模式先别停</text>
+            <text x="324" y="86" font-size="17" fill="var(--ink-mute)">→</text>
+            <!-- 回来 -->
+            <rect x="344" y="52" width="150" height="60" rx="12" fill="var(--coral-soft)"/>
+            <text x="419" y="80" text-anchor="middle" font-size="14" fill="var(--ink)" font-weight="700">回到难题</text>
+            <text x="419" y="100" text-anchor="middle" font-size="11.5" fill="var(--ink-soft)">思路已经冒出来</text>
+            <text x="512" y="86" font-size="17" fill="var(--coral)">✦</text>
+            <!-- 游离模式后台 -->
+            <path d="M242 112 C 242 150, 419 150, 419 112" stroke="var(--blue)" stroke-width="2" fill="none" stroke-dasharray="5 4"/>
+            <text x="330" y="172" text-anchor="middle" font-size="12.5" fill="var(--blue)" font-weight="700">游离模式：在后台随机漫步，替你找答案</text>
+            <text x="300" y="196" text-anchor="middle" font-size="11.5" fill="var(--ink-mute)">附带好处：像跑累了放慢接着跑，脑力的耐力被练大了</text>
+          </g>
+        </svg>
+        <figcaption>先难后易，不是硬撑，是让专注的余力在后台替你工作（《学习的真相》19·流程而已）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 旧路删不掉，只能盖新路 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>坏习惯删不掉——只能盖一条更宽的新路</h3>
+      <p>这里有个反常识、但很重要的事实：<strong>一个已经养成的习惯，其实无法"戒除"</strong>。大脑不会、也不懂得删除那些已经固化的神经元连接。这条路一旦被走通、走宽，它就一直在那儿。所以"删除坏习惯"这个任务，严格讲根本不成立。</p>
+      <p>那怎么办？你能做的是<strong>另一件事：用刻意的重复，建立一条更直接、更通畅的新连接，让它去打败旧的那条</strong>。这也是为什么街上流行的"21 天养成一个习惯"多少有点一厢情愿——旧路早已很宽，新路要和它抢信号，谈何容易。除了"短时间内足量重复"，书里还给了三个帮新路变宽的基础动作：<strong>复习</strong>（每隔一段时间重做一次）、<strong>复用</strong>（把同一个好习惯用到不止一个领域，比如"先难后易"用到写作业、也用到练琴）、<strong>检查</strong>（定期回头看看自己复习、复用得怎么样；有外界监督可用，要感激地采纳）。再进一步：知道"在什么情况下该启动哪个习惯"，那就是加上了"分支"——书里叫它<strong>智能习惯</strong>。</p>
+      <p>把这一切连起来，作者给了一个让人有点震动的结论：<strong>所谓性格的好坏、甚至人品的高低，其实只不过是流程管理能力的差异而已</strong>。人们把体贴的人叫"暖男"，好像那是可遇不可求的天赋；可换个角度看，那只是这个人懂得建立流程、优化流程、并且知道在什么时候启动什么流程。这话反过来听，是好消息：<strong>人品可以打造，性格可以优化，情绪可以控制</strong>——一切又回到了你自己的掌控里。只是有两个提醒别忘：好习惯<strong>越早养成越好</strong>，而且它的养成<strong>或多或少总需要一点强制的辅助</strong>。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="旧习惯是一条已经很宽的路无法删除，新习惯是一条正在被重复走宽、去和旧路竞争的新路">
+          <g>
+            <circle cx="60" cy="100" r="20" fill="var(--blue-soft)"/>
+            <text x="60" y="105" text-anchor="middle" font-size="12" fill="var(--ink)">起点</text>
+            <circle cx="540" cy="100" r="20" fill="var(--green-soft)"/>
+            <text x="540" y="105" text-anchor="middle" font-size="12" fill="var(--ink)">目标</text>
+            <!-- 旧路：粗、灰、删不掉 -->
+            <path d="M80 100 C 200 40, 400 40, 520 100" stroke="var(--ink-mute)" stroke-width="12" fill="none" opacity="0.55"/>
+            <text x="300" y="48" text-anchor="middle" font-size="12.5" fill="var(--ink-soft)" font-weight="700">旧习惯：又宽又通畅，删不掉</text>
+            <!-- 新路：细、蓝、正在被重复走宽 -->
+            <path d="M80 100 C 200 160, 400 160, 520 100" stroke="var(--blue)" stroke-width="4" fill="none" stroke-dasharray="8 5"/>
+            <text x="300" y="182" text-anchor="middle" font-size="12.5" fill="var(--blue)" font-weight="700">新习惯：靠重复 + 复习 + 复用 + 检查，一点点走宽去竞争</text>
+            <text x="300" y="108" text-anchor="middle" font-size="12" fill="var(--ink-mute)">你不能删旧路，只能把新路走得比它更好走</text>
+          </g>
+        </svg>
+        <figcaption>改习惯不是"删除"，是"盖一条更宽的新路"去竞争（《学习的真相》19·流程而已）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"所谓性格的好坏，甚至人品的高低，<br>其实只不过是流程管理能力的差异而已。"</p>
+      <span class="src">—— 《学习的真相》19「流程而已」。既然习惯只是流程，那人品就可以打造、性格就可以优化——一切回到你自己的掌控里。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>挑一件你"总是做得很好"的事——某个游戏的开局、某道你很稳的题型、上台前的准备。它是不是也藏着一套你几乎不用想的固定顺序？如果把这套顺序写下来，你会发现哪几步？</summary>
+        <p class="hint">没有标准答案，写在你自己的本子上。提示：能写出来的顺序，就能有意识地搬到别的事情上——这叫"复用"。</p>
+      </details>
+      <details>
+        <summary>再挑一个你想改掉的坏习惯。既然它删不掉，只能被一条"更好走的新路"替代——那条新路具体是什么动作？什么信号出现时你就启动它（这就是给它加上"分支"）？</summary>
+        <p class="hint">没有标准答案。比如"一拿起手机想刷视频，就先把它放到另一个房间"——信号是"想刷"，新动作是"放远"。重复到不用想，它就赢了。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>做一次<strong>"姚明式启动流程"实验</strong>：挑一件你每天都得做、却总要磨蹭半天才开始的事（写作业、练琴、跑步都行）。给它设计一套<strong>固定的 3 步启动动作</strong>，就像姚明罚球前那三下——比如"清空桌面 → 只打开这一样 → 定 25 分钟计时"。接下来<strong>连续 5 天，每次都用一模一样的顺序启动</strong>，一步都不改。每天记一个数：从"决定开始"到"真正动手"，中间犹豫了几分钟？看看这个数字，是不是一天比一天短。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="21-minimal-knowledge.html">← 入门需要的，比你想的少</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '22-habit-is-process';
+    const READER_TITLE = '复杂的本事，拆开都是流程';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
