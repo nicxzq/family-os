@@ -1,0 +1,263 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: L07 · 源: 学习的真相 22「学习计划」+ 23「判断依据」（学习几乎没有不确定性，所以值得计划；但只有"面向未来"的环节才需要计划——符合这个标准且最重要的就只剩"复习"了；仅仅拿出纸笔按时间罗列学习任务从来不是有效计划，课程表就是典型的失败样本，明明计划完成成效却很差；真正有效的学习计划=计划复习任务；复习黄金原则=递延时间间隔（艾宾浩斯遗忘曲线的最重要应用）：第一次复习必须当天完成（最重要的习惯，哪怕闭眼回忆一番）、第二次隔一天、第三次一周或一月、第四五次更久；两三次复习足以打败所有不复习的学生，而高达70%以上的人终生没有复习习惯；把复习故意放远期还能逼重要知识点与后学的新知识结合成更强网络；工具=纸质日历笔记本（电子日历只擅长固定间隔提醒生日）；非必要不做计划（计划失败带来巨大心理压力，会破坏继续计划的意愿），为减少计划需求要养成两个独立工作习惯——①日常时间布局习惯=番茄工作法：30分钟为不可中断的时间块（25分钟集中+5分钟休息），两条铁律：不存在不完整的番茄时间（哪怕第24分钟被打断也作废）、一次必须连续完成4个；②突击时间安排习惯=一切需要突击的工作都安排在最初而非最后（开学先背概念、做题从难的开始），这是把临时突击变计划突击的唯一方式；这两个习惯固化后执行力超强、绝大多数事情按部就班无需计划；ch23：元认知=一个又一个针对不同情况的"判断依据"构成；清晰准确的定义是建立判断依据的前提，多角度定义总能引出更好的判断依据（李笑来把自己定义为"服务者"→判断依据=我做的东西是否真的有用）；制定判断依据永远可套用一条原则=除了最重要的之外剩下的都不重要；判断依据说到底就是一个可以不断补充、修订的检查列表/自检列表，检查列表越完善元认知越强、自检列表越完善自我认知越强；连"品味""审美"本质都是经过筛选补充修订的判断依据/检查列表。金句主取自 22 章。绿色系。 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>计划，只需要计划复习 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--green); --accent-soft: var(--green-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 学习的真相</span>
+    <h1>计划，<br>只需要计划复习</h1>
+
+    <p class="hook">
+      每个学期一开学，学校都会发一张课程表——精确到每个时间点、写满了每门课的名字。它是全班最正式的一份"学习计划"。可你有没有发现：<span class="em">计划明明百分百完成了，成效却常常很差</span>。<br>
+      于是很多人得出结论："计划赶不上变化，干脆别做了。"但真相是另一句：<span class="em">不是计划没用，是你把计划做在了错的地方</span>。
+    </p>
+
+    <!-- 拆解 1 · 只有"面向未来"的环节才需要计划 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>学习几乎没有意外，值得计划</h3>
+      <p>计划为什么总失败？根本原因是<strong>不确定性</strong>——出行的人越多、时间拉得越长，潜伏的意外就越多。可《学习的真相》点出一件容易被忽略的事：<strong>学习这件事，几乎没有不确定性</strong>。什么都值得学、学什么都有用、学什么都要花时间力气——完全没有意外。所以，学习恰恰是少数真正"值得计划"的事。</p>
+      <p>但"值得计划"不等于"每一步都要计划"。一天里，预习、认真听讲、复习——只有一个环节是<strong>面向未来</strong>的，需要提前安排；其余的按部就班就好。作者把话说得很干脆：<strong>仅仅拿出纸笔、按时间大致罗列一串学习任务，从来就不是有效的学习计划</strong>。课程表就是这种"只列标题"的典型，它的失败率你已经见过了。真正需要你动手计划的，只剩下一件事——<strong>复习</strong>。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="一天的学习分预习、听讲、复习三个环节，只有面向未来的复习需要计划">
+          <g text-anchor="middle">
+            <text x="300" y="24" font-size="13.5" fill="var(--ink-mute)">一天的学习有三个环节——只有一个是"面向未来"的</text>
+            <rect x="30" y="52" width="150" height="66" rx="12" fill="var(--cream-deep)"/>
+            <text x="105" y="82" font-size="15" fill="var(--ink)" font-weight="700">预习</text>
+            <text x="105" y="104" font-size="11.5" fill="var(--ink-soft)">按部就班</text>
+            <rect x="225" y="52" width="150" height="66" rx="12" fill="var(--cream-deep)"/>
+            <text x="300" y="82" font-size="15" fill="var(--ink)" font-weight="700">听讲</text>
+            <text x="300" y="104" font-size="11.5" fill="var(--ink-soft)">按部就班</text>
+            <rect x="420" y="52" width="150" height="66" rx="12" fill="var(--green-soft)" stroke="var(--green)" stroke-width="2.4"/>
+            <text x="495" y="82" font-size="15" fill="var(--ink)" font-weight="700">复习</text>
+            <text x="495" y="104" font-size="11.5" fill="var(--green)" font-weight="700">← 只有这个要计划</text>
+            <text x="105" y="150" font-size="11.5" fill="var(--ink-mute)">面向当下</text>
+            <text x="300" y="150" font-size="11.5" fill="var(--ink-mute)">面向当下</text>
+            <text x="495" y="150" font-size="11.5" fill="var(--green)" font-weight="700">面向未来</text>
+            <text x="300" y="182" font-size="12.5" fill="var(--ink-soft)">课程表把力气花在"列任务"上，真正该计划的复习反而没人管</text>
+          </g>
+        </svg>
+        <figcaption>学习里唯一"面向未来"的环节是复习，也是唯一真正需要计划的（《学习的真相》22·学习计划）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 递延时间间隔 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>复习的黄金原则：间隔越拉越长</h3>
+      <p>复习不是"多看几遍"这么随意。它有一条黄金原则，叫<strong>递延时间间隔</strong>——每次复习之间的间隔，一次比一次拉长。第一次复习<strong>必须当天完成</strong>，这是全部复习习惯里最重要的一条，没有例外，哪怕当天再忙，也至少闭上眼睛把今天学的回忆一遍；第二次，隔一天（今天学、后天复习）；第三次，隔一周或一个月；第四、第五次，更久。这正是大名鼎鼎的<strong>艾宾浩斯遗忘曲线</strong>最重要的应用。</p>
+      <p>回报大得惊人：<strong>两三次复习，就足以打败所有不复习的同学</strong>。因为一个几乎荒诞的事实是——<strong>高达七成以上的人，终生都没有复习的习惯</strong>。你只要有，就已经赢过七成人。而故意把复习拖到远期，还藏着一个额外好处：等你隔很久再回头看它，这个旧知识点会<strong>不得不和你后来学到的新东西结合起来</strong>，织成一张更结实的网——就像一根旧链条被你牵着穿过时间，最终和未来的许多链条连成一片。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="遗忘曲线上安排递延间隔的五次复习，间隔一次比一次长，记忆一次比一次牢">
+          <g>
+            <line x1="50" y1="150" x2="580" y2="150" stroke="var(--ink-mute)" stroke-width="1.5"/>
+            <text x="574" y="170" text-anchor="end" font-size="11.5" fill="var(--ink-mute)">时间 →</text>
+            <!-- 遗忘曲线段：每次复习后回到高点再下滑，越来越平 -->
+            <path d="M50 60 Q 90 118 110 130 M110 60 Q 175 110 210 122 M210 60 Q 320 100 380 112 M380 60 Q 470 92 500 100" stroke="var(--green)" stroke-width="2.4" fill="none" opacity="0.75"/>
+            <!-- 复习点 -->
+            <circle cx="50" cy="60" r="6" fill="var(--green)"/><text x="50" y="46" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)">学</text>
+            <circle cx="110" cy="60" r="6" fill="var(--coral)"/><text x="110" y="46" text-anchor="middle" font-size="10.5" fill="var(--coral)" font-weight="700">当天</text>
+            <circle cx="210" cy="60" r="6" fill="var(--coral)"/><text x="210" y="46" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)">隔1天</text>
+            <circle cx="380" cy="60" r="6" fill="var(--coral)"/><text x="380" y="46" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)">隔1周~1月</text>
+            <circle cx="500" cy="60" r="6" fill="var(--coral)"/><text x="500" y="46" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)">更久</text>
+            <!-- 间隔标注 -->
+            <text x="300" y="192" text-anchor="middle" font-size="12.5" fill="var(--ink)" font-weight="700">间隔一次比一次长——两三次，就能打败七成从不复习的人</text>
+          </g>
+        </svg>
+        <figcaption>递延时间间隔：第一次当天，之后越隔越久（《学习的真相》22·艾宾浩斯遗忘曲线的应用）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 非必要不做计划 + 两个习惯 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>非必要不做计划——靠两个习惯顶上</h3>
+      <p>为什么只计划复习？因为<strong>制定、执行、完成计划本身是件精神压力很大的事</strong>——一次计划失败，就会削弱你下次继续做计划的意愿。所以书里立了条原则：<strong>非必要不做计划</strong>。计划做得越多，越注定什么都完不成，最后干脆不做了。要让"大多数事情不需要计划"，得先养成两个独立工作时的好习惯，替你把计划顶掉。</p>
+      <p><strong>其一，日常时间布局习惯</strong>——也就是番茄工作法。把 30 分钟当成一个<strong>不可中断</strong>的时间块：25 分钟完全集中，5 分钟休息，连做四个之后多休息一次。两条铁律不能破：<strong>①不存在"不完整的番茄时间"</strong>，哪怕在第 24 分钟被打断，这个番茄也直接作废；<strong>②一次必须连续完成四个</strong>。（注意：趴着打盹、翻网站、看邮件都不算休息，你得站起来走动走动。）</p>
+      <p><strong>其二，突击时间安排习惯</strong>——<strong>一切需要突击的工作，都安排在最初，而不是最后</strong>。这是把"临时抱佛脚"变成"计划内突击"的唯一方式：一开学就把该背的概念先背下来、做题从最难的开始。这两个习惯一旦固化，一个人的执行力就会变得超强，而绝大多数事情从此按部就班、根本用不着计划。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="番茄工作法四个25分钟加休息，以及突击工作安排在最初而非最后">
+          <g>
+            <text x="150" y="22" text-anchor="middle" font-size="13" fill="var(--ink)" font-weight="700">① 时间布局：番茄块</text>
+            <!-- 四个番茄 -->
+            <g>
+              <rect x="24" y="40" width="52" height="40" rx="7" fill="var(--green-soft)"/><text x="50" y="65" text-anchor="middle" font-size="11" fill="var(--ink)">25分</text>
+              <rect x="80" y="40" width="14" height="40" rx="4" fill="var(--cream-deep)"/>
+              <rect x="98" y="40" width="52" height="40" rx="7" fill="var(--green-soft)"/><text x="124" y="65" text-anchor="middle" font-size="11" fill="var(--ink)">25分</text>
+              <rect x="154" y="40" width="14" height="40" rx="4" fill="var(--cream-deep)"/>
+              <rect x="172" y="40" width="52" height="40" rx="7" fill="var(--green-soft)"/><text x="198" y="65" text-anchor="middle" font-size="11" fill="var(--ink)">25分</text>
+              <rect x="228" y="40" width="14" height="40" rx="4" fill="var(--cream-deep)"/>
+              <rect x="246" y="40" width="52" height="40" rx="7" fill="var(--green-soft)"/><text x="272" y="65" text-anchor="middle" font-size="11" fill="var(--ink)">25分</text>
+            </g>
+            <text x="150" y="100" text-anchor="middle" font-size="11" fill="var(--ink-soft)">被打断即作废 · 一次连做四个</text>
+            <line x1="315" y1="30" x2="315" y2="185" stroke="var(--cream-deep)" stroke-width="1.5"/>
+            <text x="458" y="22" text-anchor="middle" font-size="13" fill="var(--ink)" font-weight="700">② 突击：放在最初</text>
+            <!-- 时间轴：难/突击放最前 -->
+            <line x1="340" y1="120" x2="580" y2="120" stroke="var(--ink-mute)" stroke-width="1.5"/>
+            <rect x="344" y="98" width="70" height="44" rx="9" fill="var(--coral-soft)" stroke="var(--coral)" stroke-width="2"/>
+            <text x="379" y="118" text-anchor="middle" font-size="11.5" fill="var(--ink)" font-weight="700">最难/突击</text>
+            <text x="379" y="134" text-anchor="middle" font-size="10.5" fill="var(--coral)">先做</text>
+            <rect x="424" y="104" width="46" height="32" rx="7" fill="var(--green-soft)"/><text x="447" y="124" text-anchor="middle" font-size="10.5" fill="var(--ink)">较易</text>
+            <rect x="480" y="104" width="46" height="32" rx="7" fill="var(--green-soft)"/><text x="503" y="124" text-anchor="middle" font-size="10.5" fill="var(--ink)">更易</text>
+            <rect x="536" y="104" width="40" height="32" rx="7" fill="var(--green-soft)"/><text x="556" y="124" text-anchor="middle" font-size="10.5" fill="var(--ink)">收尾</text>
+            <text x="458" y="164" text-anchor="middle" font-size="11" fill="var(--ink-soft)">把突击放最前 = 临时突击变计划突击</text>
+            <text x="300" y="200" text-anchor="middle" font-size="12" fill="var(--ink-mute)">两个习惯固化后，执行力超强，绝大多数事按部就班无需计划</text>
+          </g>
+        </svg>
+        <figcaption>两个独立工作习惯替你顶掉大部分计划（《学习的真相》22·学习计划）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 · 判断依据 = 检查列表 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>怎么判断"做得够不够好"？给自己一张检查表</h3>
+      <p>计划归计划，还有个更底层的问题：你凭什么知道自己该复习什么、做得够不够好？靠的是脑子里那把尺——书里叫<strong>判断依据</strong>。所谓"元认知"（对自己思考的思考），说穿了就是<strong>一个又一个针对不同情况的判断依据</strong>。最惨的不是没有判断依据，而是脑子里装着一个错误的判断依据，还照着它得出错误结论。</p>
+      <p>好的判断依据从哪来？<strong>从清晰准确的定义来</strong>。作者给自己下过很多定义——作者、老师、投资人——但最有用的一个是"<strong>我其实是个服务者</strong>"。这个定义一出来，判断依据就自然浮现：我做的东西、我提供的服务，是否<strong>真的有用</strong>。还有一条原则永远好使：<strong>除了最重要的之外，剩下的都不重要</strong>——先把最重要的那件做好，文采、幽默都是次要的。</p>
+      <p>再往下，判断依据就<strong>细化成一张检查列表</strong>：一条条列出"要做到有用，具体得满足什么"，而且<strong>永远可以继续补充、修订</strong>。这一点很关键——<strong>检查列表越完善，元认知越强；自检列表越完善，自我认知越强</strong>。它压根不需要什么额外的智商。甚至我们平时说的"品味""审美"，本质上也只是一张张被反复筛选、补充、修订过的检查列表而已。你的学习计划要不要复习这一项、复习到什么程度算过关，最终都由这张表说了算。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="从一句清晰定义引出一句判断依据，再细化成一张可不断修订的检查列表">
+          <g>
+            <rect x="30" y="30" width="150" height="150" rx="12" fill="var(--green-soft)"/>
+            <text x="105" y="58" text-anchor="middle" font-size="12.5" fill="var(--ink)" font-weight="700">清晰的定义</text>
+            <text x="105" y="92" text-anchor="middle" font-size="12" fill="var(--ink-soft)">"我是一个</text>
+            <text x="105" y="112" text-anchor="middle" font-size="12" fill="var(--ink-soft)">服务者"</text>
+            <text x="105" y="150" text-anchor="middle" font-size="10.5" fill="var(--ink-mute)">多角度里挑</text>
+            <text x="105" y="166" text-anchor="middle" font-size="10.5" fill="var(--ink-mute)">最简单有效的</text>
+            <text x="196" y="108" font-size="20" fill="var(--ink-mute)">→</text>
+            <rect x="220" y="55" width="150" height="100" rx="12" fill="var(--coral-soft)"/>
+            <text x="295" y="88" text-anchor="middle" font-size="12.5" fill="var(--ink)" font-weight="700">一句判断依据</text>
+            <text x="295" y="116" text-anchor="middle" font-size="12" fill="var(--ink-soft)">"是否</text>
+            <text x="295" y="134" text-anchor="middle" font-size="12" fill="var(--coral)" font-weight="700">真的有用？"</text>
+            <text x="386" y="108" font-size="20" fill="var(--ink-mute)">→</text>
+            <rect x="410" y="30" width="170" height="150" rx="12" fill="var(--paper)" stroke="var(--green)" stroke-width="2"/>
+            <text x="495" y="52" text-anchor="middle" font-size="12.5" fill="var(--ink)" font-weight="700">细化成检查表</text>
+            <g font-size="10.5" fill="var(--ink-soft)">
+              <text x="424" y="76">☑ 只讲自己做到的</text>
+              <text x="424" y="97">☑ 逻辑清晰严谨</text>
+              <text x="424" y="118">☑ 解决多数人的困难</text>
+              <text x="424" y="139">☑ 给出人人可行的步骤</text>
+              <text x="424" y="160" fill="var(--green)">＋ 可继续补充、修订…</text>
+            </g>
+            <text x="300" y="202" text-anchor="middle" font-size="12" fill="var(--ink-mute)">检查列表越完善，元认知越强——这就是"品味"的真身</text>
+          </g>
+        </svg>
+        <figcaption>定义 → 判断依据 → 检查列表，一张能不断修订的自检表（《学习的真相》23·判断依据）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"真正有效的学习计划其实非常简单，<br>因为它只需要计划复习任务就行了。"</p>
+      <span class="src">—— 《学习的真相》22「学习计划」。学习里只有"面向未来"的环节才需要计划，符合这个标准且最重要的，就只剩"复习"。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>回想上一次你"计划完成了、成绩却没上去"的经历——你的计划里，是不是也只列了"什么时候做什么"，却压根没安排"什么时候复习"？如果重来一次，你会在哪几天写上"复习"？</summary>
+        <p class="hint">没有标准答案，写在你自己的本子上。提示：把"当天第一次复习"排进去，往往比多刷一套新题更值。</p>
+      </details>
+      <details>
+        <summary>给你正在学的一样东西，试着写一句判断"我学得够不够好"的话——只要一句。写完再问自己："除了这一句，剩下的是不是都没那么重要？"</summary>
+        <p class="hint">没有标准答案。比如学英语，一句判断依据可以是"我能不能不查词典读懂一段真实的英文"。有了它，你就知道该往哪使劲。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>做一次<strong>"只计划复习"实验</strong>：找一个纸质日历本（书里特意说，纸质版比电子日历好用）。接下来一周，每天学完，只做两件事——<strong>①当天就把今天学到的最重要的一点，闭眼回忆一遍并在日历上记下来；②翻到"隔一天"和"隔一周"那两页，各写上今天的日期，作为复习提醒。</strong>不列别的任务，就管复习这一件。一周后回头看：这七天里，你有几次真的在到期那天完成了复习？记住那个数——只要你做到了两三次，你已经赢过了七成从不复习的人。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="22-habit-is-process.html">← 复杂的本事，拆开都是流程</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '23-plan-review';
+    const READER_TITLE = '计划，只需要计划复习';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
