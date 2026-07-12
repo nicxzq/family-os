@@ -7,64 +7,308 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles.css">
 <style>
-  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{overflow:hidden;font-family:'LXGW WenKai TC',var(--font-serif);background:var(--cream);color:var(--ink)}
+  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft);flex-shrink:0}
   .nav-member-btn svg{border-radius:50%}
-  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px}
-  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px}
-  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px}
-  .game-hero{text-align:center;margin-bottom:36px}
-  .game-hero .emoji{font-size:64px;display:block;margin-bottom:16px}
-  .game-hero h1{font-size:clamp(28px,5vw,42px);margin-bottom:10px}
-  .game-hero .sub{color:var(--ink-soft);font-size:17px;line-height:1.6}
-  .teaser{background:var(--paper);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-card);margin-bottom:24px}
-  .teaser h2{font-size:14px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:16px}
-  .teaser ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
-  .teaser li{display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--ink-soft);line-height:1.6}
-  .teaser li::before{content:"→";color:var(--coral);flex-shrink:0;margin-top:2px}
-  .coming-soon{background:var(--cream-deep);border-radius:var(--radius);padding:20px 24px;text-align:center;font-size:18px;color:var(--ink-mute);margin-bottom:28px;border:2px dashed var(--ink-mute)}
+  .game-wrap{height:100dvh;display:flex;flex-direction:column;max-width:1160px;margin:0 auto;padding:12px 20px;gap:10px}
+  .game-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;flex-shrink:0}
+  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px;flex-shrink:0}
+  .game-title{flex:1;min-width:0;text-align:center;padding:0 8px}
+  .title-name{display:block;font-size:16px;font-weight:700;line-height:1.3}
+  .title-desc{display:block;font-size:12px;color:var(--ink-mute);line-height:1.3}
+  .nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+  .level-pill{display:inline-flex;align-items:center;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:999px;padding:6px 12px;color:var(--ink-soft);font-size:13px;font-weight:700;white-space:nowrap}
+  .layout{flex:1;min-height:0;display:grid;grid-template-columns:360px minmax(0,1fr);gap:16px;padding-bottom:16px}
+  .panel{background:var(--paper);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:16px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+  .panel-title{font-size:16px;letter-spacing:.1em;color:var(--ink-mute);margin:0 0 12px;font-weight:700}
+  .algo-tabs{display:flex;gap:8px;margin-bottom:14px;flex-shrink:0}
+  .algo-tab{flex:1;border:2px solid var(--cream-deep);border-radius:var(--radius);background:var(--paper);color:var(--ink-soft);font-family:inherit;font-size:14px;font-weight:700;padding:10px 6px;cursor:pointer;transition:all .15s}
+  .algo-tab.is-active[data-algo="bubble"]{background:var(--blue);border-color:var(--blue);color:var(--paper)}
+  .algo-tab.is-active[data-algo="selection"]{background:var(--coral);border-color:var(--coral);color:var(--paper)}
+  .algo-desc{background:var(--cream-deep);border-radius:var(--radius);padding:12px 14px;font-size:13px;color:var(--ink-soft);line-height:1.6;margin-bottom:14px;flex-shrink:0}
+  .stat-row{display:flex;gap:10px;margin-bottom:14px;flex-shrink:0}
+  .stat-card{flex:1;background:var(--cream-deep);border-radius:var(--radius);padding:10px 12px;text-align:center}
+  .stat-num{display:block;font-size:22px;font-weight:700;color:var(--ink)}
+  .stat-num.is-empty{color:var(--ink-mute)}
+  .stat-label{display:block;font-size:11px;color:var(--ink-mute);margin-top:2px}
+  .compare{flex:1;min-height:0;overflow-y:auto}
+  .compare-title{font-size:12px;letter-spacing:.1em;color:var(--ink-mute);margin:0 0 8px;font-weight:700}
+  .compare-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:14px}
+  .compare-table th,.compare-table td{padding:6px 8px;text-align:center;border-bottom:1px solid var(--cream-deep)}
+  .compare-table th{color:var(--ink-mute);font-weight:700;font-size:12px}
+  .compare-table td.dim{color:var(--ink-mute)}
+  .compare-note{background:var(--yellow-soft);border-radius:var(--radius);padding:10px 14px;font-size:13px;color:var(--ink);line-height:1.6;display:none}
+  .compare-note.show{display:block}
+  .actions{display:flex;gap:10px;flex-shrink:0}
+  .action{border:0;border-radius:999px;padding:10px 16px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;box-shadow:var(--shadow-soft)}
+  .clear{background:var(--cream-deep);color:var(--ink-soft)}
+  .run{background:var(--ink);color:var(--paper)}
+  .run:disabled{opacity:.5;cursor:default}
+  .next-wrap{margin-top:10px;flex-shrink:0}
+  .next-btn{width:100%;border:0;border-radius:999px;background:var(--green);color:var(--paper);padding:10px 16px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;display:none}
+  .next-btn.show{display:block}
+  .stage-panel{display:flex;flex-direction:column;min-height:0;position:relative}
+  .stage-head{position:absolute;top:0;left:0;right:0;padding:10px 16px 14px;z-index:6;pointer-events:none;
+    background:linear-gradient(to bottom,color-mix(in srgb,var(--paper) 92%,transparent) 55%,transparent)}
+  .stage-head h2{font-size:15px;margin:0;color:var(--ink)}
+  .stage-head p{margin:2px 0 0;color:var(--ink-soft);font-size:12px}
+  .bars-shell-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+  .bars-shell{position:relative;width:100%;height:min(100%,calc(100dvh - 200px));background:var(--cream-deep);border-radius:var(--radius);padding:20px 14px 14px}
+  .bars-track{display:flex;align-items:flex-end;gap:8px;width:100%;height:100%}
+  .bar{flex:1;border-radius:8px 8px 4px 4px;position:relative;background:var(--blue-soft);transition:background .15s;min-height:4px}
+  .bar.comparing{background:var(--yellow)}
+  .bar.swapping{background:var(--coral)}
+  .bar.sorted{background:var(--green)}
+  .bar-label{position:absolute;top:-22px;left:0;right:0;text-align:center;font-size:12px;font-weight:700;color:var(--ink-soft)}
+  .result{position:absolute;top:60px;left:50%;transform:translateX(-50%);width:calc(100% - 28px);max-width:440px;border-radius:var(--radius);padding:10px 16px;display:none;align-items:center;justify-content:center;gap:10px;font-size:14px;font-weight:700;z-index:20;box-shadow:var(--shadow-card);text-align:center}
+  .result.show{display:flex}
+  .result.bubble{background:var(--blue);color:var(--paper)}
+  .result.selection{background:var(--coral);color:var(--paper)}
+  .concepts-wrap{margin-top:16px}
   .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
   .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
   .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
   .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
   .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
+  @media (max-width:767px){
+    body{overflow:auto}
+    .game-wrap{height:auto;padding:10px}
+    .layout{grid-template-columns:1fr;gap:10px;padding-bottom:10px}
+    .stage-panel{order:-1;min-height:0}
+    .bars-shell-wrap{flex:none;height:min(calc(100vw - 20px),260px)}
+    .bars-shell{height:100%}
+    .result{top:50px;width:calc(100% - 20px)}
+  }
 </style>
 <script src="/fo-gate.js"></script></head>
 <body>
-<main class="wrap">
+<main class="game-wrap">
   <nav class="game-nav">
-    <a class="back-link" href="index.html#code">← 游戏库</a>
-    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+    <a class="back-link" href="index.html#code">&#8592; 游戏库</a>
+    <div class="game-title">
+      <span class="title-name">排序竞速</span>
+      <span class="title-desc">两种排序算法，同一组数字，同场竞速</span>
+    </div>
+    <div class="nav-right">
+      <div class="level-pill" id="level-pill">关卡 1 / 3</div>
+      <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+    </div>
   </nav>
-  <header class="game-hero">
-    <span class="emoji">🏁</span>
-    <h1>排序竞速</h1>
-    <p class="sub">一排乱糟糟的数字，计算机怎么把它们排整齐？两种算法同场竞速，看谁更聪明。</p>
-  </header>
-  <section class="teaser">
-    <h2>这个游戏里，你将会…</h2>
-    <ul>
-      <li>观察冒泡排序如何一步步把最大值"冒泡"到最后</li>
-      <li>对比选择排序每一轮挑出最小值的过程</li>
-      <li>统计比较和交换次数，理解算法效率的差异</li>
-    </ul>
-  </section>
-  <div class="coming-soon">🚧 即将推出 · 敬请期待</div>
-  <p class="section-label">知识预习</p>
-  <div class="concepts">
-    <div class="concept-card"><h3>冒泡排序</h3><p>相邻两两比较，大的往后挪</p></div>
-    <div class="concept-card"><h3>选择排序</h3><p>每一轮从剩下的里挑出最小的</p></div>
-    <div class="concept-card"><h3>比较次数</h3><p>衡量算法快慢的一把尺子</p></div>
+  <div class="layout">
+    <section class="panel">
+      <h2 class="panel-title">选择算法</h2>
+      <div class="algo-tabs" id="algo-tabs">
+        <button class="algo-tab is-active" data-algo="bubble">冒泡排序</button>
+        <button class="algo-tab" data-algo="selection">选择排序</button>
+      </div>
+      <p class="algo-desc" id="algo-desc"></p>
+      <div class="stat-row">
+        <div class="stat-card"><span class="stat-num is-empty" id="stat-compare">–</span><span class="stat-label">比较次数</span></div>
+        <div class="stat-card"><span class="stat-num is-empty" id="stat-swap">–</span><span class="stat-label">交换次数</span></div>
+      </div>
+      <div class="compare">
+        <p class="compare-title">本关对比</p>
+        <table class="compare-table">
+          <thead><tr><th>算法</th><th>比较次数</th><th>交换次数</th></tr></thead>
+          <tbody>
+            <tr><td class="dim">冒泡</td><td id="cmp-bubble-c">–</td><td id="cmp-bubble-s">–</td></tr>
+            <tr><td class="dim">选择</td><td id="cmp-selection-c">–</td><td id="cmp-selection-s">–</td></tr>
+          </tbody>
+        </table>
+        <p class="compare-note" id="compare-note"></p>
+      </div>
+      <div class="actions">
+        <button class="action clear" id="clear-btn">重置</button>
+        <button class="action run" id="run-btn">&#9654; 运行</button>
+      </div>
+      <div class="next-wrap"><button class="next-btn" id="next-btn">下一关</button></div>
+    </section>
+    <section class="panel stage-panel">
+      <div class="stage-head">
+        <h2 id="level-title">关卡 1</h2>
+        <p id="level-hint"></p>
+      </div>
+      <div class="bars-shell-wrap">
+        <div class="bars-shell" id="bars-shell">
+          <div class="bars-track" id="bars-track"></div>
+        </div>
+        <div class="result" id="result"><span id="result-text"></span></div>
+      </div>
+    </section>
   </div>
+  <section class="concepts-wrap wrap-narrow" style="max-width:1160px;margin:0 auto;width:100%">
+    <p class="section-label">知识预习</p>
+    <div class="concepts">
+      <div class="concept-card"><h3>冒泡排序</h3><p>相邻两两比较，大的往后挪</p></div>
+      <div class="concept-card"><h3>选择排序</h3><p>每一轮从剩下的里挑出最小的</p></div>
+      <div class="concept-card"><h3>比较次数</h3><p>衡量算法快慢的一把尺子</p></div>
+    </div>
+  </section>
 </main>
 <script src="../fo-utils.js"></script>
 <script>
-  var m = window.FO ? FO.getMember() : null;
-  var el = document.getElementById('nav-member-btn');
-  if(m){ el.innerHTML = FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>'; el.onclick=function(){location.href='../dashboard.html'}; }
-  else { el.innerHTML='<span>登录</span>'; el.onclick=function(){location.href='../login.html'}; }
+var levels=[
+  {title:'关卡 1 — 轻微打乱',arr:[3,1,4,2,6,5],hint:'先跑一遍冒泡排序，再跑一遍选择排序，比比看谁交换次数更少。'},
+  {title:'关卡 2 — 随机打乱',arr:[7,2,8,4,1,6,3,5],hint:'数字变多了，两种算法的比较次数其实一样多，交换次数呢？'},
+  {title:'关卡 3 — 完全倒序（最坏情况）',arr:[10,9,8,7,6,5,4,3,2,1],hint:'这是最坏情况，冒泡排序要交换很多次，选择排序呢？'}
+];
+var ALGO_DESC={
+  bubble:'冒泡排序每次比较相邻两个数，把大的往后挪一位，一轮下来最大的数就"冒泡"到了最后。',
+  selection:'选择排序每一轮都从剩下的数里找出最小的一个，换到前面来，前面的部分会越来越"定型"。'
+};
+var levelIndex=0,algo='bubble',running=false;
+var runFlags={bubble:false,selection:false};
+var lastStats={bubble:null,selection:null};
+var currentArr=[],sortedSet={},activeCompare=[],activeSwap=[];
+
+function wait(ms){return new Promise(function(r){setTimeout(r,ms);});}
+
+function bubbleSteps(arr){
+  var a=arr.slice(),steps=[],n=a.length;
+  for(var i=0;i<n-1;i++){
+    var swapped=false;
+    for(var j=0;j<n-1-i;j++){
+      steps.push({type:'compare',a:j,b:j+1});
+      if(a[j]>a[j+1]){
+        var t=a[j];a[j]=a[j+1];a[j+1]=t;
+        steps.push({type:'swap',a:j,b:j+1});
+        swapped=true;
+      }
+    }
+    steps.push({type:'sorted',idx:n-1-i});
+    if(!swapped)break;
+  }
+  steps.push({type:'sortedAll'});
+  return steps;
+}
+function selectionSteps(arr){
+  var a=arr.slice(),steps=[],n=a.length;
+  for(var i=0;i<n-1;i++){
+    var minIdx=i;
+    for(var j=i+1;j<n;j++){
+      steps.push({type:'compare',a:minIdx,b:j});
+      if(a[j]<a[minIdx]){minIdx=j;steps.push({type:'newmin',idx:minIdx});}
+    }
+    if(minIdx!==i){
+      var t=a[i];a[i]=a[minIdx];a[minIdx]=t;
+      steps.push({type:'swap',a:i,b:minIdx});
+    }
+    steps.push({type:'sorted',idx:i});
+  }
+  steps.push({type:'sortedAll'});
+  return steps;
+}
+
+function initMember(){
+  var m=window.FO?FO.getMember():null,el=document.getElementById('nav-member-btn');
+  if(m){el.innerHTML=FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>';el.onclick=function(){location.href='../dashboard.html'};}
+  else{el.innerHTML='<span>登录</span>';el.onclick=function(){location.href='../login.html'};}
+}
+
+function renderBars(){
+  var max=Math.max.apply(null,currentArr);
+  document.getElementById('bars-track').innerHTML=currentArr.map(function(v,i){
+    var cls='bar';
+    if(sortedSet[i])cls+=' sorted';
+    else if(activeSwap.indexOf(i)>=0)cls+=' swapping';
+    else if(activeCompare.indexOf(i)>=0)cls+=' comparing';
+    var h=Math.max(6,Math.round(v/max*100));
+    return '<div class="'+cls+'" style="height:'+h+'%"><span class="bar-label">'+v+'</span></div>';
+  }).join('');
+}
+function resetBars(){
+  currentArr=levels[levelIndex].arr.slice();sortedSet={};activeCompare=[];activeSwap=[];
+  renderBars();
+}
+
+async function playSteps(steps,delay){
+  var compareCount=0,swapCount=0;
+  for(var i=0;i<steps.length;i++){
+    var s=steps[i];
+    if(s.type==='compare'){
+      activeCompare=[s.a,s.b];compareCount++;renderBars();await wait(delay);activeCompare=[];
+    } else if(s.type==='newmin'){
+      activeCompare=[s.idx];renderBars();await wait(delay*0.6);activeCompare=[];
+    } else if(s.type==='swap'){
+      var tmp=currentArr[s.a];currentArr[s.a]=currentArr[s.b];currentArr[s.b]=tmp;
+      activeSwap=[s.a,s.b];swapCount++;renderBars();await wait(delay);activeSwap=[];
+    } else if(s.type==='sorted'){
+      sortedSet[s.idx]=true;renderBars();await wait(delay*0.4);
+    } else if(s.type==='sortedAll'){
+      for(var k=0;k<currentArr.length;k++)sortedSet[k]=true;renderBars();
+    }
+  }
+  return {compare:compareCount,swap:swapCount};
+}
+
+function updateStatCards(){
+  var s=lastStats[algo];
+  document.getElementById('stat-compare').textContent=s?s.compare:'–';
+  document.getElementById('stat-compare').classList.toggle('is-empty',!s);
+  document.getElementById('stat-swap').textContent=s?s.swap:'–';
+  document.getElementById('stat-swap').classList.toggle('is-empty',!s);
+  ['bubble','selection'].forEach(function(a){
+    var st=lastStats[a];
+    document.getElementById('cmp-'+a+'-c').textContent=st?st.compare:'–';
+    document.getElementById('cmp-'+a+'-s').textContent=st?st.swap:'–';
+  });
+  var note=document.getElementById('compare-note');
+  if(lastStats.bubble&&lastStats.selection){
+    var d=lastStats.bubble.swap-lastStats.selection.swap;
+    if(d>0)note.textContent='这一关冒泡排序比选择排序多交换了 '+d+' 次——数据越乱，冒泡排序要交换的次数就越多。';
+    else if(d<0)note.textContent='这一关选择排序交换次数反而更多，比较次数是不是完全一样呢？';
+    else note.textContent='两种算法这次交换次数一样多，再看看比较次数吧。';
+    note.classList.add('show');
+    document.getElementById('next-btn').classList.add('show');
+  } else {
+    note.classList.remove('show');
+  }
+}
+async function runAlgo(){
+  if(running)return;running=true;
+  document.getElementById('run-btn').disabled=true;
+  resetBars();await wait(100);
+  var steps=algo==='bubble'?bubbleSteps(levels[levelIndex].arr):selectionSteps(levels[levelIndex].arr);
+  var delay=Math.max(20,Math.min(140,2500/steps.length));
+  var stats=await playSteps(steps,delay);
+  lastStats[algo]=stats;runFlags[algo]=true;
+  var resultEl=document.getElementById('result'),textEl=document.getElementById('result-text');
+  resultEl.className='result '+algo+' show';
+  textEl.textContent=(algo==='bubble'?'冒泡排序':'选择排序')+' 完成 · 比较 '+stats.compare+' 次 · 交换 '+stats.swap+' 次';
+  updateStatCards();
+  running=false;
+  document.getElementById('run-btn').disabled=false;
+  if(runFlags.bubble&&runFlags.selection&&levelIndex===levels.length-1)markDone();
+}
+function markDone(){try{var d=JSON.parse(localStorage.getItem('fo_games_done')||'[]');if(d.indexOf('g54-sort-race')<0){d.push('g54-sort-race');localStorage.setItem('fo_games_done',JSON.stringify(d));}}catch(e){}}
+
+function loadLevel(index){
+  levelIndex=index;runFlags={bubble:false,selection:false};lastStats={bubble:null,selection:null};
+  document.getElementById('level-pill').textContent='关卡 '+(index+1)+' / '+levels.length;
+  document.getElementById('level-title').textContent=levels[index].title;
+  document.getElementById('level-hint').textContent=levels[index].hint;
+  document.getElementById('next-btn').classList.remove('show');
+  document.getElementById('compare-note').classList.remove('show');
+  document.getElementById('result').className='result';
+  resetBars();updateStatCards();
+}
+document.getElementById('algo-tabs').addEventListener('click',function(e){
+  var btn=e.target.closest('.algo-tab');if(!btn||running)return;
+  algo=btn.dataset.algo;
+  document.querySelectorAll('.algo-tab').forEach(function(t){t.classList.toggle('is-active',t===btn);});
+  document.getElementById('algo-desc').textContent=ALGO_DESC[algo];
+  updateStatCards();
+});
+document.getElementById('run-btn').onclick=runAlgo;
+document.getElementById('clear-btn').onclick=function(){if(running)return;resetBars();document.getElementById('result').className='result';};
+document.getElementById('next-btn').onclick=function(){loadLevel(levelIndex<levels.length-1?levelIndex+1:0);};
+document.getElementById('algo-desc').textContent=ALGO_DESC.bubble;
+initMember();loadLevel(0);
 </script>
 </body>
 </html>

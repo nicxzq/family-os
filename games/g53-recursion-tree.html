@@ -7,64 +7,300 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles.css">
 <style>
-  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{overflow:hidden;font-family:'LXGW WenKai TC',var(--font-serif);background:var(--cream);color:var(--ink)}
+  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft);flex-shrink:0}
   .nav-member-btn svg{border-radius:50%}
-  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;margin-bottom:32px}
-  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px}
-  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px}
-  .game-hero{text-align:center;margin-bottom:36px}
-  .game-hero .emoji{font-size:64px;display:block;margin-bottom:16px}
-  .game-hero h1{font-size:clamp(28px,5vw,42px);margin-bottom:10px}
-  .game-hero .sub{color:var(--ink-soft);font-size:17px;line-height:1.6}
-  .teaser{background:var(--paper);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-card);margin-bottom:24px}
-  .teaser h2{font-size:14px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:16px}
-  .teaser ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
-  .teaser li{display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--ink-soft);line-height:1.6}
-  .teaser li::before{content:"→";color:var(--coral);flex-shrink:0;margin-top:2px}
-  .coming-soon{background:var(--cream-deep);border-radius:var(--radius);padding:20px 24px;text-align:center;font-size:18px;color:var(--ink-mute);margin-bottom:28px;border:2px dashed var(--ink-mute)}
+  .game-wrap{height:100dvh;display:flex;flex-direction:column;max-width:1160px;margin:0 auto;padding:12px 20px;gap:10px}
+  .game-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;flex-shrink:0}
+  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px;flex-shrink:0}
+  .game-title{flex:1;min-width:0;text-align:center;padding:0 8px}
+  .title-name{display:block;font-size:16px;font-weight:700;line-height:1.3}
+  .title-desc{display:block;font-size:12px;color:var(--ink-mute);line-height:1.3}
+  .nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+  .level-pill{display:inline-flex;align-items:center;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:999px;padding:6px 12px;color:var(--ink-soft);font-size:13px;font-weight:700;white-space:nowrap}
+  .layout{flex:1;min-height:0;display:grid;grid-template-columns:360px minmax(0,1fr);gap:16px;padding-bottom:16px}
+  .panel{background:var(--paper);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:16px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+  .panel-title{font-size:16px;letter-spacing:.1em;color:var(--ink-mute);margin:0 0 12px;font-weight:700}
+  .sliders{display:flex;flex-direction:column;gap:10px;margin-bottom:12px;flex-shrink:0}
+  .slider-row label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-soft);font-weight:700}
+  .slider-row .row-top{display:flex;justify-content:space-between}
+  .slider-row input[type="range"]{width:100%;accent-color:var(--coral)}
+  .hint-box{background:var(--cream-deep);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:var(--ink-soft);line-height:1.6;margin-bottom:12px;flex-shrink:0}
+  .actions{display:flex;gap:8px;flex-shrink:0;margin-bottom:14px}
+  .action{border:0;border-radius:999px;padding:10px 14px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;box-shadow:var(--shadow-soft)}
+  .demo{background:var(--yellow-soft);color:var(--ink)}
+  .run{background:var(--ink);color:var(--paper);flex:1}
+  .run:disabled{opacity:.5;cursor:default}
+  .stack-note{font-size:11px;color:var(--ink-mute);line-height:1.5;margin:0 0 8px;flex-shrink:0}
+  .call-stack{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column-reverse;gap:4px;padding:2px}
+  .stack-frame{background:var(--cream-deep);border-radius:8px;padding:5px 10px;font-size:12px;color:var(--ink-soft);font-weight:700;flex-shrink:0}
+  .stack-frame.is-top{background:var(--blue-soft);color:var(--ink)}
+  .stack-frame.is-base{background:var(--yellow-soft);color:var(--ink)}
+  .next-wrap{margin-top:10px;flex-shrink:0}
+  .next-btn{width:100%;border:0;border-radius:999px;background:var(--green);color:var(--paper);padding:10px 16px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;display:none}
+  .next-btn.show{display:block}
+  .stage-panel{display:flex;flex-direction:column;min-height:0;position:relative}
+  .stage-head{position:absolute;top:0;left:0;right:0;padding:10px 16px 14px;z-index:6;pointer-events:none;
+    background:linear-gradient(to bottom,color-mix(in srgb,var(--paper) 92%,transparent) 55%,transparent)}
+  .stage-head h2{font-size:15px;margin:0;color:var(--ink)}
+  .stage-head p{margin:2px 0 0;color:var(--ink-soft);font-size:12px}
+  .canvas-shell-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+  .canvas-shell{position:relative;width:min(100%,calc(100dvh - 140px));aspect-ratio:1;background:var(--cream-deep);border-radius:var(--radius);padding:10px;box-shadow:var(--shadow-soft)}
+  #tree-canvas{display:block;width:100%;height:100%;border-radius:calc(var(--radius) - 6px);background:var(--cream)}
+  .legend{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:14px;background:color-mix(in srgb,var(--paper) 88%,transparent);border-radius:999px;padding:6px 16px;font-size:11px;color:var(--ink-soft);box-shadow:var(--shadow-soft);z-index:8}
+  .legend-item{display:flex;align-items:center;gap:5px}
+  .legend-dot{width:11px;height:11px;border-radius:4px;flex-shrink:0}
+  .result{position:absolute;top:60px;left:50%;transform:translateX(-50%);width:calc(100% - 28px);max-width:440px;border-radius:var(--radius);padding:10px 16px;display:none;align-items:center;justify-content:space-between;gap:10px;font-size:14px;font-weight:700;z-index:20;box-shadow:var(--shadow-card)}
+  .result.show{display:flex}
+  .result.success{background:var(--green);color:var(--paper)}
+  .result.retry{background:var(--yellow);color:var(--ink)}
+  .result button{border:0;border-radius:999px;background:var(--paper);color:var(--ink);padding:7px 14px;font-family:inherit;font-weight:700;cursor:pointer;flex-shrink:0;font-size:13px}
+  .concepts-wrap{margin-top:16px}
   .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
   .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
   .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
   .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
   .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
+  @media (max-width:767px){
+    body{overflow:auto}
+    .game-wrap{height:auto;padding:10px}
+    .layout{grid-template-columns:1fr;gap:10px;padding-bottom:10px}
+    .stage-panel{order:-1;min-height:0}
+    .canvas-shell-wrap{flex:none;height:min(calc(100vw - 20px),300px)}
+    .canvas-shell{width:100%;height:100%;aspect-ratio:unset}
+    .result{top:50px;width:calc(100% - 20px)}
+    .call-stack{max-height:120px}
+  }
 </style>
 <script src="/fo-gate.js"></script></head>
 <body>
-<main class="wrap">
+<main class="game-wrap">
   <nav class="game-nav">
-    <a class="back-link" href="index.html#code">← 游戏库</a>
-    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+    <a class="back-link" href="index.html#code">&#8592; 游戏库</a>
+    <div class="game-title">
+      <span class="title-name">递归树</span>
+      <span class="title-desc">调参数，看一个函数怎么"叫自己"长出一棵树</span>
+    </div>
+    <div class="nav-right">
+      <div class="level-pill" id="level-pill">关卡 1 / 3</div>
+      <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+    </div>
   </nav>
-  <header class="game-hero">
-    <span class="emoji">🌳</span>
-    <h1>递归树</h1>
-    <p class="sub">一根树枝，怎么"叫自己"长出更多树枝？拖动参数，看一棵分形树在你手里长大。</p>
-  </header>
-  <section class="teaser">
-    <h2>这个游戏里，你将会…</h2>
-    <ul>
-      <li>用递归画出分形树的每一根树枝</li>
-      <li>调整分支角度和深度，看图案如何变化</li>
-      <li>找到让递归停下来的"边界条件"</li>
-    </ul>
-  </section>
-  <div class="coming-soon">🚧 即将推出 · 敬请期待</div>
-  <p class="section-label">知识预习</p>
-  <div class="concepts">
-    <div class="concept-card"><h3>递归</h3><p>函数调用自己，解决更小的同类问题</p></div>
-    <div class="concept-card"><h3>基例</h3><p>递归停止的条件，少了它会无限循环</p></div>
-    <div class="concept-card"><h3>分形</h3><p>局部和整体长得很像的图案</p></div>
+  <div class="layout">
+    <section class="panel">
+      <h2 class="panel-title">调整参数</h2>
+      <div class="sliders" id="sliders">
+        <div class="slider-row"><label><span class="row-top"><span>分支角度</span><span id="val-angle">25°</span></span>
+          <input type="range" id="angle" min="5" max="60" step="1" value="25"></label></div>
+        <div class="slider-row"><label><span class="row-top"><span>收缩比例</span><span id="val-ratio">0.70</span></span>
+          <input type="range" id="ratio" min="50" max="85" step="1" value="70"></label></div>
+        <div class="slider-row"><label><span class="row-top"><span>递归深度</span><span id="val-depth">3</span></span>
+          <input type="range" id="depth" min="0" max="7" step="1" value="3"></label></div>
+      </div>
+      <p class="hint-box" id="level-hint"></p>
+      <div class="actions">
+        <button class="action demo" id="demo-btn">看范例</button>
+        <button class="action run" id="run-btn">&#9654; 画树</button>
+      </div>
+      <h2 class="panel-title">调用栈</h2>
+      <p class="stack-note">每次函数调用自己，就在栈里压入一层；遇到"基例"就停止，并逐层返回。</p>
+      <div class="call-stack" id="call-stack"></div>
+      <div class="next-wrap"><button class="next-btn" id="next-btn">下一关</button></div>
+    </section>
+    <section class="panel stage-panel">
+      <div class="stage-head">
+        <h2 id="level-title">关卡 1</h2>
+      </div>
+      <div class="canvas-shell-wrap">
+        <div class="canvas-shell" id="canvas-shell">
+          <canvas id="tree-canvas"></canvas>
+          <div class="legend">
+            <span class="legend-item"><span class="legend-dot" style="background:var(--ink-mute);opacity:.5"></span>目标图案</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--coral)"></span>你的树</span>
+          </div>
+        </div>
+      </div>
+      <div class="result" id="result"><span id="result-text"></span><button id="result-btn">继续</button></div>
+    </section>
   </div>
+  <section class="concepts-wrap wrap-narrow" style="max-width:1160px;margin:0 auto;width:100%">
+    <p class="section-label">知识预习</p>
+    <div class="concepts">
+      <div class="concept-card"><h3>递归</h3><p>函数调用自己，解决更小的同类问题</p></div>
+      <div class="concept-card"><h3>基例</h3><p>递归停止的条件，少了它会无限循环</p></div>
+      <div class="concept-card"><h3>分形</h3><p>局部和整体长得很像的图案</p></div>
+    </div>
+  </section>
 </main>
 <script src="../fo-utils.js"></script>
 <script>
-  var m = window.FO ? FO.getMember() : null;
-  var el = document.getElementById('nav-member-btn');
-  if(m){ el.innerHTML = FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>'; el.onclick=function(){location.href='../dashboard.html'}; }
-  else { el.innerHTML='<span>登录</span>'; el.onclick=function(){location.href='../login.html'}; }
+var levels=[
+  {title:'关卡 1 — 笔直的主干',angle:25,ratio:0.70,depth:1,hint:'把递归深度调到 1，看看只分岔一次是什么样子。'},
+  {title:'关卡 2 — 枝繁叶茂',angle:20,ratio:0.75,depth:5,hint:'调大深度，让树多长几层枝条，越往上枝条越细。'},
+  {title:'关卡 3 — 风中弯曲',angle:35,ratio:0.65,depth:6,hint:'角度更大、收缩更快，树会长成什么样？调调看。'}
+];
+var levelIndex=0,running=false;
+var LOGICAL=300,ctx,scaleFactor=1;
+var segments=[],ghostSegs=[],activeDot=null,callStack=[];
+
+function cssVar(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim();}
+function wait(ms){return new Promise(function(r){setTimeout(r,ms);});}
+
+function getAngle(){return parseInt(document.getElementById('angle').value,10);}
+function getRatio(){return parseInt(document.getElementById('ratio').value,10)/100;}
+function getDepth(){return parseInt(document.getElementById('depth').value,10);}
+function syncLabels(){
+  document.getElementById('val-angle').textContent=getAngle()+'°';
+  document.getElementById('val-ratio').textContent=getRatio().toFixed(2);
+  document.getElementById('val-depth').textContent=getDepth();
+}
+
+function initMember(){
+  var m=window.FO?FO.getMember():null,el=document.getElementById('nav-member-btn');
+  if(m){el.innerHTML=FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>';el.onclick=function(){location.href='../dashboard.html'};}
+  else{el.innerHTML='<span>登录</span>';el.onclick=function(){location.href='../login.html'};}
+}
+
+function setupCanvas(){
+  var shell=document.getElementById('canvas-shell');
+  var size=Math.max(shell.clientWidth-20,60);
+  var canvas=document.getElementById('tree-canvas');
+  var dpr=window.devicePixelRatio||1;
+  canvas.width=size*dpr;canvas.height=size*dpr;
+  ctx=canvas.getContext('2d');
+  scaleFactor=(size*dpr)/LOGICAL;
+  ctx.setTransform(scaleFactor,0,0,scaleFactor,0,0);
+  redraw();
+}
+function clearCanvas(){
+  var canvas=document.getElementById('tree-canvas');
+  ctx.save();ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.restore();
+}
+function drawSegs(list,color,alpha){
+  ctx.save();ctx.globalAlpha=alpha==null?1:alpha;
+  ctx.strokeStyle=color;ctx.lineWidth=3;ctx.lineCap='round';
+  list.forEach(function(s){ctx.beginPath();ctx.moveTo(s.x1,s.y1);ctx.lineTo(s.x2,s.y2);ctx.stroke();});
+  ctx.restore();
+}
+function drawDot(x,y){
+  ctx.save();ctx.fillStyle=cssVar('--coral');
+  ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+}
+function redraw(){
+  clearCanvas();
+  drawSegs(ghostSegs,cssVar('--ink-mute'),0.35);
+  drawSegs(segments,cssVar('--coral'),1);
+  if(activeDot)drawDot(activeDot.x,activeDot.y);
+}
+function buildSegments(angle,ratio,depth){
+  var segs=[];
+  (function rec(x,y,len,heading,d){
+    if(d<=0||len<3)return;
+    var rad=heading*Math.PI/180;
+    var nx=x+Math.sin(rad)*len,ny=y-Math.cos(rad)*len;
+    segs.push({x1:x,y1:y,x2:nx,y2:ny});
+    rec(nx,ny,len*ratio,heading-angle,d-1);
+    rec(nx,ny,len*ratio,heading+angle,d-1);
+  })(150,280,90,0,depth);
+  return segs;
+}
+
+function renderStack(){
+  var el=document.getElementById('call-stack');
+  el.innerHTML=callStack.map(function(f,i){
+    var top=i===callStack.length-1;
+    return '<div class="stack-frame'+(top?' is-top':'')+(f.base?' is-base':'')+'">draw(depth='+f.depth+')'+(f.base?' — 基例，返回':'')+'</div>';
+  }).join('');
+}
+async function drawBranch(x,y,len,heading,depth,angle,ratio,delay){
+  var isBase=depth<=0||len<3;
+  callStack.push({depth:depth,base:isBase});renderStack();
+  await wait(delay);
+  if(!isBase){
+    var rad=heading*Math.PI/180;
+    var nx=x+Math.sin(rad)*len,ny=y-Math.cos(rad)*len;
+    segments.push({x1:x,y1:y,x2:nx,y2:ny});
+    activeDot={x:nx,y:ny};redraw();
+    await wait(delay);
+    await drawBranch(nx,ny,len*ratio,heading-angle,depth-1,angle,ratio,delay);
+    await drawBranch(nx,ny,len*ratio,heading+angle,depth-1,angle,ratio,delay);
+  }
+  callStack.pop();renderStack();
+  await wait(Math.max(4,delay*0.4));
+}
+
+function checkMatch(angle,ratio,depth){
+  var t=levels[levelIndex];
+  return depth===t.depth&&Math.abs(angle-t.angle)<=4&&Math.abs(ratio-t.ratio)<=0.03;
+}
+async function runTree(){
+  if(running)return;running=true;
+  document.getElementById('run-btn').disabled=true;
+  document.getElementById('result').className='result';
+  segments=[];callStack=[];renderStack();redraw();
+  await wait(80);
+  var angle=getAngle(),ratio=getRatio(),depth=getDepth();
+  var total=Math.pow(2,depth+1)-1;if(total<1)total=1;
+  var delay=Math.max(6,Math.min(160,900/total));
+  await drawBranch(150,280,90,0,depth,angle,ratio,delay);
+  activeDot=null;redraw();
+  showResult(checkMatch(angle,ratio,depth));
+  running=false;
+  document.getElementById('run-btn').disabled=false;
+}
+function showResult(success){
+  var result=document.getElementById('result'),text=document.getElementById('result-text'),btn=document.getElementById('result-btn');
+  if(success){
+    result.className='result success show';
+    text.textContent='长成目标的样子啦！';
+    btn.textContent=levelIndex<levels.length-1?'下一关':'再玩一次';
+    btn.onclick=function(){loadLevel(levelIndex<levels.length-1?levelIndex+1:0);};
+    markDone();
+  } else {
+    result.className='result retry show';
+    text.textContent='树画出来了，再调调参数，贴近半透明的目标图案吧';
+    btn.textContent='重试';
+    btn.onclick=function(){result.className='result';};
+  }
+}
+function markDone(){try{var d=JSON.parse(localStorage.getItem('fo_games_done')||'[]');if(d.indexOf('g53-recursion-tree')<0){d.push('g53-recursion-tree');localStorage.setItem('fo_games_done',JSON.stringify(d));}}catch(e){}}
+
+function loadLevel(index){
+  levelIndex=index;
+  var lv=levels[index];
+  document.getElementById('level-pill').textContent='关卡 '+(index+1)+' / '+levels.length;
+  document.getElementById('level-title').textContent=lv.title;
+  document.getElementById('level-hint').textContent=lv.hint;
+  document.getElementById('angle').value=25;
+  document.getElementById('ratio').value=70;
+  document.getElementById('depth').value=3;
+  syncLabels();
+  segments=[];callStack=[];renderStack();
+  ghostSegs=buildSegments(lv.angle,lv.ratio,lv.depth);
+  document.getElementById('result').className='result';
+  redraw();
+}
+document.getElementById('demo-btn').onclick=function(){
+  if(running)return;
+  var lv=levels[levelIndex];
+  document.getElementById('angle').value=lv.angle;
+  document.getElementById('ratio').value=Math.round(lv.ratio*100);
+  document.getElementById('depth').value=lv.depth;
+  syncLabels();
+};
+document.getElementById('run-btn').onclick=runTree;
+document.getElementById('next-btn').onclick=function(){loadLevel(levelIndex<levels.length-1?levelIndex+1:0);};
+['angle','ratio','depth'].forEach(function(id){document.getElementById(id).addEventListener('input',syncLabels);});
+window.addEventListener('resize',setupCanvas);
+initMember();loadLevel(0);setupCanvas();
 </script>
 </body>
 </html>
