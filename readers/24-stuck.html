@@ -1,0 +1,260 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: L08 · 源: 学习的真相 24「学习障碍」（为何我们觉得学习困难=拆弹专家的比喻：最怕眼前的炸弹隐秘连接着另一个你不知道在哪的炸弹；一切复杂都是许多简单构成的，知识=模型+模型之间的关联，两者都必须简单准确必要，"真正有用的东西只能是简单的"；真正构成学习障碍的不是复杂，而是那些原本简单却隐含/未察觉的关联——隐含关联=所有人都没察觉但存在的（如教育分科导致偏科偏见、所有知识其实同处大脑皮层一张网），未察觉关联=个体因欠缺训练没察觉的（如几何是一切绘画设计的必须：所有形状都是曲线、完美图形都跟圆有关、透视是2d展现3d的基础，学龄前儿童都能懂一点，但很多人不知道画画要学几何）；复合技能导致的难=写作是经典复合技能，绝大多数人花十多年识字学修辞却写不出、怕写，因为写作除语文能力外还需观察/感知/通感/思考/组织/表达/沟通等多种能力，把作文课讲成语文课就徒劳（李笑来作文课坚持不讲语法文采被学生投诉"不务正业"），克服复合难度只有一个办法=学得越多越好，笃信"你具备学会任何东西的潜能，你是基于记忆的贝叶斯推理机，一切本质原本都是简单的"；前置引用导致的障碍=借自计算机报错（用变量前必须先声明），很多被认为艰难的科目在关键点隐藏前置引用，最基础处才是重灾区：老师说"好好想想"却从没定义"想是什么"、说"你不努力"却没定义努力（努力=短时间内足量重复）、说"基础太差"却没定义基础（基础=只能靠逼迫才能习得的最少必要知识），解法=千万不能放弃、继续学下去，学得越多节点越多、更多节点反过来集体帮你解决旧疑问（"等你长大了就明白了"的真相）；统一应对策略=各式各样的学习障碍加起来只需一个统一策略：学得越多越好，且学得越多就越容易；学习高手都爱读历史和人物传记（告诉你重要模型/关联的来龙去脉、哪些是疑问哪些已解决），能力越强、知识越多的人越痴迷简单（爱因斯坦：一切都应做到最简单），普通人推崇复杂只因学得不够多、看不清模型的简单、有太多无法察觉的关联，甚至产生"简单恐惧症"，咨询/教育行业里装神弄鬼的最好卖）。金句主取自"统一应对策略"段与"真正有用的东西只能是简单的"。珊瑚色。 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>越往前学，越容易 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--coral); --accent-soft: var(--coral-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 学习的真相</span>
+    <h1>越往前学，<br>越容易</h1>
+
+    <p class="hook">
+      想象你是个拆弹专家。你找到了炸弹，也知道怎么拆、怎么克服恐惧。可你最怕的是什么？<span class="em">最怕眼前这颗炸弹，用某种你看不见的方式，偷偷连着另一颗你根本不知道在哪的炸弹</span>。<br>
+      有些东西学起来特别费劲，根本原因就和这个差不多——<span class="em">不是它有多复杂，而是有一根你没看见的线，把它和别处连在了一起</span>。这一篇，就来找出那几根线。
+    </p>
+
+    <!-- 拆解 1 · 一切复杂都是简单拼出来的 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>再复杂的东西，都是简单拼出来的</h3>
+      <p>先把一件事想清楚：<strong>一切的复杂，都是由许多个简单构成的</strong>。再复杂的东西，只要构成它的每个零件都很清楚、零件之间的连接也很明确，那它其实<strong>依然是简单的</strong>。</p>
+      <p>回到"知识"这个模型——所有的知识都由两个要素构成：一个是<strong>模型</strong>（一个个概念），一个是<strong>模型之间的关联</strong>。为了能反复利用它们去搭出更大、更灵活、更有用的东西，每一个子模型都必须、也只能是简单的。人类之所以了不起，正是因为进化出了语言之后，又意识到"简单、毫无歧义"有多重要，于是在各个领域造出了对应的人工语言。所以到最后，<strong>真正有用的东西，只能是简单的</strong>。既然如此，那"学不会"到底卡在哪儿？</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="一个看似复杂的整体，拆开后其实是几个简单零件加上它们之间清晰的连线">
+          <g text-anchor="middle">
+            <text x="300" y="24" font-size="13.5" fill="var(--ink-mute)">看着复杂 = 简单的零件 + 它们之间的关联</text>
+            <!-- 左：一团复杂 -->
+            <path d="M60 120 q -18 -34 18 -42 q 8 -30 40 -18 q 22 -22 40 4 q 30 -6 22 30 q 20 22 -12 34 q -6 26 -38 16 q -20 18 -42 -6 q -30 0 -28 -32 z" fill="var(--coral-soft)" stroke="var(--coral)" stroke-width="1.6"/>
+            <text x="88" y="112" font-size="12" fill="var(--ink)" font-weight="700">看起来</text>
+            <text x="88" y="130" font-size="12" fill="var(--ink)" font-weight="700">好难</text>
+            <text x="196" y="106" font-size="22" fill="var(--ink-mute)">→</text>
+            <!-- 右：拆成简单块 + 连线 -->
+            <line x1="300" y1="70" x2="410" y2="70" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <line x1="410" y1="70" x2="410" y2="150" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <line x1="300" y1="70" x2="300" y2="150" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <line x1="300" y1="150" x2="520" y2="150" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <circle cx="300" cy="70" r="22" fill="var(--paper)" stroke="var(--green)" stroke-width="2.2"/><text x="300" y="75" font-size="12" fill="var(--ink)">模型</text>
+            <circle cx="410" cy="70" r="22" fill="var(--paper)" stroke="var(--green)" stroke-width="2.2"/><text x="410" y="75" font-size="12" fill="var(--ink)">模型</text>
+            <circle cx="300" cy="150" r="22" fill="var(--paper)" stroke="var(--green)" stroke-width="2.2"/><text x="300" y="155" font-size="12" fill="var(--ink)">模型</text>
+            <circle cx="520" cy="150" r="22" fill="var(--paper)" stroke="var(--green)" stroke-width="2.2"/><text x="520" y="155" font-size="12" fill="var(--ink)">模型</text>
+            <text x="455" y="112" font-size="11.5" fill="var(--ink-soft)">每个零件都简单</text>
+            <text x="455" y="130" font-size="11.5" fill="var(--ink-soft)">连接都清楚</text>
+          </g>
+        </svg>
+        <figcaption>知识 = 简单的模型 + 模型之间的关联；两者都清楚，复杂就还原成简单（《学习的真相》24·学习障碍）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 隐含关联 = 看不见的那根线 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>真正的障碍，是那根看不见的线</h3>
+      <p>答案有点反直觉：真正构成学习障碍的，<strong>不是复杂本身，而是那些原本也很简单、却被隐藏起来的关联</strong>。它们分两种。一种叫<strong>隐含的关联</strong>——所有人都没察觉、但确实存在。比如仅仅几十年前，压根没人意识到"所有知识在大脑皮层上其实同处一张网"，于是学校想当然地分科，学生理直气壮地偏科，"文科生讨厌科学、理科生回避历史"的偏见到处都是；被它影响的人终身吃亏，却毫无察觉。</p>
+      <p>另一种叫<strong>未察觉的关联</strong>——因为某个人缺了某项训练，所以他没看见。最典型的例子是<strong>几何和画画</strong>：几乎所有形状都是由曲线构成的（连直线都只是"曲度为零的曲线"），一切完美的图形都跟完美的圆有关，透视则是在平面上画出立体的基础技法——<strong>几何是一切绘画和设计的必须</strong>。这些连学龄前的孩子都能懂一点，可很多想把画画好的人，从不知道自己该去补一点几何。缺了这根线，画出来的东西就是没法优美。你以为的"没天赋"，很多时候只是"没看见那根线"。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="想学好画画的人只盯着画笔和颜料，却没看见画画其实偷偷连着几何这根线">
+          <g text-anchor="middle">
+            <circle cx="150" cy="105" r="48" fill="var(--coral-soft)" stroke="var(--coral)" stroke-width="2"/>
+            <text x="150" y="100" font-size="15" fill="var(--ink)" font-weight="700">画得好</text>
+            <text x="150" y="122" font-size="11.5" fill="var(--ink-soft)">你想要的</text>
+            <!-- 看得见的：画笔颜料 -->
+            <text x="150" y="182" font-size="11.5" fill="var(--ink-mute)">看得见：练笔、买颜料、临摹</text>
+            <!-- 看不见的那根线 -->
+            <line x1="198" y1="105" x2="402" y2="105" stroke="var(--coral)" stroke-width="2.4" stroke-dasharray="7 6"/>
+            <text x="300" y="92" font-size="12.5" fill="var(--coral)" font-weight="700">← 看不见的那根线 →</text>
+            <circle cx="450" cy="105" r="48" fill="var(--paper)" stroke="var(--green)" stroke-width="2.4"/>
+            <text x="450" y="100" font-size="15" fill="var(--ink)" font-weight="700">几何</text>
+            <text x="450" y="122" font-size="11.5" fill="var(--ink-soft)">很少人去补</text>
+            <text x="450" y="182" font-size="11" fill="var(--ink-mute)">曲线 · 圆 · 透视</text>
+          </g>
+        </svg>
+        <figcaption>未察觉的关联：想画好的人盯着画笔，却没看见画画偷偷连着"几何"（《学习的真相》24·几何影响绘画）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 复合技能 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>越难的，往往是"复合技能"</h3>
+      <p>那些给人感觉最复杂、最难学的东西，基本都是<strong>复合技能</strong>——很多个能力叠在一起。最经典的例子就是<strong>写作</strong>：几乎所有人都花了十多年，认了足够多的字词，学过、练过、甚至考过几乎所有修辞手段，读过无数经典，结果绝大多数人还是写不出、写不好，到最后甚至怕写任何东西。</p>
+      <p>为什么？因为写作远不止"语文"这一项。光识字不够，光懂修辞不够，光有语文知识也不够——它同时还需要<strong>观察力、感知力、通感、思考力、组织力、表达力、沟通力……</strong>而且每一项都得足够强。所以，如果一位老师把作文课上成了语文课，所有努力最终都会白费。（《学习的真相》的作者讲过多年作文课，坚持不讲语法、不讲文采，为此被学生投诉过无数次，说他"不务正业"——可他干的才是正事。）那么，怎么对付这种"复合"带来的难度？答案你其实早就知道了，很简单也很直接：<strong>学得越多越好</strong>。别被别人吓倒——你天生就是一台基于记忆的超强推理机器，具备学会任何东西的潜能。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="写作是一个中心，周围连着识字、观察、感知、思考、组织、表达、沟通等多种能力">
+          <g text-anchor="middle">
+            <!-- 连线 -->
+            <g stroke="var(--ink-mute)" stroke-width="1.3">
+              <line x1="300" y1="105" x2="130" y2="45"/><line x1="300" y1="105" x2="300" y2="34"/>
+              <line x1="300" y1="105" x2="470" y2="45"/><line x1="300" y1="105" x2="112" y2="105"/>
+              <line x1="300" y1="105" x2="488" y2="105"/><line x1="300" y1="105" x2="130" y2="168"/>
+              <line x1="300" y1="105" x2="300" y2="180"/><line x1="300" y1="105" x2="470" y2="168"/>
+            </g>
+            <!-- 周围能力节点 -->
+            <g font-size="11.5" fill="var(--ink)">
+              <g><circle cx="130" cy="45" r="26" fill="var(--cream-deep)"/><text x="130" y="49">识字</text></g>
+              <g><circle cx="300" cy="34" r="26" fill="var(--cream-deep)"/><text x="300" y="38">观察</text></g>
+              <g><circle cx="470" cy="45" r="26" fill="var(--cream-deep)"/><text x="470" y="49">感知</text></g>
+              <g><circle cx="100" cy="105" r="26" fill="var(--cream-deep)"/><text x="100" y="109">通感</text></g>
+              <g><circle cx="500" cy="105" r="26" fill="var(--cream-deep)"/><text x="500" y="109">思考</text></g>
+              <g><circle cx="130" cy="168" r="26" fill="var(--cream-deep)"/><text x="130" y="172">组织</text></g>
+              <g><circle cx="300" cy="180" r="26" fill="var(--cream-deep)"/><text x="300" y="184">表达</text></g>
+              <g><circle cx="470" cy="168" r="26" fill="var(--cream-deep)"/><text x="470" y="172">沟通</text></g>
+            </g>
+            <!-- 中心 -->
+            <circle cx="300" cy="105" r="34" fill="var(--coral)"/>
+            <text x="300" y="102" font-size="14" fill="var(--paper)" font-weight="700">写作</text>
+            <text x="300" y="120" font-size="10" fill="var(--paper)">复合技能</text>
+          </g>
+        </svg>
+        <figcaption>写作不是单一技能，而是多种能力叠加的复合技能——把它当"语文"就必然失败（《学习的真相》24·复合技能影响写作）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 · 前置引用 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>那些"没定义就用"的词，最坑人</h3>
+      <p>还有一种更隐蔽的障碍，叫<strong>前置引用</strong>。这个词借自电脑的报错：写程序时有条铁律——<strong>用一个变量之前，必须先声明它</strong>。你得先告诉电脑"有这么个东西"，它才能处理这个东西；一旦碰到没提前告诉过它的东西，电脑就直接报错。很多被学生认为艰难的科目，就是在关键点上藏着这种前置引用，而且<strong>最基础的地方，才是重灾区</strong>。</p>
+      <p>看看这些天天挂在老师嘴上的话：<strong>"好好想想"</strong>——可十多年里，没有一个老师认真定义过"想"是什么、该怎么想；<strong>"你太不努力了"</strong>——他也没告诉过你什么叫努力（其实努力就是"短时间内足量重复"）；<strong>"这孩子基础太差"</strong>——他从不需要说清"基础"到底指什么（其实基础就是"那些只能靠逼迫才能习得的最少必要知识"）。全是前置引用：用了一个从没定义清楚的词来要求你。它无所不在。<strong>那怎么解？其实和前面一样：千万不能放弃，无论如何继续学下去</strong>——你学得越多，知识网里的节点就越多，更多的节点会反过来集体帮你解开之前卡住的疑问。老人们常说的"等你长大了就明白了"，讲的正是这件事。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="好好想想、你不努力、基础太差都是没有定义就使用的词，像电脑的前置引用报错，补上定义后就能继续">
+          <g>
+            <text x="300" y="24" text-anchor="middle" font-size="13.5" fill="var(--ink-mute)">"前置引用"：用了一个从没定义清楚的词</text>
+            <!-- 报错框 -->
+            <rect x="40" y="42" width="250" height="130" rx="10" fill="#fbeae6" stroke="var(--coral)" stroke-width="1.8"/>
+            <text x="60" y="66" font-size="12" fill="var(--coral)" font-weight="700">⚠ 报错：这个词没定义</text>
+            <g font-size="12" fill="var(--ink)">
+              <text x="60" y="93">·"好好想想"</text>
+              <text x="60" y="118">·"你不努力"</text>
+              <text x="60" y="143">·"基础太差"</text>
+            </g>
+            <text x="315" y="112" font-size="22" fill="var(--ink-mute)">→</text>
+            <!-- 补定义框 -->
+            <rect x="350" y="42" width="220" height="130" rx="10" fill="var(--green-soft)" stroke="var(--green)" stroke-width="1.8"/>
+            <text x="370" y="66" font-size="12" fill="var(--green)" font-weight="700">✓ 补上定义，继续学</text>
+            <g font-size="11" fill="var(--ink)">
+              <text x="370" y="90">想 = 处理模型和关联</text>
+              <text x="370" y="114">努力 = 短时间足量重复</text>
+              <text x="370" y="138">基础 = 逼自己习得的</text>
+              <text x="386" y="156">最少必要知识</text>
+            </g>
+            <text x="300" y="192" text-anchor="middle" font-size="12" fill="var(--ink-soft)">解法：不放弃、继续学——更多节点会回头帮你解开旧疑问</text>
+          </g>
+        </svg>
+        <figcaption>前置引用无所不在，最基础处最多；解法是补上定义 + 继续往前学（《学习的真相》24·前置引用）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"各式各样的学习障碍全部加起来，<br>其实只需要一个统一的应对策略：<br>学得越多越好——学得越多，就越容易。"</p>
+      <span class="src">—— 《学习的真相》24「学习障碍」。隐含关联、复合技能、前置引用，看着是三种障碍，解法却是同一个：继续往前学，更多的节点会回头帮你解开旧的卡点。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>回想一件你一直"学不好"的事——它真的是因为你笨，还是可能缺了一根你没看见的线（就像画画缺几何）？如果要找那根线，你会先去补哪一块？</summary>
+        <p class="hint">没有标准答案，写在你自己的本子上。提示：越是"怎么练都不见效"的地方，越可能藏着一个未察觉的关联，而不是你的天赋问题。</p>
+      </details>
+      <details>
+        <summary>最近有没有大人对你说过"你要好好想想 / 你不够努力 / 你基础差"？挑一句，试着把那个词换成清楚的定义——换完之后，你是不是更知道具体该做什么了？</summary>
+        <p class="hint">没有标准答案。比如把"不努力"换成"短时间内足量重复"，你立刻能问自己：这周我在这件事上，够不够"短时间、足量、重复"？</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>本周当一回<strong>"卡点侦探"</strong>。遇到一个学不下去、想放弃的地方，先别死磕原地，做两步——<strong>①揪词：</strong>把卡住你的那句要求里"没定义清楚的词"找出来（"好好想""努力""打好基础"都算），给它一个你自己的清楚定义；<strong>②补线：</strong>往前或往旁边多学一点——去查这个知识点的来龙去脉（历史、人物传记里常藏着答案），或者补上它偷偷依赖的前一课。一周下来，记录你一共解开了几个卡点，以及每个是靠"补定义"还是"往前多学"解开的。你会亲眼看到：<strong>卡住，几乎从来不是因为笨，而是差了一根线。</strong></p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="23-plan-review.html">← 计划，只需要计划复习</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '24-stuck';
+    const READER_TITLE = '越往前学，越容易';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
