@@ -206,6 +206,31 @@ window.FO_DB = {
     return data || [];
   },
 
+  // ── Summer plan（暑假计划打卡，整份状态云同步）─────────────────────────────────
+
+  async getSummerPlan() {
+    const c = this._c(); if (!c) return null;
+    const session = await this.getSession();
+    if (!session) return null;
+    const { data } = await c
+      .from('summer_plan')
+      .select('state')
+      .eq('user_id', session.user.id)
+      .single();
+    return data ? data.state : null;
+  },
+
+  async saveSummerPlan(state) {
+    const c = this._c(); if (!c) return;
+    const session = await this.getSession();
+    if (!session) return;
+    await c.from('summer_plan').upsert({
+      user_id:    session.user.id,
+      state,
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id' });
+  },
+
   // ── Profile update ────────────────────────────────────────────────────────────
 
   async updateProfile({ name, family_role, role, avatar, color } = {}) {

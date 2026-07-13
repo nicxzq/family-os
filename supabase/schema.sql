@@ -218,3 +218,16 @@ create table if not exists public.wechat_bindings (
 
 alter table public.wechat_bindings enable row level security;
 -- 无面向客户端的 policy，service_role 直接操作
+
+-- ── Summer plan check-in（暑假计划打卡，一人一行整份 JSONB 状态）──────────────
+create table if not exists public.summer_plan (
+  user_id    uuid primary key references public.profiles(id) on delete cascade,
+  state      jsonb not null default '{}'::jsonb,
+  updated_at timestamptz default now()
+);
+
+alter table public.summer_plan enable row level security;
+
+drop policy if exists "summer_plan_own" on public.summer_plan;
+create policy "summer_plan_own" on public.summer_plan
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
