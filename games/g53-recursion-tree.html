@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="../styles.css">
 <link rel="stylesheet" href="code-lab.css">
 <style>
-  .canvas-shell{position:relative;width:min(100%,calc(100dvh - 280px));aspect-ratio:1;background:var(--cream-deep);border-radius:var(--radius);padding:var(--space-lg);box-shadow:var(--shadow-soft)}
+  .canvas-shell{position:relative;height:100%;max-width:100%;aspect-ratio:1;background:var(--cream-deep);border-radius:var(--radius);padding:var(--space-lg);box-shadow:var(--shadow-soft)}
   #tree-canvas{display:block;width:100%;height:100%;border-radius:var(--radius-md);background:var(--cream)}
   .sliders{display:flex;flex-direction:column;gap:var(--space-lg);margin-bottom:var(--space-xl);flex-shrink:0}
   .slider-row label{display:flex;flex-direction:column;gap:var(--space-xs);font-size:var(--font-size-note);color:var(--ink-soft);font-weight:700}
@@ -27,7 +27,7 @@
   .stack-frame.is-top{background:var(--blue-soft);color:var(--ink)}
   .stack-frame.is-base{background:var(--yellow-soft);color:var(--ink)}
   @media (max-width:767px){
-    .canvas-shell{width:min(100%,42dvh)}
+    .canvas-shell{height:auto;width:min(100%,42dvh)}
     .call-stack{max-height:90px}
   }
 </style>
@@ -86,15 +86,15 @@
       <button class="next-btn" id="next-btn">下一关</button>
     </section>
   </div>
-  <section class="concepts-wrap">
-    <p class="section-label">知识预习</p>
-    <div class="concepts">
-      <div class="concept-card"><h3>递归</h3><p>函数调用自己，把大问题拆成更小的同类问题</p></div>
-      <div class="concept-card"><h3>基例</h3><p>递归停止的条件，少了它就会无限循环</p></div>
-      <div class="concept-card"><h3>指数增长</h3><p>深度每加一层，树枝数几乎翻倍——这就是 2 的力量</p></div>
-    </div>
-  </section>
 </main>
+<section class="concepts-wrap">
+  <p class="section-label">知识预习</p>
+  <div class="concepts">
+    <div class="concept-card"><h3>递归</h3><p>函数调用自己，把大问题拆成更小的同类问题</p></div>
+    <div class="concept-card"><h3>基例</h3><p>递归停止的条件，少了它就会无限循环</p></div>
+    <div class="concept-card"><h3>指数增长</h3><p>深度每加一层，树枝数几乎翻倍——这就是 2 的力量</p></div>
+  </div>
+</section>
 <script src="../fo-utils.js"></script>
 <script src="code-lab.js"></script>
 <script>
@@ -146,6 +146,7 @@ function drawSegs(list,color,alpha){
   ctx.restore();
 }
 function redraw(){
+  if(!ctx)return;
   clearCanvas();
   drawSegs(ghostSegs,cssVar('--ink-mute'),0.35);
   drawSegs(segments,cssVar('--coral'),1);
@@ -271,7 +272,7 @@ document.getElementById('retry-btn').onclick=function(){if(!running)loadLevel(le
 document.getElementById('next-btn').onclick=nextLevel;
 ['angle','ratio','depth'].forEach(function(id){document.getElementById(id).addEventListener('input',syncLabels);});
 window.addEventListener('resize',setupCanvas);
-CodeLab.initMember();loadLevel(0);setupCanvas();
+CodeLab.initMember();setupCanvas();loadLevel(0);
 </script>
 </body>
 </html>

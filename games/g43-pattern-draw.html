@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="../styles.css">
 <link rel="stylesheet" href="code-lab.css">
 <style>
-  .canvas-shell{position:relative;width:min(100%,calc(100dvh - 280px));aspect-ratio:1;background:var(--cream-deep);border-radius:var(--radius);padding:var(--space-lg);box-shadow:var(--shadow-soft)}
+  .canvas-shell{position:relative;height:100%;max-width:100%;aspect-ratio:1;background:var(--cream-deep);border-radius:var(--radius);padding:var(--space-lg);box-shadow:var(--shadow-soft)}
   #turtle-canvas{display:block;width:100%;height:100%;border-radius:var(--radius-md);background:var(--cream)}
   .blocks-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-xl)}
   .blocks-head .panel-title{margin:0}
@@ -27,7 +27,7 @@
   .nested-repeat .inner-marker{width:var(--space-5xl)}
   .nested-body{margin-left:var(--space-3xl)}
   @media (max-width:767px){
-    .canvas-shell{width:min(100%,42dvh)}
+    .canvas-shell{height:auto;width:min(100%,42dvh)}
   }
 </style>
 <script src="/fo-gate.js"></script></head>
@@ -85,15 +85,15 @@
       <button class="next-btn" id="next-btn">下一关</button>
     </section>
   </div>
-  <section class="concepts-wrap">
-    <p class="section-label">知识预习</p>
-    <div class="concepts">
-      <div class="concept-card"><h3>循环</h3><p>积木预算不够时，"重复"就是你唯一的出路——这正是程序员用循环的原因</p></div>
-      <div class="concept-card"><h3>参数</h3><p>改一个数字，图案就完全不同</p></div>
-      <div class="concept-card"><h3>嵌套循环</h3><p>循环里面还有循环，画出更复杂的图案</p></div>
-    </div>
-  </section>
 </main>
+<section class="concepts-wrap">
+  <p class="section-label">知识预习</p>
+  <div class="concepts">
+    <div class="concept-card"><h3>循环</h3><p>积木预算不够时，"重复"就是你唯一的出路——这正是程序员用循环的原因</p></div>
+    <div class="concept-card"><h3>参数</h3><p>改一个数字，图案就完全不同</p></div>
+    <div class="concept-card"><h3>嵌套循环</h3><p>循环里面还有循环，画出更复杂的图案</p></div>
+  </div>
+</section>
 <script src="../fo-utils.js"></script>
 <script src="code-lab.js"></script>
 <script>
@@ -391,6 +391,7 @@ function drawMarker(x,y,heading){
   ctx.restore();
 }
 function redraw(){
+  if(!ctx)return;
   clearCanvas();
   drawSegs(ghostSegs,cssVar('--ink-mute'),0.35);
   drawSegs(segments,cssVar('--coral'),1);
@@ -466,7 +467,7 @@ document.getElementById('hint-btn').onclick=showHint;
 document.getElementById('run-btn').onclick=runProgram;
 document.getElementById('next-btn').onclick=nextLevel;
 window.addEventListener('resize',setupCanvas);
-CodeLab.initMember();bindBlocks();bindProgram();loadLevel(0);setupCanvas();
+CodeLab.initMember();bindBlocks();bindProgram();setupCanvas();loadLevel(0);
 </script>
 </body>
 </html>

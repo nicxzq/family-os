@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="../styles.css">
 <link rel="stylesheet" href="code-lab.css">
 <style>
-  .grid-shell{position:relative;width:min(100%,calc(100dvh - 300px));aspect-ratio:1;background:var(--cream-deep);border-radius:var(--radius);padding:var(--space-lg);box-shadow:var(--shadow-soft)}
+  .grid-shell{position:relative;height:100%;max-width:100%;aspect-ratio:1;background:var(--cream-deep);border-radius:var(--radius);padding:var(--space-lg);box-shadow:var(--shadow-soft)}
   .maze{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,1fr);gap:var(--space-xs);width:100%;height:100%}
   .cell{border-radius:var(--radius-md);background:var(--cream);display:grid;place-items:center;font-size:var(--font-size-title);position:relative;transition:background var(--duration-fast)}
   .cell.walkable{cursor:pointer}
@@ -26,7 +26,7 @@
   .phase-title{font-size:var(--font-size-ui);font-weight:700;color:var(--ink);margin:0 0 var(--space-md);min-height:var(--space-6xl)}
   .feedback{min-height:38px;font-size:var(--font-size-note);line-height:1.5;font-weight:700;color:var(--ink-soft);margin-bottom:var(--space-lg);flex-shrink:0}
   @media (max-width:767px){
-    .grid-shell{width:min(100%,42dvh)}
+    .grid-shell{height:auto;width:min(100%,42dvh)}
     .cell{font-size:var(--font-size-body)}
   }
 </style>
@@ -91,15 +91,15 @@
       <button class="next-btn" id="next-btn">下一关</button>
     </section>
   </div>
-  <section class="concepts-wrap">
-    <p class="section-label">知识预习</p>
-    <div class="concepts">
-      <div class="concept-card"><h3>BFS 广度优先</h3><p>像水波一层层扩散，第一个摸到终点的路一定最短</p></div>
-      <div class="concept-card"><h3>DFS 深度优先</h3><p>一条路走到黑再回头，找到的不一定最短</p></div>
-      <div class="concept-card"><h3>最短路径</h3><p>你刚才用直觉找的路，计算机用队列也能找到</p></div>
-    </div>
-  </section>
 </main>
+<section class="concepts-wrap">
+  <p class="section-label">知识预习</p>
+  <div class="concepts">
+    <div class="concept-card"><h3>BFS 广度优先</h3><p>像水波一层层扩散，第一个摸到终点的路一定最短</p></div>
+    <div class="concept-card"><h3>DFS 深度优先</h3><p>一条路走到黑再回头，找到的不一定最短</p></div>
+    <div class="concept-card"><h3>最短路径</h3><p>你刚才用直觉找的路，计算机用队列也能找到</p></div>
+  </div>
+</section>
 <script src="../fo-utils.js"></script>
 <script src="code-lab.js"></script>
 <script>

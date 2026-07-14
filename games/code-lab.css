@@ -4,7 +4,7 @@
 
 html, body { height: 100%; }
 body.code-lab {
-  overflow: hidden;
+  overflow: auto; /* 工作台占满首屏，知识预习在下方滚动可达 */
   font-family: 'LXGW WenKai TC', var(--font-serif);
   background: var(--cream);
   color: var(--ink);
@@ -395,8 +395,8 @@ body.code-lab {
 }
 .budget-pill.over { background: var(--coral); color: var(--paper); }
 
-/* --- 知识预习（次要内容，放在工作台之后） --- */
-.concepts-wrap { margin-top: var(--space-3xl); max-width: 1160px; margin-left: auto; margin-right: auto; width: 100%; }
+/* --- 知识预习（次要内容，工作台之后，滚动可达） --- */
+.concepts-wrap { max-width: 1160px; margin: 0 auto; width: 100%; padding: var(--space-lg) var(--space-5xl) var(--space-section); }
 .section-label { font-size: var(--font-size-note); letter-spacing: .12em; color: var(--ink-mute); margin-bottom: var(--space-2xl); }
 .concepts { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-2xl); }
 .concept-card { background: var(--paper); border-radius: var(--radius); padding: var(--space-4xl) var(--space-5xl); box-shadow: var(--shadow-card); }
