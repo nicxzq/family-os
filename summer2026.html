@@ -300,6 +300,17 @@ function llmCfg(){
 }
 function saveLLM(c){localStorage.setItem(LLM_KEY,JSON.stringify(c));}
 function llmReady(){return !!llmCfg().key;}
+function readLLMForm(){
+  return {baseURL:document.getElementById('llm-url').value.trim()||'https://api.openai.com/v1',
+    key:document.getElementById('llm-key').value.trim(),
+    model:document.getElementById('llm-model').value.trim()||'gpt-4o-mini'};
+}
+function saveLLMForm(){saveLLM(readLLMForm());render();toast('AI 设置已保存 ✓');}
+async function testLLM(btn){
+  const old=btn.textContent;btn.disabled=true;btn.textContent='测试中…';saveLLM(readLLMForm());
+  try{const r=await llm('你是连接测试助手，只按要求回复。','请只回复两个字：正常');btn.disabled=false;btn.textContent=old;toast('连接成功：'+r.slice(0,20));}
+  catch(e){btn.disabled=false;btn.textContent=old;toast('连接失败：'+(e.message||''));}
+}
 async function llm(sys,user){
   const c=llmCfg();
   if(!c.key)throw new Error('未配置 API');
@@ -405,6 +416,25 @@ async function genDayEval(d,btn){
   catch(e){btn.disabled=false;btn.textContent='✨ 让 AI 点评';toast('AI 点评失败：'+(e.message||'请检查设置'));}
 }
 function refreshDayEval(d,btn){delete S.evals[d];genDayEval(d,btn);}
+
+function weekFacts(w){
+  let tot=0,dn=0,miss=[];
+  for(let i=0;i<7;i++){const d=addD(w,i);if(d<START||d>END)continue;
+    genTasks(d).filter(x=>x.req).forEach(x=>{tot++;if(isDone(d,x.id))dn++;else if(d<todayReal)miss.push(cn(d).split(' · ')[0]+' '+x.name);});
+  }
+  return {tot,dn,pct:tot?Math.round(dn/tot*100):100,miss};
+}
+async function aiEvalWeek(w){
+  const F=weekFacts(w);
+  const sys='你是一位温暖、真诚、不说教的家长教练，对象是一个 11 岁男孩(五升六)和他的爸妈一起看。用中文，3-4 句，中肯地总结这一周：先说整体完成情况和一个亮点，再温和指出一个可改进的规律(若有)，最后给下周一条具体可执行的小建议。不要空泛套话，不要堆感叹号。';
+  const usr='这一周必做完成 '+F.dn+'/'+F.tot+'（'+F.pct+'%）。未完成清单：'+(F.miss.slice(0,12).join('；')||'无')+'。';
+  const t=await llm(sys,usr);S.weekEvals[w]=t;save();return t;
+}
+async function genWeekEval(w,btn){
+  btn.disabled=true;btn.textContent='思考中…';
+  try{delete S.weekEvals[w];await aiEvalWeek(w);render();}
+  catch(e){btn.disabled=false;btn.textContent='✨ 让 AI 写周评';toast('AI 周评失败：'+(e.message||'请检查设置'));}
+}
 
 /* ================= 任务生成规则 =================
    固定骨架 + 差异覆盖(removed/added/renamed)。 */
@@ -662,6 +692,9 @@ function renderRev(){
       +'<div class="stat">必做完成 '+dn+' / '+tot+' 项('+pct+'%)</div>'
       +(miss.length?'<div class="missing">'+miss.slice(0,8).map(esc).join('<br>')+(miss.length>8?'<br>… 还有 '+(miss.length-8)+' 项':'')+'</div>':'')
       +'<div class="cheer">'+cheer+'</div>'
+      +(S.weekEvals[w]
+        ? '<div class="eval"><h3>🤖 AI 周评</h3><div class="txt">'+esc(S.weekEvals[w])+'</div><button class="ai-btn" onclick="genWeekEval(\''+w+'\',this)">↻ 换一条</button></div>'
+        : (llmReady()?'<button class="ai-btn" onclick="genWeekEval(\''+w+'\',this)">✨ 让 AI 写周评</button>':''))
       +'<textarea placeholder="爸爸妈妈想说…(写给这一周的你)" onchange="cmt(\''+w+'\',this.value)">'+esc(S.comments[w]||'')+'</textarea>'
       +'</div>';
   });
@@ -677,6 +710,20 @@ function renderSet(){
       +'<a href="/login.html?back=%2Fsummer2026">用哥哥的账号登录一下 →</a><br>'
       +'<span class="note">不登录也能正常用，只是记录只存在当前这台设备上。</span></div>';
   }
+  const L=llmCfg();
+  h+='<div class="card"><h2 class="sec">🤖 AI 点评设置</h2>'
+    +'<div class="note">配置任意兼容 OpenAI 格式的接口，用来生成每日/每周点评。密钥只存这台设备本地，不会上传云端。</div>'
+    +'<div class="set-col"><label>接口地址 Base URL<span class="hint">默认官方；也可填中转/自建，需支持浏览器跨域(CORS)</span></label><input type="text" id="llm-url" value="'+esc(L.baseURL)+'" placeholder="https://api.openai.com/v1"></div>'
+    +'<div class="set-col"><label>API Key<span class="hint">形如 sk-…，仅存本机</span></label><input type="password" id="llm-key" value="'+esc(L.key)+'" placeholder="sk-..."></div>'
+    +'<div class="set-col"><label>模型 Model</label><input type="text" id="llm-model" value="'+esc(L.model)+'" placeholder="gpt-4o-mini"></div>'
+    +'<div class="set-row" style="border:0;padding-top:var(--space-xl)">'
+    +'<button class="btn pri" onclick="saveLLMForm()">保存</button>'
+    +'<button class="btn ghost" onclick="testLLM(this)">测试连接</button></div></div>';
+
+  h+='<div class="card"><h2 class="sec">🎈 显示</h2>'
+    +'<div class="set-row"><label class="tgl"><input type="checkbox" '+(S.cfg.gentle?'checked':'')+' onchange="toggleGentle(this.checked)">轻松模式</label>'
+    +'<span class="hint" style="margin:0">日历里没做完的日子不标红，只轻轻提示「补」</span></div></div>';
+
   h+='<div class="card"><h2 class="sec">✈️ 旅行模式</h2>'
     +'<div class="note">设定日期后,这段时间每天只剩「读猫武士」一件事。</div>'
     +'<div class="set-row"><label>出发日</label><input type="date" id="ts" min="'+START+'" max="'+END+'" value="'+S.travel.start+'"></div>'
