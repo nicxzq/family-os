@@ -176,6 +176,53 @@ header.top{
 h2.sec{font-size:var(--font-size-body);margin:var(--space-xs) 0 var(--space-sm)}
 .login-cta{background:var(--sp-travel-soft);border-radius:var(--radius);padding:var(--space-2xl) var(--space-3xl);margin:var(--space-xl) 0;font-size:var(--font-size-note);line-height:1.7}
 .login-cta a{color:var(--sp-brand);font-weight:700;text-decoration:none}
+
+/* ---- 跑马灯 ---- */
+.marquee{
+  display:flex;align-items:center;gap:var(--space-md);
+  background:var(--sp-travel-soft);border-radius:var(--radius-full);
+  padding:var(--space-md) var(--space-3xl);margin:var(--space-lg) 0 var(--space-2xl);
+  overflow:hidden;position:relative;cursor:pointer;
+  font-size:var(--font-size-note);color:var(--ink-soft);
+}
+.marquee .mq-ico{flex:none}
+.marquee .mq-vp{flex:1;overflow:hidden;white-space:nowrap}
+.marquee .mq-in{display:inline-block;padding-left:100%;animation:mq 20s linear infinite}
+.marquee:active .mq-in{animation-play-state:paused}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+
+/* ---- 打勾特效 ---- */
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.4)}70%{transform:scale(.88)}100%{transform:scale(1)}}
+.task .box.pop{animation:pop .45s ease}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:60}
+
+/* ---- 点评卡片 ---- */
+.eval{background:var(--paper);border-radius:var(--radius);padding:var(--space-2xl) var(--space-3xl);margin:var(--space-2xl) 0 0;box-shadow:var(--shadow-card);border-left:var(--size-border-card) solid var(--sp-brand)}
+.eval h3{font-size:var(--font-size-body-sm);margin-bottom:var(--space-sm);display:flex;align-items:center;gap:var(--space-sm)}
+.eval .txt{font-size:var(--font-size-note);color:var(--ink-soft);line-height:1.8;white-space:pre-wrap}
+.eval .ai-btn{margin-top:var(--space-lg);border:0;background:var(--sp-brand-soft);color:var(--sp-brand);border-radius:var(--radius-full);padding:var(--space-sm) var(--space-3xl);font-size:var(--font-size-caption);font-weight:700;cursor:pointer;font-family:inherit}
+.eval .ai-btn:disabled{opacity:.5;cursor:default}
+
+/* ---- 日历标记 ---- */
+.cell .marks{display:flex;gap:var(--space-2xs);justify-content:center;flex-wrap:nowrap;line-height:1;min-height:var(--font-size-sm)}
+.cell .marks span{font-size:var(--font-size-xs)}
+.cell .marks span.pend{opacity:.35;filter:grayscale(1)}
+.cell .chk{position:absolute;top:var(--space-2xs);right:var(--space-2xs);font-size:var(--font-size-sm);color:var(--sp-done);font-weight:700}
+.cell.bad.gentle{background:var(--paper);border-color:var(--sp-line);color:var(--ink)}
+.cell.bad.gentle .miss{position:absolute;bottom:var(--space-2xs);right:var(--space-2xs);font-size:var(--font-size-xs);color:var(--sp-travel)}
+
+/* ---- 开关(原生 checkbox) ---- */
+.tgl{display:inline-flex;align-items:center;gap:var(--space-md);font-size:var(--font-size-ui);cursor:pointer}
+.tgl input{width:var(--space-5xl);height:var(--space-5xl);accent-color:var(--sp-done);cursor:pointer}
+
+/* ---- LLM 设置输入 ---- */
+.set-col{display:flex;flex-direction:column;gap:var(--space-sm);padding:var(--space-lg) 0;border-bottom:var(--size-hairline) solid var(--sp-line)}
+.set-col label{font-size:var(--font-size-body-sm);font-weight:500}
+.set-col .hint{font-size:var(--font-size-caption);color:var(--ink-mute);font-weight:400}
+.set-col input{
+  border:var(--size-hairline) solid var(--sp-line);border-radius:var(--radius-md);padding:var(--space-md) var(--space-lg);
+  font-size:var(--font-size-ui);font-family:inherit;color:var(--ink);background:var(--paper);width:100%;
+}
 </style>
 </head>
 <body>
@@ -189,6 +236,7 @@ h2.sec{font-size:var(--font-size-body);margin:var(--space-xs) 0 var(--space-sm)}
 <div class="wrap" id="app"></div>
 <nav class="tabs" id="tabs"></nav>
 <div class="toast" id="toast"></div>
+<canvas id="fx"></canvas>
 
 <script>
 /* ================= 基础 ================= */
@@ -204,7 +252,7 @@ const todayReal=f(new Date());
 
 /* ---- 状态:只存差异,任务由规则生成 ---- */
 let S;
-function defaults(){return {cfg:{kuaile:2,yuedu:2},travel:{start:'',end:''},done:{},removed:{},added:{},renamed:{},comments:{},view:'day',sel:clamp(todayReal)};}
+function defaults(){return {cfg:{kuaile:2,yuedu:2,gentle:true},travel:{start:'',end:''},done:{},removed:{},added:{},renamed:{},comments:{},evals:{},weekEvals:{},view:'day',sel:clamp(todayReal)};}
 function load(){
   try{const raw=localStorage.getItem(KEY);if(!raw)return null;
     const s=JSON.parse(raw);return Object.assign(defaults(),s);}catch(e){return null;}
@@ -244,6 +292,120 @@ async function cloudInit(){
 
 function isTravel(d){return S.travel.start&&S.travel.end&&d>=S.travel.start&&d<=S.travel.end;}
 
+/* ================= LLM(OpenAI 兼容,存本地不上云) ================= */
+const LLM_KEY='summer2026-llm';
+function llmCfg(){
+  try{return Object.assign({baseURL:'https://api.openai.com/v1',key:'',model:'gpt-4o-mini'},JSON.parse(localStorage.getItem(LLM_KEY)||'{}'));}
+  catch(e){return {baseURL:'https://api.openai.com/v1',key:'',model:'gpt-4o-mini'};}
+}
+function saveLLM(c){localStorage.setItem(LLM_KEY,JSON.stringify(c));}
+function llmReady(){return !!llmCfg().key;}
+async function llm(sys,user){
+  const c=llmCfg();
+  if(!c.key)throw new Error('未配置 API');
+  const res=await fetch(c.baseURL.replace(/\/+$/,'')+'/chat/completions',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+c.key},
+    body:JSON.stringify({model:c.model,temperature:0.7,max_tokens:260,
+      messages:[{role:'system',content:sys},{role:'user',content:user}]})
+  });
+  if(!res.ok)throw new Error('HTTP '+res.status+'（可能是 Key 错误或接口不支持浏览器跨域）');
+  const j=await res.json();
+  const t=j&&j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content;
+  if(!t)throw new Error('返回为空');
+  return t.trim();
+}
+
+/* ================= 撒花特效 ================= */
+const fx=document.getElementById('fx');const fxc=fx.getContext('2d');
+let fxP=[],fxRAF=0;
+function fxResize(){fx.width=innerWidth;fx.height=innerHeight;}
+addEventListener('resize',fxResize);fxResize();
+function cssv(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+const CONF=['--coral','--yellow','--green','--blue','--coral-soft'].map(cssv);
+function burst(x,y,n){
+  for(let i=0;i<n;i++){
+    const a=Math.random()*Math.PI*2,sp=3+Math.random()*7;
+    fxP.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-4,g:.18+Math.random()*.12,
+      s:4+Math.random()*5,c:CONF[i%CONF.length],life:60+Math.random()*30,rot:Math.random()*6.28,vr:(Math.random()-.5)*.4});
+  }
+  if(!fxRAF)fxTick();
+}
+function fxTick(){
+  fxc.clearRect(0,0,fx.width,fx.height);
+  fxP=fxP.filter(p=>p.life>0);
+  fxP.forEach(p=>{
+    p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;p.life--;
+    fxc.save();fxc.translate(p.x,p.y);fxc.rotate(p.rot);fxc.globalAlpha=Math.min(1,p.life/25);
+    fxc.fillStyle=p.c;fxc.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);fxc.restore();
+  });
+  if(fxP.length)fxRAF=requestAnimationFrame(fxTick);else{fxRAF=0;fxc.clearRect(0,0,fx.width,fx.height);}
+}
+function celebrate(big){
+  const w=innerWidth;
+  if(big){burst(w*0.5,innerHeight*0.28,90);setTimeout(()=>burst(w*0.25,innerHeight*0.3,60),140);setTimeout(()=>burst(w*0.75,innerHeight*0.3,60),260);}
+}
+
+/* ================= 每日跑马灯 ================= */
+const MOTTOS=[
+  '方向比目标更重要——只要方向对，慢一点也没关系。',
+  '今天的一点点，乘上一整个暑假，就是很大的不一样。',
+  '你专注的十分钟，比被打扰的一小时更值钱。',
+  '不慌，时间是你的朋友。',
+  '读书是自己的事，也是这世上最划算的事。',
+  '犯错没关系，我们先一起解决问题，再想别的。',
+  '非必要不竞争，把劲儿留给真正重要的那几次。',
+  '把一件事做完，比同时开始十件事更酷。',
+  '慢慢来，反而比较快。',
+  '你不是在完成任务，你是在长出自己的本事。',
+  '每天进步一点点，一年后你会认不出自己。',
+  '真正的高手，都赢在“又坚持了一天”。',
+  '笑一个😄 为什么数学书总是很忧伤？因为它有太多“问题”。',
+  '冷笑话时间🧊 什么鱼不能吃？木鱼。',
+  '哈哈✏️ 铅笔为什么不开心？因为它老是被“削”。',
+  '猜猜看⚽ 为什么足球明星成绩好？因为他很会“踢(题)”。',
+  '脑筋急转弯💧 什么东西越洗越脏？——水。',
+  '数字梗🔢 0 对 8 说：你这腰带真好看！',
+  '冷知识😆 为什么海不干？因为鱼在里面“游(油)”。',
+  '轻松一下🐟 螃蟹为什么走路横着走？因为它任性（横行霸道）。'
+];
+function mqIndex(d){const i=Math.round((p(d)-p(START))/864e5);return ((i%MOTTOS.length)+MOTTOS.length)%MOTTOS.length;}
+let mqOverride=null;
+function mqText(d){return mqOverride!=null?MOTTOS[mqOverride]:MOTTOS[mqIndex(d)];}
+function mqShuffle(){mqOverride=Math.floor(Math.random()*MOTTOS.length);render();}
+
+/* ================= 点评(规则兜底 + AI) ================= */
+function dayFacts(d){
+  const ts=genTasks(d);
+  const req=ts.filter(x=>x.req),opt=ts.filter(x=>!x.req);
+  const doneReq=req.filter(x=>isDone(d,x.id)),missReq=req.filter(x=>!isDone(d,x.id));
+  const doneOpt=opt.filter(x=>isDone(d,x.id));
+  return {req,opt,doneReq,missReq,doneOpt,pct:req.length?Math.round(doneReq.length/req.length*100):100};
+}
+function evalRule(d){
+  const F=dayFacts(d);
+  if(F.req.length===0)return '今天是轻松日，读读书、玩一玩就很好。';
+  const miss=F.missReq.map(x=>x.name.replace(/\(.*?\)/g,'')).slice(0,2).join('、');
+  if(F.pct===100)return '满分！必做的每一件都完成了。'+(F.doneOpt.length?'还额外做了自己喜欢的事，这种主动特别棒。':'把这种稳稳的感觉记住。');
+  if(F.pct>=80)return '完成得很不错（'+F.pct+'%）。就差“'+miss+'”了，睡前顺手补上，今天就圆满了。';
+  if(F.pct>=50)return '做到了一多半（'+F.pct+'%），已经不容易。挑“'+miss+'”里最快的一件先补，别贪多。';
+  return '今天节奏有点慢（'+F.pct+'%），没关系。只挑一件最重要的“'+(F.missReq[0]?F.missReq[0].name.replace(/\(.*?\)/g,''):'')+'”完成，就算赢。';
+}
+async function aiEvalDay(d){
+  const F=dayFacts(d);
+  const sys='你是一位温暖、真诚、不说教的家长教练，对象是一个 11 岁男孩(五升六)。用中文，2-3 句，语气平等、具体、中肯：先肯定他做到的，再温和提一句没做到的(若有)，最后给一句明天可执行的小建议。不要堆叠感叹号，不要空泛套话。';
+  const usr='日期 '+cn(d)+'。必做完成 '+F.doneReq.length+'/'+F.req.length+'（'+F.pct+'%）。\n已完成：'+(F.doneReq.map(x=>x.name).join('、')||'无')+'。\n未完成：'+(F.missReq.map(x=>x.name).join('、')||'无')+'。\n额外完成的自选项：'+(F.doneOpt.map(x=>x.name).join('、')||'无')+'。';
+  const t=await llm(sys,usr);
+  S.evals[d]=t;save();
+  return t;
+}
+async function genDayEval(d,btn){
+  btn.disabled=true;btn.textContent='思考中…';
+  try{await aiEvalDay(d);render();}
+  catch(e){btn.disabled=false;btn.textContent='✨ 让 AI 点评';toast('AI 点评失败：'+(e.message||'请检查设置'));}
+}
+function refreshDayEval(d,btn){delete S.evals[d];genDayEval(d,btn);}
+
 /* ================= 任务生成规则 =================
    固定骨架 + 差异覆盖(removed/added/renamed)。 */
 const SLOTS=[
@@ -259,27 +421,27 @@ function genTasks(date){
   let t=[];
   const w=p(date).getDay();
   if(isTravel(date)){
-    t.push({id:'maowu',name:'读《猫武士》(旅行也别忘啦)',slot:'flex',req:true,time:'任意时段'});
+    t.push({id:'maowu',name:'读《猫武士》(旅行也别忘啦)',slot:'flex',req:true,time:'任意时段',pri:true,icon:'📖'});
   }else{
     const ski=(date==='2026-07-15');
     t.push({id:'sport',name:'早起运动 30 分钟',slot:'morning',req:true,time:'8:00'});
-    if(ski) t.push({id:'ski',name:'上午滑雪 ⛷️',slot:'morning',req:false,time:'上午'});
+    if(ski) t.push({id:'ski',name:'上午滑雪 ⛷️',slot:'morning',req:false,time:'上午',pri:true,icon:'⛷️'});
     if(!ski){
       t.push({id:'kuaile',name:'《快乐暑假》'+S.cfg.kuaile+' 页',slot:'study',req:true,time:'9:00-11:30'});
       t.push({id:'yuedu',name:'英语阅读训练 '+S.cfg.yuedu+' 篇',slot:'study',req:true,time:'9:00-11:30'});
     }
-    if(w===2||w===5) t.push({id:'fanwen',name:'高分范文 · 学 1 个话题',slot:'study',req:true});
+    if(w===2||w===5) t.push({id:'fanwen',name:'高分范文 · 学 1 个话题',slot:'study',req:true,pri:true,icon:'✍️'});
     t.push({id:'miaohong',name:'英语范文描红 1 篇',slot:'study',req:true});
-    if(date==='2026-08-16') t.push({id:'mindmap',name:'《猫武士》思维导图制作 🗺️',slot:'study',req:true});
-    if(date==='2026-08-23') t.push({id:'video',name:'《猫武士》讲书视频拍摄 🎬',slot:'study',req:true});
+    if(date==='2026-08-16') t.push({id:'mindmap',name:'《猫武士》思维导图制作 🗺️',slot:'study',req:true,pri:true,icon:'🗺️'});
+    if(date==='2026-08-23') t.push({id:'video',name:'《猫武士》讲书视频拍摄 🎬',slot:'study',req:true,pri:true,icon:'🎬'});
     t.push({id:'coding',name:'编程做游戏 30-60 分钟(自选)',slot:'flex',req:false,time:'14:00-15:30'});
     t.push({id:'cube',name:'魔方 · 平板对战(自选)',slot:'flex',req:false});
     t.push({id:'maowu',name:'读《猫武士》30 分钟',slot:'flex',req:true});
     if(date>='2026-07-15'&&date<='2026-07-19')
-      t.push({id:'cls',name:'英语课(线下)',slot:'cls',req:true,time:'15:30 出发 · 16:00-17:50'});
+      t.push({id:'cls',name:'英语课(线下)',slot:'cls',req:true,time:'15:30 出发 · 16:00-17:50',pri:true,icon:'🏫'});
     if(TL[w]) t.push({id:'tingli',name:'听力天天练 · '+TL[w],slot:'evening',req:true,time:'晚饭前后 10 分钟'});
     t.push({id:'lianzi',name:'练字 15-20 分钟',slot:'evening',req:true,time:'19:30'});
-    if(w===6) t.push({id:'switch',name:'Switch 时间 2 个半小时 🎮',slot:'evening',req:false,time:'周六专属'});
+    if(w===6) t.push({id:'switch',name:'Switch 时间 2 个半小时 🎮',slot:'evening',req:false,time:'周六专属',pri:true,icon:'🎮'});
     t.push({id:'sleep',name:'22:30 前上床睡觉',slot:'evening',req:true,time:'21:45 洗漱'});
   }
   const rm=S.removed[date]||[];
@@ -335,6 +497,7 @@ function renderDay(){
     +'<button onclick="mv(-1)" '+(d<=START?'disabled':'')+'>‹ 前一天</button>'
     +'<button class="today-btn" onclick="mvToday()">回到今天</button>'
     +'<button onclick="mv(1)" '+(d>=END?'disabled':'')+'>后一天 ›</button></div>';
+  h+='<div class="marquee" onclick="mqShuffle()"><span class="mq-ico">💡</span><div class="mq-vp"><span class="mq-in">'+esc(mqText(d))+'</span></div></div>';
   const tasks=genTasks(d);
   SLOTS.forEach(([k,label])=>{
     const ts=tasks.filter(x=>x.slot===k);
@@ -343,7 +506,7 @@ function renderDay(){
     ts.forEach(x=>{
       const dn=isDone(d,x.id);
       const late=!dn&&x.req&&d<todayReal;
-      h+='<div class="task '+(dn?'done':'')+' '+(late?'late':'')+' '+(x.req?'':'opt')+'" onclick="tg(\''+x.id+'\')">'
+      h+='<div class="task '+(dn?'done':'')+' '+(late?'late':'')+' '+(x.req?'':'opt')+'" data-id="'+x.id+'" onclick="tg(\''+x.id+'\')">'
         +'<div class="box">'+(dn?'✓':'')+'</div>'
         +'<div class="tx"><div class="nm">'+esc(x.name)+(late?'<span class="late-tag">没完成</span>':'')+'</div>'
         +(x.time?'<div class="tm">'+esc(x.time)+'</div>':'')
@@ -355,18 +518,38 @@ function renderDay(){
     });
   });
   h+='<button class="addbtn" onclick="addTask()">＋ 给这一天加一项任务</button>';
+  if(d<=todayReal){
+    const cached=S.evals[d];
+    h+='<div class="eval"><h3>📝 今日点评</h3>'
+      +'<div class="txt">'+esc(cached||evalRule(d))+'</div>'
+      +(cached
+        ? '<button class="ai-btn" onclick="refreshDayEval(\''+d+'\',this)">↻ 换一条 AI 点评</button>'
+        : (llmReady()
+            ? '<button class="ai-btn" onclick="genDayEval(\''+d+'\',this)">✨ 让 AI 点评</button>'
+            : '<button class="ai-btn" onclick="go(\'set\')">⚙️ 配置 AI 后可生成更走心的点评</button>'))
+      +'</div>';
+  }
   app.innerHTML=h;
 }
 function mv(n){S.sel=clamp(addD(S.sel,n));render();}
 function mvToday(){S.sel=clamp(todayReal);render();}
+let _streak=0,_streakDay=null;
 function tg(id){
   const d=S.sel;
   S.done[d]=S.done[d]||{};
-  S.done[d][id]=!S.done[d][id];
-  if(!S.done[d][id])delete S.done[d][id];
+  const now=!S.done[d][id];
+  S.done[d][id]=now;
+  if(!now)delete S.done[d][id];
   const st=reqStat(d);
   render();save();
-  if(st.total&&st.done===st.total)toast('🎉 今天必做全部完成,太棒了!');
+  if(now){
+    const box=document.querySelector('.task[data-id="'+id+'"] .box');
+    if(box){box.classList.add('pop');const r=box.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,16);}
+    if(_streakDay!==d){_streak=0;_streakDay=d;}
+    _streak++;
+    if(st.total&&st.done===st.total){celebrate(true);toast('🎉 今天必做全部完成，太棒了！');}
+    else if(_streak%3===0){celebrate(true);toast('🔥 连续完成 '+_streak+' 项，手感正热！');}
+  }else{_streak=0;}
 }
 function rn(id){
   const d=S.sel;
@@ -402,7 +585,10 @@ function addTask(){
 
 /* ---- 日历 ---- */
 function renderCal(){
-  let h='<div class="card"><h2 class="sec">整个暑假一眼看完</h2><div class="note">点任意一天可以进去看详情、补打卡。</div></div>';
+  let h='<div class="card"><h2 class="sec">整个暑假一眼看完</h2>'
+    +'<div class="note">点任意一天可以进去看详情、补打卡。格子里的小图标是当天的重点/特别事项。</div>'
+    +'<div class="set-row" style="border:0;padding-bottom:0"><label class="tgl"><input type="checkbox" '+(S.cfg.gentle?'checked':'')+' onchange="toggleGentle(this.checked)">轻松模式</label>'
+    +'<span class="hint" style="margin:0">开启后，没做完的日子不标红，只轻轻提示「补」</span></div></div>';
   [[2026,7],[2026,8]].forEach(([y,m])=>{
     h+='<div class="cal-month">'+m+' 月</div><div class="cal">';
     WK.forEach(w=>h+='<div class="hd">'+w+'</div>');
@@ -412,27 +598,33 @@ function renderCal(){
     for(let dd=1;dd<=days;dd++){
       const ds=f(new Date(y,m-1,dd));
       if(ds<START||ds>END){h+='<div class="cell blank"></div>';continue;}
-      let cls='',icon='';
-      if(isTravel(ds)){cls='trav';icon='✈️';}
-      else if(ds>todayReal){cls='future';}
-      else{
-        const st=reqStat(ds);
-        if(ds<todayReal)cls=(st.done>=st.total)?'ok':'bad';
-        else cls=(st.done>=st.total&&st.total>0)?'ok':'';
-      }
+      const trav=isTravel(ds),past=ds<todayReal,future=ds>todayReal;
+      const st=reqStat(ds),allDone=(st.total>0&&st.done>=st.total);
+      let cls='';
+      if(trav)cls='trav';
+      else if(future)cls='future';
+      else cls=allDone?'ok':(past?'bad':'');
+      if(cls==='bad'&&S.cfg.gentle)cls+=' gentle';
       if(ds===todayReal)cls+=' today';
-      h+='<div class="cell '+cls+'" onclick="openDay(\''+ds+'\')"><span>'+dd+'</span>'+(icon?'<span class="mini">'+icon+'</span>':'')+'</div>';
+      const pris=trav?[]:genTasks(ds).filter(x=>x.pri).slice(0,3);
+      const marks=trav?'<span>✈️</span>'
+        :pris.map(x=>'<span class="'+(isDone(ds,x.id)?'':'pend')+'">'+x.icon+'</span>').join('');
+      const chk=(allDone&&!trav)?'<span class="chk">✓</span>':'';
+      const miss=(cls.indexOf('gentle')>=0)?'<span class="miss">补</span>':'';
+      h+='<div class="cell '+cls+'" onclick="openDay(\''+ds+'\')">'+chk+'<span>'+dd+'</span><span class="marks">'+marks+'</span>'+miss+'</div>';
     }
     h+='</div>';
   });
   h+='<div class="legend">'
-    +'<span><i style="background:var(--sp-done)"></i>全部完成</span>'
-    +'<span><i style="background:var(--sp-late)"></i>有没完成的</span>'
+    +'<span><i style="background:var(--sp-done)"></i>✓ 全部完成</span>'
+    +(S.cfg.gentle?'<span><i style="background:var(--sp-travel)"></i>补 · 还没做完</span>':'<span><i style="background:var(--sp-late)"></i>有没完成的</span>')
     +'<span><i style="background:var(--sp-travel)"></i>旅行</span>'
     +'<span><i style="background:var(--ink-mute)"></i>还没到</span>'
-    +'<span><i style="background:var(--sp-brand)"></i>今天(蓝框)</span></div>';
+    +'<span><i style="background:var(--sp-brand)"></i>今天(蓝框)</span>'
+    +'<span>🏫✍️🎮 = 当天重点事项</span></div>';
   app.innerHTML=h;
 }
+function toggleGentle(v){S.cfg.gentle=v;save();render();}
 function openDay(d){S.sel=d;go('day');}
 
 /* ---- 回顾 ---- */

@@ -9,101 +9,35 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="code-lab.css">
 <style>
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{overflow:hidden;font-family:'LXGW WenKai TC',var(--font-serif);background:var(--cream);color:var(--ink)}
-  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft);flex-shrink:0}
-  .nav-member-btn svg{border-radius:50%}
-  .game-wrap{height:100dvh;display:flex;flex-direction:column;max-width:1160px;margin:0 auto;padding:12px 20px;gap:10px}
-  .game-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;flex-shrink:0}
-  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px;flex-shrink:0}
-  .game-title{flex:1;min-width:0;text-align:center;padding:0 8px}
-  .title-name{display:block;font-size:16px;font-weight:700;line-height:1.3}
-  .title-desc{display:block;font-size:12px;color:var(--ink-mute);line-height:1.3}
-  .nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
-  .level-pill{display:inline-flex;align-items:center;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:999px;padding:6px 12px;color:var(--ink-soft);font-size:13px;font-weight:700;white-space:nowrap}
-  .layout{flex:1;min-height:0;display:grid;grid-template-columns:360px minmax(0,1fr);gap:16px;padding-bottom:16px}
-  .panel{background:var(--paper);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:16px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
-  .panel-title{font-size:16px;letter-spacing:.1em;color:var(--ink-mute);margin:0 0 12px;font-weight:700}
-  .blocks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:12px;flex-shrink:0}
-  .block{padding:8px 4px;font-size:12px;text-align:center;border-radius:12px;font-weight:700;cursor:grab;user-select:none;border:0;box-shadow:var(--shadow-soft);touch-action:none}
-  .block:active{cursor:grabbing}
-  .block[data-type="move"]{background:var(--green);color:var(--paper)}
-  .block[data-type="right"]{background:var(--blue);color:var(--paper)}
-  .block[data-type="left"]{background:var(--coral);color:var(--paper)}
-  .block[data-type="repeat"]{background:var(--yellow);color:var(--ink);grid-column:span 3}
-  .program{flex:1 1 0;min-height:0;overflow-y:auto;display:grid;gap:6px;list-style:none;margin:0 0 12px;padding:2px 2px 4px;align-content:start}
-  .slot{min-height:44px;display:grid;grid-template-columns:28px minmax(0,1fr);align-items:center;gap:8px;border:2px dashed var(--cream-deep);border-radius:14px;padding:4px 8px;background:var(--cream);transition:border-color .15s,background .15s}
-  .slot.is-over{border-color:var(--green);background:var(--green-soft)}
-  .slot.active{border-color:var(--coral);background:var(--coral-soft)}
-  .slot-num{width:24px;height:24px;border-radius:999px;background:var(--cream-deep);color:var(--ink-mute);display:grid;place-items:center;font-size:12px;font-weight:700;flex-shrink:0}
-  .empty{color:var(--ink-mute);font-size:12px}
-  .slot-block{position:relative;border:0;border-radius:10px;padding:7px 28px 7px 10px;font-family:inherit;font-size:13px;font-weight:700;box-shadow:var(--shadow-soft);cursor:grab;text-align:left;width:100%;touch-action:none;user-select:none;display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
-  .slot-block:active{cursor:grabbing}
-  .slot-block[data-type="move"]{background:var(--green);color:var(--paper)}
-  .slot-block[data-type="right"]{background:var(--blue);color:var(--paper)}
-  .slot-block[data-type="left"]{background:var(--coral);color:var(--paper)}
-  .slot-block[data-type="repeat"]{background:var(--yellow);color:var(--ink)}
-  .remove-btn{position:absolute;top:3px;right:4px;width:17px;height:17px;border-radius:999px;background:color-mix(in srgb,var(--paper) 30%,transparent);border:0;cursor:pointer;font-size:11px;font-weight:700;color:inherit;display:grid;place-items:center;padding:0}
-  .remove-btn:hover{background:color-mix(in srgb,var(--paper) 60%,transparent)}
-  .slot-repeat{display:flex;flex-direction:column;align-items:stretch;min-height:auto;height:auto;gap:0;padding-bottom:6px}
-  .repeat-header{display:grid;grid-template-columns:28px minmax(0,1fr);align-items:center;gap:8px}
-  .repeat-body{list-style:none;padding:0;margin:4px 0 0 24px;display:grid;gap:3px}
-  .inner-slot{min-height:36px;padding:3px 6px;border-radius:10px;font-size:12px}
-  .inner-marker{color:var(--ink-mute);font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .canvas-shell{position:relative;width:min(100%,calc(100dvh - 280px));aspect-ratio:1;background:var(--cream-deep);border-radius:var(--radius);padding:var(--space-lg);box-shadow:var(--shadow-soft)}
+  #turtle-canvas{display:block;width:100%;height:100%;border-radius:var(--radius-md);background:var(--cream)}
+  .blocks-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-xl)}
+  .blocks-head .panel-title{margin:0}
+  .slot-repeat{display:flex;flex-direction:column;align-items:stretch;min-height:auto;height:auto;gap:0;padding-bottom:var(--space-sm)}
+  .repeat-header{display:grid;grid-template-columns:var(--space-8xl) minmax(0,1fr);align-items:center;gap:var(--space-md)}
+  .repeat-body{list-style:none;padding:0;margin:var(--space-xs) 0 0 var(--space-7xl);display:grid;gap:var(--space-chart-gap)}
+  .inner-slot{min-height:36px;padding:var(--space-chart-gap) var(--space-sm);border-radius:var(--radius-md);font-size:var(--font-size-caption)}
+  .inner-marker{color:var(--ink-mute);font-size:var(--font-size-note);display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .inner-drop{border-style:dashed;background:color-mix(in srgb,var(--cream) 50%,transparent)}
-  .inner-drop .empty{font-size:11px}
-  .nested-repeat{background:color-mix(in srgb,var(--yellow) 6%,var(--cream));border-color:color-mix(in srgb,var(--yellow) 40%,transparent);flex-direction:column;align-items:stretch;height:auto;padding-bottom:4px}
-  .nested-repeat .repeat-header{grid-template-columns:20px minmax(0,1fr)}
-  .nested-repeat .inner-marker{width:20px}
-  .nested-body{margin-left:16px}
-  .val-input{width:52px;background:color-mix(in srgb,var(--paper) 30%,transparent);border:1px solid color-mix(in srgb,var(--paper) 60%,transparent);border-radius:6px;color:inherit;font-family:inherit;font-weight:700;font-size:13px;padding:2px 4px;text-align:center;touch-action:auto;user-select:auto;-webkit-user-select:auto;-moz-appearance:textfield}
-  .val-input::-webkit-outer-spin-button,.val-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-  .actions{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap}
-  .action{border:0;border-radius:999px;padding:10px 14px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;box-shadow:var(--shadow-soft)}
-  .clear{background:var(--cream-deep);color:var(--ink-soft)}
-  .demo{background:var(--yellow-soft);color:var(--ink)}
-  .run{background:var(--ink);color:var(--paper);flex:1}
-  .hint-box{background:var(--cream-deep);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:var(--ink-soft);line-height:1.6;margin-bottom:10px;flex-shrink:0}
-  .stage-panel{display:flex;flex-direction:column;min-height:0;position:relative}
-  .stage-head{position:absolute;top:0;left:0;right:0;padding:10px 16px 14px;z-index:6;pointer-events:none;
-    background:linear-gradient(to bottom,color-mix(in srgb,var(--paper) 92%,transparent) 55%,transparent)}
-  .stage-head h2{font-size:15px;margin:0;color:var(--ink)}
-  .stage-head p{margin:2px 0 0;color:var(--ink-soft);font-size:12px}
-  .canvas-shell-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
-  .canvas-shell{position:relative;width:min(100%,calc(100dvh - 140px));aspect-ratio:1;background:var(--cream-deep);border-radius:var(--radius);padding:10px;box-shadow:var(--shadow-soft)}
-  #turtle-canvas{display:block;width:100%;height:100%;border-radius:calc(var(--radius) - 6px);background:var(--cream)}
-  .result{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);width:calc(100% - 28px);max-width:440px;border-radius:var(--radius);padding:12px 16px;display:none;align-items:center;justify-content:space-between;gap:10px;font-size:14px;font-weight:700;z-index:20;box-shadow:var(--shadow-card)}
-  .result.show{display:flex}
-  .result.success{background:var(--green);color:var(--paper)}
-  .result.retry{background:var(--yellow);color:var(--ink)}
-  .result button{border:0;border-radius:999px;background:var(--paper);color:var(--ink);padding:7px 14px;font-family:inherit;font-weight:700;cursor:pointer;flex-shrink:0;font-size:13px}
-  .touch-clone{position:fixed;left:0;top:0;z-index:1000;pointer-events:none;opacity:.9;width:max-content;max-width:170px}
-  .concepts-wrap{margin-top:16px}
-  .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-  .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
-  .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
-  .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
-  .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
+  .inner-drop .empty{font-size:var(--font-size-sm)}
+  .nested-repeat{background:color-mix(in srgb,var(--yellow) 6%,var(--cream));border-color:color-mix(in srgb,var(--yellow) 40%,transparent);flex-direction:column;align-items:stretch;height:auto;padding-bottom:var(--space-xs)}
+  .nested-repeat .repeat-header{grid-template-columns:var(--space-5xl) minmax(0,1fr)}
+  .nested-repeat .inner-marker{width:var(--space-5xl)}
+  .nested-body{margin-left:var(--space-3xl)}
   @media (max-width:767px){
-    body{overflow:auto}
-    .game-wrap{height:auto;padding:10px}
-    .layout{grid-template-columns:1fr;gap:10px;padding-bottom:10px}
-    .stage-panel{order:-1;min-height:0}
-    .canvas-shell-wrap{flex:none;height:min(calc(100vw - 20px),300px)}
-    .canvas-shell{width:100%;height:100%;aspect-ratio:unset}
-    .result{bottom:8px;width:calc(100% - 20px)}
+    .canvas-shell{width:min(100%,42dvh)}
   }
 </style>
 <script src="/fo-gate.js"></script></head>
-<body>
+<body class="code-lab">
 <main class="game-wrap">
   <nav class="game-nav">
     <a class="back-link" href="index.html#code">&#8592; 游戏库</a>
     <div class="game-title">
       <span class="title-name">图案绘制</span>
-      <span class="title-desc">用循环积木指挥小海龟画图案</span>
+      <span class="title-desc">用有限的积木，让小海龟画出目标图案</span>
     </div>
     <div class="nav-right">
       <div class="level-pill" id="level-pill">关卡 1 / 3</div>
@@ -111,52 +45,72 @@
     </div>
   </nav>
   <div class="layout">
-    <section class="panel">
-      <h2 class="panel-title">指令积木</h2>
+    <section class="panel stage-panel">
+      <div class="stage-head">
+        <h2 id="level-title">关卡 1</h2>
+        <p id="level-hint"></p>
+      </div>
+      <div class="hud">
+        <span class="hud-hearts" id="hud-hearts"></span>
+        <span class="hud-budget" id="hud-msg"></span>
+        <span class="hud-stars" id="hud-stars"></span>
+      </div>
+      <div class="stage-body">
+        <div class="canvas-shell" id="canvas-shell"><canvas id="turtle-canvas"></canvas></div>
+      </div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot ghost"></span>目标图案</span>
+        <span class="legend-item"><span class="legend-dot mine"></span>你画的线</span>
+      </div>
+      <div class="result" id="result"><span id="result-text"></span><button id="result-btn">继续</button></div>
+    </section>
+    <section class="panel side-panel">
+      <div class="blocks-head">
+        <h2 class="panel-title">指令积木</h2>
+        <span class="budget-pill" id="budget-pill">积木 0 / 0</span>
+      </div>
       <div class="blocks" id="blocks">
         <div class="block" draggable="true" data-type="move">前进</div>
         <div class="block" draggable="true" data-type="right">右转</div>
         <div class="block" draggable="true" data-type="left">左转</div>
-        <div class="block" draggable="true" data-type="repeat">重复</div>
+        <div class="block span-3" draggable="true" data-type="repeat">重复</div>
       </div>
-      <p class="hint-box" id="level-hint"></p>
       <h2 class="panel-title">程序</h2>
       <ol class="program" id="program"></ol>
       <div class="actions">
         <button class="action clear" id="clear-btn">清空</button>
-        <button class="action demo" id="demo-btn">看范例</button>
+        <button class="action hint" id="hint-btn">提示</button>
         <button class="action run" id="run-btn">&#9654; 运行</button>
       </div>
-    </section>
-    <section class="panel stage-panel">
-      <div class="stage-head">
-        <h2 id="level-title">关卡 1</h2>
-      </div>
-      <div class="canvas-shell-wrap">
-        <div class="canvas-shell" id="canvas-shell">
-          <canvas id="turtle-canvas"></canvas>
-        </div>
-      </div>
-      <div class="result" id="result"><span id="result-text"></span><button id="result-btn">继续</button></div>
+      <button class="next-btn" id="next-btn">下一关</button>
     </section>
   </div>
-  <section class="concepts-wrap wrap-narrow" style="max-width:1160px;margin:0 auto;width:100%">
+  <section class="concepts-wrap">
     <p class="section-label">知识预习</p>
     <div class="concepts">
-      <div class="concept-card"><h3>循环</h3><p>重复执行，减少代码量</p></div>
+      <div class="concept-card"><h3>循环</h3><p>积木预算不够时，"重复"就是你唯一的出路——这正是程序员用循环的原因</p></div>
       <div class="concept-card"><h3>参数</h3><p>改一个数字，图案就完全不同</p></div>
       <div class="concept-card"><h3>嵌套循环</h3><p>循环里面还有循环，画出更复杂的图案</p></div>
     </div>
   </section>
 </main>
 <script src="../fo-utils.js"></script>
+<script src="code-lab.js"></script>
 <script>
+var GAME_ID='g43-pattern-draw';
+var RUNS=5;
 var levels=[
-  {title:'关卡 1 — 正方形',hint:'试试：重复 4 次 { 前进 90，右转 90 }，画一个正方形。',
+  {title:'关卡 1 — 正方形',budget:3,
+   hint:'只给你 3 块积木，一块一块拼"前进"肯定不够——试试"重复"。',
+   hints:['正方形有 4 条一样长的边，每个角都是 90°。','重复 4 次 { 前进 90 → 右转 90 }。'],
    recipe:[{type:'repeat',count:4,body:[{type:'move',value:90},{type:'right',value:90}]}]},
-  {title:'关卡 2 — 八角星',hint:'试试：重复 8 次 { 前进 110，右转 135 }。只改一个角度，图案完全不同！',
+  {title:'关卡 2 — 八角星',budget:3,
+   hint:'还是 3 块积木。这次转的角度要比直角更大。',
+   hints:['星星有 8 个尖角，每次转 135°。','重复 8 次 { 前进 110 → 右转 135 }。'],
    recipe:[{type:'repeat',count:8,body:[{type:'move',value:110},{type:'right',value:135}]}]},
-  {title:'关卡 3 — 嵌套花朵',hint:'外层重复 3 次，里面嵌套重复 6 次 { 前进 70，右转 60 } 画六边形，外层再右转 120。',
+  {title:'关卡 3 — 嵌套花朵',budget:6,
+   hint:'6 块积木画 3 个六边形？循环里面还得再套一个循环。',
+   hints:['花朵是 3 个六边形，每画完一个转 120°。','外层重复 3 次 { 重复 6 次 { 前进 70 → 右转 60 } → 右转 120 }。'],
    recipe:[{type:'repeat',count:3,body:[
      {type:'repeat',count:6,body:[{type:'move',value:70},{type:'right',value:60}]},
      {type:'right',value:120}
@@ -166,14 +120,13 @@ var labels={move:'前进',right:'右转',left:'左转',repeat:'重复'};
 var units={move:'px',right:'°',left:'°'};
 var vrange={move:[10,200],right:[1,180],left:[1,180]};
 var defaults={move:60,right:90,left:90};
-var SLOTS=8,slots=[],levelIndex=0;
-var running=false,levelDone=false;
-var dragDropped=false,dragSourcePath=null;
-var touchDrag=null;
+var SLOTS=6,slots=[],levelIndex=0;
+var running=false,over=false,runsLeft=RUNS,hintUsed=0;
+var dragDropped=false,dragSourcePath=null,touchDrag=null;
 var LOGICAL=300,ctx,scaleFactor=1;
+var MATCH_TOL=12;
 
-function cssVar(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim();}
-
+function cssVar(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
 function pathParts(p){return p.split(',').map(Number);}
 function getParent(pathStr){
   var parts=pathParts(pathStr);
@@ -188,6 +141,18 @@ function removeVal(pathStr){
   var parts=pathParts(pathStr);
   if(parts.length===1){slots[parts[0]]=null;return parts[0];}
   var p=getParent(pathStr);p.arr.splice(p.key,1);return parts[0];
+}
+function countBlocks(list){
+  var n=0;
+  (list||[]).forEach(function(it){if(!it)return;n++;if(it.type==='repeat')n+=countBlocks(it.body);});
+  return n;
+}
+function updateBudget(){
+  var used=countBlocks(slots),cap=levels[levelIndex].budget;
+  var pill=document.getElementById('budget-pill');
+  pill.textContent='积木 '+used+' / '+cap;
+  pill.classList.toggle('over',used>cap);
+  document.getElementById('run-btn').disabled=running||over||used>cap||used===0;
 }
 
 function xBtn(){return '<button class="remove-btn" type="button" aria-label="移除">&#215;</button>';}
@@ -242,19 +207,14 @@ function slotHTML(i){
     '<div class="slot-block" draggable="true" data-path="'+i+'" data-type="'+s.type+'">'+
       leafInner(i,s)+xBtn()+'</div></li>';
 }
-function renderSlots(){document.getElementById('program').innerHTML=slots.map(function(_,i){return slotHTML(i);}).join('');}
+function renderSlots(){document.getElementById('program').innerHTML=slots.map(function(_,i){return slotHTML(i);}).join('');updateBudget();}
 function renderSlot(i){
   var li=document.querySelector('#program > li[data-path="'+i+'"]');if(!li)return;
   var tmp=document.createElement('ol');tmp.innerHTML=slotHTML(i);
   li.parentNode.replaceChild(tmp.firstElementChild,li);
+  updateBudget();
 }
 function clearIsOver(){document.querySelectorAll('.is-over').forEach(function(el){el.classList.remove('is-over');});}
-
-function initMember(){
-  var m=window.FO?FO.getMember():null,el=document.getElementById('nav-member-btn');
-  if(m){el.innerHTML=FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>';el.onclick=function(){location.href='../dashboard.html'};}
-  else{el.innerHTML='<span>登录</span>';el.onclick=function(){location.href='../login.html'};}
-}
 
 function handleDrop(targetPath,type,srcPath){
   var depth=targetPath.split(',').length;
@@ -268,7 +228,6 @@ function handleDrop(targetPath,type,srcPath){
   renderSlot(topDst);
   return true;
 }
-
 function bindProgram(){
   var prog=document.getElementById('program');
   prog.addEventListener('dragover',function(e){
@@ -291,7 +250,7 @@ function bindProgram(){
     e.dataTransfer.setData('text/plain',block.dataset.type);
     e.dataTransfer.setData('source-path',block.dataset.path);
   });
-  prog.addEventListener('dragend',function(e){
+  prog.addEventListener('dragend',function(){
     clearIsOver();
     if(dragDropped){dragSourcePath=null;return;}
     if(dragSourcePath){renderSlot(removeVal(dragSourcePath));dragSourcePath=null;}
@@ -315,7 +274,6 @@ function bindProgram(){
     e.preventDefault();startTouch(block,e.touches[0]);
   },{passive:false});
 }
-
 function bindBlocks(){
   var bEl=document.getElementById('blocks');
   bEl.querySelectorAll('.block').forEach(function(b){
@@ -330,15 +288,13 @@ function bindBlocks(){
     e.preventDefault();startTouch(b,e.touches[0]);
   },{passive:false});
 }
-
 function startTouch(src,touch){
   var rect=src.getBoundingClientRect();
   var clone=src.cloneNode(true);clone.className=src.className+' touch-clone';
   var btn=clone.querySelector('.remove-btn');if(btn)btn.remove();
   clone.querySelectorAll('.val-input').forEach(function(inp){inp.style.pointerEvents='none';});
   document.body.appendChild(clone);
-  touchDrag={type:src.dataset.type,srcPath:src.dataset.path||null,clone:clone,
-    ox:rect.width/2,oy:rect.height/2};
+  touchDrag={type:src.dataset.type,srcPath:src.dataset.path||null,clone:clone,ox:rect.width/2,oy:rect.height/2};
   moveClone(touch.clientX,touch.clientY);
 }
 function moveClone(x,y){if(!touchDrag)return;touchDrag.clone.style.transform='translate('+(x-touchDrag.ox)+'px,'+(y-touchDrag.oy)+'px)';}
@@ -357,21 +313,54 @@ document.addEventListener('touchmove',function(e){if(!touchDrag)return;e.prevent
 document.addEventListener('touchend',function(e){if(!touchDrag)return;e.preventDefault();endTouch(e.changedTouches[0]);},{passive:false});
 document.addEventListener('touchcancel',function(){if(touchDrag){touchDrag.clone.remove();touchDrag=null;}});
 
-function compile(){
+/* ---------- 编译与绘制 ---------- */
+function compileList(list){
   var cmds=[],MAX=600;
-  function pushBody(body,depth){
+  (function pushBody(body){
     (body||[]).forEach(function(item){
       if(!item||cmds.length>=MAX)return;
       if(item.type==='repeat'){
         var n=Math.max(1,Math.min(item.count||2,20));
-        for(var k=0;k<n&&cmds.length<MAX;k++)pushBody(item.body,depth+1);
-      } else {cmds.push({type:item.type,value:item.value});}
+        for(var k=0;k<n&&cmds.length<MAX;k++)pushBody(item.body);
+      } else cmds.push({type:item.type,value:item.value});
     });
-  }
-  pushBody(slots,0);
+  })(list);
   return cmds;
 }
-function wait(ms){return new Promise(function(r){setTimeout(r,ms);});}
+function traceSegments(cmds){
+  var segs=[],st={x:150,y:150,heading:0};
+  cmds.forEach(function(cmd){
+    if(cmd.type==='move'){
+      var rad=st.heading*Math.PI/180;
+      var nx=st.x+Math.sin(rad)*cmd.value,ny=st.y-Math.cos(rad)*cmd.value;
+      segs.push({x1:st.x,y1:st.y,x2:nx,y2:ny});
+      st.x=nx;st.y=ny;
+    } else if(cmd.type==='right')st.heading+=cmd.value;
+    else if(cmd.type==='left')st.heading-=cmd.value;
+  });
+  return segs;
+}
+function segClose(a,b,tol){
+  function d(x1,y1,x2,y2){return Math.hypot(x1-x2,y1-y2);}
+  return (d(a.x1,a.y1,b.x1,b.y1)<=tol&&d(a.x2,a.y2,b.x2,b.y2)<=tol)
+       ||(d(a.x1,a.y1,b.x2,b.y2)<=tol&&d(a.x2,a.y2,b.x1,b.y1)<=tol);
+}
+function patternMatches(playerSegs,targetSegs){
+  if(!playerSegs.length)return false;
+  var used=[];
+  var allTargetCovered=targetSegs.every(function(t){
+    for(var i=0;i<playerSegs.length;i++){
+      if(segClose(playerSegs[i],t,MATCH_TOL)){used[i]=true;return true;}
+    }
+    return false;
+  });
+  if(!allTargetCovered)return false;
+  // 玩家不能有目标之外的"多余线条"（重复描线可以）
+  return playerSegs.every(function(p,i){
+    if(used[i])return true;
+    return targetSegs.some(function(t){return segClose(p,t,MATCH_TOL);});
+  });
+}
 
 function setupCanvas(){
   var shell=document.getElementById('canvas-shell');
@@ -385,14 +374,15 @@ function setupCanvas(){
   redraw();
 }
 function clearCanvas(){
-  var canvas=document.getElementById('turtle-canvas');
-  ctx.save();ctx.setTransform(1,0,0,1,0,0);
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.restore();
+  var c=document.getElementById('turtle-canvas');
+  ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,c.width,c.height);ctx.restore();
 }
-function drawLine(x1,y1,x2,y2){
-  ctx.strokeStyle=cssVar('--coral');ctx.lineWidth=3;ctx.lineCap='round';
-  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+var segments=[],ghostSegs=[],curState={x:150,y:150,heading:0};
+function drawSegs(list,color,alpha){
+  ctx.save();ctx.globalAlpha=alpha==null?1:alpha;
+  ctx.strokeStyle=color;ctx.lineWidth=3;ctx.lineCap='round';
+  list.forEach(function(s){ctx.beginPath();ctx.moveTo(s.x1,s.y1);ctx.lineTo(s.x2,s.y2);ctx.stroke();});
+  ctx.restore();
 }
 function drawMarker(x,y,heading){
   ctx.save();ctx.translate(x,y);ctx.rotate(heading*Math.PI/180);
@@ -400,82 +390,83 @@ function drawMarker(x,y,heading){
   ctx.beginPath();ctx.moveTo(0,-9);ctx.lineTo(6,7);ctx.lineTo(-6,7);ctx.closePath();ctx.fill();
   ctx.restore();
 }
-var segments=[],curState={x:150,y:150,heading:0};
 function redraw(){
   clearCanvas();
-  segments.forEach(function(s){drawLine(s.x1,s.y1,s.x2,s.y2);});
+  drawSegs(ghostSegs,cssVar('--ink-mute'),0.35);
+  drawSegs(segments,cssVar('--coral'),1);
   drawMarker(curState.x,curState.y,curState.heading);
 }
-function resetTurtle(){
-  segments=[];curState={x:150,y:150,heading:0};redraw();
-}
-
-function checkClosed(){
-  var dx=curState.x-150,dy=curState.y-150;
-  var dist=Math.sqrt(dx*dx+dy*dy);
-  var h=((curState.heading%360)+360)%360;
-  var hd=Math.min(h,360-h);
-  return dist<=18&&hd<=10;
-}
+function resetTurtle(){segments=[];curState={x:150,y:150,heading:0};redraw();}
 
 async function runProgram(){
-  if(running)return;running=true;levelDone=false;
-  document.getElementById('result').className='result';
-  resetTurtle();await wait(100);
-  var cmds=compile();
+  if(running||over)return;running=true;
+  CodeLab.hideResult();
+  resetTurtle();await CodeLab.wait(100);
+  var cmds=compileList(slots);
   for(var i=0;i<cmds.length;i++){
     var cmd=cmds[i];
     if(cmd.type==='move'){
       var rad=curState.heading*Math.PI/180;
-      var nx=curState.x+Math.sin(rad)*cmd.value;
-      var ny=curState.y-Math.cos(rad)*cmd.value;
+      var nx=curState.x+Math.sin(rad)*cmd.value,ny=curState.y-Math.cos(rad)*cmd.value;
       segments.push({x1:curState.x,y1:curState.y,x2:nx,y2:ny});
       curState.x=nx;curState.y=ny;
-    } else if(cmd.type==='right'){curState.heading+=cmd.value;}
-    else if(cmd.type==='left'){curState.heading-=cmd.value;}
+    } else if(cmd.type==='right')curState.heading+=cmd.value;
+    else if(cmd.type==='left')curState.heading-=cmd.value;
     redraw();
-    await wait(cmds.length>40?18:45);
+    await CodeLab.wait(cmds.length>40?18:45);
   }
-  showResult(checkClosed());
-  running=false;
-}
-function showResult(success){
-  var result=document.getElementById('result'),text=document.getElementById('result-text'),btn=document.getElementById('result-btn');
-  if(success){
-    result.className='result success show';
-    text.textContent='首尾相连，图案闭合啦！';
-    btn.textContent=levelIndex<levels.length-1?'下一关':'再玩一次';
-    btn.onclick=function(){loadLevel(levelIndex<levels.length-1?levelIndex+1:0);};
-    markDone();
+  runsLeft--;
+  CodeLab.renderHearts(RUNS,runsLeft);
+  if(patternMatches(segments,ghostSegs)){
+    over=true;
+    var used=RUNS-runsLeft;
+    var stars=used<=1?3:(used<=3?2:1);
+    CodeLab.saveStars(GAME_ID,levelIndex,stars);
+    CodeLab.renderStarsHud(stars);
+    document.getElementById('next-btn').classList.add('show');
+    if(levelIndex===levels.length-1)CodeLab.markDone(GAME_ID);
+    CodeLab.showResult('success','和目标图案完全重合！'+CodeLab.starHTML(stars),
+      levelIndex<levels.length-1?'下一关':'再玩一次',nextLevel);
+  } else if(runsLeft<=0){
+    over=true;
+    CodeLab.showResult('fail','机会用完了…参考做法：'+levels[levelIndex].hints[levels[levelIndex].hints.length-1],
+      '重开本关',function(){loadLevel(levelIndex);});
   } else {
-    result.className='result retry show';
-    text.textContent='图案画出来了，试着调整参数让它首尾相连吧';
-    btn.textContent='重试';
-    btn.onclick=function(){resetTurtle();result.className='result';};
+    CodeLab.showResult('retry','和灰色目标还没对上（还剩 '+runsLeft+' 次）。对照目标调调数字？','知道了',CodeLab.hideResult);
   }
+  running=false;
+  updateBudget();
 }
-function markDone(){try{var d=JSON.parse(localStorage.getItem('fo_games_done')||'[]');if(d.indexOf('g43-pattern-draw')<0){d.push('g43-pattern-draw');localStorage.setItem('fo_games_done',JSON.stringify(d));}}catch(e){}}
+function nextLevel(){loadLevel(levelIndex<levels.length-1?levelIndex+1:0);}
 
-function deepClone(v){return JSON.parse(JSON.stringify(v));}
-function loadDemo(){
-  slots=deepClone(levels[levelIndex].recipe);
-  while(slots.length<SLOTS)slots.push(null);
-  renderSlots();
+function showHint(){
+  var hints=levels[levelIndex].hints;
+  if(hintUsed>=hints.length)return;
+  document.getElementById('level-hint').textContent='💡 '+hints[hintUsed];
+  hintUsed++;
+  if(hintUsed>=hints.length)document.getElementById('hint-btn').disabled=true;
 }
 function loadLevel(index){
   levelIndex=index;
-  document.getElementById('level-pill').textContent='关卡 '+(levelIndex+1)+' / '+levels.length;
-  document.getElementById('level-title').textContent=levels[index].title;
-  document.getElementById('level-hint').textContent=levels[index].hint;
+  var lv=levels[index];
+  CodeLab.setLevel(index,levels.length,lv.title,lv.hint);
+  runsLeft=RUNS;over=false;hintUsed=0;
   slots=Array(SLOTS).fill(null);renderSlots();
-  document.getElementById('result').className='result';
+  ghostSegs=traceSegments(compileList(lv.recipe));
+  document.getElementById('hud-msg').textContent='预算 '+lv.budget+' 块';
+  document.getElementById('hint-btn').disabled=false;
+  document.getElementById('next-btn').classList.remove('show');
+  CodeLab.renderHearts(RUNS,runsLeft);
+  CodeLab.renderStarsHud(0);
+  CodeLab.hideResult();
   resetTurtle();
 }
-document.getElementById('clear-btn').onclick=function(){if(running)return;slots=Array(SLOTS).fill(null);renderSlots();resetTurtle();document.getElementById('result').className='result';};
-document.getElementById('demo-btn').onclick=function(){if(running)return;loadDemo();};
+document.getElementById('clear-btn').onclick=function(){if(running||over)return;slots=Array(SLOTS).fill(null);renderSlots();resetTurtle();CodeLab.hideResult();};
+document.getElementById('hint-btn').onclick=showHint;
 document.getElementById('run-btn').onclick=runProgram;
+document.getElementById('next-btn').onclick=nextLevel;
 window.addEventListener('resize',setupCanvas);
-initMember();bindBlocks();bindProgram();loadLevel(0);setupCanvas();
+CodeLab.initMember();bindBlocks();bindProgram();loadLevel(0);setupCanvas();
 </script>
 </body>
 </html>

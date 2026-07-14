@@ -9,162 +9,120 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="code-lab.css">
 <style>
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{overflow:hidden;font-family:'LXGW WenKai TC',var(--font-serif);background:var(--cream);color:var(--ink)}
-  .nav-member-btn{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:0;border-radius:999px;padding:6px 14px 6px 6px;font-family:inherit;font-size:14px;cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft);flex-shrink:0}
-  .nav-member-btn svg{border-radius:50%}
-  .game-wrap{height:100dvh;display:flex;flex-direction:column;max-width:1160px;margin:0 auto;padding:12px 20px;gap:10px}
-  .game-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:10px 14px;flex-shrink:0}
-  .back-link{text-decoration:none;color:var(--ink-mute);font-size:15px;flex-shrink:0}
-  .game-title{flex:1;min-width:0;text-align:center;padding:0 8px}
-  .title-name{display:block;font-size:16px;font-weight:700;line-height:1.3}
-  .title-desc{display:block;font-size:12px;color:var(--ink-mute);line-height:1.3}
-  .nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
-  .level-pill{display:inline-flex;align-items:center;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:999px;padding:6px 12px;color:var(--ink-soft);font-size:13px;font-weight:700;white-space:nowrap}
-  .layout{flex:1;min-height:0;display:grid;grid-template-columns:360px minmax(0,1fr);gap:16px;padding-bottom:16px}
-  .panel{background:var(--paper);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:16px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
-  .panel-title{font-size:16px;letter-spacing:.1em;color:var(--ink-mute);margin:0 0 12px;font-weight:700}
-  .sliders{display:flex;flex-direction:column;gap:10px;margin-bottom:12px;flex-shrink:0}
-  .slider-row label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-soft);font-weight:700}
+  .canvas-shell{position:relative;width:min(100%,calc(100dvh - 280px));aspect-ratio:1;background:var(--cream-deep);border-radius:var(--radius);padding:var(--space-lg);box-shadow:var(--shadow-soft)}
+  #tree-canvas{display:block;width:100%;height:100%;border-radius:var(--radius-md);background:var(--cream)}
+  .sliders{display:flex;flex-direction:column;gap:var(--space-lg);margin-bottom:var(--space-xl);flex-shrink:0}
+  .slider-row label{display:flex;flex-direction:column;gap:var(--space-xs);font-size:var(--font-size-note);color:var(--ink-soft);font-weight:700}
   .slider-row .row-top{display:flex;justify-content:space-between}
   .slider-row input[type="range"]{width:100%;accent-color:var(--coral)}
-  .hint-box{background:var(--cream-deep);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:var(--ink-soft);line-height:1.6;margin-bottom:12px;flex-shrink:0}
-  .actions{display:flex;gap:8px;flex-shrink:0;margin-bottom:14px}
-  .action{border:0;border-radius:999px;padding:10px 14px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;box-shadow:var(--shadow-soft)}
-  .demo{background:var(--yellow-soft);color:var(--ink)}
-  .run{background:var(--ink);color:var(--paper);flex:1}
-  .run:disabled{opacity:.5;cursor:default}
-  .stack-note{font-size:11px;color:var(--ink-mute);line-height:1.5;margin:0 0 8px;flex-shrink:0}
-  .call-stack{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column-reverse;gap:4px;padding:2px}
-  .stack-frame{background:var(--cream-deep);border-radius:8px;padding:5px 10px;font-size:12px;color:var(--ink-soft);font-weight:700;flex-shrink:0}
+  .slider-row.locked{opacity:.45}
+  .slider-row.locked .lock-tag{color:var(--ink-mute)}
+  .lock-tag{display:none;font-size:var(--font-size-caption)}
+  .slider-row.locked .lock-tag{display:inline}
+  .stack-note{font-size:var(--font-size-xs);color:var(--ink-mute);line-height:1.5;margin:0 0 var(--space-md);flex-shrink:0}
+  .call-stack{flex:1;min-height:60px;max-height:150px;overflow-y:auto;display:flex;flex-direction:column-reverse;gap:var(--space-xs);padding:var(--space-2xs)}
+  .stack-frame{background:var(--cream-deep);border-radius:var(--radius-md);padding:var(--space-xs) var(--space-lg);font-size:var(--font-size-caption);color:var(--ink-soft);font-weight:700;flex-shrink:0}
   .stack-frame.is-top{background:var(--blue-soft);color:var(--ink)}
   .stack-frame.is-base{background:var(--yellow-soft);color:var(--ink)}
-  .next-wrap{margin-top:10px;flex-shrink:0}
-  .next-btn{width:100%;border:0;border-radius:999px;background:var(--green);color:var(--paper);padding:10px 16px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;display:none}
-  .next-btn.show{display:block}
-  .stage-panel{display:flex;flex-direction:column;min-height:0;position:relative}
-  .stage-head{position:absolute;top:0;left:0;right:0;padding:10px 16px 14px;z-index:6;pointer-events:none;
-    background:linear-gradient(to bottom,color-mix(in srgb,var(--paper) 92%,transparent) 55%,transparent)}
-  .stage-head h2{font-size:15px;margin:0;color:var(--ink)}
-  .stage-head p{margin:2px 0 0;color:var(--ink-soft);font-size:12px}
-  .canvas-shell-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
-  .canvas-shell{position:relative;width:min(100%,calc(100dvh - 140px));aspect-ratio:1;background:var(--cream-deep);border-radius:var(--radius);padding:10px;box-shadow:var(--shadow-soft)}
-  #tree-canvas{display:block;width:100%;height:100%;border-radius:calc(var(--radius) - 6px);background:var(--cream)}
-  .legend{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:14px;background:color-mix(in srgb,var(--paper) 88%,transparent);border-radius:999px;padding:6px 16px;font-size:11px;color:var(--ink-soft);box-shadow:var(--shadow-soft);z-index:8}
-  .legend-item{display:flex;align-items:center;gap:5px}
-  .legend-dot{width:11px;height:11px;border-radius:4px;flex-shrink:0}
-  .result{position:absolute;top:60px;left:50%;transform:translateX(-50%);width:calc(100% - 28px);max-width:440px;border-radius:var(--radius);padding:10px 16px;display:none;align-items:center;justify-content:space-between;gap:10px;font-size:14px;font-weight:700;z-index:20;box-shadow:var(--shadow-card)}
-  .result.show{display:flex}
-  .result.success{background:var(--green);color:var(--paper)}
-  .result.retry{background:var(--yellow);color:var(--ink)}
-  .result button{border:0;border-radius:999px;background:var(--paper);color:var(--ink);padding:7px 14px;font-family:inherit;font-weight:700;cursor:pointer;flex-shrink:0;font-size:13px}
-  .concepts-wrap{margin-top:16px}
-  .concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-  .concept-card{background:var(--paper);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-card)}
-  .concept-card h3{font-size:15px;color:var(--ink);margin-bottom:6px}
-  .concept-card p{font-size:13px;color:var(--ink-soft);line-height:1.6}
-  .section-label{font-size:13px;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:14px}
   @media (max-width:767px){
-    body{overflow:auto}
-    .game-wrap{height:auto;padding:10px}
-    .layout{grid-template-columns:1fr;gap:10px;padding-bottom:10px}
-    .stage-panel{order:-1;min-height:0}
-    .canvas-shell-wrap{flex:none;height:min(calc(100vw - 20px),300px)}
-    .canvas-shell{width:100%;height:100%;aspect-ratio:unset}
-    .result{top:50px;width:calc(100% - 20px)}
-    .call-stack{max-height:120px}
+    .canvas-shell{width:min(100%,42dvh)}
+    .call-stack{max-height:90px}
   }
 </style>
 <script src="/fo-gate.js"></script></head>
-<body>
+<body class="code-lab">
 <main class="game-wrap">
   <nav class="game-nav">
     <a class="back-link" href="index.html#code">&#8592; 游戏库</a>
     <div class="game-title">
       <span class="title-name">递归树</span>
-      <span class="title-desc">调参数，看一个函数怎么"叫自己"长出一棵树</span>
+      <span class="title-desc">观察目标树，反推出让函数"叫自己"的三个参数</span>
     </div>
     <div class="nav-right">
-      <div class="level-pill" id="level-pill">关卡 1 / 3</div>
+      <div class="level-pill" id="level-pill">关卡 1 / 4</div>
       <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
     </div>
   </nav>
   <div class="layout">
-    <section class="panel">
-      <h2 class="panel-title">调整参数</h2>
-      <div class="sliders" id="sliders">
-        <div class="slider-row"><label><span class="row-top"><span>分支角度</span><span id="val-angle">25°</span></span>
-          <input type="range" id="angle" min="5" max="60" step="1" value="25"></label></div>
-        <div class="slider-row"><label><span class="row-top"><span>收缩比例</span><span id="val-ratio">0.70</span></span>
-          <input type="range" id="ratio" min="50" max="85" step="1" value="70"></label></div>
-        <div class="slider-row"><label><span class="row-top"><span>递归深度</span><span id="val-depth">3</span></span>
-          <input type="range" id="depth" min="0" max="7" step="1" value="3"></label></div>
-      </div>
-      <p class="hint-box" id="level-hint"></p>
-      <div class="actions">
-        <button class="action demo" id="demo-btn">看范例</button>
-        <button class="action run" id="run-btn">&#9654; 画树</button>
-      </div>
-      <h2 class="panel-title">调用栈</h2>
-      <p class="stack-note">每次函数调用自己，就在栈里压入一层；遇到"基例"就停止，并逐层返回。</p>
-      <div class="call-stack" id="call-stack"></div>
-      <div class="next-wrap"><button class="next-btn" id="next-btn">下一关</button></div>
-    </section>
     <section class="panel stage-panel">
       <div class="stage-head">
         <h2 id="level-title">关卡 1</h2>
+        <p id="level-hint"></p>
       </div>
-      <div class="canvas-shell-wrap">
-        <div class="canvas-shell" id="canvas-shell">
-          <canvas id="tree-canvas"></canvas>
-          <div class="legend">
-            <span class="legend-item"><span class="legend-dot" style="background:var(--ink-mute);opacity:.5"></span>目标图案</span>
-            <span class="legend-item"><span class="legend-dot" style="background:var(--coral)"></span>你的树</span>
-          </div>
-        </div>
+      <div class="hud">
+        <span class="hud-hearts" id="hud-hearts"></span>
+        <span class="hud-budget" id="hud-branches">树枝 –</span>
+        <span class="hud-stars" id="hud-stars"></span>
+      </div>
+      <div class="stage-body">
+        <div class="canvas-shell" id="canvas-shell"><canvas id="tree-canvas"></canvas></div>
+      </div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot ghost"></span>目标图案</span>
+        <span class="legend-item"><span class="legend-dot mine"></span>你的树</span>
       </div>
       <div class="result" id="result"><span id="result-text"></span><button id="result-btn">继续</button></div>
     </section>
+    <section class="panel side-panel">
+      <h2 class="panel-title">调整参数</h2>
+      <div class="sliders">
+        <div class="slider-row" id="row-depth"><label><span class="row-top"><span>递归深度 <span class="lock-tag">🔒</span></span><span id="val-depth">3</span></span>
+          <input type="range" id="depth" min="1" max="7" step="1" value="3"></label></div>
+        <div class="slider-row" id="row-angle"><label><span class="row-top"><span>分支角度 <span class="lock-tag">🔒</span></span><span id="val-angle">25°</span></span>
+          <input type="range" id="angle" min="10" max="55" step="5" value="25"></label></div>
+        <div class="slider-row" id="row-ratio"><label><span class="row-top"><span>收缩比例 <span class="lock-tag">🔒</span></span><span id="val-ratio">0.70</span></span>
+          <input type="range" id="ratio" min="55" max="80" step="5" value="70"></label></div>
+      </div>
+      <p class="hint-box" id="strategy-hint">观察灰色目标树：数一数它有几层（深度）、张得多开（角度）、上层的枝条缩得多快（比例）。每次"画树"消耗一次机会！</p>
+      <div class="actions">
+        <button class="action clear" id="retry-btn">重开本关</button>
+        <button class="action run" id="run-btn">&#9654; 画树</button>
+      </div>
+      <h2 class="panel-title">调用栈</h2>
+      <p class="stack-note">函数每次调用自己就压入一层，遇到"基例"停止并逐层返回。</p>
+      <div class="call-stack" id="call-stack"></div>
+      <button class="next-btn" id="next-btn">下一关</button>
+    </section>
   </div>
-  <section class="concepts-wrap wrap-narrow" style="max-width:1160px;margin:0 auto;width:100%">
+  <section class="concepts-wrap">
     <p class="section-label">知识预习</p>
     <div class="concepts">
-      <div class="concept-card"><h3>递归</h3><p>函数调用自己，解决更小的同类问题</p></div>
-      <div class="concept-card"><h3>基例</h3><p>递归停止的条件，少了它会无限循环</p></div>
-      <div class="concept-card"><h3>分形</h3><p>局部和整体长得很像的图案</p></div>
+      <div class="concept-card"><h3>递归</h3><p>函数调用自己，把大问题拆成更小的同类问题</p></div>
+      <div class="concept-card"><h3>基例</h3><p>递归停止的条件，少了它就会无限循环</p></div>
+      <div class="concept-card"><h3>指数增长</h3><p>深度每加一层，树枝数几乎翻倍——这就是 2 的力量</p></div>
     </div>
   </section>
 </main>
 <script src="../fo-utils.js"></script>
+<script src="code-lab.js"></script>
 <script>
+var GAME_ID='g53-recursion-tree';
+var ATTEMPTS=5;
 var levels=[
-  {title:'关卡 1 — 笔直的主干',angle:25,ratio:0.70,depth:1,hint:'把递归深度调到 1，看看只分岔一次是什么样子。'},
-  {title:'关卡 2 — 枝繁叶茂',angle:20,ratio:0.75,depth:5,hint:'调大深度，让树多长几层枝条，越往上枝条越细。'},
-  {title:'关卡 3 — 风中弯曲',angle:35,ratio:0.65,depth:6,hint:'角度更大、收缩更快，树会长成什么样？调调看。'}
+  {title:'关卡 1 — 数层数',free:['depth'],target:{angle:25,ratio:0.70,depth:4},
+   hint:'角度和比例已锁定，只需数出目标树有几层，调好深度再画。'},
+  {title:'关卡 2 — 张开的角度',free:['depth','angle'],target:{angle:45,ratio:0.70,depth:5},
+   hint:'这棵树张得很开。先定深度，再试角度。'},
+  {title:'关卡 3 — 三个参数一起调',free:['depth','angle','ratio'],target:{angle:25,ratio:0.65,depth:6},
+   hint:'全部解锁！比例越小，越往上枝条缩得越快。'},
+  {title:'关卡 4 — 神秘树',free:['depth','angle','ratio'],random:true,
+   hint:'目标是随机生成的，没有任何提示——用前三关练出的眼力吧。'}
 ];
-var levelIndex=0,running=false;
+var levelIndex=0,running=false,over=false,attemptsLeft=ATTEMPTS;
 var LOGICAL=300,ctx,scaleFactor=1;
-var segments=[],ghostSegs=[],activeDot=null,callStack=[];
+var segments=[],ghostSegs=[],activeDot=null,callStack=[],targetParams=null;
 
-function cssVar(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim();}
-function wait(ms){return new Promise(function(r){setTimeout(r,ms);});}
-
-function getAngle(){return parseInt(document.getElementById('angle').value,10);}
-function getRatio(){return parseInt(document.getElementById('ratio').value,10)/100;}
-function getDepth(){return parseInt(document.getElementById('depth').value,10);}
+function cssVar(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+function getP(id){return parseInt(document.getElementById(id).value,10);}
+function params(){return{angle:getP('angle'),ratio:getP('ratio')/100,depth:getP('depth')};}
 function syncLabels(){
-  document.getElementById('val-angle').textContent=getAngle()+'°';
-  document.getElementById('val-ratio').textContent=getRatio().toFixed(2);
-  document.getElementById('val-depth').textContent=getDepth();
+  document.getElementById('val-angle').textContent=getP('angle')+'°';
+  document.getElementById('val-ratio').textContent=(getP('ratio')/100).toFixed(2);
+  document.getElementById('val-depth').textContent=getP('depth');
 }
-
-function initMember(){
-  var m=window.FO?FO.getMember():null,el=document.getElementById('nav-member-btn');
-  if(m){el.innerHTML=FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>';el.onclick=function(){location.href='../dashboard.html'};}
-  else{el.innerHTML='<span>登录</span>';el.onclick=function(){location.href='../login.html'};}
-}
+function starsForAttempt(used){return used<=1?3:(used<=3?2:1);}
 
 function setupCanvas(){
   var shell=document.getElementById('canvas-shell');
@@ -178,10 +136,8 @@ function setupCanvas(){
   redraw();
 }
 function clearCanvas(){
-  var canvas=document.getElementById('tree-canvas');
-  ctx.save();ctx.setTransform(1,0,0,1,0,0);
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.restore();
+  var c=document.getElementById('tree-canvas');
+  ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,c.width,c.height);ctx.restore();
 }
 function drawSegs(list,color,alpha){
   ctx.save();ctx.globalAlpha=alpha==null?1:alpha;
@@ -189,118 +145,133 @@ function drawSegs(list,color,alpha){
   list.forEach(function(s){ctx.beginPath();ctx.moveTo(s.x1,s.y1);ctx.lineTo(s.x2,s.y2);ctx.stroke();});
   ctx.restore();
 }
-function drawDot(x,y){
-  ctx.save();ctx.fillStyle=cssVar('--coral');
-  ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();
-  ctx.restore();
-}
 function redraw(){
   clearCanvas();
   drawSegs(ghostSegs,cssVar('--ink-mute'),0.35);
   drawSegs(segments,cssVar('--coral'),1);
-  if(activeDot)drawDot(activeDot.x,activeDot.y);
+  if(activeDot){ctx.save();ctx.fillStyle=cssVar('--coral');ctx.beginPath();ctx.arc(activeDot.x,activeDot.y,4,0,Math.PI*2);ctx.fill();ctx.restore();}
 }
-function buildSegments(angle,ratio,depth){
+function buildSegments(p){
   var segs=[];
   (function rec(x,y,len,heading,d){
     if(d<=0||len<3)return;
     var rad=heading*Math.PI/180;
     var nx=x+Math.sin(rad)*len,ny=y-Math.cos(rad)*len;
     segs.push({x1:x,y1:y,x2:nx,y2:ny});
-    rec(nx,ny,len*ratio,heading-angle,d-1);
-    rec(nx,ny,len*ratio,heading+angle,d-1);
-  })(150,280,90,0,depth);
+    rec(nx,ny,len*p.ratio,heading-p.angle,d-1);
+    rec(nx,ny,len*p.ratio,heading+p.angle,d-1);
+  })(150,280,90,0,p.depth);
   return segs;
 }
-
 function renderStack(){
-  var el=document.getElementById('call-stack');
-  el.innerHTML=callStack.map(function(f,i){
+  document.getElementById('call-stack').innerHTML=callStack.map(function(f,i){
     var top=i===callStack.length-1;
     return '<div class="stack-frame'+(top?' is-top':'')+(f.base?' is-base':'')+'">draw(depth='+f.depth+')'+(f.base?' — 基例，返回':'')+'</div>';
   }).join('');
 }
-async function drawBranch(x,y,len,heading,depth,angle,ratio,delay){
+async function drawBranch(x,y,len,heading,depth,p,delay){
   var isBase=depth<=0||len<3;
   callStack.push({depth:depth,base:isBase});renderStack();
-  await wait(delay);
+  await CodeLab.wait(delay);
   if(!isBase){
     var rad=heading*Math.PI/180;
     var nx=x+Math.sin(rad)*len,ny=y-Math.cos(rad)*len;
     segments.push({x1:x,y1:y,x2:nx,y2:ny});
     activeDot={x:nx,y:ny};redraw();
-    await wait(delay);
-    await drawBranch(nx,ny,len*ratio,heading-angle,depth-1,angle,ratio,delay);
-    await drawBranch(nx,ny,len*ratio,heading+angle,depth-1,angle,ratio,delay);
+    await CodeLab.wait(delay);
+    await drawBranch(nx,ny,len*p.ratio,heading-p.angle,depth-1,p,delay);
+    await drawBranch(nx,ny,len*p.ratio,heading+p.angle,depth-1,p,delay);
   }
   callStack.pop();renderStack();
-  await wait(Math.max(4,delay*0.4));
+  await CodeLab.wait(Math.max(4,delay*0.4));
 }
-
-function checkMatch(angle,ratio,depth){
-  var t=levels[levelIndex];
-  return depth===t.depth&&Math.abs(angle-t.angle)<=4&&Math.abs(ratio-t.ratio)<=0.03;
+function matches(p){
+  return p.depth===targetParams.depth
+    &&Math.abs(p.angle-targetParams.angle)<=3
+    &&Math.abs(p.ratio-targetParams.ratio)<=0.03;
 }
 async function runTree(){
-  if(running)return;running=true;
+  if(running||over)return;running=true;
   document.getElementById('run-btn').disabled=true;
-  document.getElementById('result').className='result';
+  CodeLab.hideResult();
   segments=[];callStack=[];renderStack();redraw();
-  await wait(80);
-  var angle=getAngle(),ratio=getRatio(),depth=getDepth();
-  var total=Math.pow(2,depth+1)-1;if(total<1)total=1;
+  await CodeLab.wait(80);
+  var p=params();
+  var total=Math.pow(2,p.depth+1)-1;
   var delay=Math.max(6,Math.min(160,900/total));
-  await drawBranch(150,280,90,0,depth,angle,ratio,delay);
+  await drawBranch(150,280,90,0,p.depth,p,delay);
   activeDot=null;redraw();
-  showResult(checkMatch(angle,ratio,depth));
-  running=false;
-  document.getElementById('run-btn').disabled=false;
-}
-function showResult(success){
-  var result=document.getElementById('result'),text=document.getElementById('result-text'),btn=document.getElementById('result-btn');
-  if(success){
-    result.className='result success show';
-    text.textContent='长成目标的样子啦！';
-    btn.textContent=levelIndex<levels.length-1?'下一关':'再玩一次';
-    btn.onclick=function(){loadLevel(levelIndex<levels.length-1?levelIndex+1:0);};
-    markDone();
+  attemptsLeft--;
+  document.getElementById('hud-branches').textContent='树枝 '+segments.length+' 根';
+  CodeLab.renderHearts(ATTEMPTS,attemptsLeft);
+  if(matches(p)){
+    over=true;
+    var used=ATTEMPTS-attemptsLeft;
+    var stars=starsForAttempt(used);
+    CodeLab.saveStars(GAME_ID,levelIndex,stars);
+    CodeLab.renderStarsHud(stars);
+    document.getElementById('next-btn').classList.add('show');
+    if(levelIndex===levels.length-1)CodeLab.markDone(GAME_ID);
+    CodeLab.showResult('success','长成目标的样子啦！第 '+used+' 次就成功 '+CodeLab.starHTML(stars),
+      levelIndex<levels.length-1?'下一关':'再玩一次',nextLevel);
+  } else if(attemptsLeft<=0){
+    over=true;
+    CodeLab.showResult('fail','机会用完了…答案是：深度 '+targetParams.depth+' · 角度 '+targetParams.angle+'° · 比例 '+targetParams.ratio.toFixed(2),
+      '重开本关',function(){loadLevel(levelIndex);});
   } else {
-    result.className='result retry show';
-    text.textContent='树画出来了，再调调参数，贴近半透明的目标图案吧';
-    btn.textContent='重试';
-    btn.onclick=function(){result.className='result';};
+    var diffs=[];
+    if(p.depth!==targetParams.depth)diffs.push('层数不对，再数数灰色树有几层');
+    else if(Math.abs(p.angle-targetParams.angle)>3)diffs.push('角度差得有点多');
+    else diffs.push('比例还不对，看看枝条变细的速度');
+    CodeLab.showResult('retry',diffs[0]+'（还剩 '+attemptsLeft+' 次）','知道了',CodeLab.hideResult);
   }
+  running=false;
+  document.getElementById('run-btn').disabled=over;
 }
-function markDone(){try{var d=JSON.parse(localStorage.getItem('fo_games_done')||'[]');if(d.indexOf('g53-recursion-tree')<0){d.push('g53-recursion-tree');localStorage.setItem('fo_games_done',JSON.stringify(d));}}catch(e){}}
+function nextLevel(){loadLevel(levelIndex<levels.length-1?levelIndex+1:0);}
 
+function randTarget(){
+  var angles=[10,15,20,25,30,35,40,45,50,55];
+  var ratios=[0.55,0.60,0.65,0.70,0.75,0.80];
+  return{angle:angles[Math.floor(Math.random()*angles.length)],
+    ratio:ratios[Math.floor(Math.random()*ratios.length)],
+    depth:3+Math.floor(Math.random()*4)};
+}
 function loadLevel(index){
   levelIndex=index;
   var lv=levels[index];
-  document.getElementById('level-pill').textContent='关卡 '+(index+1)+' / '+levels.length;
-  document.getElementById('level-title').textContent=lv.title;
-  document.getElementById('level-hint').textContent=lv.hint;
-  document.getElementById('angle').value=25;
-  document.getElementById('ratio').value=70;
-  document.getElementById('depth').value=3;
+  CodeLab.setLevel(index,levels.length,lv.title,lv.hint);
+  targetParams=lv.random?randTarget():lv.target;
+  attemptsLeft=ATTEMPTS;over=false;
+  // 自由/锁定参数：锁定的滑杆固定为目标值（它不是谜题的一部分）
+  ['depth','angle','ratio'].forEach(function(id){
+    var free=lv.free.indexOf(id)>=0;
+    var input=document.getElementById(id);
+    input.disabled=!free;
+    document.getElementById('row-'+id).classList.toggle('locked',!free);
+    if(!free){
+      input.value=id==='ratio'?Math.round(targetParams.ratio*100):targetParams[id];
+    } else {
+      input.value=id==='depth'?2:(id==='angle'?25:70);
+    }
+  });
   syncLabels();
-  segments=[];callStack=[];renderStack();
-  ghostSegs=buildSegments(lv.angle,lv.ratio,lv.depth);
-  document.getElementById('result').className='result';
+  segments=[];callStack=[];renderStack();activeDot=null;
+  ghostSegs=buildSegments(targetParams);
+  document.getElementById('hud-branches').textContent='树枝 –';
+  document.getElementById('next-btn').classList.remove('show');
+  document.getElementById('run-btn').disabled=false;
+  CodeLab.renderHearts(ATTEMPTS,attemptsLeft);
+  CodeLab.renderStarsHud(0);
+  CodeLab.hideResult();
   redraw();
 }
-document.getElementById('demo-btn').onclick=function(){
-  if(running)return;
-  var lv=levels[levelIndex];
-  document.getElementById('angle').value=lv.angle;
-  document.getElementById('ratio').value=Math.round(lv.ratio*100);
-  document.getElementById('depth').value=lv.depth;
-  syncLabels();
-};
 document.getElementById('run-btn').onclick=runTree;
-document.getElementById('next-btn').onclick=function(){loadLevel(levelIndex<levels.length-1?levelIndex+1:0);};
+document.getElementById('retry-btn').onclick=function(){if(!running)loadLevel(levelIndex);};
+document.getElementById('next-btn').onclick=nextLevel;
 ['angle','ratio','depth'].forEach(function(id){document.getElementById(id).addEventListener('input',syncLabels);});
 window.addEventListener('resize',setupCanvas);
-initMember();loadLevel(0);setupCanvas();
+CodeLab.initMember();loadLevel(0);setupCanvas();
 </script>
 </body>
 </html>
