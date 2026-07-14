@@ -1,0 +1,255 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: L09 · 源: 学习的真相 25「生产导向」（世界上只有两种人：生产者和消费者；人类天生是消费者，学习是获取生产能力的唯一来源；生产者又分组织者和参与者，绝大多数人被教育成专才只能当参与者，只有通才才能胜任组织——俞敏洪不仅讲课好还卖课好，通才可以写剧本、专才了不起改剧本；生产是复合技能：统筹/协调/人际关系；生产者与非生产者对学习认知的关键区别=生产者从一开始就以并且只以"创造"为目标（学练用造的目标定在"造"），为了创造只能学得更多、练得更多；"好好学习才能找到好工作"是最可怕的庸才修炼法；所有努力的受益者首先是自己；复述是最基础、最自然且零成本的生产（生产资料=最便宜却最复杂灵活的自然语言，复述需要复合技能，文字创作能力只能建立在复述之上）；试错能力天生——大脑是贝叶斯推理机，不断试错并根据新证据调整模型：李维斯本来做帐篷、淘金工人要磨不破的裤子才做出牛仔裤，可口可乐本想做解酒饮料误用碳酸水，盘尼西林/阿司匹林/X射线都是误打误撞；试错要不断补充判断依据（元认知）才越来越高效，生产判断依据最有效来处=金融市场/上市公司财报——小学毕业就能读懂，商业模型三个词"收入-成本=利润"，看利润是否有不断增长的空间；资本对生产的重要性在降低（暴力/魅力/智力，智力不断增值），真正优秀的生产者不可能找不到财力支持；生活成本一直在降：4000年前古巴比伦芝麻油灯一天工作换10分钟照明→17世纪鲸鱼油1小时→18世纪煤油5小时→现在一天工作能买到的照明是200年前的2万倍；合格的生产者没有中年危机，只能是后半场获胜者；解决方案简单到没人信=从一开始就自我定位为生产者）。金句取"生产者从一开始就以并且只以创造为目标"。蓝色系。 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>从一开始，就当生产者 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--blue); --accent-soft: var(--blue-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 学习的真相</span>
+    <h1>从一开始，<br>就当生产者</h1>
+
+    <p class="hook">
+      你今天玩的游戏、看的视频、穿的鞋、用的笔——全部是别人做出来的。抽象地看，到最后，<span class="em">这世界只有两种人：一种叫生产者，一种叫消费者</span>。人类天生就是消费者，没有谁一出生就会做东西；<span class="em">学习，是获取生产能力的唯一来源</span>。这一篇讲一个简单到大多数人不敢相信的决定：从第一天起，就把自己定位成"做东西的人"。
+    </p>
+
+    <!-- 拆解 1 · 两种人 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>两种人，以及生产者里的两种人</h3>
+      <p>生产者里面，又只有两种：<strong>参与者</strong>和<strong>组织者</strong>。绝大多数人最终都成了参与者——不是因为不聪明，而是因为<strong>生产永远是复合技能</strong>，可他们被教育成了"专才"，还引以为豪。专才再厉害，也只能把一个环节做到极致；只有<strong>通才</strong>才能胜任组织：生产要统筹，销售要统筹，财务、人手也要统筹；供应商之间要协调，部门之间要协调；上下级、同事之间还有一堆人际关系要洞察。</p>
+      <p>书里举了个例子：俞敏洪的厉害之处，不仅在于讲课讲得好，更在于卖课卖得好。很多离开新东方去"创"业的名师并不成功，根源不是没创新，而是他们只是专才。用一句话概括这个差别：<strong>通才可以写剧本，专才了不起可以改剧本。</strong></p>
+      <figure>
+        <svg viewBox="0 0 600 230" role="img" aria-label="世界上的人分为消费者和生产者，生产者又分参与者和组织者">
+          <g text-anchor="middle" font-size="13">
+            <rect x="240" y="14" width="120" height="36" rx="18" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="300" y="37" fill="var(--ink)" font-weight="700">所有人</text>
+            <line x1="270" y1="50" x2="150" y2="88" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <line x1="330" y1="50" x2="450" y2="88" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <rect x="80" y="88" width="140" height="36" rx="18" fill="var(--cream-deep)" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <text x="150" y="111" fill="var(--ink-soft)">消费者（天生）</text>
+            <rect x="380" y="88" width="140" height="36" rx="18" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.2"/>
+            <text x="450" y="111" fill="var(--ink)" font-weight="700">生产者（靠学习）</text>
+            <line x1="415" y1="124" x2="340" y2="164" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <line x1="485" y1="124" x2="530" y2="164" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <rect x="270" y="164" width="140" height="36" rx="18" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <text x="340" y="187" fill="var(--ink-soft)">参与者（专才）</text>
+            <rect x="460" y="164" width="140" height="36" rx="18" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.2"/>
+            <text x="530" y="187" fill="var(--ink)" font-weight="700">组织者（通才）</text>
+            <text x="150" y="146" font-size="11.5" fill="var(--ink-mute)">只用别人做的东西</text>
+            <text x="340" y="220" font-size="11.5" fill="var(--ink-mute)">做好一个环节</text>
+            <text x="530" y="220" font-size="11.5" fill="var(--ink-mute)">把很多环节组织起来</text>
+          </g>
+        </svg>
+        <figcaption>人类天生是消费者；生产能力只能靠学习获得，而组织生产需要复合技能（《学习的真相》25·生产导向）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 目标定在"造" -->
+    <section class="card">
+      <h3><span class="step-no">2</span>差别只有一个：把目标定在"造"</h3>
+      <p>还记得学习的四个子模型吗——<strong>学、练、用、造</strong>。生产者和非生产者对学习的认知，关键区别简单得吓人：<strong>生产者从一开始，就以并且只以"创造"为目标</strong>。对他们来说，创造就是应用；为了造，就得练得更多；为了造，就只能学得更多——因为创造本身就是复合技能，创造需要通才。</p>
+      <p>反过来看那句你可能常听到的话："好好学习，才能找到好工作。"书里说，这是<strong>最可怕的庸才修炼法</strong>——把天才打磨成庸才，一句话就够了。它把学习的目标从"造"降到了"被别人用"。还有一个要一起装进脑子的观念：<strong>所有努力的受益者，首先是自己</strong>。你学习、你锻炼，都不是为了家长、老师或考试；将来就算先从参与生产做起、拿薪水打工，也依然是在为自己干活。这个观念的有无，直接影响一个人的"前/钱途"。</p>
+      <figure>
+        <svg viewBox="0 0 600 190" role="img" aria-label="学练用造四步，普通人目标停在用，生产者目标定在造">
+          <g text-anchor="middle" font-size="13">
+            <g>
+              <circle cx="90" cy="70" r="26" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.8"/><text x="90" y="76" fill="var(--ink)">学</text>
+              <text x="145" y="76" font-size="18" fill="var(--ink-mute)">→</text>
+              <circle cx="200" cy="70" r="26" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.8"/><text x="200" y="76" fill="var(--ink)">练</text>
+              <text x="255" y="76" font-size="18" fill="var(--ink-mute)">→</text>
+              <circle cx="310" cy="70" r="26" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.8"/><text x="310" y="76" fill="var(--ink)">用</text>
+              <text x="365" y="76" font-size="18" fill="var(--ink-mute)">→</text>
+              <circle cx="440" cy="70" r="34" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2.6"/>
+              <circle cx="440" cy="70" r="44" fill="none" stroke="var(--blue)" stroke-width="1.4" stroke-dasharray="4 5"/>
+              <text x="440" y="77" fill="var(--ink)" font-weight="700" font-size="15">造</text>
+            </g>
+            <path d="M310 104 q 0 26 -60 30" stroke="var(--ink-mute)" stroke-width="1.3" fill="none"/>
+            <text x="180" y="148" font-size="11.5" fill="var(--ink-mute)">大多数人的目标停在这里："够用、够考试"</text>
+            <path d="M440 122 q 0 18 40 22" stroke="var(--blue)" stroke-width="1.6" fill="none"/>
+            <text x="470" y="164" font-size="12" fill="var(--blue)" font-weight="700">生产者的目标从第一天起就钉在"造"</text>
+          </g>
+        </svg>
+        <figcaption>学练用造：目标钉在"造"，前面的学、练、用会被自动拉高（《学习的真相》25·生产导向）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 你已经有本钱 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>你已经有生产的本钱了：复述 + 试错</h3>
+      <p>"生产"听着遥远，其实你现在就有两样本钱。第一样是<strong>复述</strong>——把学到的、看到的，用自己的话重新讲出来，这是<strong>最基础、最自然且零成本的生产</strong>：它的生产资料是最便宜却又最复杂灵活的自然语言，而且复述本身就要动用一堆复合技能。文字创作能力，只能建立在复述能力之上——很多人上了十六年学却从没创作过任何东西，因为他们的学习模型里从来没有"创作"这个目标。</p>
+      <p>第二样是天生的：<strong>试错能力</strong>。大脑天生就是贝叶斯推理机——试一下，看结果，按新证据调整，再试。很多著名产品就是这么试出来的：李维斯本来是做帐篷的，淘金工人想要磨不破的裤子，才有了牛仔裤；可口可乐本想做解酒饮料，一次误用了碳酸水才发现好喝；盘尼西林、阿司匹林、X 射线，都是误打误撞的结果。不过只会试错还不够，得不断补充<strong>判断依据</strong>。书里给了个出人意料的来处：上市公司的财报——识字加上加减乘除就能读，而天下有效的商业模型简单到只有三个词：<strong>收入 − 成本 = 利润</strong>，再看利润有没有不断增长的空间。随便读几份，判断依据就悄悄攒起来了。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="试错循环：试一下、看结果、调整、再试；配上判断依据越转越准">
+          <g text-anchor="middle" font-size="13">
+            <circle cx="180" cy="105" r="72" fill="none" stroke="var(--blue-soft)" stroke-width="2"/>
+            <rect x="130" y="8" width="100" height="30" rx="15" fill="var(--paper)" stroke="var(--blue)" stroke-width="1.8"/><text x="180" y="28" fill="var(--ink)">试一下</text>
+            <rect x="260" y="90" width="100" height="30" rx="15" fill="var(--paper)" stroke="var(--blue)" stroke-width="1.8"/><text x="310" y="110" fill="var(--ink)">看结果</text>
+            <rect x="130" y="172" width="100" height="30" rx="15" fill="var(--paper)" stroke="var(--blue)" stroke-width="1.8"/><text x="180" y="192" fill="var(--ink)">调整一点</text>
+            <rect x="0" y="90" width="100" height="30" rx="15" fill="var(--paper)" stroke="var(--blue)" stroke-width="1.8"/><text x="50" y="110" fill="var(--ink)">再试</text>
+            <path d="M234 32 q 50 18 64 52" stroke="var(--ink-mute)" stroke-width="1.5" fill="none" marker-end="url(#arrB)"/>
+            <path d="M296 124 q -18 46 -62 54" stroke="var(--ink-mute)" stroke-width="1.5" fill="none" marker-end="url(#arrB)"/>
+            <path d="M126 180 q -52 -16 -66 -54" stroke="var(--ink-mute)" stroke-width="1.5" fill="none" marker-end="url(#arrB)"/>
+            <path d="M64 86 q 16 -44 62 -52" stroke="var(--ink-mute)" stroke-width="1.5" fill="none" marker-end="url(#arrB)"/>
+            <defs><marker id="arrB" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="var(--ink-mute)"/></marker></defs>
+            <text x="470" y="60" font-size="12.5" fill="var(--ink)" font-weight="700">判断依据越多，</text>
+            <text x="470" y="80" font-size="12.5" fill="var(--ink)" font-weight="700">这个循环转得越准</text>
+            <text x="470" y="112" font-size="11.5" fill="var(--ink-mute)">帐篷布 → 牛仔裤</text>
+            <text x="470" y="132" font-size="11.5" fill="var(--ink-mute)">解酒水 → 可口可乐</text>
+            <text x="470" y="152" font-size="11.5" fill="var(--ink-mute)">发霉的培养皿 → 盘尼西林</text>
+            <text x="470" y="180" font-size="11.5" fill="var(--blue)">很多产品，就是试错试出来的</text>
+          </g>
+        </svg>
+        <figcaption>大脑天生是贝叶斯推理机：试错 + 不断补充判断依据 = 越来越高效的生产（《学习的真相》25·生产导向）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 · 好消息 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>好消息：做东西，从来没有这么便宜过</h3>
+      <p>你可能会想：做东西不是需要很多钱吗？趋势恰恰相反——<strong>资本对生产的重要性和必要性正在逐步降低</strong>，而且已经低到令人难以置信。历史上能换来财力的无非三样：暴力、魅力、智力；从趋势上看，智力的重要性在不断增加，暴力在不断贬值。更重要的是，在金融市场高度发达的世界里，<strong>真正优秀的生产者不可能找不到财力的支持</strong>——会有投资人抢着来投。</p>
+      <p>生活成本本身也一直在降。书里用"照明"举例：4000 年前的古巴比伦，用芝麻油点灯，一个人干一天活只换得来 10 分钟照明；17 世纪用上鲸鱼油，涨到 1 小时；18 世纪的煤油，涨到 5 小时；而现在，一天工作能买到的照明时间，是 200 年前的 <strong>2 万倍</strong>。所以家长们原本大可不必焦虑，你也一样——报纸杂志上写满"中年危机"，但书里的判断很干脆：<strong>真正合格的生产者不可能有什么中年危机，他们只能是后半场获胜者。</strong>而解决方案简单到绝大多数人不敢相信：从一开始，就把自己定位为生产者。</p>
+      <figure>
+        <svg viewBox="0 0 600 220" role="img" aria-label="一天工作能换来的照明时间：10分钟、1小时、5小时，到今天是200年前的两万倍">
+          <g font-size="12" text-anchor="middle">
+            <line x1="60" y1="170" x2="560" y2="170" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <rect x="90" y="162" width="52" height="8" rx="3" fill="var(--blue-soft)"/>
+            <text x="116" y="192" fill="var(--ink-soft)">4000年前</text>
+            <text x="116" y="150" fill="var(--ink)" font-weight="700">10 分钟</text>
+            <text x="116" y="208" font-size="10.5" fill="var(--ink-mute)">芝麻油</text>
+            <rect x="200" y="140" width="52" height="30" rx="3" fill="var(--blue-soft)"/>
+            <text x="226" y="192" fill="var(--ink-soft)">17 世纪</text>
+            <text x="226" y="128" fill="var(--ink)" font-weight="700">1 小时</text>
+            <text x="226" y="208" font-size="10.5" fill="var(--ink-mute)">鲸鱼油</text>
+            <rect x="310" y="96" width="52" height="74" rx="3" fill="var(--blue-soft)"/>
+            <text x="336" y="192" fill="var(--ink-soft)">18 世纪</text>
+            <text x="336" y="84" fill="var(--ink)" font-weight="700">5 小时</text>
+            <text x="336" y="208" font-size="10.5" fill="var(--ink-mute)">煤油</text>
+            <rect x="430" y="34" width="52" height="136" rx="3" fill="var(--blue)"/>
+            <path d="M424 60 l 64 -10" stroke="var(--cream)" stroke-width="6"/>
+            <path d="M424 52 l 64 -10" stroke="var(--cream)" stroke-width="6"/>
+            <text x="456" y="192" fill="var(--ink-soft)">今天</text>
+            <text x="456" y="24" fill="var(--blue)" font-weight="700">≈ 200 年前的 2 万倍</text>
+            <text x="456" y="208" font-size="10.5" fill="var(--ink-mute)">电（柱子画不下）</text>
+          </g>
+        </svg>
+        <figcaption>一天工作能换来的照明：10 分钟 → 1 小时 → 5 小时 → 2 万倍——做东西的门槛一直在暴跌（《学习的真相》25·生产导向）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"生产者从一开始，<br>就以创造并且只以创造为目标。"</p>
+      <span class="src">—— 《学习的真相》25「生产导向」。学练用造，目标钉在哪一格，决定了前面每一格的深度；而从消费者变成生产者，第一步只是换一个自我定位。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>数一数：这一周你"消费"了多少别人做的东西（游戏、视频、零食、文具……）？再数一数，你"生产"过几样给别人用、看、玩的东西？这个比例，你自己满意吗？</summary>
+        <p class="hint">没有标准答案，写在你自己的本子上。提示：天生是消费者不丢人，人人如此——但比例可以从今天开始，一点点挪。</p>
+      </details>
+      <details>
+        <summary>"好好学习，才能找到好工作"和"好好学习，才能做出自己想做的东西"——这两句话，会把一个人带到多么不一样的地方？你打算用哪一句当自己的？</summary>
+        <p class="hint">没有标准答案。前一句的终点是"被挑选"，后一句的终点是"去创造"——而为了造，你自然会学得更多、练得更多，谁也不用逼你。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>本周完成一次<strong>"消费者 → 生产者"的翻转</strong>：挑一样你最爱消费的东西（一个游戏、一类视频、一本漫画、一个玩具……），自己动手做一个<strong>最小版本</strong>——画一张游戏关卡设计草图、写一个 60 秒视频的脚本、画一页四格漫画，或者把这周学会的一个知识点写成一页"别人能看懂的小说明"。只有一条硬要求：<strong>做出来之后，交给一个真实的人去用、去看</strong>，然后记下两件事——①对方给你的一个反馈；②做的过程中你发现的一个"原来我还不会"的地方。你会体验到：只当用的人，永远不知道做的人在想什么；而做过一次的人，连消费的眼光都会变。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="24-stuck.html">← 越往前学，越容易</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '25-be-a-producer';
+    const READER_TITLE = '从一开始，就当生产者';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
