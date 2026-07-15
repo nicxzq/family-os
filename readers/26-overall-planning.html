@@ -1,0 +1,274 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: L10 · 源: 学习的真相 28「效率至上」（华罗庚《统筹方法平话及其补充》1965/小学六年级课文《统筹方法》：泡茶例——洗开水壶1分钟、烧开水15分钟、洗茶壶1分钟、洗茶杯2分钟、拿茶叶1分钟，一件一件做20分钟，统筹后16分钟；统筹=把任务拆成步骤后只研究两件小事：串联（哪些必须分先后，如洗开水壶必须在烧水之前）与并联（哪些可以同时进行）；"到最后，节省时间的核心来自于并联"；没有统筹就没有计划，只有统筹才是真正有效的计划；句型"在做……的同时，把……也给做了"——整理笔记的同时做第一次复习/用外语版教材学新东西/玩游戏必须玩英文版/散步听有声书；统筹的真正难度=任务拆分是否合理，更可怕的形式=压根没意识到关键步骤的存在（学习计划里只有突击、没有预习复习，统筹得再认真也没用）；只带一块表会看时间≠自动建立时间观念；缺效率最耽误事尤其耽误赚钱，经济独立是思想独立的基础，磨练效率要放在重视度最高等级；比缺效率更糟=缺长期观念——大脑为生存设计天生短视、对5岁孩子一年=已有人生20%对50岁=2%、人们低估远期收益高估近期损失（感受不到的伤害干脆估计为零，慢性病患者皆受害者）、说教无用（《长歌行》从小学一年级背起照样老大徒伤悲）；唯一可行方案=从爱上学习开始：识字=几年走完人类几万年、一步跨到公元前3500年；阿拉伯数字公元1200年左右才传到欧洲、1500年才被全面采用；负数=汉代《九章算术》；能量守恒=再过1700多年由焦耳等十几位科学家发现证明——"世界上真正的速成，只不过是朴素的学习"；学习就是攒时间甚至攒命；学习提高效率、效率反过来促进学习，只有积累才能滋生长期观念）。金句取"节省时间的核心来自于并联"。绿色系。 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>烧水的时候，把杯子洗了 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--green); --accent-soft: var(--green-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--blue); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 学习的真相</span>
+    <h1>烧水的时候，<br>把杯子洗了</h1>
+
+    <p class="hook">
+      想泡一壶茶：洗开水壶要 1 分钟，烧开水要 15 分钟，洗茶壶 1 分钟，洗茶杯 2 分钟，拿茶叶 1 分钟。一件一件做，20 分钟。数学家华罗庚在 1965 年的一本小书《统筹方法平话及其补充》里给出的答案是：<span class="em">16 分钟</span>。这个例子后来进了小学六年级的语文课本，人人都学过——可你看看有多少大人在厨房里忙得焦头烂额，就知道<span class="em">"学过"和"会用"隔着多远</span>。省下的 4 分钟去了哪？这一篇讲清楚。
+    </p>
+
+    <!-- 拆解 1 · 统筹：串联与并联 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>统筹，只研究两件小事</h3>
+      <p>华罗庚的做法：先把任务<strong>拆成若干个步骤</strong>，每步用时都算得出来，然后研究步骤之间的关系——这就是<strong>统筹</strong>（统一筹划）。别被这个词吓到，它到最后只研究两件小事：<strong>一个叫串联，一个叫并联</strong>。</p>
+      <p><strong>串联</strong>：哪些步骤必须分先后？洗开水壶必须放在烧开水之前，这个顺序不能乱。<strong>并联</strong>：哪些步骤可以同时进行？洗茶壶、洗茶杯、拿茶叶这三件事不分先后，关键是——它们全都可以塞进烧开水的那 15 分钟里，一点不耽误事。于是 20 分钟变成 16 分钟。书里把结论说得很直白：<strong>到最后，节省时间的核心来自于并联。</strong>统筹后来甚至成了一门专门的学科，可它的核心简单到六年级学生都能实践——伟大的思想都是简单的。</p>
+      <figure>
+        <svg viewBox="0 0 600 250" role="img" aria-label="泡茶的两种做法对比：一件一件做20分钟，统筹后16分钟">
+          <g font-size="12" text-anchor="middle">
+            <text x="12" y="30" text-anchor="start" fill="var(--ink-soft)" font-weight="700">一件一件做</text>
+            <rect x="90" y="40" width="24" height="26" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <rect x="114" y="40" width="360" height="26" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="1.6"/>
+            <text x="294" y="58" fill="var(--ink)">烧开水 15 分钟</text>
+            <rect x="474" y="40" width="24" height="26" fill="var(--accent-soft)" stroke="var(--green)" stroke-width="1.4"/>
+            <rect x="498" y="40" width="48" height="26" fill="var(--accent-soft)" stroke="var(--green)" stroke-width="1.4"/>
+            <rect x="546" y="40" width="24" height="26" fill="var(--accent-soft)" stroke="var(--green)" stroke-width="1.4"/>
+            <text x="102" y="84" font-size="10.5" fill="var(--ink-mute)">洗水壶1</text>
+            <text x="486" y="84" font-size="10.5" fill="var(--ink-mute)">茶壶1</text>
+            <text x="522" y="84" font-size="10.5" fill="var(--ink-mute)">茶杯2</text>
+            <text x="558" y="84" font-size="10.5" fill="var(--ink-mute)">茶叶1</text>
+            <text x="570" y="30" fill="var(--ink-soft)" font-weight="700">= 20 分钟</text>
+
+            <text x="12" y="140" text-anchor="start" fill="var(--ink-soft)" font-weight="700">统筹着做</text>
+            <rect x="90" y="150" width="24" height="26" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <text x="102" y="194" font-size="10.5" fill="var(--ink-mute)">洗水壶1</text>
+            <rect x="114" y="150" width="360" height="26" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="1.6"/>
+            <text x="294" y="168" fill="var(--ink)">烧开水 15 分钟</text>
+            <rect x="150" y="184" width="24" height="18" fill="var(--accent-soft)" stroke="var(--green)" stroke-width="1.4"/>
+            <rect x="182" y="184" width="48" height="18" fill="var(--accent-soft)" stroke="var(--green)" stroke-width="1.4"/>
+            <rect x="238" y="184" width="24" height="18" fill="var(--accent-soft)" stroke="var(--green)" stroke-width="1.4"/>
+            <text x="162" y="220" font-size="10.5" fill="var(--ink-mute)">茶壶1</text>
+            <text x="206" y="220" font-size="10.5" fill="var(--ink-mute)">茶杯2</text>
+            <text x="250" y="220" font-size="10.5" fill="var(--ink-mute)">茶叶1</text>
+            <text x="330" y="220" font-size="11.5" fill="var(--green)" font-weight="700">← 塞进等水开的 15 分钟里（并联）</text>
+            <line x1="474" y1="120" x2="474" y2="182" stroke="var(--green)" stroke-width="1.6" stroke-dasharray="4 4"/>
+            <text x="524" y="140" fill="var(--green)" font-weight="700">= 16 分钟</text>
+            <text x="536" y="158" font-size="11" fill="var(--ink-mute)">省下 4 分钟</text>
+          </g>
+        </svg>
+        <figcaption>同样五个步骤，只是重排：必须分先后的串联起来，能同时做的并联进等待里（《学习的真相》28·效率至上）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 一个句型 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>一个句型，随身带走</h3>
+      <p>日常生活里，善于寻找任务之间的并联关系，能让自己多做不知道多少事。全部诀窍浓缩成一个句型：<strong>"在做……的同时，把……也给做了。"</strong></p>
+      <p>书里给的例子都很日常：当天<strong>整理笔记</strong>的同时，把<strong>第一次复习</strong>也给做了；想学什么新东西，买回来<strong>外语版教材</strong>研读——学那个东西的同时，把外语阅读也练了；散步的同时听有声书；甚至小朋友想玩游戏——可以玩，但必须玩<strong>英文版</strong>。到最后，大家之间的差别不就是：<strong>同样的时间里，谁做的事更多</strong>。</p>
+      <figure>
+        <svg viewBox="0 0 600 190" role="img" aria-label="串联与并联示意：串联一件接一件，并联同时进行">
+          <g font-size="13" text-anchor="middle">
+            <text x="150" y="34" fill="var(--ink-soft)" font-weight="700">串联：必须分先后</text>
+            <rect x="40" y="58" width="64" height="34" rx="8" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="72" y="80" fill="var(--ink)">先做</text>
+            <text x="122" y="80" font-size="17" fill="var(--ink-mute)">→</text>
+            <rect x="140" y="58" width="64" height="34" rx="8" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="172" y="80" fill="var(--ink)">再做</text>
+            <text x="222" y="80" font-size="17" fill="var(--ink-mute)">→</text>
+            <rect x="240" y="58" width="64" height="34" rx="8" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="272" y="80" fill="var(--ink)">后做</text>
+            <text x="150" y="130" font-size="11.5" fill="var(--ink-mute)">一件接一件，总时间 = 全部相加</text>
+
+            <text x="470" y="34" fill="var(--green)" font-weight="700">并联：可以同时进行</text>
+            <line x1="380" y1="86" x2="404" y2="86" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <line x1="404" y1="62" x2="404" y2="110" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <rect x="412" y="46" width="120" height="32" rx="8" fill="var(--accent-soft)" stroke="var(--green)" stroke-width="1.8"/>
+            <text x="472" y="67" fill="var(--ink)">在做这个…</text>
+            <rect x="412" y="94" width="120" height="32" rx="8" fill="var(--accent-soft)" stroke="var(--green)" stroke-width="1.8"/>
+            <text x="472" y="115" fill="var(--ink)">…把那个也做了</text>
+            <line x1="540" y1="62" x2="540" y2="110" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <line x1="540" y1="86" x2="564" y2="86" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="470" y="158" font-size="11.5" fill="var(--ink-mute)">同时进行，总时间 = 最长的那件</text>
+          </g>
+        </svg>
+        <figcaption>节省时间的核心来自于并联——句型："在做……的同时，把……也给做了"</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 关键步骤 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>统筹最怕的，不是不会排</h3>
+      <p>实际操作里，统筹真正的难度来自<strong>任务拆分是否合理</strong>：拆得太细没必要；拆分不当，就分辨不出哪些步骤原本可以并联，白白错过省时间的机会。</p>
+      <p>还有一种更可怕的形式：<strong>压根儿没意识到某个必要步骤的存在</strong>。比如很多人的学习计划里，干脆就没有预习和复习，只有突击。这不是智商问题——琢磨串联并联真的不难——可关键步骤都被忽略了，<strong>统筹得再认真也没用</strong>。上一篇讲过"仅仅按时间罗列任务，从来不是有效的学习计划"，现在可以补全了：<strong>没有统筹就没有计划，只有统筹才是真正有意义、真正有效的计划</strong>。同理，仅仅带上一块表、会看时间，也并不能自动建立有意义的时间观念。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="完整学习流程与漏掉关键步骤的计划对比">
+          <g font-size="13" text-anchor="middle">
+            <text x="12" y="34" text-anchor="start" fill="var(--ink-soft)" font-weight="700">完整的流程</text>
+            <rect x="140" y="16" width="88" height="34" rx="8" fill="var(--accent-soft)" stroke="var(--green)" stroke-width="1.8"/>
+            <text x="184" y="38" fill="var(--ink)">预习</text>
+            <rect x="250" y="16" width="88" height="34" rx="8" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="294" y="38" fill="var(--ink)">上课</text>
+            <rect x="360" y="16" width="88" height="34" rx="8" fill="var(--accent-soft)" stroke="var(--green)" stroke-width="1.8"/>
+            <text x="404" y="38" fill="var(--ink)">复习</text>
+            <rect x="470" y="16" width="110" height="34" rx="8" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="525" y="38" fill="var(--ink)">考前突击</text>
+
+            <text x="12" y="110" text-anchor="start" fill="var(--ink-soft)" font-weight="700">很多人的计划</text>
+            <rect x="140" y="92" width="88" height="34" rx="8" fill="none" stroke="var(--coral)" stroke-width="1.8" stroke-dasharray="5 4"/>
+            <text x="184" y="114" fill="var(--coral)" font-weight="700">？</text>
+            <rect x="250" y="92" width="88" height="34" rx="8" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="294" y="114" fill="var(--ink)">上课</text>
+            <rect x="360" y="92" width="88" height="34" rx="8" fill="none" stroke="var(--coral)" stroke-width="1.8" stroke-dasharray="5 4"/>
+            <text x="404" y="114" fill="var(--coral)" font-weight="700">？</text>
+            <rect x="470" y="92" width="110" height="34" rx="8" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="525" y="114" fill="var(--ink)">考前突击</text>
+            <text x="300" y="168" font-size="12" fill="var(--ink-mute)">关键步骤压根不在计划里——这时串联并联排得再漂亮，也救不回来</text>
+          </g>
+        </svg>
+        <figcaption>任务拆分最可怕的失误：没意识到关键步骤的存在（如学习计划里没有预习和复习）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 · 学习就是攒时间 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>效率的尽头：学习就是攒时间</h3>
+      <p>为什么要把磨练效率放到重视度的<strong>最高等级</strong>？因为缺乏效率最耽误事——你不断提高效率，在同样的时间里做更多的事，就是实实在在提高自己未来的赚钱能力；而<strong>经济独立是思想独立的基础</strong>。比缺效率更糟的只有一样：缺长期观念。可长期观念偏偏没法天生——大脑是为生存设计的，天生短视；而且时间的"感受速度"人人不同：对 5 岁的孩子，未来一年相当于已有人生的 <strong>20%</strong>；对 12 岁的你，约 8%；对 50 岁的人，只有 <strong>2%</strong>。所以人们总是不由自主地<strong>低估远期收益、高估近期损失</strong>——说教也没用，"少壮不努力"从小学一年级背起，绝大多数人照样老大徒伤悲。</p>
+      <p>书里给的解决方案只有一个：<strong>从爱上学习开始</strong>。因为学习是天下真正的速成——你识字，相当于用几年就走完人类几万年，一步跨到公元前 3500 年；你学几个阿拉伯数字，它们公元 1200 年左右才传到欧洲、1500 年才被全面采用；你在小学理解的负数，人类到汉代《九章算术》才有；你九年级学的能量守恒，是再过 1700 多年、由焦耳等十几位科学家才发现并证明的。<strong>每次你学到一个新知识，对你只是一小步，可那是人类的一大步——直接拿过来</strong>。所以学习就是攒时间，甚至是攒命；而学习会提高效率，效率反过来又促进学习——只有这样滚出来的积累，才能滋生真正的长期观念。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="人类用几万年积累的知识，你用几年上学时间全部拿到">
+          <g font-size="12" text-anchor="middle">
+            <line x1="40" y1="90" x2="560" y2="90" stroke="var(--ink-mute)" stroke-width="1.8"/>
+            <polygon points="560,90 550,85 550,95" fill="var(--ink-mute)"/>
+            <circle cx="80" cy="90" r="5" fill="var(--green)"/>
+            <text x="80" y="66" fill="var(--ink)" font-weight="700">文字</text>
+            <text x="80" y="114" font-size="11" fill="var(--ink-mute)">公元前3500年</text>
+            <circle cx="205" cy="90" r="5" fill="var(--green)"/>
+            <text x="205" y="66" fill="var(--ink)" font-weight="700">负数</text>
+            <text x="205" y="114" font-size="11" fill="var(--ink-mute)">汉代《九章算术》</text>
+            <circle cx="330" cy="90" r="5" fill="var(--green)"/>
+            <text x="330" y="66" fill="var(--ink)" font-weight="700">阿拉伯数字普及</text>
+            <text x="330" y="114" font-size="11" fill="var(--ink-mute)">约公元1500年</text>
+            <circle cx="455" cy="90" r="5" fill="var(--green)"/>
+            <text x="455" y="66" fill="var(--ink)" font-weight="700">能量守恒</text>
+            <text x="455" y="114" font-size="11" fill="var(--ink-mute)">19世纪·焦耳等</text>
+            <text x="540" y="66" fill="var(--ink)" font-weight="700">今天</text>
+            <path d="M 80 140 L 80 152 L 540 152 L 540 140" fill="none" stroke="var(--green)" stroke-width="1.8"/>
+            <text x="310" y="180" fill="var(--green)" font-weight="700" font-size="14">你：用几年上学时间，全部直接拿到 —— 这就是攒时间</text>
+          </g>
+        </svg>
+        <figcaption>"世界上真正的速成，只不过是朴素的学习"——你的一小步，都是人类的一大步（《学习的真相》28）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"到最后，节省时间的核心<br>来自于并联。"</p>
+      <span class="src">—— 《学习的真相》28「效率至上」。统筹只研究两件小事：串联与并联。人们那么小就学过，却从来没有真正重视过——这么重要的东西，竟然真的这么简单。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>回想你今天早上从起床到出门的全过程：拆成小步骤，哪些必须分先后（串联）？哪些其实可以塞进"等待的缝隙"里同时做（并联）？照华罗庚的算法，你能省出几分钟？</summary>
+        <p class="hint">没有标准答案，写在你自己的本子上。提示：先找"最长的那段等待"（烧水、加热、下载、排队），能往里塞的事越多，省得越多。</p>
+      </details>
+      <details>
+        <summary>"学习就是攒时间"——你去年学会的东西里，哪一样是人类花了几百年甚至几千年才搞明白的？如果没人教、不上学，你自己摸索要多久？</summary>
+        <p class="hint">没有标准答案。提示：负数、阿拉伯数字、能量守恒……随便挑一个算一算，你会发现"朴素的学习"是世界上兑换率最高的交易。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>本周做一次<strong>"统筹改造"实验</strong>：挑一件你每周至少做三次的日常流程（写作业的全过程、早上出门、帮家里做一顿饭都行）。①把它拆成小步骤，写下每步大约用时；②标出哪些必须分先后（串联）、哪些可以同时做（并联）；③找出最长的那段"等待"，把能并联的事塞进去；④按新顺序做一遍，用表计时。硬要求：像华罗庚那样写出两个数字——<strong>"旧顺序 __ 分钟 → 新顺序 __ 分钟"</strong>。顺手再检查一件事：这个流程里有没有被你漏掉的关键步骤（比如作业流程里的"检查"）？周末把省下的分钟数乘上一年要重复的次数——那就是你攒下的第一笔"时间存款"。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="25-be-a-producer.html">← 从一开始，就当生产者</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '26-overall-planning';
+    const READER_TITLE = '烧水的时候，把杯子洗了';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
