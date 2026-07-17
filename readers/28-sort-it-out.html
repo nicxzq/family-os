@@ -1,0 +1,246 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: K02 · 源: 思考的真相 1.2「分类」（有些概念是集合概念：由多个确定的元素或其他概念构成的整体，如灵长类动物包含猴、猿、人类等类别；为了分析和决策，对集合概念所包含的各个概念经常要做的工作就是分类；良好分类的两个基本要求：①合理=各个子类别之间互不重合——经典反例"生产四要素"（土地、人力、企业家才能、资本）：资本能买到其他三个要素中的任何一个（买地、买人力、聘 CEO=购买企业家才能），所以不能与其他三个并列；②完整=所有分类加起来等于全部——灵长类的合理分类应是猴、猿、人、其他灵长类，没有"其他"就不完整；生产四要素删掉资本后剩三个也无法构成完整分类；最糟糕的分类：把原本不属于某集合概念的硬塞进去——前苏联李森科捏造获得性遗传学说、包装成米丘林生物学硬塞进"科学"；或把明明属于的剔除出去——逻辑训练原本应属基础教育却被剔除，好几代人在这样的教育下长大；合理且完整就这么简单，却异常重要：作者母亲退休前是延边医学院图书馆馆长，图书馆的核心叫情报学，情报学的核心只不过是分类；人工智能需要大数据，喂养前要清洗数据，术语叫打标签——AI 培养的核心基础工作之一也只不过是分类；生活中所谓的思考全面，归根结底只不过是分类是否足够合理、是否足够完整：分析问题时原因如何分类、有没有类别没考虑到；做判断时判断标准如何分类、有没有标准没考虑到；一个事物需要考虑哪些方面、有没有方面没考虑到——本质都是分类，既然是分类，就需要做到既合理又完整）。金句取"所谓的思考全面……只不过是分类是否足够合理、足够完整而已"。蓝色系。§7.4 第二篇。 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<script src="/fo-gate.js"></script>
+<title>不重不漏，才算想全了 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--blue); --accent-soft: var(--blue-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+</head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 思考的真相</span>
+    <h1>不重不漏，<br>才算想全了</h1>
+
+    <p class="hook">
+      训练人工智能，听起来是全世界最尖端的事吧？书里讲了个有意思的对照：AI 需要大数据，而在把大数据喂给 AI 之前，得先"清洗数据"，术语叫<span class="em">打标签</span>——说白了，就是分类。再看另一头：图书馆是人类最古老的知识机构之一，它的核心叫情报学，而情报学的核心，也只不过是分类。<span class="em">最新的 AI 和最老的图书馆，底层竟是同一件小事</span>。这一篇讲思考的第二块地基：分类。好的分类，要求只有两条——但大多数人两条都没做到。
+    </p>
+
+    <!-- 拆解 1 · 集合概念 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>有些概念，是"一群概念"</h3>
+      <p>上一篇说过，思考的基础要素有四个：定义、分类、比较、因果。定义清楚之后，你会发现<strong>有些概念是集合概念</strong>——由多个确定的元素或者其他概念构成的整体。比如"灵长类动物"就是一个集合概念，里面装着很多动物类别：猴、猿，以及人类。</p>
+      <p>对集合概念里装着的这些概念，<strong>为了分析和决策，我们经常需要做的工作就是分类</strong>。听起来平平无奇？往下看——一个流传很广、印在经济学书籍里的分类，马上就要翻车了。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="集合概念示意：灵长类动物包含猴、猿、人类等类别">
+          <g font-size="13" text-anchor="middle">
+            <rect x="60" y="24" width="480" height="150" rx="14" fill="var(--paper)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="300" y="52" fill="var(--ink)" font-weight="700">灵长类动物（集合概念）</text>
+            <rect x="96" y="76" width="100" height="44" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="146" y="103" fill="var(--ink)">猴</text>
+            <rect x="216" y="76" width="100" height="44" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="266" y="103" fill="var(--ink)">猿</text>
+            <rect x="336" y="76" width="100" height="44" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="386" y="103" fill="var(--ink)">人</text>
+            <rect x="456" y="76" width="60" height="44" rx="10" fill="var(--cream)" stroke="var(--ink-mute)" stroke-width="1.4" stroke-dasharray="4 3"/>
+            <text x="486" y="103" fill="var(--ink-soft)" font-size="11.5">其他…</text>
+            <text x="300" y="152" font-size="12" fill="var(--ink-mute)">一个大概念，装着一群小概念——分析和决策之前，先分类</text>
+          </g>
+        </svg>
+        <figcaption>集合概念 = 由多个概念构成的整体；对它做的最常见工作，就是分类（《思考的真相》1.2）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 要求一：合理 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>要求一：合理——子类别互不重合</h3>
+      <p>某些经济学书籍里常常提到<strong>"生产四要素"</strong>：土地、人力、企业家才能、资本。看起来一本正经，可它没做到良好分类的第一个要求——<strong>合理，即各个子类别之间应该互不重合</strong>。</p>
+      <p>你看：<strong>资本能买到其他三个要素中的任何一个</strong>。资本可以买到土地，也可以买到人力；只要允许，企业家才能也不是不行——聘请 CEO，不就是购买企业家才能吗？那么请问，资本怎么可以与其他三个要素<strong>并列</strong>呢？就像把"水果"分成"苹果、香蕉、能买水果的钱"——第三个类别根本不在同一层，跟前两个处处重合。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="生产四要素分类不合理：资本能买到土地、人力和企业家才能，与三者重合">
+          <g font-size="13" text-anchor="middle">
+            <rect x="30" y="24" width="110" height="44" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="85" y="51" fill="var(--ink)">土地</text>
+            <rect x="160" y="24" width="110" height="44" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="215" y="51" fill="var(--ink)">人力</text>
+            <rect x="290" y="24" width="130" height="44" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="355" y="51" fill="var(--ink)">企业家才能</text>
+            <rect x="440" y="24" width="110" height="44" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="495" y="51" fill="var(--ink)" font-weight="700">资本</text>
+            <path d="M 470 72 C 380 130 150 130 87 74" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4"/>
+            <path d="M 480 72 C 420 120 260 122 217 74" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4"/>
+            <path d="M 492 72 C 470 105 395 108 360 74" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4"/>
+            <text x="300" y="152" font-size="12.5" fill="var(--accent)" font-weight="700">资本买得到另外三个 → 类别之间重合了</text>
+            <text x="300" y="184" font-size="12" fill="var(--ink-mute)">要求一不及格：并列的子类别，必须互不重合</text>
+          </g>
+        </svg>
+        <figcaption>"生产四要素"翻车现场：资本可以买到土地、人力、企业家才能，怎么能与它们并列？</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 要求二：完整 + 最糟的分类 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>要求二：完整——加起来等于全部</h3>
+      <p>良好分类的第二个要求叫<strong>完整：所有的分类加起来，应该等于全部</strong>。灵长类动物的合理分类应该是猴、猿、人，<strong>以及"其他灵长类"</strong>——没有"其他"这个类别，就不完整。回到生产四要素：如果因为资本跟别人重合、只好把它删掉，那么剩下的土地、人力、企业家才能三个类别，又无法构成完整的分类。合理、完整，两头都不及格——无论从哪个角度望过去，这个分类都实在太糟糕了。</p>
+      <p>当然，还有更糟的：<strong>把原本不属于某个集合概念的东西硬塞进去</strong>。经典案例是前苏联科学家李森科——生生捏造出一个"获得性遗传"学说，包装成"米丘林生物学"，硬塞进<strong>"科学"</strong>这个集合概念里，当作其中一个类别。或者反过来，<strong>把明明属于的剔除出去</strong>：逻辑训练原本应该属于基础教育，可一些人认为它不该属于，于是好几代人都在缺了这一块的教育下长大——如果不自己挣扎一下，整个生活都会因此变得乱七八糟。</p>
+      <figure>
+        <svg viewBox="0 0 600 220" role="img" aria-label="完整性检查：所有类别相加应等于全部；乱塞和乱踢是最糟的分类">
+          <g font-size="13" text-anchor="middle">
+            <text x="300" y="30" fill="var(--ink)" font-weight="700">所有类别加起来 = 全部？</text>
+            <rect x="60" y="48" width="140" height="40" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="130" y="73" fill="var(--ink)">猴</text>
+            <rect x="200" y="48" width="130" height="40" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="265" y="73" fill="var(--ink)">猿</text>
+            <rect x="330" y="48" width="110" height="40" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="385" y="73" fill="var(--ink)">人</text>
+            <rect x="440" y="48" width="100" height="40" rx="8" fill="var(--cream)" stroke="var(--green)" stroke-width="2" stroke-dasharray="5 3"/>
+            <text x="490" y="73" fill="var(--green)" font-weight="700" font-size="12">+ 其他 ✓</text>
+            <text x="300" y="114" font-size="12" fill="var(--ink-mute)">缺了"其他"，拼图就有缺口——分类不完整</text>
+            <g font-size="12.5">
+              <rect x="60" y="136" width="220" height="58" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.4"/>
+              <text x="170" y="160" fill="var(--ink)" font-weight="700">最糟 ①：硬塞进来</text>
+              <text x="170" y="181" fill="var(--ink-mute)" font-size="11.5">李森科把伪学说塞进"科学"</text>
+              <rect x="320" y="136" width="220" height="58" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.4"/>
+              <text x="430" y="160" fill="var(--ink)" font-weight="700">最糟 ②：硬踢出去</text>
+              <text x="430" y="181" fill="var(--ink-mute)" font-size="11.5">逻辑训练被踢出基础教育</text>
+            </g>
+          </g>
+        </svg>
+        <figcaption>完整 = 所有类别相加等于全部；比不完整更糟的，是往集合里乱塞、或把该在的踢走</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 · 简单却异常重要 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>"想得全面"，其实就是这两条</h3>
+      <p><strong>合理且完整</strong>，是良好分类的最基本要求，就这么简单。可是，这么简单的东西却异常重要。开头那个对照你还记得吧：图书馆的核心是情报学，情报学的核心只不过是分类；AI 崛起了，培养 AI 的核心基础工作之一——给数据打标签——竟然也还是分类。从最老的行当到最新的行当，底层是同一门功夫。</p>
+      <p>生活中所谓的<strong>"思考全面"，归根结底只不过是：分类是否足够合理，分类是否足够完整</strong>。分析一个问题，看到某个结果有很多原因——这些原因该如何分类？<strong>有没有什么类别没考虑到？</strong>要做判断了——判断标准该如何分类？<strong>有没有什么标准没考虑到？</strong>考虑一个事物——它到底有哪些方面？<strong>有没有什么方面没考虑到？</strong>这些问题本质都一样，全都是分类；既然是分类，就需要做到既合理又完整。下次有人夸你"想得真全"，你知道那其实是在夸什么了。</p>
+      <figure>
+        <svg viewBox="0 0 600 190" role="img" aria-label="思考全面的三个套用：原因分类、判断标准分类、方面分类，都检查合理与完整">
+          <g font-size="13" text-anchor="middle">
+            <rect x="40" y="24" width="160" height="52" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="120" y="46" fill="var(--ink)" font-size="12.5">分析问题</text>
+            <text x="120" y="66" fill="var(--ink-soft)" font-size="11.5">原因怎么分类？</text>
+            <rect x="220" y="24" width="160" height="52" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="300" y="46" fill="var(--ink)" font-size="12.5">做判断</text>
+            <text x="300" y="66" fill="var(--ink-soft)" font-size="11.5">标准怎么分类？</text>
+            <rect x="400" y="24" width="160" height="52" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="480" y="46" fill="var(--ink)" font-size="12.5">看一个事物</text>
+            <text x="480" y="66" fill="var(--ink-soft)" font-size="11.5">方面怎么分类？</text>
+            <path d="M 120 80 L 280 118" fill="none" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <path d="M 300 80 L 300 114" fill="none" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <path d="M 480 80 L 320 118" fill="none" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <rect x="170" y="118" width="260" height="46" rx="23" fill="var(--accent)" stroke="none"/>
+            <text x="300" y="147" fill="var(--paper)" font-weight="700">合理吗？ · 完整吗？</text>
+            <text x="300" y="184" font-size="12" fill="var(--ink-mute)">"想得全面" = 每一次分类都通过这两个检查</text>
+          </g>
+        </svg>
+        <figcaption>分析原因、定判断标准、考虑方面——本质都是分类，都只查同样两条：合理、完整</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"所谓的思考全面，归根结底，<br>只不过是分类是否足够合理、<br>是否足够完整而已。"</p>
+      <span class="src">—— 《思考的真相》1.2「分类」。两条要求：合理 = 子类别互不重合；完整 = 加起来等于全部。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>你听过"人分两种：努力的和懒的"这类说法吗？用两条要求检查一下：有没有人既努力又偶尔犯懒（重合）？有没有人哪一类都放不进去（不完整）？它及格吗？</summary>
+        <p class="hint">没有标准答案，写在你自己的本子上。提示：很多流行的"人分两种"，两条要求一条都过不了——识别出这一点，你就已经比说这话的人想得全面了。</p>
+      </details>
+      <details>
+        <summary>看看你手机里的相册文件夹、书包里的分层，或者电脑里的文件夹——哪个分类里有"能同时放进两个格子"的东西？哪个分类缺一个"其他"？</summary>
+        <p class="hint">没有标准答案。提示：找东西慢，常常不是因为东西多，而是因为类别重合（不知道放哪了）或不完整（有东西无处可放，随手一丢）。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>本周当一次<strong>"分类质检员"</strong>：挑三个你身边现成的分类——比如手机 App 的文件夹、书桌抽屉的分区、笔记本里的科目分栏。对每一个都只问两个问题：<strong>① 有没有两个类别互相重合？② 所有类别加起来等于全部吗（缺不缺"其他"）？</strong>把最不及格的那一个动手重新分一次，重分前后各计一次时："找同一样东西，原来花几秒，现在花几秒？"周末把最大的那次提速讲给家人听——顺便考考他们：生产四要素错在哪？</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="27-define-it.html">← 你脑子里有一张概念表</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '28-sort-it-out';
+    const READER_TITLE = '不重不漏，才算想全了';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
