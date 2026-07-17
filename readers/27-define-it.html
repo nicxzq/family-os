@@ -1,0 +1,245 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: K01 · 源: 思考的真相 1.1「定义」（开篇引罗素"很多人宁愿死，也不肯思考，并且，他们中的大多数的确也就那样死掉"；思考最基础的要素只有四个：定义、分类、比较、因果；思考的核心都是概念——每个概念要定义得足够清楚，概念之间可能分类、比较、构成因果；定义的核心只不过是一个等号：左边概念、右边描述，即"什么概念究竟是什么意思"；教科书定义精确且完整：加速度=速度变化量与所用时间之比→速度=位移与时间之比→位移=初始位置到末位置的有向线段构成的矢量→矢量=有大小和方向的物理量，每个学科都由相互关联的概念构成；学新技能=脑子里新增概念，如操作过 Excel 就知道 CRUD=创建create/读取read/更新update/删除delete；每人脑子里相当于有一张概念表：实践=读取（调用）概念，学习=新建、更新、删除概念；燃素：约1650年起的100多年人们认为一切可燃物都含燃素（木头含故可燃、石头不含故不可燃），拉瓦锡删除该概念=近代化学崛起的分水岭；"火/上火"：舌头起泡、嗓子哑、发烧发热被归因于"火"，现代医学更新为"炎症"，针对不同部位的炎症用不同药物消炎，所有有行医执照的医生都早已如此操作；定义的关键只有两条：①等号左边的概念要必要，没必要的删掉；②等号右边的描述要准确=毫无歧义，有歧义就反复更新直至毫无歧义；很多概念可有若干定义（重要事物有很多方面/角度）：时间在物理学上是一种尺度、是标量（含时刻与时段），生活中"时间就是金钱"、李笑来"时间是一种生产资料"——从另外的角度重新定义；但无论学术还是生活要求一模一样：第一要必要、第二要准确，哪条做不到就更新甚至删除）。金句取罗素开篇引。珊瑚色系。§7.4 首篇。 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<title>你脑子里有一张概念表 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--coral); --accent-soft: var(--coral-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--blue); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 思考的真相</span>
+    <h1>你脑子里<br>有一张概念表</h1>
+
+    <p class="hook">
+      嗓子哑、舌头起泡、有点发烧——家里长辈多半会说："<span class="em">上火</span>了，降降火。"可"火"到底是什么？它在身体的哪里烧？为什么凉茶能浇灭它？你大概答不上来。有意思的是：<span class="em">所有有行医执照的医生，早就把"火"这个概念从脑子里删掉了</span>，换成了另一个词——炎症。"删掉一个概念"听起来很奇怪吧？这一篇讲思考的第一块地基：定义。它简单到只是一个等号，却决定了你会不会思考。
+    </p>
+
+    <!-- 拆解 1 · 四要素与等号 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>思考，最基础的只有四个词</h3>
+      <p>日常生活里的思考，真的没有多复杂。书里说，思考需要考虑的最基础要素主要只有四个：<strong>定义、分类、比较、因果</strong>。更准确地讲，思考的核心其实都是<strong>概念</strong>——每个概念都需要定义得足够清楚，然后概念之间可能需要分类，可能相互比较，可能构成因果关系。四个词，第一个就是定义。</p>
+      <p>而定义的核心，只不过是<strong>一个等号</strong>：等号左边是概念，右边是描述——某个概念究竟是什么意思。就这么简单。可你马上会看到，绝大多数人脑子里的等号，右边要么是空的，要么塞着一团说不清的东西。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="思考四要素：定义、分类、比较、因果；定义=概念+等号+描述">
+          <g font-size="13" text-anchor="middle">
+            <rect x="30" y="24" width="120" height="40" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="90" y="49" fill="var(--ink)" font-weight="700">定义</text>
+            <rect x="180" y="24" width="120" height="40" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="240" y="49" fill="var(--ink-soft)">分类</text>
+            <rect x="330" y="24" width="120" height="40" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="390" y="49" fill="var(--ink-soft)">比较</text>
+            <rect x="480" y="24" width="90" height="40" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="525" y="49" fill="var(--ink-soft)">因果</text>
+            <text x="90" y="86" font-size="11" fill="var(--accent)" font-weight="700">← 这一篇 · 一切的地基</text>
+
+            <rect x="90" y="120" width="150" height="46" rx="10" fill="var(--paper)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="165" y="149" fill="var(--ink)" font-weight="700">概念</text>
+            <text x="300" y="152" font-size="26" fill="var(--accent)" font-weight="700">=</text>
+            <rect x="360" y="120" width="180" height="46" rx="10" fill="var(--paper)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="450" y="149" fill="var(--ink)" font-weight="700">描述</text>
+            <text x="165" y="192" font-size="11.5" fill="var(--ink-mute)">这个词是什么</text>
+            <text x="450" y="192" font-size="11.5" fill="var(--ink-mute)">它究竟是什么意思</text>
+          </g>
+        </svg>
+        <figcaption>思考的四要素，第一个是定义；定义的核心只是一个等号（《思考的真相》1.1）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 概念链 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>教科书，其实是一条概念链</h3>
+      <p>教科书里的定义往往只有一个，并且要求描述<strong>精确且完整</strong>。物理课本里，加速度 = 速度变化量与发生这一变化所用时间的比值。那"速度"呢？速度 = 位移与发生这个位移的时间之比。"位移"呢？由初始位置到末位置的有向线段构成的<strong>矢量</strong>。"矢量"呢？有大小和方向的物理量。一环扣一环，谁也不含糊。</p>
+      <p><strong>每一个学科都是这样：由一个又一个相互关联的概念构成的</strong>，每个概念都有精确且完整的定义。所以每次你学会一项新技能、掌握一门新学科，本质上就是往脑子里<strong>新增了很多概念</strong>。比如你只要操作过 Excel 表格，就可能听说过 CRUD——创建 create、读取 read、更新 update、删除 delete，四个新概念就这么进了你的脑子。记住这四个词，下一节马上要用。</p>
+      <figure>
+        <svg viewBox="0 0 600 180" role="img" aria-label="物理概念定义链：加速度依赖速度，速度依赖位移，位移依赖矢量">
+          <g font-size="13" text-anchor="middle">
+            <rect x="20" y="60" width="110" height="44" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="75" y="87" fill="var(--ink)" font-weight="700">加速度</text>
+            <text x="150" y="88" font-size="16" fill="var(--ink-mute)">→</text>
+            <rect x="170" y="60" width="100" height="44" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="220" y="87" fill="var(--ink)">速度</text>
+            <text x="290" y="88" font-size="16" fill="var(--ink-mute)">→</text>
+            <rect x="310" y="60" width="100" height="44" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="360" y="87" fill="var(--ink)">位移</text>
+            <text x="430" y="88" font-size="16" fill="var(--ink-mute)">→</text>
+            <rect x="450" y="60" width="100" height="44" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="500" y="87" fill="var(--ink)">矢量</text>
+            <text x="75" y="128" font-size="10.5" fill="var(--ink-mute)">速度变化量/时间</text>
+            <text x="220" y="128" font-size="10.5" fill="var(--ink-mute)">位移/时间</text>
+            <text x="360" y="128" font-size="10.5" fill="var(--ink-mute)">有向线段·矢量</text>
+            <text x="500" y="128" font-size="10.5" fill="var(--ink-mute)">有大小和方向</text>
+            <text x="300" y="162" font-size="12" fill="var(--accent)" font-weight="700">每个定义都站在下一个定义上——学科 = 相互关联的概念</text>
+          </g>
+        </svg>
+        <figcaption>想说清"加速度"，就得先说清速度、位移、矢量——教科书是一条精确且完整的概念链</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 概念表与 CRUD -->
+    <section class="card">
+      <h3><span class="step-no">3</span>你脑子里的那张表，也能增删改</h3>
+      <p>书里给了一个特别好用的模型：<strong>每个人脑子里都相当于有一张概念表</strong>，每一条记录就是一个概念。你<strong>实践</strong>的时候，是在<strong>读取</strong>（调用）某个概念；你<strong>学习</strong>的时候，是在<strong>新建、更新、删除</strong>某些概念——正好就是上一节的 CRUD。</p>
+      <p>这不是打比方，历史上真的发生过。大约从 1650 年开始的 100 多年里，人们脑子里有个概念叫<strong>燃素</strong>：一切可燃的东西都是因为含有燃素——木头含燃素所以可燃，石头不含所以不可燃。后来法国化学家<strong>拉瓦锡把这个概念删除了</strong>，而这次删除是一个分水岭，标志着近代化学的崛起。再看开头那个"火"：舌头起泡、嗓子哑、发烧发热，古人都归因于"火太大了"；现代医学发展后，人们知道这个概念应该<strong>更新成"炎症"</strong>——然后就能针对不同部位的炎症，用不同的药物去消炎。删掉一个错的概念，更新一个旧的概念，整门学科、整套医术就此改写。</p>
+      <figure>
+        <svg viewBox="0 0 600 220" role="img" aria-label="脑中的概念表：燃素被删除，火被更新为炎症，炎症被新建">
+          <g font-size="13">
+            <rect x="60" y="20" width="480" height="180" rx="12" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="300" y="46" text-anchor="middle" fill="var(--ink)" font-weight="700">我的概念表</text>
+            <line x1="60" y1="60" x2="540" y2="60" stroke="var(--ink-mute)" stroke-width="1.2"/>
+            <text x="90" y="88" fill="var(--ink-mute)" text-decoration="line-through">燃素 = 万物可燃的原因</text>
+            <rect x="390" y="70" width="110" height="26" rx="13" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="445" y="88" text-anchor="middle" fill="var(--accent)" font-weight="700" font-size="11.5">删除 · 拉瓦锡</text>
+            <line x1="60" y1="106" x2="540" y2="106" stroke="var(--cream-deep)" stroke-width="1"/>
+            <text x="90" y="134" fill="var(--ink)"><tspan text-decoration="line-through" fill="var(--ink-mute)">火</tspan> → 炎症 = 引发红肿热痛的反应</text>
+            <rect x="390" y="116" width="110" height="26" rx="13" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="1.6"/>
+            <text x="445" y="134" text-anchor="middle" fill="var(--blue)" font-weight="700" font-size="11.5">更新 · 现代医学</text>
+            <line x1="60" y1="152" x2="540" y2="152" stroke="var(--cream-deep)" stroke-width="1"/>
+            <text x="90" y="180" fill="var(--ink)">加速度 = 速度变化量 / 时间</text>
+            <rect x="390" y="162" width="110" height="26" rx="13" fill="var(--green-soft)" stroke="var(--green)" stroke-width="1.6"/>
+            <text x="445" y="180" text-anchor="middle" fill="var(--green)" font-weight="700" font-size="11.5">新建 · 物理课</text>
+          </g>
+        </svg>
+        <figcaption>学习 = 对概念表做新建、更新、删除；实践 = 读取。拉瓦锡删掉"燃素"，删出了近代化学</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 · 定义的两条关键 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>定义的关键，只有两条</h3>
+      <p>那怎么判断一条定义合不合格？书里说，关键主要只有两个部分：<strong>第一，等号左边的概念要必要</strong>——没必要的就要删掉（像燃素）；<strong>第二，等号右边的描述要准确</strong>——所谓准确，就是<strong>毫无歧义</strong>；如果有歧义，就要反复更新，直至毫无歧义。你看，定义的关键没有多复杂。</p>
+      <p>当然，生活中很多概念可以有若干个定义——重要的事物往往有很多方面、很多看待角度。比如<strong>时间</strong>：物理学上，它是一种尺度，是标量，包含时刻和时段两个概念；而生活中人们常说"时间就是金钱"，李笑来则常说"时间是一种<strong>生产资料</strong>"——这些都是从另外一个角度重新定义时间。不过，无论在学术上还是在生活当中，要求都一模一样，只有两条：<strong>第一要必要，第二要准确</strong>。但凡哪一条做不到，那就需要更新，甚至删除。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="定义的两条检查：左边必要吗，右边毫无歧义吗">
+          <g font-size="13" text-anchor="middle">
+            <rect x="60" y="30" width="180" height="50" rx="10" fill="var(--paper)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="150" y="61" fill="var(--ink)" font-weight="700">概念</text>
+            <text x="300" y="64" font-size="26" fill="var(--accent)" font-weight="700">=</text>
+            <rect x="360" y="30" width="180" height="50" rx="10" fill="var(--paper)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="450" y="61" fill="var(--ink)" font-weight="700">描述</text>
+            <text x="150" y="116" fill="var(--accent)" font-weight="700">检查一：必要吗？</text>
+            <text x="150" y="140" font-size="11.5" fill="var(--ink-mute)">没必要 → 删除（燃素）</text>
+            <text x="450" y="116" fill="var(--accent)" font-weight="700">检查二：毫无歧义吗？</text>
+            <text x="450" y="140" font-size="11.5" fill="var(--ink-mute)">有歧义 → 反复更新（火→炎症）</text>
+            <text x="300" y="180" font-size="12.5" fill="var(--ink-soft)">两条都过关，才算定义清楚——学术和生活，要求一模一样</text>
+          </g>
+        </svg>
+        <figcaption>合格的定义只查两条：左边必要、右边准确（毫无歧义）——做不到就更新，甚至删除</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"很多人宁愿死，也不肯思考，<br>并且，他们中的大多数<br>的确也就那样死掉。"</p>
+      <span class="src">—— 英国哲学家罗素，《思考的真相》1.1「定义」开篇引。思考的第一步小得出奇：把你正在用的那个词，定义清楚。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>挑一个你天天挂在嘴边的词——"内卷""情商""运气"都行——试着写出等号右边的描述，再读给同学听：他理解的和你想说的，是同一个意思吗？</summary>
+        <p class="hint">没有标准答案，写在你自己的本子上。提示：如果两个人的理解不一样，说明描述还有歧义——按书里的做法，反复更新，直至毫无歧义。</p>
+      </details>
+      <details>
+        <summary>你的概念表里，有没有一条像"火"一样该更新、或像"燃素"一样该删除的记录？想想小时候深信、后来发现不准确的说法。</summary>
+        <p class="hint">没有标准答案。提示：发现"我以前理解错了"不是丢脸的事——拉瓦锡删掉一个概念，删出了近代化学；有行医执照的医生，人人都做过这次更新。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>本周当一次<strong>"概念表管理员"</strong>：拿一页纸分三栏——<strong>新建 / 更新 / 删除</strong>。每天从课本、聊天或视频里挑 1 个概念登记：新学会的写进"新建"栏，并用自己的话写出等号右边的描述；发现自己以前理解得不准的写进"更新"栏（旧描述 → 新描述）；说不清楚、也找不到用处的写进"删除"栏。硬要求：每条登记时都检查两件事——<strong>左边必要吗？右边毫无歧义吗？</strong>周末数一数三栏各有几条，挑"更新"栏里最意外的一条讲给家人听。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="26-overall-planning.html">← 烧水的时候，把杯子洗了</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '27-define-it';
+    const READER_TITLE = '你脑子里有一张概念表';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
