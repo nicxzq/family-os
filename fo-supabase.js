@@ -51,6 +51,20 @@ window.FO_DB = {
     if (error) throw error;
   },
 
+  async resetPassword(email) {
+    const c = this._c(); if (!c) throw new Error('未配置后端');
+    const { error } = await c.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/login.html'
+    });
+    if (error) throw error;
+  },
+
+  async updatePassword(newPassword) {
+    const c = this._c(); if (!c) throw new Error('未配置后端');
+    const { error } = await c.auth.updateUser({ password: newPassword });
+    if (error) throw error;
+  },
+
   async signOut() {
     const c = this._c(); if (!c) return;
     await c.auth.signOut();

@@ -28,6 +28,8 @@
     --shadow-soft:0 2px 0 rgba(43,36,25,0.08);
     --radius:18px;
     --radius-lg:28px;
+    --radius-full:999px;
+    --auth-modal-width:min(92vw, 420px);
   }
   * { box-sizing: border-box; }
   body {
@@ -276,8 +278,9 @@
   .auth-overlay.is-open { opacity: 1; pointer-events: auto; }
   .auth-modal {
     position: relative; z-index: 1;
-    width: var(--__proposed-authModalResponsiveWidth);
-    max-width: var(--__proposed-authModalMaxWidth);
+    width: var(--auth-modal-width);
+    max-height: 90vh;
+    overflow-y: auto;
   }
   .sync-bar { text-align: center; }
   .sync-btn {
@@ -417,6 +420,17 @@
         </div>
         <button type="button" id="auth-login-btn" class="submit-btn">登录</button>
         <p id="auth-error" class="error"></p>
+        <button type="button" id="forgot-btn" class="guest-link" style="display:block;">忘记密码？</button>
+      </div>
+
+      <!-- Set new password (arrived via recovery link) -->
+      <div id="auth-recovery-section" hidden>
+        <div class="field">
+          <label for="recovery-password">设置新密码</label>
+          <input id="recovery-password" class="text-input" type="password" autocomplete="new-password" placeholder="至少 6 位">
+        </div>
+        <button type="button" id="recovery-btn" class="submit-btn">保存新密码</button>
+        <p id="recovery-error" class="error"></p>
       </div>
 
       <!-- Register -->
@@ -704,9 +718,85 @@
         document.getElementById('member-grid') && (function(){ var memberGrid = document.getElementById('member-grid'); memberGrid.innerHTML = ''; }());
         location.reload();
       } catch (err) {
-        errorEl.textContent = '邮箱或密码不正确。';
+        if (err && /email not confirmed/i.test(err.message || '')) {
+          errorEl.innerHTML = '邮箱尚未验证。<button id="login-resend-btn" style="background:none;border:0;color:var(--blue);cursor:pointer;font:inherit;text-decoration:underline;">重新发送验证邮件</button>';
+          document.getElementById('login-resend-btn').addEventListener('click', async function () {
+            this.disabled = true; this.textContent = '发送中…';
+            try {
+              await FO_DB.resendVerification(email);
+              errorEl.textContent = '验证邮件已重发，请查收收件箱（含垃圾箱）。';
+            } catch (e) {
+              errorEl.textContent = '发送失败：' + (e.message || '请稍后再试');
+            }
+          });
+        } else {
+          errorEl.textContent = '邮箱或密码不正确。';
+        }
       }
     });
+
+    // forgot password
+    document.getElementById('forgot-btn').addEventListener('click', async function () {
+      var errorEl = document.getElementById('auth-error');
+      var email = document.getElementById('auth-email').value.trim();
+      if (!email) { errorEl.textContent = '请先在上方填写邮箱，再点忘记密码。'; return; }
+      this.disabled = true;
+      try {
+        await FO_DB.resetPassword(email);
+        errorEl.textContent = '重置邮件已发送，请点击邮件里的链接回来设置新密码。';
+      } catch (e) {
+        errorEl.textContent = '发送失败：' + (e.message || '请稍后再试');
+      }
+      this.disabled = false;
+    });
+
+    // recovery mode: arrived via password-reset link (Supabase puts type=recovery in hash)
+    function enterRecoveryMode() {
+      openOverlay();
+      document.getElementById('auth-tabs').parentElement.hidden = true;
+      document.getElementById('auth-login-section').hidden = true;
+      document.getElementById('auth-reg-section').hidden = true;
+      document.getElementById('auth-recovery-section').hidden = false;
+    }
+    if (window._supabaseClient) {
+      window._supabaseClient.auth.onAuthStateChange(function (event) {
+        if (event === 'PASSWORD_RECOVERY') enterRecoveryMode();
+      });
+    }
+    // fallback: the event can fire before this listener registers
+    if (/type=recovery/.test(location.hash)) enterRecoveryMode();
+    document.getElementById('recovery-btn').addEventListener('click', async function () {
+      var errorEl = document.getElementById('recovery-error');
+      errorEl.textContent = '';
+      var pw = document.getElementById('recovery-password').value;
+      if (pw.length < 6) { errorEl.textContent = '密码至少需要 6 位。'; return; }
+      this.disabled = true; this.textContent = '保存中…';
+      try {
+        await FO_DB.updatePassword(pw);
+        await FO.syncFromSupabase();
+        location.href = '/';
+      } catch (e) {
+        errorEl.textContent = '保存失败：' + (e.message || '请稍后再试');
+        this.disabled = false; this.textContent = '保存新密码';
+      }
+    });
+
+    // show server-side login errors passed via ?error= (WeChat flows)
+    (function () {
+      var code = new URLSearchParams(location.search).get('error');
+      if (!code) return;
+      var msgs = {
+        wechat_no_code:       '微信授权被取消，请重试。',
+        wechat_bad_state:     '登录请求已过期，请重新点击微信登录。',
+        wechat_auth_failed:   '微信授权失败，请重试。',
+        wechat_binding_stale: '账号绑定异常，请联系家长处理。',
+        create_user_failed:   '创建账号失败，请稍后重试。',
+        bind_failed:          '绑定微信失败，请稍后重试。',
+        magiclink_failed:     '登录链接生成失败，请稍后重试。',
+        server_error:         '服务器开小差了，请稍后重试。'
+      };
+      syncStatus.textContent = msgs[code] || '登录失败，请重试。';
+    })();
 
     // register
     document.getElementById('auth-reg-btn').addEventListener('click', async function () {
@@ -823,6 +913,13 @@
   // ── 微信按钮 + setup 弹窗 ────────────────────────────────────────────────────
   (function () {
     document.getElementById('wechat-section').hidden = false;
+
+    // 微信内置浏览器不支持扫码登录（qrconnect），走公众号 OAuth；
+    // 普通浏览器走开放平台扫码。
+    if (FO.isWechat()) {
+      document.querySelector('.wechat-btn').href = '/api/wechat-login';
+      document.querySelector('.wechat-btn').lastChild.textContent = ' 微信一键登录';
+    }
 
     var isSetup = new URLSearchParams(location.search).get('setup') === '1';
     if (!isSetup) return;
