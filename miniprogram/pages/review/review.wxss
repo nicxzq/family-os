@@ -1,0 +1,123 @@
+.review-head {
+  margin-bottom: var(--space-lg);
+}
+
+.week-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.week-btn {
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius-full);
+  font-size: var(--font-xs);
+  box-shadow: var(--shadow-soft);
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+}
+
+.week-btn--now {
+  margin-top: var(--space-sm);
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.week-stamp {
+  flex: 1;
+  text-align: center;
+}
+
+.week-stamp-main {
+  font-size: var(--font-sm);
+  font-weight: 700;
+}
+
+.week-stamp-sub {
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+}
+
+.rsec-kicker {
+  font-size: var(--font-xs);
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+  margin-bottom: var(--space-xs);
+}
+
+.rsec-title {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.rsec-prompt {
+  font-size: var(--font-sm);
+  color: var(--ink-soft);
+  margin-bottom: var(--space-md);
+}
+
+.area {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 220rpx;
+  background: var(--cream);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-sm);
+  line-height: 1.8;
+}
+
+.area--sm {
+  min-height: 130rpx;
+  margin-bottom: var(--space-sm);
+}
+
+.field {
+  background: var(--cream);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-sm);
+}
+
+.field-label {
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+  margin-bottom: var(--space-xs);
+}
+
+.read-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+.read-name {
+  width: 100rpx;
+  flex-shrink: 0;
+  font-size: var(--font-sm);
+  font-weight: 700;
+}
+
+.read-row .field {
+  flex: 1;
+}
+
+.gain-row {
+  margin-bottom: var(--space-xs);
+}
+
+.quote-box {
+  background: var(--cream-deep);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.quote-box .area--sm {
+  background: var(--paper);
+  margin-bottom: 0;
+}

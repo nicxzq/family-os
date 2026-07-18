@@ -1,0 +1,39 @@
+.tool-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.tool-card {
+  width: calc(50% - var(--space-md) / 2);
+  box-sizing: border-box;
+  margin-bottom: 0;
+}
+
+.tool-card--soon {
+  opacity: 0.55;
+}
+
+.tool-emoji {
+  font-size: var(--font-xxl);
+  line-height: 1;
+  margin-bottom: var(--space-sm);
+}
+
+.tool-name {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.tool-desc {
+  font-size: var(--font-xs);
+  color: var(--ink-soft);
+  margin-bottom: var(--space-sm);
+}
+
+.tool-cta {
+  font-size: var(--font-sm);
+  color: var(--coral);
+  font-weight: 500;
+}

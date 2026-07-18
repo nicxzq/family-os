@@ -1,0 +1,20 @@
+<view class="wrap">
+  <view class="eyebrow">工具箱</view>
+  <view class="section-title">一家人一起用的小工具。</view>
+  <view class="section-lead">不打分、不排名——都是帮我们"把日子过清楚"的小东西。</view>
+
+  <view class="tool-grid">
+    <view
+      wx:for="{{tools}}"
+      wx:key="id"
+      class="card card--{{item.color}} tool-card {{item.url ? '' : 'tool-card--soon'}}"
+      bindtap="open"
+      data-idx="{{index}}"
+    >
+      <view class="tool-emoji">{{item.emoji}}</view>
+      <view class="tool-name">{{item.name}}</view>
+      <view class="tool-desc">{{item.desc}}</view>
+      <view class="tool-cta">{{item.url ? '打开 →' : '网站版可玩'}}</view>
+    </view>
+  </view>
+</view>

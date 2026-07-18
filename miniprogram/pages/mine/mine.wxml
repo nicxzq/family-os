@@ -1,0 +1,88 @@
+<view class="wrap">
+
+  <!-- 头像昵称 -->
+  <view class="card profile">
+    <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <image wx:if="{{profile.avatarPath}}" class="avatar-img" src="{{profile.avatarPath}}" mode="aspectFill" />
+      <view wx:else class="avatar-placeholder">🙂</view>
+    </button>
+    <view class="profile-body">
+      <input
+        class="nickname-input"
+        type="nickname"
+        placeholder="点这里写昵称"
+        value="{{profile.nickname}}"
+        bindblur="onNickname"
+      />
+      <view class="profile-hint">头像和昵称只存在这台手机上</view>
+    </view>
+  </view>
+
+  <!-- 当前角色 -->
+  <view class="card row" bindtap="switchRole">
+    <view class="row-label">当前角色</view>
+    <view class="row-value">{{roleName || '还没选'}} ›</view>
+  </view>
+
+  <!-- 阅读记录 -->
+  <view class="card">
+    <view class="row row--bare" bindtap="toggleRecords">
+      <view class="row-label">阅读记录</view>
+      <view class="row-value">{{recordsOpen ? '收起 ▴' : '展开 ▾'}}</view>
+    </view>
+    <view class="stats">
+      <view class="stat">
+        <view class="stat-num">{{readerDone}}<text class="stat-total">/{{readerTotal}}</text></view>
+        <view class="stat-label">成长读本</view>
+      </view>
+      <view class="stat">
+        <view class="stat-num">{{storyDone}}<text class="stat-total">/{{storyTotal}}</text></view>
+        <view class="stat-label">毛毛绘本</view>
+      </view>
+    </view>
+    <view wx:if="{{recordsOpen}}" class="records">
+      <view wx:if="{{!records.length}}" class="records-empty">还没有阅读记录——去"角色"页翻开第一篇吧。</view>
+      <view wx:for="{{records}}" wx:key="key" class="record">
+        <text class="record-kind">{{item.kind}}</text>
+        <text class="record-title">{{item.title}}</text>
+        <text class="record-date">{{item.date}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数据备份 -->
+  <view class="card">
+    <view class="row row--bare">
+      <view class="row-label">数据备份</view>
+    </view>
+    <view class="io-desc">把阅读记录和工具箱数据（周回顾 · 存钱罐 · 注意力 · 暑期打卡）导出成文件，发给自己留存；换手机后从聊天里选这个文件导入。</view>
+    <view class="io-btns">
+      <button class="io-btn" bindtap="exportData">导出数据</button>
+      <button class="io-btn" bindtap="importData">从聊天文件导入</button>
+    </view>
+  </view>
+
+  <!-- 帮助 -->
+  <view class="card">
+    <view class="row row--bare" bindtap="toggleHelp">
+      <view class="row-label">帮助</view>
+      <view class="row-value">{{helpOpen ? '收起 ▴' : '展开 ▾'}}</view>
+    </view>
+    <view wx:if="{{helpOpen}}" class="help">
+      <view class="help-p">这是我们家的"家庭操作系统"——一家人可以一起点开、一起聊、一起慢慢做的几条原则。</view>
+      <view class="help-p">· 首页:六句话、家庭墙和共读清单,全家共用。</view>
+      <view class="help-p">· 角色:选"你是谁",看到属于你的那份内容。</view>
+      <view class="help-p">· 工具箱:饭桌问题、暑期打卡、存钱罐这些小工具。</view>
+      <view class="help-p">· 所有记录只存在这台手机上,删掉小程序就没了。</view>
+    </view>
+  </view>
+
+  <!-- 关于 -->
+  <view class="card about">
+    <view class="about-title">好的家庭教育</view>
+    <view class="about-line">版本 {{version}}</view>
+    <view class="about-line">内容源:family.carlxu.cn · 基于李笑来家庭教育材料</view>
+    <view class="about-line">先从我开始 · 然后是我们 · 最后是这个家</view>
+  </view>
+
+</view>

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "家庭周会 · 复盘",
+  "usingComponents": {
+    "fo-tabbar": "/components/fo-tabbar/fo-tabbar"
+  }
+}

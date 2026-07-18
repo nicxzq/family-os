@@ -1,0 +1,90 @@
+<view class="wrap">
+
+  <!-- 日历视图：进来先看整个暑假 -->
+  <block wx:if="{{view === 'cal'}}">
+    <view class="banner">
+      <view class="banner-body">
+        <view class="banner-date">🌞 快乐暑假 2026</view>
+        <view class="banner-sub">7 月 14 日 — 8 月 30 日 · 点某一天看当天打卡</view>
+      </view>
+      <view class="banner-pct">
+        <view class="banner-pct-num">{{calFull}}</view>
+        <view class="banner-pct-label">全勤天 · 打卡 {{calDone}} 天</view>
+      </view>
+    </view>
+
+    <view class="cal card">
+      <view class="cal-head">
+        <view wx:for="{{['日','一','二','三','四','五','六']}}" wx:key="*this" class="cal-hd">{{item}}</view>
+      </view>
+      <view wx:for="{{weeks}}" wx:for-item="week" wx:key="index" class="cal-row">
+        <view
+          wx:for="{{week}}"
+          wx:key="index"
+          class="cal-cell {{item ? 'cal-cell--' + item.state : ''}} {{item.isToday ? 'is-today' : ''}}"
+          bindtap="openDay"
+          data-d="{{item.d}}"
+        >
+          <view wx:if="{{item}}" class="cal-month">{{item.month}}</view>
+          <view wx:if="{{item}}" class="cal-num">{{item.num}}</view>
+        </view>
+      </view>
+      <view class="cal-legend">
+        <view class="cal-leg"><view class="cal-dot cal-dot--full"></view>全勤</view>
+        <view class="cal-leg"><view class="cal-dot cal-dot--part"></view>打卡了一部分</view>
+        <view class="cal-leg"><view class="cal-dot cal-dot--none"></view>还没打卡</view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 单日视图 -->
+  <block wx:if="{{view === 'day'}}">
+    <view class="back-cal" bindtap="backCal">← 返回日历</view>
+
+    <view class="banner">
+      <view class="banner-body">
+        <view class="banner-date">{{selCn}}</view>
+        <view class="banner-sub">🌞 快乐暑假 2026 · 7 月 14 日 — 8 月 30 日</view>
+        <view class="banner-badge" wx:if="{{isToday}}">今天</view>
+      </view>
+      <view class="banner-pct">
+        <view class="banner-pct-num">{{pct}}%</view>
+        <view class="banner-pct-label">必做 {{doneReq}}/{{totalReq}}</view>
+      </view>
+    </view>
+
+    <view class="motto">💬 {{motto}}</view>
+
+    <block wx:for="{{slots}}" wx:for-item="slot" wx:for-index="si" wx:key="key">
+      <view class="slot-title">{{slot.label}}</view>
+      <view
+        wx:for="{{slot.tasks}}"
+        wx:for-item="task"
+        wx:for-index="ti"
+        wx:key="id"
+        class="task {{task.done ? 'is-done' : ''}} {{task.req ? '' : 'is-opt'}}"
+        bindtap="toggle"
+        data-s="{{si}}"
+        data-t="{{ti}}"
+      >
+        <view class="task-box">{{task.done ? '✓' : ''}}</view>
+        <view class="task-body">
+          <view class="task-name">{{task.name}}</view>
+          <view wx:if="{{task.time}}" class="task-time">{{task.time}}</view>
+        </view>
+        <view wx:if="{{!task.req}}" class="task-opt-tag">自选</view>
+      </view>
+    </block>
+
+    <view class="day-nav">
+      <button class="day-btn" bindtap="prev" disabled="{{atStart}}">← 前一天</button>
+      <button class="day-btn day-btn--today" bindtap="today">回到今天</button>
+      <button class="day-btn" bindtap="next" disabled="{{atEnd}}">后一天 →</button>
+    </view>
+  </block>
+
+  <view class="summer-note">打卡只记在这台手机上;完整版(日历、周回顾、AI 点评)在网站 /summer2026。</view>
+
+</view>
+
+<fo-tabbar active="toolbox" />

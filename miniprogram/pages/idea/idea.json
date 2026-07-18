@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "六个想法",
+  "usingComponents": {
+    "fo-tabbar": "/components/fo-tabbar/fo-tabbar"
+  }
+}

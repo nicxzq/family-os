@@ -1,0 +1,24 @@
+<view class="wrap" wx:if="{{idea}}">
+  <view class="card card--{{idea.color}} detail">
+    <view class="idea-num">{{idea.num}}</view>
+    <view class="idea-title">{{idea.title}}</view>
+    <image wx:if="{{idea.art}}" class="idea-art" src="{{idea.art}}" mode="widthFix" />
+    <view class="idea-scene">{{idea.scene}}</view>
+    <view class="idea-key">{{idea.key}}</view>
+    <view class="idea-detail">
+      <view wx:for="{{idea.detail}}" wx:key="*this" class="idea-p">{{item}}</view>
+    </view>
+    <button class="idea-save" bindtap="saveImage">📷 存成图片 · 分享这条原则</button>
+  </view>
+
+  <view class="idea-nav">
+    <button class="idea-nav-btn" bindtap="prev" disabled="{{no === 1}}">← 上一个</button>
+    <text class="idea-nav-counter">{{no}} / {{total}}</text>
+    <button class="idea-nav-btn" bindtap="next" disabled="{{no === total}}">下一个 →</button>
+  </view>
+</view>
+
+<!-- 离屏画布：生成单条原则分享卡 -->
+<canvas type="2d" id="share-canvas" class="share-canvas"></canvas>
+
+<fo-tabbar active="home" />

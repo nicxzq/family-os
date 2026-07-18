@@ -1,0 +1,41 @@
+/* 与 app.json tabBar 同款视觉：paper 底、ink-mute 文字、coral 选中 */
+.spacer {
+  height: calc(var(--tabbar-h) + env(safe-area-inset-bottom));
+}
+
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  height: var(--tabbar-h);
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--paper);
+  box-shadow: 0 -2rpx 0 rgba(43, 36, 25, 0.06);
+}
+
+.item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  color: var(--ink-mute);
+}
+
+.item.is-active {
+  color: var(--coral);
+}
+
+.icon {
+  width: var(--tabbar-icon);
+  height: var(--tabbar-icon);
+}
+
+.label {
+  font-size: var(--font-xs);
+  line-height: 1.2;
+}

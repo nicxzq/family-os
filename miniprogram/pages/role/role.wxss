@@ -1,0 +1,397 @@
+/* 顶栏 */
+.role-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.role-bar-name {
+  font-size: var(--font-sm);
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.role-bar-switch {
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+  background: var(--paper);
+  border-radius: var(--radius-full);
+  padding: var(--space-xs) var(--space-md);
+  box-shadow: var(--shadow-soft);
+}
+
+/* ---- 爸爸妈妈(改写自 wife 页样式) ---- */
+.reader-title {
+  font-size: var(--font-xxl);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: var(--space-sm);
+}
+
+.lede {
+  font-size: var(--font-md);
+  color: var(--ink-soft);
+  margin-bottom: var(--space-xl);
+}
+
+.h2 {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  margin: var(--space-xl) 0 var(--space-sm);
+  padding-left: var(--space-md);
+  position: relative;
+}
+
+.h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 20rpx;
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: var(--radius-full);
+  background: var(--coral);
+}
+
+.h2--yellow::before { background: var(--yellow); }
+.h2--green::before { background: var(--green); }
+
+.p {
+  font-size: var(--font-md);
+  margin-bottom: var(--space-sm);
+}
+
+.p--muted {
+  color: var(--ink-soft);
+  font-size: var(--font-sm);
+}
+
+.quote {
+  background: var(--paper);
+  border-left: 8rpx solid var(--yellow);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-soft);
+  padding: var(--space-md);
+  margin: var(--space-md) 0;
+  font-size: var(--font-md);
+}
+
+.quote .src {
+  margin-top: var(--space-sm);
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+}
+
+.promise {
+  background: var(--yellow-soft);
+  border-radius: var(--radius);
+  padding: var(--space-lg) var(--space-md);
+  margin: var(--space-lg) 0;
+}
+
+.promise-title {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+}
+
+.promise-li {
+  font-size: var(--font-sm);
+  margin-bottom: var(--space-xs);
+}
+
+.signoff {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-md);
+  border-top: 2rpx dashed var(--cream-deep);
+  font-size: var(--font-sm);
+  color: var(--ink-soft);
+}
+
+/* ---- 哥哥:暑期入口 + 读本目录 ---- */
+.entry-card {
+  margin-bottom: var(--space-lg);
+}
+
+.entry-tag {
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+  margin-bottom: var(--space-xs);
+}
+
+.entry-title {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.entry-desc {
+  font-size: var(--font-sm);
+  color: var(--ink-soft);
+  margin-bottom: var(--space-sm);
+}
+
+.entry-cta {
+  font-size: var(--font-sm);
+  color: var(--coral);
+  font-weight: 500;
+}
+
+.group-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: var(--space-lg) 0 var(--space-md);
+  font-size: var(--font-md);
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.group-title::after {
+  content: "";
+  flex: 1;
+  height: 2rpx;
+  background: var(--cream-deep);
+}
+
+.piece--soon {
+  opacity: 0.55;
+}
+
+.piece-code {
+  font-size: var(--font-xs);
+  letter-spacing: 0.06em;
+  color: var(--ink-mute);
+}
+
+.piece-title {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  line-height: 1.35;
+  margin: var(--space-xs) 0;
+}
+
+.piece-sub {
+  font-size: var(--font-sm);
+  color: var(--ink-soft);
+  margin-bottom: var(--space-xs);
+}
+
+.piece-tag {
+  font-size: var(--font-sm);
+  color: var(--coral);
+}
+
+/* ---- 弟弟:绘本目录 ---- */
+.book {
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-start;
+}
+
+.book--locked {
+  opacity: 0.55;
+}
+
+.book-cover {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: var(--radius-sm);
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64rpx;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.book-cover-img {
+  width: 100%;
+  height: 100%;
+}
+
+.book-body {
+  flex: 1;
+}
+
+.book-num {
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+}
+
+.book-title {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  margin: var(--space-xs) 0;
+}
+
+.book-theme {
+  font-size: var(--font-xs);
+  color: var(--ink-soft);
+  margin-bottom: var(--space-xs);
+}
+
+.book-desc {
+  font-size: var(--font-sm);
+  color: var(--ink-soft);
+  margin-bottom: var(--space-xs);
+}
+
+.book-cta {
+  font-size: var(--font-sm);
+  color: var(--coral);
+  font-weight: 500;
+}
+
+.for-parents {
+  background: var(--paper);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  padding: var(--space-md);
+  font-size: var(--font-sm);
+  color: var(--ink-soft);
+  margin-top: var(--space-md);
+}
+
+/* ---- 爷爷奶奶和朋友:三个故事 ---- */
+.story {
+  position: relative;
+  margin-top: var(--space-md);
+}
+
+.story-num {
+  position: absolute;
+  top: -28rpx;
+  left: var(--space-md);
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--paper);
+  box-shadow: var(--shadow-soft);
+}
+
+.story-num--coral { background: var(--coral); }
+.story-num--yellow { background: var(--yellow); color: var(--ink); }
+.story-num--green { background: var(--green); }
+
+.story-who {
+  font-size: var(--font-xs);
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+  margin: var(--space-sm) 0 var(--space-xs);
+}
+
+.story-title {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: var(--space-sm);
+}
+
+.story-p {
+  font-size: var(--font-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.story-dialog {
+  background: var(--cream);
+  border-left: 6rpx solid var(--coral);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--ink-soft);
+  font-size: var(--font-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.moral {
+  background: var(--yellow-soft);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-sm);
+}
+
+.moral-label {
+  font-size: var(--font-xs);
+  letter-spacing: 0.15em;
+  color: var(--ink-mute);
+  margin-bottom: var(--space-xs);
+}
+
+.closing {
+  background: var(--ink);
+  color: var(--cream);
+  border-radius: var(--radius);
+  padding: var(--space-lg) var(--space-md);
+  margin-top: var(--space-lg);
+  text-align: center;
+}
+
+.closing-p {
+  font-size: var(--font-md);
+  margin-bottom: var(--space-xs);
+}
+
+.closing-big {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  margin-bottom: var(--space-md);
+}
+
+.closing-foot {
+  font-size: var(--font-xs);
+  opacity: 0.7;
+}
+
+/* ---- 角色选择弹层 ---- */
+.picker-mask {
+  position: fixed;
+  inset: 0;
+  background: var(--mask);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+}
+
+.picker {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--cream);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: var(--space-lg) var(--space-md) var(--space-xl);
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.picker-title {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.picker-sub {
+  font-size: var(--font-sm);
+  color: var(--ink-soft);
+  margin-bottom: var(--space-lg);
+}
+
+.picker-card.is-current {
+  border: 3rpx solid var(--ink);
+}
+
+.picker-name {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.picker-desc {
+  font-size: var(--font-sm);
+  color: var(--ink-soft);
+}

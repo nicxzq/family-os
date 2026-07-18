@@ -1,0 +1,32 @@
+<view wx:if="{{story}}" class="reader">
+  <swiper class="pages" bindchange="onSwiper" current="{{current}}">
+    <swiper-item wx:for="{{story.pages}}" wx:key="index">
+      <scroll-view scroll-y class="page-scroll">
+        <view class="page-inner page-inner--{{item.bg}}">
+          <view wx:if="{{item.art}}" class="art-wrap {{item.fx ? 'is-tappable' : ''}}" bindtap="tapArt" data-i="{{index}}">
+            <image
+              class="page-art {{playIdx === index ? 'fx-' + item.fx.anim : ''}}"
+              src="{{item.art}}"
+              mode="widthFix"
+            />
+            <view wx:if="{{item.fx && bubbleIdx === index}}" class="speech-bubble">{{item.fx.msg}}</view>
+            <view wx:if="{{item.fx && playIdx !== index && bubbleIdx !== index}}" class="tap-hint">点一下 👆</view>
+          </view>
+          <view class="page-text {{item.art ? '' : 'page-text--solo'}}">{{item.text}}</view>
+        </view>
+      </scroll-view>
+    </swiper-item>
+  </swiper>
+  <view class="pager">
+    <view class="pager-hint">{{current + 1}} / {{total}} · 左右滑动翻页</view>
+    <view class="pager-dots">
+      <view
+        wx:for="{{story.pages}}"
+        wx:key="index"
+        class="pager-dot {{current === index ? 'is-active' : ''}}"
+      ></view>
+    </view>
+  </view>
+</view>
+
+<fo-tabbar active="role" />

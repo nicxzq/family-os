@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "我的注意力账本",
+  "usingComponents": {
+    "fo-tabbar": "/components/fo-tabbar/fo-tabbar"
+  }
+}

@@ -110,6 +110,7 @@ Gated pages require a signed-in family member (`localStorage.fo_member`). Enforc
   - Youngest storybooks — numeric `storybooks/NN-*.html` with `NN >= 4` (01–03 free). Their `for-youngest.html` card must carry `data-gated="true"`. Middle-child `m##` bear books are not gated.
   - Eldest games — every `games/g*.html` except the first game of each group (free tasters: `g01-direction`, `g21-chemistry`, `g22-physics`, `g41-blocks`, `g44-history-detective`). `games/index.html` locks the rest when signed out.
 - **When adding content, ALWAYS run `node scripts/sync-gate.js` from the repo root.** It is idempotent and self-correcting: it injects `/fo-gate.js` into any gated page missing it and marks youngest cards `data-gated="true"`. The daily storybook scheduled task runs it as its final step, so new content is gated automatically.
+- `sync-gate.js` chains `node scripts/sync-miniprogram.js` as its last step, which regenerates `miniprogram/data/{stories,readers,topics}.js` from the website HTML (single content source). So the daily task also keeps the WeChat mini program in sync. Never hand-edit those three generated files; see `miniprogram/README.md`.
 
 ## Commit conventions
 

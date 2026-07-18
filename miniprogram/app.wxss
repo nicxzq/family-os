@@ -1,0 +1,133 @@
+/* 与网站 styles.css 同源的设计 token（rpx 化） */
+page {
+  --coral: #E56B5A;
+  --coral-soft: #F4A799;
+  --yellow: #F4C13E;
+  --yellow-soft: #FBE39A;
+  --green: #6FA86D;
+  --green-soft: #B5D4A8;
+  --blue: #4B7BA8;
+  --blue-soft: #A8C2DE;
+  --cream: #F8F2E2;
+  --cream-deep: #F1E8D0;
+  --paper: #FFFDF6;
+  --ink: #2B2419;
+  --ink-soft: #5C4F3D;
+  --ink-mute: #8C7C66;
+  --cream-warm: #FFF8E0;
+  --night: #2E3A56;
+  --night-text: #C7D2E6;
+
+  --radius-sm: 12rpx;
+  --radius: 28rpx;
+  --radius-lg: 44rpx;
+  --radius-full: 999rpx;
+
+  --space-xs: 8rpx;
+  --space-sm: 16rpx;
+  --space-md: 28rpx;
+  --space-lg: 44rpx;
+  --space-xl: 72rpx;
+
+  --font-xs: 22rpx;
+  --font-sm: 26rpx;
+  --font-md: 30rpx;
+  --font-lg: 36rpx;
+  --font-xl: 44rpx;
+  --font-xxl: 56rpx;
+
+  --tabbar-h: 100rpx;
+  --tabbar-icon: 48rpx;
+  --book-h: 260rpx;
+  --shelf-board-h: 16rpx;
+
+  --shadow-soft: 0 4rpx 0 rgba(43, 36, 25, 0.08);
+  --shadow-card: 0 8rpx 0 rgba(43, 36, 25, 0.06), 0 24rpx 64rpx -32rpx rgba(43, 36, 25, 0.18);
+  --mask: rgba(43, 36, 25, 0.45);
+
+  background: var(--cream);
+  color: var(--ink);
+  font-size: var(--font-md);
+  line-height: 1.75;
+}
+
+.wrap {
+  padding: var(--space-lg) var(--space-md) var(--space-xl);
+}
+
+.eyebrow {
+  font-size: var(--font-xs);
+  letter-spacing: 0.2em;
+  color: var(--coral);
+  margin-bottom: var(--space-sm);
+}
+
+.section-title {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: var(--space-sm);
+}
+
+.section-lead {
+  color: var(--ink-soft);
+  font-size: var(--font-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.card {
+  background: var(--paper);
+  border-radius: var(--radius);
+  padding: var(--space-lg) var(--space-md);
+  box-shadow: var(--shadow-card);
+  margin-bottom: var(--space-md);
+}
+
+.card--coral { border-top: 8rpx solid var(--coral); }
+.card--yellow { border-top: 8rpx solid var(--yellow); }
+.card--green { border-top: 8rpx solid var(--green); }
+.card--blue { border-top: 8rpx solid var(--blue); }
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  background: var(--cream-deep);
+  color: var(--ink-mute);
+  border-radius: var(--radius-full);
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-sm);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: var(--cream);
+  border-radius: var(--radius-full);
+  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--font-md);
+}
+
+.btn--ghost {
+  background: var(--cream);
+  color: var(--ink);
+  border: 3rpx solid var(--ink);
+}
+
+.muted { color: var(--ink-mute); }
+.soft { color: var(--ink-soft); }
+
+/* 分享卡/家庭墙离屏画布：移出视口但保持可渲染（home 与 idea 共用） */
+.share-canvas {
+  position: fixed;
+  left: 200vw;
+  top: 0;
+  width: 750px;
+  height: 1200px;
+}
+
+.share-canvas--poster {
+  width: 1080px;
+  height: 1527px;
+}

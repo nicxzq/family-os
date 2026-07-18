@@ -1,0 +1,153 @@
+.reader {
+  display: flex;
+  flex-direction: column;
+  /* 减去底部 fo-tabbar：正文区不被常驻 tab 栏遮盖 */
+  height: calc(100vh - var(--tabbar-h) - env(safe-area-inset-bottom));
+}
+
+.pages {
+  flex: 1;
+  height: 0;
+}
+
+.page-scroll {
+  height: 100%;
+}
+
+.page-inner {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg) var(--space-md);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.page-inner--yellow { background: var(--yellow-soft); }
+.page-inner--peach { background: var(--coral-soft); }
+.page-inner--sky { background: var(--blue-soft); }
+.page-inner--mint { background: var(--green-soft); }
+.page-inner--coral { background: var(--coral); color: var(--paper); }
+.page-inner--cream { background: var(--cream-warm); }
+.page-inner--blue { background: var(--blue-soft); }
+.page-inner--green { background: var(--green-soft); }
+.page-inner--night { background: var(--night); color: var(--night-text); }
+
+.art-wrap {
+  position: relative;
+  width: 88%;
+  margin-bottom: var(--space-md);
+  display: flex;
+  justify-content: center;
+}
+
+.page-art {
+  width: 100%;
+  border-radius: var(--radius);
+}
+
+/* 点插图触发的一次性动画（迁移自网页 do-bounce/shake/wobble） */
+.fx-bounce { animation: fxBounce 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
+.fx-shake { animation: fxShake 0.55s ease both; }
+.fx-wobble { animation: fxWobble 0.7s ease both; }
+
+@keyframes fxBounce {
+  0%   { transform: translateY(0) scale(1); }
+  25%  { transform: translateY(-36rpx) scale(1.1); }
+  55%  { transform: translateY(-8rpx) scale(0.97); }
+  75%  { transform: translateY(-16rpx) scale(1.04); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes fxShake {
+  0%, 100% { transform: rotate(0deg); }
+  18% { transform: rotate(-14deg); }
+  38% { transform: rotate(12deg); }
+  58% { transform: rotate(-9deg); }
+  78% { transform: rotate(6deg); }
+}
+
+@keyframes fxWobble {
+  0%, 100% { transform: scaleX(1) scaleY(1); }
+  20% { transform: scaleX(1.18) scaleY(0.82); }
+  45% { transform: scaleX(0.88) scaleY(1.15); }
+  65% { transform: scaleX(1.08) scaleY(0.93); }
+  80% { transform: scaleX(0.97) scaleY(1.03); }
+}
+
+/* 语音气泡 */
+.speech-bubble {
+  position: absolute;
+  top: calc(-1 * var(--space-md));
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius-full);
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-sm);
+  box-shadow: var(--shadow-soft);
+  white-space: nowrap;
+  z-index: 5;
+  animation: bubblePop 0.3s ease;
+}
+
+@keyframes bubblePop {
+  from { transform: translateX(-50%) scale(0); opacity: 0; }
+  to   { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+
+.tap-hint {
+  position: absolute;
+  bottom: var(--space-sm);
+  right: var(--space-sm);
+  background: var(--mask);
+  color: var(--paper);
+  font-size: var(--font-xs);
+  border-radius: var(--radius-full);
+  padding: 2rpx var(--space-sm);
+  z-index: 5;
+}
+
+.page-text {
+  font-size: var(--font-lg);
+  line-height: 1.8;
+  font-weight: 500;
+  padding: 0 var(--space-sm);
+}
+
+.page-text--solo {
+  font-size: var(--font-xl);
+}
+
+.pager {
+  padding: var(--space-md);
+  text-align: center;
+  background: var(--cream);
+}
+
+.pager-hint {
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+  margin-bottom: var(--space-xs);
+}
+
+.pager-dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.pager-dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: var(--radius-full);
+  background: var(--cream-deep);
+}
+
+.pager-dot.is-active {
+  background: var(--coral);
+}

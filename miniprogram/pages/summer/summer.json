@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "快乐暑假 2026",
+  "usingComponents": {
+    "fo-tabbar": "/components/fo-tabbar/fo-tabbar"
+  }
+}

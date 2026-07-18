@@ -1,0 +1,71 @@
+<view class="wrap">
+
+  <view class="att-head">
+    <view class="att-emoji">🧠</view>
+    <view class="section-title">我的注意力账本</view>
+    <view class="section-lead">注意力是你最贵的东西。你今天怎么花的？</view>
+  </view>
+
+  <view class="card">
+    <view class="panel-title">记一笔</view>
+    <view class="field-label">你刚才在做什么？</view>
+    <input class="field" value="{{nameInput}}" bindinput="onName" placeholder="读历史、打游戏、发呆⋯⋯" />
+    <view class="field-label">用了几分钟？</view>
+    <input class="field" type="number" value="{{durationInput}}" bindinput="onDuration" placeholder="45" />
+    <view class="cat-pills">
+      <view
+        wx:for="{{categories}}"
+        wx:key="key"
+        class="cat-pill cat-pill--{{item.key}} {{catSel === index ? 'is-selected' : ''}}"
+        bindtap="pickCat"
+        data-idx="{{index}}"
+      >{{item.label}}</view>
+    </view>
+    <button class="btn add-btn" bindtap="add">加到账本里</button>
+  </view>
+
+  <view class="card">
+    <view class="panel-title">今天的分布</view>
+    <view class="total-line"><text class="total-num">{{total}}</text> 分钟</view>
+    <view class="stack-bar">
+      <view wx:if="{{!segments.length}}" class="stack-empty"></view>
+      <view
+        wx:for="{{segments}}"
+        wx:key="key"
+        class="stack-seg stack-seg--{{item.key}}"
+        style="width: {{item.pct}}%"
+      ></view>
+    </view>
+    <view class="legend">
+      <view wx:for="{{legend}}" wx:key="key" class="legend-item">
+        <view class="legend-name">
+          <view class="dot dot--{{item.key}}"></view>
+          <text>{{item.label}}</text>
+        </view>
+        <text class="legend-min">{{item.minutes}} 分钟</text>
+      </view>
+    </view>
+    <view class="insight">{{insight}}</view>
+  </view>
+
+  <view class="card">
+    <view class="panel-title">今天的记录</view>
+    <view wx:if="{{!entries.length}}" class="log-empty">
+      <view class="log-empty-emoji">📭</view>
+      <view>今天还没有记录。第一条记录——就从现在开始吧。</view>
+    </view>
+    <view wx:for="{{entries}}" wx:key="id" class="entry">
+      <view class="entry-strip entry-strip--{{item.cat}}"></view>
+      <view class="entry-body">
+        <view class="entry-title">{{item.name}}</view>
+        <view class="entry-meta">{{item.duration}} 分钟 · {{item.catLabel}}</view>
+      </view>
+      <view class="delete-btn" bindtap="remove" data-id="{{item.id}}">×</view>
+    </view>
+  </view>
+
+  <view class="clear-btn" bindtap="clearToday">清空今天的记录</view>
+
+</view>
+
+<fo-tabbar active="toolbox" />

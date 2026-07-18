@@ -1,0 +1,13 @@
+<view class="spacer"></view>
+<view class="bar">
+  <view
+    wx:for="{{tabs}}"
+    wx:key="key"
+    class="item {{active === item.key ? 'is-active' : ''}}"
+    bindtap="onTab"
+    data-url="{{item.url}}"
+  >
+    <image class="icon" src="/assets/tab/{{item.key}}{{active === item.key ? '-active' : ''}}.png" />
+    <view class="label">{{item.text}}</view>
+  </view>
+</view>

@@ -1,0 +1,120 @@
+<view class="wrap">
+
+  <!-- HERO(压缩版) -->
+  <view class="hero">
+    <image class="hero-logo" src="/assets/logo.png" mode="widthFix" />
+    <view class="eyebrow">A FAMILY OS · v1</view>
+    <view class="hero-title">把"家"当作一件可以一起经营一辈子的事。</view>
+  </view>
+
+  <!-- 六句话轮播 -->
+  <view class="section">
+    <view class="eyebrow">六个想法</view>
+    <view class="section-title">一家人都能听懂的六句话</view>
+    <view class="section-lead">自动轮播，点任意一张看完整的故事和我们家可以怎么做。</view>
+    <swiper
+      class="idea-swiper"
+      autoplay
+      circular
+      interval="5000"
+      indicator-dots
+      indicator-color="rgba(43, 36, 25, 0.15)"
+      indicator-active-color="#E56B5A"
+    >
+      <swiper-item wx:for="{{ideas}}" wx:key="id">
+        <view class="card card--{{item.color}} idea" bindtap="goIdea" data-no="{{index + 1}}">
+          <view class="idea-num">{{item.num}}</view>
+          <view class="idea-title">{{item.title}}</view>
+          <view class="idea-scene">{{item.scene}}</view>
+          <view class="idea-key">{{item.key}}</view>
+          <view class="idea-more">看完整想法 →</view>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!-- 角色入口 -->
+  <view class="section">
+    <view class="eyebrow">给家里每个人</view>
+    <view class="section-title">不同的人，不同的入口。</view>
+    <view class="role-grid">
+      <view
+        wx:for="{{roles}}"
+        wx:key="id"
+        class="card card--{{item.color}} role-card"
+        bindtap="goRole"
+        data-idx="{{index}}"
+      >
+        <view class="role-name">{{item.name}}</view>
+        <view class="role-tag">{{item.tag}}</view>
+        <view class="role-cta">进入 →</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 工具箱入口 -->
+  <view class="toolbox-banner" bindtap="goToolbox">
+    <view class="toolbox-banner-title">🧰 工具箱</view>
+    <view class="toolbox-banner-desc">饭桌问题 · 暑期打卡 · 存钱罐 · 每周回顾 · 注意力账本</view>
+    <view class="toolbox-banner-cta">打开 →</view>
+  </view>
+
+  <!-- 家庭墙 · 六条 -->
+  <view class="section">
+    <view class="eyebrow">家庭墙</view>
+    <view class="section-title">六条原则，贴在墙上。</view>
+    <view class="wall">
+      <view class="wall-title">我们家的六条</view>
+      <view class="wall-sub">A family of long-termists</view>
+      <view
+        wx:for="{{rules}}"
+        wx:key="*this"
+        class="wall-rule"
+        bindtap="goIdea"
+        data-no="{{index + 1}}"
+      >{{item}}</view>
+      <view class="wall-foot">— 我们家，2026 —</view>
+    </view>
+    <button class="wall-save" bindtap="savePoster">🖼️ 存成 A4 家庭墙图片（六条合一）</button>
+  </view>
+
+  <!-- 共读清单 -->
+  <view class="section">
+    <view class="eyebrow">家庭仪式</view>
+    <view class="section-title">第一年的共读清单。</view>
+    <view class="section-lead">一个"做发展论"的家庭，最重要的仪式是：一家人一起读书。不贵，不卷，慢慢读。</view>
+    <view class="bookshelf">
+      <view wx:for="{{shelves}}" wx:for-item="row" wx:for-index="ri" wx:key="ri" class="shelf">
+        <view class="shelf-books">
+          <view
+            wx:for="{{row}}"
+            wx:key="title"
+            class="shelf-book shelf-book--{{item.color}} {{selBook.title === item.title ? 'is-picked' : ''}}"
+            bindtap="pickBook"
+            data-ri="{{ri}}"
+            data-bi="{{index}}"
+          >
+            <view class="shelf-book-who">{{item.who}}</view>
+            <view class="shelf-book-title">{{item.title}}</view>
+          </view>
+        </view>
+        <view class="shelf-board"></view>
+      </view>
+    </view>
+    <view wx:if="{{selBook}}" class="card card--{{selBook.color}} book">
+      <view class="book-for">{{selBook.who}}</view>
+      <view class="book-title">{{selBook.title}}</view>
+      <view class="book-note">{{selBook.note}}</view>
+    </view>
+    <view wx:else class="book-hint">点一本书，看看为什么选它。</view>
+  </view>
+
+  <view class="footer">
+    <view>这是一个持续升级的家庭操作系统。</view>
+    <view class="muted">先从我开始 · 然后是我们 · 最后是这个家</view>
+  </view>
+
+</view>
+
+<!-- 离屏画布：生成 A4 家庭墙海报 -->
+<canvas type="2d" id="poster-canvas" class="share-canvas share-canvas--poster"></canvas>

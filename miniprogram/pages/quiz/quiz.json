@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "测一测 · 五个小问题",
+  "usingComponents": {
+    "fo-tabbar": "/components/fo-tabbar/fo-tabbar"
+  }
+}

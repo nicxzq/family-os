@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "饭桌问题集",
+  "usingComponents": {
+    "fo-tabbar": "/components/fo-tabbar/fo-tabbar"
+  }
+}

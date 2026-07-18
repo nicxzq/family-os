@@ -1,0 +1,286 @@
+.hero {
+  padding: var(--space-lg) 0 var(--space-md);
+}
+
+.hero-logo {
+  width: 320rpx;
+  margin-bottom: var(--space-sm);
+}
+
+.hero-title {
+  font-size: var(--font-xxl);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.section {
+  margin-top: var(--space-xl);
+}
+
+/* 六句话轮播 */
+.idea-swiper {
+  height: 640rpx;
+}
+
+.idea {
+  margin: 0 var(--space-xs) var(--space-md);
+  height: 560rpx;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.idea-num {
+  font-size: var(--font-xs);
+  letter-spacing: 0.15em;
+  color: var(--ink-mute);
+  margin-bottom: var(--space-xs);
+}
+
+.idea-title {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  line-height: 1.45;
+  margin-bottom: var(--space-sm);
+}
+
+.idea-scene {
+  background: var(--cream);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-sm);
+  color: var(--ink-soft);
+  margin-bottom: var(--space-sm);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.idea-key {
+  font-size: var(--font-md);
+  font-weight: 500;
+  margin-bottom: var(--space-sm);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.idea-more {
+  font-size: var(--font-sm);
+  color: var(--coral);
+  font-weight: 500;
+}
+
+/* 角色入口 */
+.role-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.role-card {
+  width: calc(50% - var(--space-md) / 2);
+  box-sizing: border-box;
+  margin-bottom: 0;
+}
+
+.role-name {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: var(--space-xs);
+}
+
+.role-tag {
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+  margin-bottom: var(--space-sm);
+}
+
+.role-cta {
+  font-size: var(--font-sm);
+  color: var(--coral);
+  font-weight: 500;
+}
+
+/* 工具箱横幅 */
+.toolbox-banner {
+  margin-top: var(--space-xl);
+  background: var(--ink);
+  color: var(--cream);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-lg) var(--space-md);
+}
+
+.toolbox-banner-title {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.toolbox-banner-desc {
+  font-size: var(--font-sm);
+  opacity: 0.75;
+  margin-bottom: var(--space-sm);
+}
+
+.toolbox-banner-cta {
+  font-size: var(--font-sm);
+  color: var(--yellow);
+  font-weight: 500;
+}
+
+/* 家庭墙 */
+.wall {
+  background: var(--paper);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-lg) var(--space-md);
+  text-align: center;
+}
+
+.wall-title {
+  font-size: var(--font-xl);
+  font-weight: 700;
+}
+
+.wall-sub {
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+  margin-bottom: var(--space-md);
+}
+
+.wall-rule {
+  font-size: var(--font-md);
+  padding: var(--space-sm) 0;
+  text-align: center;
+  border-bottom: 2rpx dashed var(--cream-deep);
+}
+
+.wall-rule:last-of-type {
+  border-bottom: none;
+}
+
+.wall-save {
+  margin-top: var(--space-md);
+  background: var(--ink);
+  color: var(--cream);
+  border-radius: var(--radius-full);
+  font-size: var(--font-sm);
+  padding: var(--space-sm) 0;
+  line-height: 1.6;
+}
+
+.wall-save::after {
+  border: none;
+}
+
+.wall-foot {
+  margin-top: var(--space-md);
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+}
+
+/* 共读清单 · 书架 */
+.bookshelf {
+  margin-top: var(--space-md);
+}
+
+.shelf-books {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-sm);
+  padding: 0 var(--space-sm);
+}
+
+.shelf-book {
+  width: calc((100% - 2 * var(--space-sm)) / 3);
+  box-sizing: border-box;
+  height: var(--book-h);
+  background: var(--paper);
+  border-left: var(--space-xs) solid var(--ink-mute);
+  border-radius: var(--radius-sm);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: var(--shadow-soft);
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  transition: transform 0.15s ease;
+}
+
+.shelf-book.is-picked {
+  transform: translateY(calc(-1 * var(--space-xs)));
+  box-shadow: var(--shadow-card);
+}
+
+.shelf-book--coral { border-left-color: var(--coral); }
+.shelf-book--yellow { border-left-color: var(--yellow); }
+.shelf-book--green { border-left-color: var(--green); }
+.shelf-book--blue { border-left-color: var(--blue); }
+
+.shelf-book-who {
+  align-self: flex-start;
+  font-size: var(--font-xs);
+  color: var(--ink-soft);
+  background: var(--cream);
+  border-radius: var(--radius-full);
+  padding: 0 var(--space-sm);
+}
+
+.shelf-book-title {
+  font-size: var(--font-sm);
+  font-weight: 700;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
+.shelf-board {
+  height: var(--shelf-board-h);
+  background: var(--cream-deep);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: var(--space-lg);
+}
+
+.book-hint {
+  text-align: center;
+  font-size: var(--font-sm);
+  color: var(--ink-mute);
+}
+
+/* 书单 */
+.book-for {
+  display: inline-flex;
+  background: var(--yellow-soft);
+  color: var(--ink-soft);
+  border-radius: var(--radius-full);
+  padding: 2rpx var(--space-sm);
+  font-size: var(--font-xs);
+  margin-bottom: var(--space-xs);
+}
+
+.book-title {
+  font-size: var(--font-md);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.book-note {
+  font-size: var(--font-sm);
+  color: var(--ink-soft);
+}
+
+.footer {
+  margin-top: var(--space-xl);
+  text-align: center;
+  font-size: var(--font-sm);
+  color: var(--ink-soft);
+}

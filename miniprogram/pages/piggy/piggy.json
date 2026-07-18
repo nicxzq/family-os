@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "零花钱实验室",
+  "usingComponents": {
+    "fo-tabbar": "/components/fo-tabbar/fo-tabbar"
+  }
+}

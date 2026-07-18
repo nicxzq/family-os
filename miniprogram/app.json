@@ -1,0 +1,58 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/role/role",
+    "pages/toolbox/toolbox",
+    "pages/mine/mine",
+    "pages/idea/idea",
+    "pages/story/story",
+    "pages/reader/reader",
+    "pages/topics/topics",
+    "pages/quiz/quiz",
+    "pages/summer/summer",
+    "pages/review/review",
+    "pages/piggy/piggy",
+    "pages/attention/attention"
+  ],
+  "lazyCodeLoading": "requiredComponents",
+  "window": {
+    "navigationBarBackgroundColor": "#F8F2E2",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "好的家庭教育",
+    "backgroundColor": "#F8F2E2"
+  },
+  "tabBar": {
+    "color": "#8C7C66",
+    "selectedColor": "#E56B5A",
+    "backgroundColor": "#FFFDF6",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "assets/tab/home.png",
+        "selectedIconPath": "assets/tab/home-active.png"
+      },
+      {
+        "pagePath": "pages/role/role",
+        "text": "角色",
+        "iconPath": "assets/tab/role.png",
+        "selectedIconPath": "assets/tab/role-active.png"
+      },
+      {
+        "pagePath": "pages/toolbox/toolbox",
+        "text": "工具箱",
+        "iconPath": "assets/tab/toolbox.png",
+        "selectedIconPath": "assets/tab/toolbox-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "assets/tab/mine.png",
+        "selectedIconPath": "assets/tab/mine-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

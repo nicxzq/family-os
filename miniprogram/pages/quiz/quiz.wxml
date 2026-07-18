@@ -1,0 +1,57 @@
+<view class="wrap">
+
+  <!-- 开场 -->
+  <view wx:if="{{!started}}" class="intro">
+    <view class="intro-title">嘿，<text class="accent">正在长大的你</text>。</view>
+    <view class="intro-sub">这不是测验。没有分数，也没有人会打分。就五个小问题——回答你真实的想法就行。</view>
+    <button class="btn intro-btn" bindtap="start">开始 →</button>
+  </view>
+
+  <!-- 进度条 -->
+  <view wx:if="{{started && !finished}}" class="progress">
+    <view
+      wx:for="{{progress}}"
+      wx:key="index"
+      class="progress-dot {{item === 'done' ? 'is-done' : ''}} {{item === 'current' ? 'is-current' : ''}}"
+    ></view>
+  </view>
+
+  <!-- 题目 -->
+  <view wx:if="{{started && !finished && question}}" class="q card">
+    <view class="q-num">{{question.num}}</view>
+    <view class="q-title">{{question.q}}</view>
+    <view class="q-options">
+      <view
+        wx:for="{{question.options}}"
+        wx:key="*this"
+        class="q-option {{selected === index ? 'is-selected' : ''}}"
+        bindtap="select"
+        data-idx="{{index}}"
+      >{{item}}</view>
+    </view>
+    <view wx:if="{{selected >= 0}}" class="q-reaction">
+      <view wx:for="{{question.reaction}}" wx:key="*this" class="q-reaction-p">{{item}}</view>
+    </view>
+    <button wx:if="{{selected >= 0}}" class="btn q-next" bindtap="next">
+      {{current === total - 1 ? '看看结果 →' : '下一题 →'}}
+    </button>
+  </view>
+
+  <!-- 结果 -->
+  <view wx:if="{{finished}}" class="result card">
+    <view class="result-emoji">🌱</view>
+    <view class="result-title">所以——你已经知道了。</view>
+    <view class="result-p">你不是"要被爸妈教育的人"。你是正在长出自己的大脑的人。</view>
+    <view class="result-p">我们家不会"管"你，但有几件事，我们想一起做：</view>
+    <view class="secret">
+      <view class="secret-title">给正在长大的你 · 五条</view>
+      <view wx:for="{{fiveRules}}" wx:key="*this" class="secret-p">{{item}}</view>
+    </view>
+    <view class="result-hint">把这页给爸爸/妈妈看一眼，问他们："这五条，你们能做到吗？"</view>
+    <button class="btn readers-btn" bindtap="goReaders">去成长读本 →</button>
+    <button class="btn btn--ghost retry" bindtap="retry">重新来一次</button>
+  </view>
+
+</view>
+
+<fo-tabbar active="role" />

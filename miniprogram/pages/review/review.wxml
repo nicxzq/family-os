@@ -1,0 +1,67 @@
+<view class="wrap">
+
+  <view class="review-head">
+    <view class="section-title">家庭周会 · 复盘</view>
+    <view class="section-lead">每周日，10 分钟，把这一周说清楚。边填边存，随时回来接着写。</view>
+    <view class="week-bar">
+      <button class="week-btn" bindtap="prevWeek">← 上一周</button>
+      <view class="week-stamp">
+        <view class="week-stamp-main">{{weekLabel}}</view>
+        <view class="week-stamp-sub">{{rangeLabel}}</view>
+      </view>
+      <button class="week-btn" bindtap="nextWeek" disabled="{{isThisWeek}}">下一周 →</button>
+    </view>
+    <button wx:if="{{!isThisWeek}}" class="week-btn week-btn--now" bindtap="thisWeek">回到本周</button>
+  </view>
+
+  <view class="card card--coral rsec">
+    <view class="rsec-kicker">SECTION 01</view>
+    <view class="rsec-title">本周亮点</view>
+    <view class="rsec-prompt">这周，我们一起做了什么？</view>
+    <textarea class="area" value="{{form.highlights}}" bindinput="onField" data-path="highlights" placeholder="爸爸：&#10;妈妈：&#10;老大：&#10;老二：" maxlength="-1" />
+  </view>
+
+  <view class="card card--yellow rsec">
+    <view class="rsec-kicker">SECTION 02</view>
+    <view class="rsec-title">共读进度</view>
+    <view class="rsec-prompt">这周读了什么？</view>
+    <view wx:for="{{members}}" wx:key="key" class="read-row">
+      <view class="read-name">{{item.name}}</view>
+      <input class="field" value="{{form.reading[item.key]}}" bindinput="onField" data-path="reading.{{item.key}}" placeholder="书名 / 章节 / 页数" />
+    </view>
+  </view>
+
+  <view class="card card--green rsec">
+    <view class="rsec-kicker">SECTION 03</view>
+    <view class="rsec-title">每人一个收获</view>
+    <view class="rsec-prompt">我学到了⋯⋯</view>
+    <view wx:for="{{members}}" wx:key="key" class="gain-row">
+      <view class="field-label">{{item.name}}</view>
+      <textarea class="area area--sm" value="{{form.gains[item.key]}}" bindinput="onField" data-path="gains.{{item.key}}" placeholder="这一周，我学到的是⋯⋯" maxlength="-1" />
+    </view>
+  </view>
+
+  <view class="card card--blue rsec">
+    <view class="rsec-kicker">SECTION 04</view>
+    <view class="rsec-title">一个摩擦点</view>
+    <view class="rsec-prompt">有什么不顺，我们一起想想</view>
+    <view class="field-label">发生了什么</view>
+    <textarea class="area area--sm" value="{{form.frictionWhat}}" bindinput="onField" data-path="frictionWhat" placeholder="不急着批评，先把事情说清楚。" maxlength="-1" />
+    <view class="field-label">解决方向</view>
+    <textarea class="area area--sm" value="{{form.frictionFix}}" bindinput="onField" data-path="frictionFix" placeholder="下次我们可以怎么试？" maxlength="-1" />
+  </view>
+
+  <view class="card card--coral rsec">
+    <view class="rsec-kicker">SECTION 05</view>
+    <view class="rsec-title">下周焦点</view>
+    <view class="rsec-prompt">下周，我们想做到⋯⋯</view>
+    <textarea class="area" value="{{form.focus}}" bindinput="onField" data-path="focus" placeholder="1.&#10;2.&#10;3." maxlength="-1" />
+    <view class="quote-box">
+      <view class="field-label">本周家庭格言</view>
+      <textarea class="area area--sm" value="{{form.motto}}" bindinput="onField" data-path="motto" placeholder="写一句这周想放在家里的话。" maxlength="-1" />
+    </view>
+  </view>
+
+</view>
+
+<fo-tabbar active="toolbox" />

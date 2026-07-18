@@ -1,0 +1,245 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: K03 · 源: 思考的真相 1.3「比较」（两个事物可以相互比较，首先因为属于同一范畴，其次因为拥有相同的属性——苹果和橘子同属水果，可比哪个更好吃；人们胡乱比较的原因之一：不在意判断依据是主观的还是客观的——主观依据（两件衣服哪件穿着好看）本身不可争辩、用它做的判断同样不可争辩；客观依据（两个人谁更高）可测量、可量化、可精确比较，所以判断依据最好是客观的；多个客观判断依据同时存在时：按重要性排列、分别给予权重（加起来=100%），逐一打分后乘以权重求总分——高考三校选择例：判断依据=学校排名40%、地理位置30%、专业设置20%、学费10%，A校总分8.2、B校7.9、C校7.4，A校最高；"这里的核心其实就是比较，只要比较结果出现，决策就呼之欲出"；胡乱比较的另一困境：判断依据只能靠不断积累，谁都没办法一开始就掌握全部——评价电影要参照：基本信息（类型题材风格导演演员）、主创能力体现、票房评分奖项等客观数据、剧情人物主题情感等主观感受、社会影响文化价值创新意义等深层评价；99.99%的情况下人们给电影打分只体现看完之后爽的程度；一旦要求自己客观，就会体会到比较虽然简单、工作量非凡；这种困境也存在于科学研究、公共决策、商业竞争等更重要领域；没有一次性解决方案，只能靠长期积累和持续更新——这反过来正是终生学习、终生成长的动力）。金句取"只要比较结果出现，决策就呼之欲出"。绿色系。§7.4 第三篇。 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<script src="/fo-gate.js"></script>
+<title>选不出来，是因为还没比完 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--green); --accent-soft: var(--green-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--blue); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+</head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 思考的真相</span>
+    <h1>选不出来，<br>是因为还没比完</h1>
+
+    <p class="hook">
+      设想一个场景：高考之后，家里同时收到了<span class="em">三所学校的录取通知书</span>。全家开会，讨论了三个晚上，谁也说服不了谁——爸爸看重排名，妈妈惦记离家远近，孩子只想去有喜欢专业的那所。听起来像"人生难题"吧？书里用一张小小的打分表，几分钟就算出了答案。秘密不在于聪明，而在于思考的第三个基础要素：<span class="em">比较</span>。这一篇讲清楚：什么东西能比、拿什么去比、比不出来的时候到底卡在哪。
+    </p>
+
+    <!-- 拆解 1 · 什么能比 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>能比较的前提：同一范畴 + 相同属性</h3>
+      <p>两个事物之间之所以可以相互比较，条件有两个：<strong>首先，它们属于同一范畴；其次，它们拥有相同的属性</strong>。苹果和橘子可以比，因为它们同属"水果"这个范畴，于是可以比较同一个属性——哪个更好吃。</p>
+      <p>这两个条件看着不起眼，却直接接住了前两篇：<strong>范畴清不清楚，靠"定义"；属于不属于同一类，靠"分类"</strong>。定义、分类做好了，比较才有地基。很多争不出结果的"哪个更好"，其实在这一步就已经跑偏了——两样东西根本不在同一范畴，或者压根没说清在比哪个属性。</p>
+      <figure>
+        <svg viewBox="0 0 600 190" role="img" aria-label="比较的前提：苹果和橘子同属水果范畴，才能比较好吃这个相同属性">
+          <g font-size="13" text-anchor="middle">
+            <rect x="90" y="24" width="420" height="140" rx="14" fill="var(--paper)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="300" y="52" fill="var(--ink)" font-weight="700">同一范畴：水果</text>
+            <circle cx="210" cy="106" r="30" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="210" y="112" fill="var(--ink)">苹果</text>
+            <circle cx="390" cy="106" r="30" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="390" y="112" fill="var(--ink)">橘子</text>
+            <path d="M 246 106 L 354 106" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4"/>
+            <text x="300" y="96" fill="var(--accent)" font-weight="700" font-size="12.5">相同属性：哪个更好吃？</text>
+            <text x="300" y="152" font-size="12" fill="var(--ink-mute)">范畴靠定义，归类靠分类——比较站在前两个要素的肩膀上</text>
+          </g>
+        </svg>
+        <figcaption>可比 = 同一范畴 + 相同属性；缺一个，比出来的都是糊涂账（《思考的真相》1.3）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 主观 vs 客观 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>胡乱比较的第一个坑：不分主观和客观</h3>
+      <p>比较原本并不困难，可生活里经常感觉并非如此。主要原因之一是：人们经常胡乱比较，<strong>压根不在意判断依据是主观的还是客观的</strong>。</p>
+      <p>判断依据可以分成两类。<strong>主观的</strong>——比如两件衣服穿在身上哪件更好看——倒也不是没用，但它<strong>本身不可争辩，你用它做出来的判断同样不可争辩</strong>：无论跟自己纠结还是与别人争辩，都没有太多意义。<strong>客观的</strong>——比如两个人谁更高——就完全不同了：身高可测量，相差多少可计算，<strong>可以被量化，可以被精确比较</strong>。所以说，判断依据最好是客观的。下次争"哪个更好"争到脸红之前，先停一秒问：我们用的依据，可争辩吗？</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="主观依据不可争辩，客观依据可量化可精确比较">
+          <g font-size="13" text-anchor="middle">
+            <rect x="40" y="30" width="245" height="120" rx="12" fill="var(--cream)" stroke="var(--ink-mute)" stroke-width="1.5" stroke-dasharray="5 3"/>
+            <text x="162" y="58" fill="var(--ink)" font-weight="700">主观依据</text>
+            <text x="162" y="84" fill="var(--ink-soft)" font-size="12">"哪件衣服更好看？"</text>
+            <text x="162" y="110" fill="var(--ink-mute)" font-size="12">不可争辩 → 判断也不可争辩</text>
+            <text x="162" y="134" fill="var(--ink-mute)" font-size="12">争来争去，意义不大</text>
+            <rect x="315" y="30" width="245" height="120" rx="12" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="437" y="58" fill="var(--ink)" font-weight="700">客观依据</text>
+            <text x="437" y="84" fill="var(--ink-soft)" font-size="12">"两个人谁更高？"</text>
+            <text x="437" y="110" fill="var(--ink)" font-size="12">可测量 · 可量化</text>
+            <text x="437" y="134" fill="var(--accent)" font-size="12" font-weight="700">可以被精确比较 ✓</text>
+            <text x="300" y="182" font-size="12" fill="var(--ink-mute)">判断依据最好是客观的——它才经得起算</text>
+          </g>
+        </svg>
+        <figcaption>主观依据不可争辩；客观依据可量化、可精确比较——比较从选对依据开始</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 权重打分 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>依据不止一个？排重要性、给权重、算总分</h3>
+      <p>当多个客观判断依据同时存在时，方法是：<strong>按重要性排列，分别给予不同的权重</strong>（所有权重加起来等于 100%），再按每个依据逐一打分，分数乘以权重求和，得到总分——总分一比，结论自现。</p>
+      <p>回到开头的三份录取通知书。先确定四个判断依据：<strong>学校排名、地理位置、专业设置、学费</strong>。假设认为排名最重要，给 40% 的权重；地理位置次之，30%；专业设置第三，20%；学费最不重要，10%。然后逐项打分：排名一项 A 校最高 10 分、B 校 8 分、C 校 6 分……每个依据都打完分、乘以权重、加起来，最终 <strong>A 校 8.2 分、B 校 7.9 分、C 校 7.4 分</strong>——A 校胜出。书里说得干脆：这里的核心其实就是比较，<strong>只要比较结果出现，决策就呼之欲出</strong>。吵三个晚上没结果的事，一张表算完了。</p>
+      <figure>
+        <svg viewBox="0 0 600 250" role="img" aria-label="权重打分表：四个判断依据按重要性给权重，三所学校算出总分8.2、7.9、7.4">
+          <g font-size="12.5" text-anchor="middle">
+            <text x="300" y="26" fill="var(--ink)" font-weight="700" font-size="13.5">选学校 = 一张权重打分表</text>
+            <rect x="50" y="40" width="180" height="34" rx="8" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.3"/>
+            <text x="140" y="62" fill="var(--ink)">学校排名 · 40%</text>
+            <rect x="50" y="82" width="180" height="34" rx="8" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.3"/>
+            <text x="140" y="104" fill="var(--ink)">地理位置 · 30%</text>
+            <rect x="50" y="124" width="180" height="34" rx="8" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.3"/>
+            <text x="140" y="146" fill="var(--ink)">专业设置 · 20%</text>
+            <rect x="50" y="166" width="180" height="34" rx="8" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.3"/>
+            <text x="140" y="188" fill="var(--ink)">学费 · 10%</text>
+            <text x="140" y="226" fill="var(--ink-mute)" font-size="11.5">权重按重要性分配，加起来 = 100%</text>
+            <path d="M 244 118 L 296 118" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <path d="M 289 112 L 298 118 L 289 124" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <text x="270" y="106" fill="var(--accent)" font-size="11.5">打分×权重</text>
+            <rect x="316" y="52" width="236" height="42" rx="10" fill="var(--accent)" stroke="none"/>
+            <text x="434" y="78" fill="var(--paper)" font-weight="700">A 校 · 总分 8.2 ✓</text>
+            <rect x="316" y="104" width="236" height="42" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <text x="434" y="130" fill="var(--ink-soft)">B 校 · 总分 7.9</text>
+            <rect x="316" y="156" width="236" height="42" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <text x="434" y="182" fill="var(--ink-soft)">C 校 · 总分 7.4</text>
+            <text x="434" y="226" fill="var(--accent)" font-weight="700" font-size="12">比较结果一出现，决策呼之欲出</text>
+          </g>
+        </svg>
+        <figcaption>四个依据 × 各自权重 → 三所学校的总分：8.2 / 7.9 / 7.4——争论变成了算术</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 · 判断依据靠积累 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>第二个坑：判断依据，没法一次凑齐</h3>
+      <p>胡乱比较还有另一个困境：<strong>判断依据这个东西，只能靠不断积累</strong>——谁都没办法从一开始就一下子获得或掌握所有判断依据。书里拿"评价一部电影"举例，认真做的话要参照一大串：类型、题材、风格、导演、演员等<strong>基本信息</strong>；导演、编剧、演员的<strong>能力体现</strong>；票房、评分、奖项等<strong>客观数据</strong>；剧情、人物、主题、情感等<strong>主观感受</strong>；还有社会影响、文化价值、创新意义等<strong>深层评价</strong>。</p>
+      <p>可日常生活中，人们是懒得做工的——<strong>99.99% 的情况下，人们给电影打的分，体现的不过是看完之后"爽的程度"而已</strong>。一旦要求自己客观，你就会体会到：<strong>比较虽然简单，工作量却非凡</strong>。这种困境不只在评电影时存在，在科学研究、公共决策、商业竞争这些更重要的领域里，判断依据的获取和使用更难、也更关键。它没有一次性的解决方案，到最后只能靠<strong>长期积累和持续更新</strong>——但反过来，这恰恰是终生学习、终生成长的动力：你多积累一个判断依据，就比昨天的自己会比一点。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="评价电影的五层判断依据阶梯，与99.99%的人只用爽的程度对比">
+          <g font-size="12" text-anchor="middle">
+            <rect x="40" y="150" width="100" height="34" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="90" y="171" fill="var(--ink)" font-size="11.5">基本信息</text>
+            <rect x="150" y="122" width="100" height="34" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="200" y="143" fill="var(--ink)" font-size="11.5">主创能力</text>
+            <rect x="260" y="94" width="100" height="34" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="310" y="115" fill="var(--ink)" font-size="11.5">客观数据</text>
+            <rect x="370" y="66" width="100" height="34" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="420" y="87" fill="var(--ink)" font-size="11.5">主观感受</text>
+            <rect x="480" y="38" width="100" height="34" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="530" y="59" fill="var(--ink)" font-size="11.5">深层评价</text>
+            <path d="M 60 140 L 500 30" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="4 4"/>
+            <text x="200" y="46" fill="var(--accent)" font-weight="700" font-size="12">判断依据，一层层攒出来</text>
+            <rect x="40" y="60" width="120" height="40" rx="20" fill="var(--cream)" stroke="var(--ink-mute)" stroke-width="1.4" stroke-dasharray="4 3"/>
+            <text x="100" y="79" fill="var(--ink-soft)" font-size="11.5">99.99% 的打分：</text>
+            <text x="100" y="94" fill="var(--ink-soft)" font-size="11.5">"爽的程度"</text>
+            <text x="300" y="202" fill="var(--ink-mute)" font-size="12">没有一次性方案，只能长期积累、持续更新——这正是终生学习的理由</text>
+          </g>
+        </svg>
+        <figcaption>认真评一部电影要五层依据；而大多数打分只用了"爽"这一个——客观，是攒出来的</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"只要比较结果出现，<br>决策就呼之欲出。"</p>
+      <span class="src">—— 《思考的真相》1.3「比较」。前提：同一范畴 + 相同属性；依据：最好客观、可量化；多个依据：给权重、算总分。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>回想你最近一次和同学争"哪个更好"（球星、游戏、手机……）却谁也说服不了谁——你们用的判断依据，是主观的还是客观的？如果换成客观依据，你们会先比哪一项？</summary>
+        <p class="hint">没有标准答案，写在你自己的本子上。提示：吵不出结果的争论，多半是在用"不可争辩"的主观依据互相争辩——先把依据换掉，争论常常自动消失。</p>
+      </details>
+      <details>
+        <summary>给你最喜欢的一部电影认真打一次分：五层依据（基本信息／主创能力／客观数据／主观感受／深层评价）里，你现在能写出内容的有几层？空着的那几层，说明了什么？</summary>
+        <p class="hint">没有标准答案。提示：空着的层不是你的错——判断依据本来就只能靠积累。发现空层，恰好是"下一步该学什么"的地图。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>本周用<strong>权重打分表</strong>做一次真实的小决策——买哪本书、参加哪个社团、周末先做哪件事都行。步骤：<strong>① 先凭直觉在心里选一个，写下来盖住；② 列出 3–4 个判断依据，尽量客观；③ 按重要性给权重，加起来必须等于 100%；④ 逐项打分（1–10 分）、乘权重、算总分。</strong>最后揭晓：算出来的答案和直觉选的一样吗？如果不一样，看看是哪个依据把结果扳过去的——把这张表和这个发现讲给家人听。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="28-sort-it-out.html">← 不重不漏，才算想全了</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '29-compare-it';
+    const READER_TITLE = '选不出来，是因为还没比完';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>

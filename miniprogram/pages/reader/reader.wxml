@@ -1,0 +1,35 @@
+<view wx:if="{{piece}}" class="wrap">
+  <view class="kicker">{{piece.kicker}}</view>
+  <view class="r-title">{{piece.title}}</view>
+  <view class="hook">{{piece.hook}}</view>
+
+  <view wx:for="{{piece.sections}}" wx:key="index" class="card sec">
+    <view class="sec-h3"><text class="step-no">{{index + 1}}</text>{{item.h3}}</view>
+    <view wx:for="{{item.paras}}" wx:for-item="p" wx:key="*this" class="sec-p">{{p}}</view>
+    <image wx:if="{{item.art}}" class="sec-art" src="{{item.art}}" mode="widthFix" />
+    <view wx:if="{{item.caption}}" class="sec-caption">{{item.caption}}</view>
+  </view>
+
+  <view wx:if="{{piece.quote}}" class="card quote">
+    <view class="quote-text">{{piece.quote}}</view>
+    <view class="quote-src">{{piece.quoteSrc}}</view>
+  </view>
+
+  <view wx:if="{{piece.reflect.length}}" class="card">
+    <view class="sec-h3">💬 想一想</view>
+    <view wx:for="{{piece.reflect}}" wx:key="index" class="reflect-item" bindtap="toggleReflect" data-idx="{{index}}">
+      <view class="reflect-q">{{reflectOpen[index] ? '▾' : '›'}} {{item.q}}</view>
+      <view wx:if="{{reflectOpen[index]}}" class="reflect-hint">{{item.hint}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{piece.action}}" class="card action">
+    <view class="sec-h3">{{piece.actionTitle}}</view>
+    <view class="sec-p">{{piece.action}}</view>
+    <button class="btn action-btn {{actionDone ? 'action-btn--done' : ''}}" bindtap="markAction">
+      {{actionDone ? '已加入本周 ✓' : '我要试试 →'}}
+    </button>
+  </view>
+</view>
+
+<fo-tabbar active="role" />

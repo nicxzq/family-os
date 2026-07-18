@@ -1,0 +1,182 @@
+<view class="wrap">
+
+  <!-- 顶部:当前角色 + 切换 -->
+  <view wx:if="{{roleInfo}}" class="role-bar">
+    <view class="role-bar-name">{{roleInfo.name}} · {{roleInfo.tag}}</view>
+    <view class="role-bar-switch" bindtap="openPicker">切换角色</view>
+  </view>
+
+  <!-- ============ 爸爸妈妈 ============ -->
+  <block wx:if="{{role === 'parents'}}">
+    <view class="reader-title">不焦虑，也不躺平。</view>
+    <view class="lede">这一页是写给我们俩的——不是"改变对方"的清单，是我们做父母的想一起想清楚、慢慢做到的几件事。</view>
+
+    <view class="h2 h2--coral">第一件事 · 我们不"鸡娃"</view>
+    <view class="p">我们都见过那种家庭：孩子十岁就上六个兴趣班，妈妈天天比成绩，爸爸天天发火，最后大家都过得很累，孩子还不一定优秀。</view>
+    <view class="p">我们要做的恰恰相反：一个不慌的家——不跟别人比谁更卷，只跟昨天的我们比有没有进一步。</view>
+    <view class="quote">
+      <view>"在错误的教育上过分投入，是绝大多数人的现状⋯⋯正确的教育，通常成本很低。"</view>
+      <view class="src">— 李笑来《家教的真相》</view>
+    </view>
+
+    <view class="h2 h2--yellow">第二件事 · 先改变的是我们自己</view>
+    <view class="p">家庭教育的对象不是孩子。是父母。</view>
+    <view class="p">每天看书、健身、做自己的事，不是演给孩子看的榜样——那太累了。是我们真的想活得更明白。孩子看着，就跟着。这叫陪（耳刀旁），不是培（士字旁）。</view>
+    <view class="p p--muted">不是为了孩子，而是为了我们自己。健身、读书、潜水、画画、什么都可以。我们俩是同学，不是合作养娃的合伙人。</view>
+
+    <view class="h2 h2--green">第三件事 · 我们不需要"押对赛道"</view>
+    <view class="p">现在所有人都在焦虑"该让孩子学什么"。但其实：</view>
+    <view class="p">没有一条赛道是稳的。十年前所有人挤着学钢琴的，今天孩子大学都毕业了，没几个成音乐家。十年前的奥数神童，今天也已经"泯然众人"。</view>
+    <view class="p">我们押的不是"哪个赛道"，是"持续发展"这件事本身。</view>
+    <view class="p">所以我们家最重要的东西，不是某个补习班，而是：书架、饭桌、和不被打扰的下午。</view>
+
+    <view class="promise">
+      <view class="promise-title">所以，我们俩的约定：</view>
+      <view class="promise-li">✓ 不报"看起来必须报"的班，省下的时间陪孩子读书、爬山。</view>
+      <view class="promise-li">✓ 不在饭桌上说成绩、不在饭桌上吵架。饭桌只用来聊天和讲故事。</view>
+      <view class="promise-li">✓ 每周一次"家庭会议"，孩子也参加——不开会，只是大家聊一聊这一周。</view>
+      <view class="promise-li">✓ 我们一直读书。想读什么就买，"买书的钱永远不省"。</view>
+      <view class="promise-li">✓ 不在孩子面前刷手机。这一条我们自己先做。</view>
+    </view>
+
+    <view class="h2 h2--coral">最后一件事</view>
+    <view class="p">"鸡娃""人生导师"这些词让人警惕——我们也警惕。所以这一页不是说教，也不是另一个版本的"卷"。</view>
+    <view class="p">不用一次全做到。每周找半小时，喝杯咖啡，聊聊这个家这一周的样子——那就够了。剩下的，我们一起慢慢来。</view>
+
+    <view class="signoff">
+      <view>把家当作一辈子的项目，但不当作一件累人的事。</view>
+    </view>
+  </block>
+
+  <!-- ============ 哥哥 ============ -->
+  <block wx:if="{{role === 'eldest'}}">
+    <view class="section-title">给哥哥</view>
+    <view class="section-lead">不是测验，没有分数。每篇讲一个值得想清楚的概念——读完，给自己留一个本周可以试的小行动。</view>
+
+    <view class="card card--yellow entry-card" bindtap="goSummer">
+      <view class="entry-tag">暑期计划 · 2026</view>
+      <view class="entry-title">🌞 快乐暑假打卡</view>
+      <view class="entry-desc">7 月 14 日 — 8 月 30 日 · 每天的任务清单和进度。</view>
+      <view class="entry-cta">打开 →</view>
+    </view>
+
+    <block wx:for="{{groups}}" wx:for-item="g" wx:for-index="gi" wx:key="group">
+      <view class="group-title">{{g.group}}</view>
+      <view
+        wx:for="{{g.items}}"
+        wx:key="code"
+        class="card card--{{item.color}} piece {{item.id ? '' : 'piece--soon'}}"
+        bindtap="openReader"
+        data-g="{{gi}}"
+        data-i="{{index}}"
+      >
+        <view class="piece-code">{{item.code}}</view>
+        <view class="piece-title">{{item.title}}</view>
+        <view class="piece-sub">{{item.sub}}</view>
+        <view class="piece-tag">{{item.id ? '可阅读 →' : '敬请期待'}}</view>
+      </view>
+    </block>
+  </block>
+
+  <!-- ============ 弟弟 ============ -->
+  <block wx:if="{{role === 'youngest'}}">
+    <view class="section-title">有一只小小的毛毛，她和卡梅拉一起长大。</view>
+    <view class="section-lead">每周一本。大字、图多、可朗读。读完不用考问，让故事自己长进他心里。</view>
+
+    <view
+      wx:for="{{stories}}"
+      wx:key="id"
+      class="card book {{item.available ? '' : 'book--locked'}}"
+      bindtap="openStory"
+      data-idx="{{index}}"
+    >
+      <view class="book-cover">
+        <image wx:if="{{item.cover}}" class="book-cover-img" src="{{item.cover}}" mode="aspectFit" />
+        <text wx:else>📕</text>
+      </view>
+      <view class="book-body">
+        <view class="book-num">{{item.badge}}</view>
+        <view class="book-title">{{item.title}}</view>
+        <view class="book-theme">{{item.theme}}</view>
+        <view class="book-desc">{{item.desc}}</view>
+        <view class="book-cta">{{item.available ? '翻开绘本 →' : '即将上架'}}</view>
+      </view>
+    </view>
+
+    <view class="for-parents">
+      💡 给爸爸妈妈：每本绘本 5–6 页，约 3 分钟可念完。每周读一本就好。
+    </view>
+  </block>
+
+  <!-- ============ 爷爷奶奶和朋友 ============ -->
+  <block wx:if="{{role === 'family'}}">
+    <view class="section-title">三个家庭的故事。</view>
+    <view class="section-lead">不讲道理，只讲故事。这三件事都是真实发生过的——你看一眼就行，不用回复。</view>
+
+    <view class="card story">
+      <view class="story-num story-num--coral">1</view>
+      <view class="story-who">— 关于"我是为你好"</view>
+      <view class="story-title">那个考上哈佛的女孩，后来呢？</view>
+      <view class="story-p">二十年前，有个孩子叫刘亦婷。她妈妈写了本书，《哈佛女孩刘亦婷》，全中国卖了几百万本。所有的家长都拿那本书当圣经，照着养孩子。</view>
+      <view class="story-p">二十年过去了。刘亦婷哈佛毕业，去了一家对冲基金，做了两年。申请哈佛商学院——被拒了。后来自己创业，关门了。再后来开了家公司，做投资移民咨询。</view>
+      <view class="story-p">这不是说她过得不好。她过得挺好。只是——她现在做的事，根本不需要哈佛。</view>
+      <view class="moral">
+        <view class="moral-label">这件事告诉我</view>
+        <view>家长拼命安排的"成功路线"，到最后很少真的成功。能让一个人一辈子过得好的，不是简历，是持续学习的习惯。</view>
+      </view>
+    </view>
+
+    <view class="card story">
+      <view class="story-num story-num--yellow">2</view>
+      <view class="story-who">— 关于"现在竞争多激烈"</view>
+      <view class="story-title">一个永远在"赢"的家庭。</view>
+      <view class="story-p">认识一对夫妻，孩子从三岁开始就上各种班——口才、奥数、编程、英语、钢琴、击剑⋯⋯每一个班都拿过奖。家长每次见面都说："现在不卷，将来就完蛋。"</view>
+      <view class="story-p">孩子今年十四岁。前两个月，从七楼跳下来了。还好命保住了。</view>
+      <view class="story-p">送医院那天，妈妈坐在走廊上哭，说："我每天给他喝鸡汤、辅导功课到半夜，我做错了什么呢？"</view>
+      <view class="story-dialog">"我没做错。我只是一直在赢⋯⋯一直在赢⋯⋯一直在赢⋯⋯"</view>
+      <view class="moral">
+        <view class="moral-label">这件事告诉我</view>
+        <view>就算每次"小竞争"都能赢 90%——连赢 100 次的概率只有十万分之三。所以"非必要不竞争"，留点儿气给最重要的几件事。</view>
+      </view>
+    </view>
+
+    <view class="card story">
+      <view class="story-num story-num--green">3</view>
+      <view class="story-who">— 关于"读书没用"</view>
+      <view class="story-title">一个不读书的爸爸，养出了爱读书的孩子。</view>
+      <view class="story-p">这是我妈跟我说的一个事。她有个老同事，自己一辈子没读过几本书。可孩子从小爱看书，看到什么读什么，现在在大学教书。</view>
+      <view class="story-p">我妈问他："你怎么把孩子养这么好？"</view>
+      <view class="story-p">老同事笑了："我哪儿养的。我天天打麻将，他自己长大的。但他妈妈从小就在家里看书——不管看什么，从早看到晚。孩子小时候问问题，他妈妈第一反应永远是'我们查查书'。"</view>
+      <view class="story-p">"我什么都没做。是他妈做的。"</view>
+      <view class="moral">
+        <view class="moral-label">这件事告诉我</view>
+        <view>家庭教育里，"父母在做什么"比"父母在说什么"重要一百倍。读书最便宜，也最贵——便宜在花钱少，贵在它一辈子在升值。</view>
+      </view>
+    </view>
+
+    <view class="closing">
+      <view class="closing-p">所以我和孩子他妈最近在做的事，不是给孩子报班，</view>
+      <view class="closing-big">是让我们自己重新开始读书。</view>
+      <view class="closing-foot">— 看完这页就行，不用回复 ❤️</view>
+    </view>
+  </block>
+
+  <!-- ============ 角色选择弹层 ============ -->
+  <view wx:if="{{picker}}" class="picker-mask" bindtap="closePicker">
+    <view class="picker" catchtap="noop">
+      <view class="picker-title">你是谁？</view>
+      <view class="picker-sub">同一套想法，讲给不同的人，需要完全不同的方式。</view>
+      <view
+        wx:for="{{roles}}"
+        wx:key="id"
+        class="card card--{{item.color}} picker-card {{role === item.id ? 'is-current' : ''}}"
+        bindtap="pickRole"
+        data-role="{{item.id}}"
+      >
+        <view class="picker-name">{{item.name}}</view>
+        <view class="picker-desc">{{item.desc}}</view>
+      </view>
+    </view>
+  </view>
+
+</view>

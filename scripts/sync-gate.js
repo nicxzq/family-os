@@ -84,3 +84,16 @@ if (warnings.length) {
   console.log('sync-gate: ' + warnings.length + ' warning(s):');
   warnings.forEach((w) => console.log('  ! ' + w));
 }
+
+// 4) Chain: regenerate mini-program data from website content (the daily
+//    storybook task runs sync-gate as its final step, so this keeps
+//    miniprogram/data/ in sync automatically). Failure must not break gating.
+try {
+  require('child_process').execFileSync(
+    process.execPath, [path.join(__dirname, 'sync-miniprogram.js')],
+    { stdio: 'inherit' }
+  );
+} catch (e) {
+  console.log('sync-gate: sync-miniprogram.js failed (gating unaffected): ' + e.message);
+  process.exitCode = 1;
+}

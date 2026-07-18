@@ -1,0 +1,98 @@
+<view class="wrap">
+
+  <view class="card piggy-card">
+    <view class="piggy-emoji">🐷</view>
+    <view class="balance">¥ {{balanceText}}</view>
+    <view class="fill-bar">
+      <view class="fill" style="width: {{fillPct}}%"></view>
+    </view>
+    <view class="fill-hint">存满 ¥200 小猪就吃饱啦</view>
+  </view>
+
+  <view class="quick-actions">
+    <button class="action-btn action-btn--income" bindtap="toggleForm" data-form="income">+ 收入</button>
+    <button class="action-btn action-btn--expense" bindtap="toggleForm" data-form="expense">- 支出</button>
+  </view>
+
+  <view wx:if="{{openForm === 'income'}}" class="card entry-form">
+    <view class="form-title">记一笔收入</view>
+    <input class="amount-input" type="digit" value="{{amountInput}}" bindinput="onAmount" placeholder="0.00" />
+    <view class="chips">
+      <view
+        wx:for="{{incomeDefs}}"
+        wx:key="label"
+        class="chip {{incomeSel === index ? 'is-selected' : ''}}"
+        bindtap="pickChip"
+        data-kind="income"
+        data-idx="{{index}}"
+      >{{item.emoji}}{{item.label}}</view>
+    </view>
+    <button class="btn submit-btn" bindtap="submit">记一笔 →</button>
+  </view>
+
+  <view wx:if="{{openForm === 'expense'}}" class="card entry-form">
+    <view class="form-title">记一笔支出</view>
+    <input class="amount-input" type="digit" value="{{amountInput}}" bindinput="onAmount" placeholder="0.00" />
+    <view class="chips">
+      <view
+        wx:for="{{expenseDefs}}"
+        wx:key="label"
+        class="chip {{expenseSel === index ? 'is-selected' : ''}}"
+        bindtap="pickChip"
+        data-kind="expense"
+        data-idx="{{index}}"
+      >{{item.emoji}}{{item.label}}</view>
+    </view>
+    <button class="btn submit-btn" bindtap="submit">记一笔 →</button>
+  </view>
+
+  <view class="card">
+    <view class="ledger-title">📓 账本</view>
+    <view wx:if="{{!entries.length}}" class="empty">还没有记录，先记一笔吧！</view>
+    <view wx:for="{{entries}}" wx:key="id" class="entry-item">
+      <view class="entry-left">
+        <text class="entry-emoji">{{item.emoji}}</text>
+        <view>
+          <view class="entry-label">{{item.label}}</view>
+          <view class="entry-meta">{{item.timeText}}</view>
+        </view>
+      </view>
+      <view class="entry-amount {{item.type === 'income' ? 'is-income' : 'is-expense'}}">
+        {{item.type === 'income' ? '+' : '-'}}¥{{item.amountText}}
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="ledger-title">🎯 储蓄目标</view>
+    <view wx:if="{{!goals.length}}" class="empty">先定一个想存下来的小目标。</view>
+    <view wx:for="{{goals}}" wx:key="id" class="goal-card">
+      <view class="goal-name">{{item.emoji}} {{item.name}}</view>
+      <view class="goal-bar">
+        <view class="goal-fill" style="width: {{item.pct}}%"></view>
+      </view>
+      <view class="goal-meta">
+        <text>¥{{item.savedText}} / ¥{{item.targetText}}</text>
+        <text wx:if="{{item.done}}" class="goal-done">🎉 达成！</text>
+      </view>
+    </view>
+    <button class="btn btn--ghost goal-add-btn" bindtap="toggleGoalForm">+ 新目标</button>
+    <view wx:if="{{goalFormOpen}}" class="goal-form">
+      <input class="amount-input" value="{{goalName}}" bindinput="onGoalName" placeholder="目标名字" />
+      <input class="amount-input" type="digit" value="{{goalTarget}}" bindinput="onGoalTarget" placeholder="目标金额" />
+      <view class="chips">
+        <view
+          wx:for="{{goalEmojis}}"
+          wx:key="*this"
+          class="chip {{goalEmojiSel === index ? 'is-selected' : ''}}"
+          bindtap="pickGoalEmoji"
+          data-idx="{{index}}"
+        >{{item}}</view>
+      </view>
+      <button class="btn submit-btn" bindtap="saveGoal">保存目标</button>
+    </view>
+  </view>
+
+</view>
+
+<fo-tabbar active="toolbox" />

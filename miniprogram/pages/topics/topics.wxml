@@ -1,0 +1,44 @@
+<view class="wrap">
+  <view class="section-title">饭桌问题集</view>
+  <view class="section-lead">每周一个话题，一家人一起想。一年 50 个家庭话题。</view>
+
+  <view wx:if="{{topic}}" class="card card--{{topic.color}} featured">
+    <view class="featured-meta">
+      <text class="pill">第 {{topic.w}} 周</text>
+      <text wx:if="{{topic.w === thisWeek}}" class="pill pill--now">本周话题</text>
+      <text class="pill pill--{{topic.color}}">{{topic.theme}}</text>
+    </view>
+    <view class="featured-q">{{topic.q}}</view>
+    <view class="prompts">
+      <view class="prompts-label">可以接着问</view>
+      <view wx:for="{{topic.prompts}}" wx:key="*this" class="prompt-li">{{index + 1}}. {{item}}</view>
+    </view>
+    <view class="feat-nav">
+      <button class="feat-btn" bindtap="prev" disabled="{{current === 0}}">← 上一周</button>
+      <text class="week-counter">{{topic.w}} / {{total}}</text>
+      <button class="feat-btn" bindtap="next" disabled="{{current === total - 1}}">下一周 →</button>
+    </view>
+  </view>
+
+  <view class="all-section">
+    <view class="all-title">全年 50 个话题</view>
+    <view wx:for="{{themeBlocks}}" wx:key="theme" class="theme-block">
+      <view class="theme-label">{{item.theme}}</view>
+      <view class="topic-row">
+        <view
+          wx:for="{{item.topics}}"
+          wx:for-item="t"
+          wx:key="w"
+          class="topic-chip {{topic.w === t.w ? 'is-active' : ''}}"
+          bindtap="pick"
+          data-w="{{t.w}}"
+        >
+          <text class="chip-num">W{{t.w}}</text>
+          <text>{{t.title}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<fo-tabbar active="toolbox" />

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "成长读本",
+  "usingComponents": {
+    "fo-tabbar": "/components/fo-tabbar/fo-tabbar"
+  }
+}
