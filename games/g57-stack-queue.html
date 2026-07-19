@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>栈与队列 · 游戏</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="code-lab.css">
+<style>
+  .ds-shell{width:100%;max-height:100%;overflow-y:auto;display:flex;flex-direction:column;gap:var(--space-xl)}
+  .ds-lane{background:var(--cream-deep);border-radius:var(--radius);padding:var(--space-lg) var(--space-2xl);box-shadow:var(--shadow-soft)}
+  .ds-lane-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-sm)}
+  .ds-lane-name{font-size:var(--font-size-note);font-weight:700;color:var(--ink-soft)}
+  .ds-exit{font-size:var(--font-size-sm);color:var(--ink-mute)}
+  .ds-row{display:flex;flex-wrap:wrap;gap:var(--space-xs);min-height:var(--space-9xl);align-items:center}
+  .ds-row.rtl{flex-direction:row-reverse;justify-content:flex-end}
+  .chip{min-width:var(--space-9xl);height:var(--space-9xl);border-radius:var(--radius-sm);background:var(--paper);display:grid;place-items:center;font-size:var(--font-size-body-sm);font-weight:700;color:var(--ink);box-shadow:var(--shadow-soft);padding:0 var(--space-chart-gap)}
+  .chip.in{background:var(--blue);color:var(--paper)}
+  .chip.hold{background:var(--yellow);color:var(--ink)}
+  .chip.ok{background:var(--green);color:var(--paper)}
+  .chip.ghost{background:transparent;box-shadow:none;color:var(--ink-mute);border:var(--size-hairline) dashed var(--cream-deep)}
+  .ds-empty{color:var(--ink-mute);font-size:var(--font-size-caption)}
+  .feedback{min-height:var(--space-7xl);font-size:var(--font-size-note);font-weight:700;color:var(--ink-soft);text-align:center;margin-bottom:var(--space-lg);flex-shrink:0}
+  @media (max-width:767px){
+    .chip{min-width:var(--space-8xl);height:var(--space-8xl);font-size:var(--font-size-note)}
+    .ds-row{min-height:var(--space-8xl)}
+  }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body class="code-lab">
+<main class="game-wrap">
+  <nav class="game-nav">
+    <a class="back-link" href="index.html#code">&#8592; 游戏库</a>
+    <div class="game-title">
+      <span class="title-name">栈与队列</span>
+      <span class="title-desc">同一串数据，选对"容器"才能还原目标顺序</span>
+    </div>
+    <div class="nav-right">
+      <div class="level-pill" id="level-pill">关卡 1 / 3</div>
+      <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+    </div>
+  </nav>
+  <div class="layout">
+    <section class="panel stage-panel">
+      <div class="stage-head">
+        <h2 id="level-title">关卡 1</h2>
+        <p id="level-hint"></p>
+      </div>
+      <div class="hud">
+        <span class="hud-hearts" id="hud-hearts"></span>
+        <span class="feedback" id="feedback"></span>
+        <span class="hud-stars" id="hud-stars"></span>
+      </div>
+      <div class="stage-body">
+        <div class="ds-shell">
+          <div class="ds-lane">
+            <div class="ds-lane-head"><span class="ds-lane-name">待进入</span><span class="ds-exit">最左先装入 →</span></div>
+            <div class="ds-row" id="lane-input"></div>
+          </div>
+          <div class="ds-lane">
+            <div class="ds-lane-head"><span class="ds-lane-name" id="cont-name">容器</span><span class="ds-exit" id="cont-exit"></span></div>
+            <div class="ds-row" id="lane-cont"></div>
+          </div>
+          <div class="ds-lane">
+            <div class="ds-lane-head"><span class="ds-lane-name">已产出 / 目标</span><span class="ds-exit" id="out-progress"></span></div>
+            <div class="ds-row" id="lane-out"></div>
+          </div>
+        </div>
+      </div>
+      <div class="result" id="result"><span id="result-text"></span><button id="result-btn">继续</button></div>
+    </section>
+    <section class="panel side-panel">
+      <h2 class="panel-title">选择容器</h2>
+      <div class="choice-row">
+        <button class="choice-btn" id="pick-queue">队列 (FIFO)</button>
+        <button class="choice-btn" id="pick-stack">栈 (LIFO)</button>
+      </div>
+      <p class="hint-box" id="struct-hint">先选一种容器：队列从"最先装入"的一端取出，栈从"最后装入"的一端取出。选错顺序就还原不了。</p>
+      <div class="actions">
+        <button class="action clear" id="btn-load" disabled>装入 &#8681;</button>
+        <button class="action clear" id="btn-take" disabled>取出 &#8679;</button>
+      </div>
+      <div class="actions">
+        <button class="action clear" id="retry-btn">重开本关</button>
+        <button class="action run" id="demo-btn" disabled>&#9654; 看正确演示</button>
+      </div>
+      <div class="compare-scroll">
+        <p class="panel-title">本关目标</p>
+        <p class="target-box" id="target-box"></p>
+        <p class="compare-note" id="compare-note"></p>
+      </div>
+      <button class="next-btn" id="next-btn">下一关</button>
+    </section>
+  </div>
+</main>
+<section class="concepts-wrap">
+  <p class="section-label">知识预习</p>
+  <div class="concepts">
+    <div class="concept-card"><h3>队列 Queue</h3><p>先进先出（FIFO），像排队买票——先来的先走。取出顺序永远等于进入顺序，改不了序。</p></div>
+    <div class="concept-card"><h3>栈 Stack</h3><p>后进先出（LIFO），像叠盘子——最后放的最先拿。配合"装一个取一个"能拼出很多新顺序。</p></div>
+    <div class="concept-card"><h3>选对工具</h3><p>要保持原序用队列，要翻转或重排就得用栈。数据结构没有最好，只有"最合适这道题"。</p></div>
+  </div>
+</section>
+<script src="../fo-utils.js"></script>
+<script src="code-lab.js"></script>
+<script>
+var GAME_ID='g57-stack-queue';
+var levels=[
+  {title:'关卡 1 — 保持原序',input:['🍎','🍌','🍇'],target:['🍎','🍌','🍇'],
+   hint:'目标顺序和进入顺序一样。哪种容器天生就不改序？'},
+  {title:'关卡 2 — 完全翻转',input:['1','2','3','4'],target:['4','3','2','1'],
+   hint:'目标是倒过来。队列做不到——它永远保持原序。'},
+  {title:'关卡 3 — 两两交换',input:['A','B','C','D'],target:['B','A','D','C'],
+   hint:'AB 交换、CD 交换。试试"装两个、取两个"的节奏。'}
+];
+var HEARTS=3;
+
+var levelIndex=0,struct=null; // 'queue' | 'stack'
+var input=[],cont=[],output=[],target=[];
+var hearts=HEARTS,over=false,demoRunning=false;
+
+function chip(v,cls){return '<div class="chip'+(cls?' '+cls:'')+'">'+v+'</div>';}
+
+function render(){
+  var li=document.getElementById('lane-input');
+  li.className='ds-row';
+  li.innerHTML=input.length?input.map(function(v){return chip(v,'in');}).join(''):'<span class="ds-empty">（空）</span>';
+
+  var lc=document.getElementById('lane-cont');
+  // 栈的取出口在右端(最后装入)，队列取出口在左端(最先装入)——都把取出口画在右侧，队列因此反向排列
+  lc.className='ds-row'+(struct==='queue'?' rtl':'');
+  lc.innerHTML=cont.length?cont.map(function(v){return chip(v,'hold');}).join(''):'<span class="ds-empty">（空）</span>';
+
+  var lo=document.getElementById('lane-out');
+  lo.className='ds-row';
+  var html='';
+  for(var i=0;i<target.length;i++){
+    if(i<output.length) html+=chip(output[i],'ok');
+    else html+=chip(target[i],'ghost');
+  }
+  lo.innerHTML=html;
+  document.getElementById('out-progress').textContent=output.length+' / '+target.length;
+}
+
+function updateButtons(){
+  var loadable=!over&&!demoRunning&&struct&&input.length>0;
+  var takable=!over&&!demoRunning&&struct&&cont.length>0;
+  document.getElementById('btn-load').disabled=!loadable;
+  document.getElementById('btn-take').disabled=!takable;
+}
+function flash(t){document.getElementById('feedback').textContent=t;}
+
+function chooseStruct(s){
+  if(output.length>0||cont.length>0){return;} // 已经动手就不给换，避免作弊感
+  struct=s;
+  document.getElementById('pick-queue').classList.toggle('is-active',s==='queue');
+  document.getElementById('pick-stack').classList.toggle('is-active',s==='stack');
+  document.getElementById('cont-name').textContent=s==='queue'?'队列 Queue':'栈 Stack';
+  document.getElementById('cont-exit').textContent=s==='queue'?'先进先出 · 右端取出':'后进先出 · 右端取出';
+  document.getElementById('demo-btn').disabled=false;
+  flash(s==='queue'?'队列：从最先装入的一端取出':'栈：从最后装入的一端取出');
+  updateButtons();
+}
+
+function doLoad(){
+  if(document.getElementById('btn-load').disabled)return;
+  cont.push(input.shift());
+  render();updateButtons();
+}
+function doTake(){
+  if(document.getElementById('btn-take').disabled)return;
+  var item=struct==='stack'?cont.pop():cont.shift();
+  var expected=target[output.length];
+  if(item===expected){
+    output.push(item);
+    render();
+    flash('产出 '+item+' ✓');
+    if(output.length===target.length){win();}
+    updateButtons();
+  } else {
+    // 顺序错了：退回原位，扣一颗心
+    if(struct==='stack')cont.push(item); else cont.unshift(item);
+    hearts--;
+    CodeLab.renderHearts(HEARTS,hearts);
+    flash('这一步该产出 '+expected+'，不是 '+item+'！');
+    if(hearts<=0){lose();}
+    updateButtons();
+  }
+}
+
+function win(){
+  over=true;
+  var stars=hearts; // 3/2/1
+  CodeLab.saveStars(GAME_ID,levelIndex,stars);
+  CodeLab.renderStarsHud(stars);
+  document.getElementById('next-btn').classList.add('show');
+  var note=document.getElementById('compare-note');
+  note.textContent=struct==='queue'
+    ? '队列保持原序，正好合适。要是目标需要重排，队列就无能为力了。'
+    : '栈靠"装入/取出"的节奏，把进入顺序重新排成了目标顺序。';
+  note.classList.add('show');
+  if(levelIndex===levels.length-1)CodeLab.markDone(GAME_ID);
+  CodeLab.showResult('success','还原成功！'+CodeLab.starHTML(stars),
+    levelIndex<levels.length-1?'下一关':'再玩一次',nextLevel);
+  updateButtons();
+}
+function lose(){
+  over=true;
+  CodeLab.showResult('fail','心用完了。想想：这个目标顺序，该用队列还是栈？点"看正确演示"。','重开本关',function(){loadLevel(levelIndex);});
+  updateButtons();
+}
+function nextLevel(){loadLevel(levelIndex<levels.length-1?levelIndex+1:0);}
+
+// 通用求解：能保持原序则队列，否则用单栈重排算法
+function solve(inp,tgt){
+  if(inp.join()===tgt.join()){
+    var q=[];for(var i=0;i<inp.length;i++)q.push({op:'load'});
+    for(var j=0;j<inp.length;j++)q.push({op:'take'});
+    return {struct:'queue',steps:q};
+  }
+  var steps=[],st=[],idx=0;
+  for(var t=0;t<tgt.length;t++){
+    while(st.length===0||st[st.length-1]!==tgt[t]){
+      if(idx>=inp.length)return null; // 单栈无法实现
+      st.push(inp[idx++]);steps.push({op:'load'});
+    }
+    st.pop();steps.push({op:'take'});
+  }
+  return {struct:'stack',steps:steps};
+}
+
+async function playDemo(){
+  if(demoRunning)return;
+  var plan=solve(levels[levelIndex].input,levels[levelIndex].target);
+  if(!plan)return;
+  demoRunning=true;over=false;
+  // 用推荐结构从头演示
+  loadState(levelIndex);
+  chooseStruct(plan.struct);
+  document.getElementById('btn-load').disabled=true;
+  document.getElementById('btn-take').disabled=true;
+  document.getElementById('demo-btn').disabled=true;
+  for(var i=0;i<plan.steps.length;i++){
+    await CodeLab.wait(600);
+    if(plan.steps[i].op==='load'){cont.push(input.shift());flash('装入 '+cont[cont.length-1]);}
+    else{var it=plan.struct==='stack'?cont.pop():cont.shift();output.push(it);flash('取出 → 产出 '+it);}
+    render();
+  }
+  flash('演示完成：'+(plan.struct==='queue'?'队列保持原序':'栈重排出了目标顺序'));
+  demoRunning=false;
+  document.getElementById('demo-btn').disabled=false;
+}
+
+function loadState(index){
+  var lv=levels[index];
+  input=lv.input.slice();target=lv.target.slice();cont=[];output=[];
+  render();
+}
+function loadLevel(index){
+  levelIndex=index;
+  var lv=levels[index];
+  CodeLab.setLevel(index,levels.length,lv.title,lv.hint);
+  struct=null;hearts=HEARTS;over=false;demoRunning=false;
+  loadState(index);
+  CodeLab.renderHearts(HEARTS,hearts);
+  document.getElementById('hud-stars').innerHTML='';
+  document.getElementById('pick-queue').classList.remove('is-active');
+  document.getElementById('pick-stack').classList.remove('is-active');
+  document.getElementById('cont-name').textContent='容器';
+  document.getElementById('cont-exit').textContent='';
+  document.getElementById('target-box').textContent='把数据重新排成： '+lv.target.join('  ');
+  document.getElementById('compare-note').classList.remove('show');
+  document.getElementById('next-btn').classList.remove('show');
+  document.getElementById('demo-btn').disabled=true;
+  flash('先在右边选一种容器');
+  CodeLab.hideResult();
+  updateButtons();
+}
+document.getElementById('pick-queue').onclick=function(){chooseStruct('queue');};
+document.getElementById('pick-stack').onclick=function(){chooseStruct('stack');};
+document.getElementById('btn-load').onclick=doLoad;
+document.getElementById('btn-take').onclick=doTake;
+document.getElementById('retry-btn').onclick=function(){if(!demoRunning)loadLevel(levelIndex);};
+document.getElementById('demo-btn').onclick=playDemo;
+document.getElementById('next-btn').onclick=nextLevel;
+CodeLab.initMember();loadLevel(0);
+</script>
+</body>
+</html>

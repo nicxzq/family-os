@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>逻辑门 · 游戏</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="code-lab.css">
+<style>
+  .lg-shell{width:100%;max-height:100%;overflow-y:auto;display:flex;flex-direction:column;gap:var(--space-xl);align-items:center}
+  .lg-switches{display:flex;gap:var(--space-3xl);justify-content:center}
+  .lg-sw{display:flex;flex-direction:column;align-items:center;gap:var(--space-sm)}
+  .lg-sw-btn{width:var(--space-10xl);height:var(--space-9xl);border:0;border-radius:var(--radius);background:var(--cream-deep);color:var(--ink-mute);font-family:inherit;font-size:var(--font-size-body);font-weight:700;cursor:pointer;box-shadow:var(--shadow-soft);transition:all var(--duration-fast)}
+  .lg-sw-btn.on{background:var(--yellow);color:var(--ink)}
+  .lg-sw-name{font-size:var(--font-size-note);font-weight:700;color:var(--ink-soft)}
+  .lg-gate-box{background:var(--cream-deep);border-radius:var(--radius);padding:var(--space-md) var(--space-3xl);font-size:var(--font-size-body-sm);font-weight:700;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
+  .lg-lamp{width:var(--space-10xl);height:var(--space-10xl);border-radius:var(--radius-circle);background:var(--cream-deep);display:grid;place-items:center;font-size:var(--font-size-emoji-md);box-shadow:var(--shadow-soft);transition:all var(--duration-fast)}
+  .lg-lamp.lit{background:var(--yellow);box-shadow:0 0 var(--space-3xl) var(--yellow)}
+  .lg-lamp-label{font-size:var(--font-size-note);color:var(--ink-mute)}
+  .feedback{min-height:var(--space-7xl);font-size:var(--font-size-note);font-weight:700;color:var(--ink-soft);text-align:center;margin-bottom:var(--space-lg);flex-shrink:0}
+  .tt-cur.match{color:var(--green);font-weight:700}
+  .tt-cur.miss{color:var(--coral);font-weight:700}
+  .tt-row.now{background:var(--yellow-soft)}
+</style>
+<script src="/fo-gate.js"></script></head>
+<body class="code-lab">
+<main class="game-wrap">
+  <nav class="game-nav">
+    <a class="back-link" href="index.html#code">&#8592; 游戏库</a>
+    <div class="game-title">
+      <span class="title-name">逻辑门</span>
+      <span class="title-desc">选出让灯"每一种情况都正确"的那扇门</span>
+    </div>
+    <div class="nav-right">
+      <div class="level-pill" id="level-pill">关卡 1 / 4</div>
+      <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+    </div>
+  </nav>
+  <div class="layout">
+    <section class="panel stage-panel">
+      <div class="stage-head">
+        <h2 id="level-title">关卡 1</h2>
+        <p id="level-hint"></p>
+      </div>
+      <div class="hud">
+        <span class="hud-hearts" id="hud-hearts"></span>
+        <span class="feedback" id="feedback"></span>
+        <span class="hud-stars" id="hud-stars"></span>
+      </div>
+      <div class="stage-body">
+        <div class="lg-shell">
+          <div class="lg-switches">
+            <div class="lg-sw"><button class="lg-sw-btn" id="sw-a">关</button><span class="lg-sw-name">开关 A</span></div>
+            <div class="lg-sw"><button class="lg-sw-btn" id="sw-b">关</button><span class="lg-sw-name">开关 B</span></div>
+          </div>
+          <div class="lg-gate-box" id="gate-box">还没选门</div>
+          <div class="lg-lamp" id="lamp">💡</div>
+          <span class="lg-lamp-label" id="lamp-label">选一扇门，拨开关看灯亮不亮</span>
+        </div>
+      </div>
+      <div class="result" id="result"><span id="result-text"></span><button id="result-btn">继续</button></div>
+    </section>
+    <section class="panel side-panel">
+      <h2 class="panel-title">目标真值表</h2>
+      <p class="target-box" id="spec-box"></p>
+      <div class="compare-scroll">
+        <table class="compare-table" id="tt">
+          <thead><tr><th>A</th><th>B</th><th>目标灯</th><th>现在</th></tr></thead>
+          <tbody id="tt-body"></tbody>
+        </table>
+        <p class="hint-box">拨动开关，把 4 种组合都试一遍——"现在"这列要和"目标灯"每一行都对上，才算选对门。</p>
+        <p class="compare-note" id="compare-note"></p>
+      </div>
+      <p class="panel-title">候选逻辑门</p>
+      <div class="choice-row" id="gate-row"></div>
+      <div class="actions">
+        <button class="action clear" id="retry-btn">重开本关</button>
+        <button class="action run" id="check-btn" disabled>确认这扇门</button>
+      </div>
+      <button class="next-btn" id="next-btn">下一关</button>
+    </section>
+  </div>
+</main>
+<section class="concepts-wrap">
+  <p class="section-label">知识预习</p>
+  <div class="concepts">
+    <div class="concept-card"><h3>与 AND</h3><p>两个都为真才为真。串联的两个开关——必须都合上，灯才亮。</p></div>
+    <div class="concept-card"><h3>或 OR</h3><p>至少一个为真就为真。并联的两个开关——任意一个合上，灯就亮。</p></div>
+    <div class="concept-card"><h3>异或 XOR</h3><p>恰好一个为真才为真。两个都开反而灭——楼梯上下两个开关控一盏灯就是它。</p></div>
+    <div class="concept-card"><h3>真值表</h3><p>把所有输入组合列全，逐行写下输出。判断逻辑对不对，要看"每一行"，不能只看碰巧对的一行。</p></div>
+  </div>
+</section>
+<script src="../fo-utils.js"></script>
+<script src="code-lab.js"></script>
+<script>
+var GAME_ID='g58-logic-gate';
+var GATES={
+  AND :{name:'与 AND', f:function(a,b){return a&&b;}},
+  OR  :{name:'或 OR',  f:function(a,b){return a||b;}},
+  XOR :{name:'异或 XOR',f:function(a,b){return a!==b;}},
+  NAND:{name:'与非 NAND',f:function(a,b){return !(a&&b);}},
+  NOR :{name:'或非 NOR', f:function(a,b){return !(a||b);}}
+};
+var levels=[
+  {title:'关卡 1 — 都开才亮',answer:'AND', options:['AND','OR','NOR'],
+   spec:'只有 A 和 B 都打开时，灯才亮。'},
+  {title:'关卡 2 — 有一个就亮',answer:'OR', options:['OR','AND','XOR'],
+   spec:'只要 A、B 里至少有一个打开，灯就亮。'},
+  {title:'关卡 3 — 恰好一个',answer:'XOR', options:['XOR','OR','AND','NAND'],
+   spec:'恰好一个打开时灯亮；两个都开或都关，灯灭。'},
+  {title:'关卡 4 — 反过来的与',answer:'NAND', options:['NAND','AND','NOR','OR'],
+   spec:'只有 A、B 都打开时灯才灭，其余情况都亮。'}
+];
+var HEARTS=3;
+var ROWS=[[false,false],[false,true],[true,false],[true,true]];
+
+var levelIndex=0,a=false,b=false,pick=null,hearts=HEARTS,over=false;
+
+function targetFn(){return GATES[levels[levelIndex].answer].f;}
+function bit(v){return v?'1':'0';}
+function lampTxt(v){return v?'亮':'灭';}
+
+function renderTable(){
+  var tf=targetFn();
+  document.getElementById('tt-body').innerHTML=ROWS.map(function(r){
+    var isNow=(r[0]===a&&r[1]===b);
+    var tgt=tf(r[0],r[1]);
+    var cur='–',curCls='';
+    if(pick){
+      var cv=GATES[pick].f(r[0],r[1]);
+      cur=lampTxt(cv);
+      curCls=(cv===tgt)?'match':'miss';
+    }
+    return '<tr class="tt-row'+(isNow?' now':'')+'">'+
+      '<td>'+bit(r[0])+'</td><td>'+bit(r[1])+'</td>'+
+      '<td>'+lampTxt(tgt)+'</td>'+
+      '<td class="tt-cur '+curCls+'">'+cur+'</td></tr>';
+  }).join('');
+}
+function renderLamp(){
+  var lit=pick?GATES[pick].f(a,b):false;
+  var lamp=document.getElementById('lamp');
+  lamp.classList.toggle('lit',!!lit);
+  lamp.textContent=lit?'💡':'🔌';
+  document.getElementById('lamp-label').textContent=pick
+    ? (GATES[pick].name+'：A='+bit(a)+' B='+bit(b)+' → 灯'+lampTxt(lit))
+    : '选一扇门，拨开关看灯亮不亮';
+}
+function renderSwitches(){
+  var sa=document.getElementById('sw-a'),sb=document.getElementById('sw-b');
+  sa.classList.toggle('on',a);sa.textContent=a?'开':'关';
+  sb.classList.toggle('on',b);sb.textContent=b?'开':'关';
+}
+function flash(t){document.getElementById('feedback').textContent=t;}
+
+function pickGate(g){
+  if(over)return;
+  pick=g;
+  document.querySelectorAll('#gate-row .choice-btn').forEach(function(el){
+    el.classList.toggle('is-active',el.dataset.gate===g);
+  });
+  document.getElementById('gate-box').textContent='当前门：'+GATES[g].name;
+  document.getElementById('check-btn').disabled=false;
+  renderLamp();renderTable();
+}
+
+function check(){
+  if(over||!pick)return;
+  var tf=targetFn(),ok=true;
+  for(var i=0;i<ROWS.length;i++){
+    if(GATES[pick].f(ROWS[i][0],ROWS[i][1])!==tf(ROWS[i][0],ROWS[i][1])){ok=false;break;}
+  }
+  if(ok){
+    over=true;
+    var stars=hearts;
+    CodeLab.saveStars(GAME_ID,levelIndex,stars);
+    CodeLab.renderStarsHud(stars);
+    document.getElementById('check-btn').disabled=true;
+    document.getElementById('next-btn').classList.add('show');
+    var note=document.getElementById('compare-note');
+    note.textContent='4 行输入组合全部对上，'+GATES[levels[levelIndex].answer].name+' 就是这盏灯的逻辑。';
+    note.classList.add('show');
+    if(levelIndex===levels.length-1)CodeLab.markDone(GAME_ID);
+    CodeLab.showResult('success','完全正确！'+CodeLab.starHTML(stars),
+      levelIndex<levels.length-1?'下一关':'再玩一次',nextLevel);
+  } else {
+    hearts--;
+    CodeLab.renderHearts(HEARTS,hearts);
+    flash(GATES[pick].name+' 有一行对不上，看真值表里标红的那行。');
+    if(hearts<=0){
+      over=true;
+      document.getElementById('check-btn').disabled=true;
+      CodeLab.showResult('fail','心用完了。逐行对照真值表，只有一扇门能满足全部 4 行。','重开本关',function(){loadLevel(levelIndex);});
+    }
+  }
+}
+function nextLevel(){loadLevel(levelIndex<levels.length-1?levelIndex+1:0);}
+
+function loadLevel(index){
+  levelIndex=index;
+  var lv=levels[index];
+  CodeLab.setLevel(index,levels.length,lv.title,lv.hint||'');
+  a=false;b=false;pick=null;hearts=HEARTS;over=false;
+  CodeLab.renderHearts(HEARTS,hearts);
+  document.getElementById('hud-stars').innerHTML='';
+  document.getElementById('spec-box').textContent=lv.spec;
+  document.getElementById('gate-box').textContent='还没选门';
+  document.getElementById('gate-row').innerHTML=lv.options.map(function(g){
+    return '<button class="choice-btn" data-gate="'+g+'">'+GATES[g].name+'</button>';
+  }).join('');
+  document.querySelectorAll('#gate-row .choice-btn').forEach(function(el){
+    el.onclick=function(){pickGate(el.dataset.gate);};
+  });
+  document.getElementById('check-btn').disabled=true;
+  document.getElementById('compare-note').classList.remove('show');
+  document.getElementById('next-btn').classList.remove('show');
+  flash('先选一扇门，再拨开关验证');
+  CodeLab.hideResult();
+  renderSwitches();renderLamp();renderTable();
+}
+document.getElementById('sw-a').onclick=function(){a=!a;renderSwitches();renderLamp();renderTable();};
+document.getElementById('sw-b').onclick=function(){b=!b;renderSwitches();renderLamp();renderTable();};
+document.getElementById('check-btn').onclick=check;
+document.getElementById('retry-btn').onclick=function(){loadLevel(levelIndex);};
+document.getElementById('next-btn').onclick=nextLevel;
+CodeLab.initMember();loadLevel(0);
+</script>
+</body>
+</html>
