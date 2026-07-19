@@ -51,6 +51,22 @@ window.FO_DB = {
     if (error) throw error;
   },
 
+  // ── SMS OTP（手机号验证码登录）───────────────────────────────────────────────
+  // phone 须为 E.164，例如 +8613800138000。UI 层负责补 +86。
+
+  async sendSmsOtp(phone) {
+    const c = this._c(); if (!c) throw new Error('未配置后端');
+    const { error } = await c.auth.signInWithOtp({ phone });
+    if (error) throw error;
+  },
+
+  async verifySmsOtp(phone, token) {
+    const c = this._c(); if (!c) throw new Error('未配置后端');
+    const { data, error } = await c.auth.verifyOtp({ phone, token, type: 'sms' });
+    if (error) throw error;
+    return data;
+  },
+
   async resetPassword(email) {
     const c = this._c(); if (!c) throw new Error('未配置后端');
     const { error } = await c.auth.resetPasswordForEmail(email, {

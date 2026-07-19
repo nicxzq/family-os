@@ -403,7 +403,8 @@
       <div class="field">
         <div class="picker-label">操作</div>
         <div class="role-row" id="auth-tabs">
-          <button type="button" class="role-btn is-selected" data-tab="login">登录</button>
+          <button type="button" class="role-btn is-selected" data-tab="login">密码登录</button>
+          <button type="button" class="role-btn" data-tab="sms">验证码</button>
           <button type="button" class="role-btn" data-tab="register">注册</button>
         </div>
       </div>
@@ -421,6 +422,24 @@
         <button type="button" id="auth-login-btn" class="submit-btn">登录</button>
         <p id="auth-error" class="error"></p>
         <button type="button" id="forgot-btn" class="guest-link" style="display:block;">忘记密码？</button>
+      </div>
+
+      <!-- SMS OTP login -->
+      <div id="auth-sms-section" hidden>
+        <div class="field">
+          <label for="sms-phone">手机号</label>
+          <input id="sms-phone" class="text-input" type="tel" autocomplete="tel" inputmode="numeric" placeholder="11 位手机号">
+        </div>
+        <div class="field">
+          <label for="sms-code">验证码</label>
+          <div class="role-row">
+            <input id="sms-code" class="text-input" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="6 位验证码" style="flex:1;">
+            <button type="button" id="sms-send-btn" class="role-btn" style="flex:0 0 auto;white-space:nowrap;">发送验证码</button>
+          </div>
+        </div>
+        <button type="button" id="sms-login-btn" class="submit-btn">登录 / 注册</button>
+        <p id="sms-error" class="error"></p>
+        <div class="helper">未注册的手机号将自动创建家庭档案。</div>
       </div>
 
       <!-- Set new password (arrived via recovery link) -->
@@ -668,6 +687,7 @@
         b.classList.toggle('is-selected', b.dataset.tab === tab);
       });
       document.getElementById('auth-login-section').hidden = (tab !== 'login');
+      document.getElementById('auth-sms-section').hidden   = (tab !== 'sms');
       document.getElementById('auth-reg-section').hidden   = (tab !== 'register');
     });
 
@@ -748,6 +768,70 @@
         errorEl.textContent = '发送失败：' + (e.message || '请稍后再试');
       }
       this.disabled = false;
+    });
+
+    // ── SMS OTP login ─────────────────────────────────────────────────────────
+    // 11 位手机号自动补 +86；已有 E.164（+ 开头）原样使用。
+    function normalizePhone(raw) {
+      var s = (raw || '').replace(/[\s-]/g, '');
+      if (/^\+\d{6,15}$/.test(s)) return s;
+      if (/^1\d{10}$/.test(s)) return '+86' + s;
+      return null;
+    }
+
+    var smsCooldown = 0, smsTimer = null;
+    var smsSendBtn = document.getElementById('sms-send-btn');
+    smsSendBtn.addEventListener('click', async function () {
+      var errorEl = document.getElementById('sms-error');
+      errorEl.textContent = '';
+      if (smsCooldown > 0) return;
+      var phone = normalizePhone(document.getElementById('sms-phone').value);
+      if (!phone) { errorEl.textContent = '请输入正确的手机号。'; return; }
+      smsSendBtn.disabled = true;
+      try {
+        await FO_DB.sendSmsOtp(phone);
+        smsCooldown = 60;
+        smsSendBtn.textContent = smsCooldown + 's';
+        smsTimer = setInterval(function () {
+          smsCooldown--;
+          if (smsCooldown <= 0) {
+            clearInterval(smsTimer);
+            smsSendBtn.disabled = false;
+            smsSendBtn.textContent = '重新发送';
+          } else {
+            smsSendBtn.textContent = smsCooldown + 's';
+          }
+        }, 1000);
+      } catch (e) {
+        smsSendBtn.disabled = false;
+        errorEl.textContent = '发送失败：' + (e.message || '请稍后再试');
+      }
+    });
+
+    document.getElementById('sms-login-btn').addEventListener('click', async function () {
+      var errorEl = document.getElementById('sms-error');
+      errorEl.textContent = '';
+      var phone = normalizePhone(document.getElementById('sms-phone').value);
+      var code  = document.getElementById('sms-code').value.trim();
+      if (!phone) { errorEl.textContent = '请输入正确的手机号。'; return; }
+      if (!code)  { errorEl.textContent = '请输入验证码。'; return; }
+      this.disabled = true; this.textContent = '登录中…';
+      try {
+        var data = await FO_DB.verifySmsOtp(phone, code);
+        var profile = await FO_DB.getProfile(data.user.id);
+        // 已完成资料（有 family_role）→ 直接进入；否则视为新用户去设置
+        if (profile && profile.family_role) {
+          var m = { id: data.user.id, name: profile.name, avatar: profile.avatar, color: profile.color, role: profile.role, family_role: profile.family_role, joined: Date.now() };
+          FO.setMember(m);
+          if (!FO.getMembers().find(function (x) { return x.id === m.id; })) FO.addMember(m);
+          location.href = new URLSearchParams(location.search).get('back') || 'index.html';
+        } else {
+          location.href = '/login.html?setup=1';
+        }
+      } catch (e) {
+        this.disabled = false; this.textContent = '登录 / 注册';
+        errorEl.textContent = '验证码错误或已过期，请重试。';
+      }
     });
 
     // recovery mode: arrived via password-reset link (Supabase puts type=recovery in hash)
