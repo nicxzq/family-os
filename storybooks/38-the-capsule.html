@@ -1,0 +1,542 @@
+<!doctype html>
+<!-- CONTENT_MAP: 专注·F02「可变奖励」绘本化 → storybooks/38-the-capsule.html · 场景:便利店门口·扭蛋机(新场景,池外新想) · 尾页:🥚(新) · shelf 第37本 · 核心:停不下来"再来一个",不是因为想要那个玩具,而是因为"猜不到下一个蛋是什么"——猜不到才最想再试一次;认出这一点,先想好"只扭几个"就能自己停下来(可变/随机奖励的6岁具象版) · 源:专注的真相 03「更便宜更隐蔽更普及的毒」(可变奖励劫持多巴胺系统、fomo、永远想"再来一次";与已出26-操场"想要≠快乐"、27-河边"被打断"角度不同,本书讲"不确定的奖励让你停不下来") · 与15-the-market"三枚硬币挑最值得"区别:那本讲取舍/机会成本,本书讲"停不下来的机制" -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>毛毛的扭蛋机</title>
+<meta name="description" content="便利店门口有一台亮亮的扭蛋机。毛毛想要小红车，扭出来的却总是别的——再来一个、再来一个，硬币全没了也没停下来。爸爸说：让你停不下来的，不是玩具，是"猜不到下一个是什么"。后来毛毛先想好只扭两个，扭完就笑着走啦。">
+<meta property="og:title" content="毛毛的扭蛋机">
+<meta property="og:description" content="停不下来"再来一个",是因为你猜不到下一个——先想好扭几个，你就是自己的小主人。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://family.carlxu.cn/storybooks/38-the-capsule">
+<meta property="og:image" content="https://family.carlxu.cn/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="毛毛的扭蛋机">
+<meta name="twitter:description" content="停不下来"再来一个",是因为你猜不到下一个——先想好扭几个，你就是自己的小主人。">
+<meta name="twitter:image" content="https://family.carlxu.cn/og.png">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "LXGW WenKai TC","LXGW WenKai",serif; background:#F8F2E2; min-height:100vh; overflow:hidden; }
+  .book { width:100vw; height:100vh; position:relative; overflow:hidden; }
+
+  .top { position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:20px 32px; z-index:20; }
+  .back { text-decoration:none; color:#5C4F3D; font-size:16px; background:rgba(255,255,255,0.7); padding:8px 16px; border-radius:999px; backdrop-filter:blur(8px); }
+  .read-aloud { background:#E56B5A; color:white; border:0; padding:10px 18px; border-radius:999px; font-family:inherit; font-size:16px; cursor:pointer; box-shadow:0 3px 0 rgba(0,0,0,0.1); }
+  .read-aloud:active { transform:translateY(1px); box-shadow:0 2px 0 rgba(0,0,0,0.1); }
+
+  .page { position:absolute; inset:0; display:flex; flex-direction:column; padding:72px 0 48px; opacity:0; pointer-events:none; transition:opacity 0.6s ease; }
+  .page.is-active { opacity:1; pointer-events:auto; }
+  .page[data-bg="cream"]  { background:#F8F2E2; }
+  .page[data-bg="peach"]  { background:#FBE3D5; }
+  .page[data-bg="mint"]   { background:#D7EBC9; }
+  .page[data-bg="sky"]    { background:#D7E7F4; }
+  .page[data-bg="yellow"] { background:#FBE39A; }
+  .page[data-bg="coral"]  { background:#F4A799; }
+  .page[data-bg="blue"]   { background:#A8C2DE; }
+
+  .scene { flex:1; min-height:0; position:relative; width:100%; overflow:hidden; }
+  .scene svg { width:100%; height:100%; }
+
+  .text { flex-shrink:0; padding:12px 24px 8px; text-align:center; }
+  .text h2 { font-size:clamp(22px,4.5vw,34px); line-height:1.4; color:#2B2419; font-weight:500; text-wrap:balance; }
+  .text .big { font-size:clamp(28px,5.5vw,44px); line-height:1.3; color:#E56B5A; font-weight:700; margin-top:8px; }
+  .text .small { font-size:clamp(14px,2.8vw,16px); color:#5C4F3D; margin-top:8px; }
+
+  .end-card { margin:auto; background:white; padding:32px; border-radius:24px; max-width:480px; width:calc(100% - 48px); box-shadow:0 8px 0 rgba(0,0,0,0.06),0 24px 48px -16px rgba(0,0,0,0.2); text-align:center; }
+  .end-card h2 { font-size:28px; color:#E56B5A; margin-bottom:16px; }
+  .end-card p { font-size:19px; color:#2B2419; line-height:1.7; margin-bottom:12px; }
+
+  .nav-btn { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.88); border:0; width:56px; height:56px; border-radius:50%; font-size:24px; cursor:pointer; box-shadow:0 3px 0 rgba(0,0,0,0.1); font-family:inherit; color:#2B2419; z-index:20; backdrop-filter:blur(4px); }
+  .nav-btn:disabled { opacity:0.3; pointer-events:none; }
+  .nav-btn:active { transform:translateY(calc(-50% + 1px)); box-shadow:0 2px 0 rgba(0,0,0,0.1); }
+  #prev { left:12px; } #next { right:12px; }
+
+  .dots-wrap { position:absolute; bottom:16px; left:0; right:0; display:flex; justify-content:center; z-index:20; }
+  .dots { display:flex; gap:6px; }
+  .dots span { width:8px; height:8px; border-radius:50%; background:rgba(43,36,25,0.2); transition:background 0.3s,transform 0.3s; }
+  .dots span.is-active { background:#E56B5A; transform:scale(1.4); }
+
+  .float { animation:float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .pop { animation:pop 0.6s ease; }
+  @keyframes pop { 0%{transform:scale(0);opacity:0} 60%{transform:scale(1.15)} 100%{transform:scale(1);opacity:1} }
+  .interactive { cursor:pointer; transform-box:fill-box; transform-origin:center center; }
+  .interactive:hover { opacity:0.9; }
+  .do-bounce { animation:iBounce 0.6s cubic-bezier(0.36,0.07,0.19,0.97) both !important; }
+  @keyframes iBounce { 0%{transform:translateY(0) scale(1)} 25%{transform:translateY(-18px) scale(1.15)} 55%{transform:translateY(-4px) scale(0.96)} 75%{transform:translateY(-8px) scale(1.05)} 100%{transform:translateY(0) scale(1)} }
+  .do-shake { animation:iShake 0.55s ease both !important; }
+  @keyframes iShake { 0%,100%{transform:rotate(0deg)} 18%{transform:rotate(-22deg)} 38%{transform:rotate(18deg)} 58%{transform:rotate(-14deg)} 78%{transform:rotate(9deg)} }
+  .do-wobble { animation:iWobble 0.7s ease both !important; }
+  @keyframes iWobble { 0%,100%{transform:scaleX(1) scaleY(1)} 20%{transform:scaleX(1.25) scaleY(0.75)} 45%{transform:scaleX(0.85) scaleY(1.2)} 65%{transform:scaleX(1.1) scaleY(0.9)} 80%{transform:scaleX(0.96) scaleY(1.04)} }
+
+  .speech-bubble { position:absolute; background:white; border-radius:999px; padding:6px 16px; font-size:20px; font-family:"LXGW WenKai TC",serif; box-shadow:0 3px 0 rgba(0,0,0,0.12); pointer-events:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; z-index:50; animation:bPop 0.3s ease forwards; }
+  @keyframes bPop { from{opacity:0} to{opacity:1} }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+<div class="book">
+
+  <div class="top">
+    <a class="back" href="../for-youngest.html">← 回绘本目录</a>
+    <button class="read-aloud" id="readBtn">🔊 念给我听</button>
+    <a href="../dashboard.html" class="dash-link" style="background:rgba(255,255,255,0.7);padding:8px 14px;border-radius:999px;text-decoration:none;font-size:16px;backdrop-filter:blur(8px);" title="仪表盘">📊</a>
+  </div>
+
+  <!-- PAGE 1 · 便利店门口，发现扭蛋机 -->
+  <div class="page is-active" data-bg="peach" data-text="便利店门口，有一台亮亮的扭蛋机。圆圆的玻璃罩里，装着五颜六色的蛋，每个蛋里都藏着不知道是什么的小玩具。毛毛的眼睛，一下子就挪不开了。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <!-- store front -->
+        <rect x="0" y="0" width="400" height="240" fill="#FBE3D5"/>
+        <rect x="0" y="240" width="400" height="80" fill="#F1E8D0"/>
+        <rect x="250" y="60" width="150" height="180" fill="#FFFDF6" stroke="#8C7C66" stroke-width="2"/>
+        <rect x="262" y="40" width="126" height="26" rx="6" fill="#6FA86D"/>
+        <text x="325" y="59" font-size="15" text-anchor="middle" fill="#FFFDF6" font-weight="700">便利店</text>
+        <rect x="300" y="120" width="80" height="120" fill="#A8C2DE" opacity="0.5" stroke="#8C7C66" stroke-width="1.6"/>
+        <line x1="340" y1="120" x2="340" y2="240" stroke="#8C7C66" stroke-width="1.4"/>
+        <!-- capsule machine -->
+        <g id="p1-machine" transform="translate(205,168)">
+          <rect x="-42" y="42" width="84" height="72" rx="8" fill="#E56B5A"/>
+          <rect x="-30" y="80" width="60" height="24" rx="5" fill="#2B2419" opacity="0.28"/>
+          <circle cx="0" cy="60" r="8" fill="#F4C13E" stroke="#8C7C66" stroke-width="1.6"/>
+          <rect x="-2.5" y="52" width="5" height="16" rx="2.5" fill="#8C7C66"/>
+          <rect x="-44" y="38" width="88" height="9" rx="3" fill="#C4564A"/>
+          <circle cx="0" cy="0" r="42" fill="#A8C2DE" opacity="0.4" stroke="#8C7C66" stroke-width="2"/>
+          <circle cx="-15" cy="10" r="9" fill="#F4C13E"/>
+          <circle cx="7" cy="-4" r="9" fill="#6FA86D"/>
+          <circle cx="18" cy="14" r="9" fill="#4B7BA8"/>
+          <circle cx="-6" cy="-18" r="9" fill="#E56B5A"/>
+          <circle cx="16" cy="-16" r="8" fill="#F4A799"/>
+          <circle cx="-20" cy="-9" r="8" fill="#FBE39A"/>
+          <ellipse cx="-14" cy="-22" rx="10" ry="5" fill="#FFFDF6" opacity="0.5"/>
+        </g>
+        <!-- Mao Mao staring -->
+        <g id="p1-maomao" transform="translate(95,248)">
+          <g class="float">
+            <line x1="-7" y1="30" x2="-7" y2="40" stroke="#E56B5A" stroke-width="3" stroke-linecap="round"/>
+            <line x1="7" y1="30" x2="7" y2="40" stroke="#E56B5A" stroke-width="3" stroke-linecap="round"/>
+            <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6"/>
+            <ellipse cx="14" cy="6" rx="8" ry="12" fill="#F4C13E" transform="rotate(18 14 6)"/>
+            <circle cx="4" cy="-24" r="18" fill="#FFFDF6"/>
+            <circle cx="4" cy="-28" r="4" fill="#2B2419"/>
+            <circle cx="15" cy="-28" r="4" fill="#2B2419"/>
+            <polygon points="12,-25 23,-29 14,-18" fill="#E56B5A"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>便利店门口，有一台亮亮的扭蛋机。</h2>
+      <p class="small">每个圆蛋里都藏着一个"不知道是什么"的小玩具。毛毛的眼睛，挪不开了。</p>
+    </div>
+  </div>
+
+  <!-- PAGE 2 · 第一次扭，不是想要的 -->
+  <div class="page" data-bg="cream" data-text="毛毛最想要一辆小红车。她投进一枚硬币，咔啦——转出一个蛋！打开一看，是只小蓝鸭。不是小红车呀。毛毛说：再来一个！">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="242" width="400" height="78" fill="#F1E8D0"/>
+        <!-- machine -->
+        <g id="p2-machine" transform="translate(255,168)">
+          <rect x="-42" y="42" width="84" height="72" rx="8" fill="#E56B5A"/>
+          <rect x="-30" y="80" width="60" height="24" rx="5" fill="#2B2419" opacity="0.28"/>
+          <circle cx="0" cy="60" r="8" fill="#F4C13E" stroke="#8C7C66" stroke-width="1.6"/>
+          <rect x="-2.5" y="52" width="5" height="16" rx="2.5" fill="#8C7C66"/>
+          <rect x="-44" y="38" width="88" height="9" rx="3" fill="#C4564A"/>
+          <circle cx="0" cy="0" r="42" fill="#A8C2DE" opacity="0.4" stroke="#8C7C66" stroke-width="2"/>
+          <circle cx="-15" cy="10" r="9" fill="#F4C13E"/>
+          <circle cx="7" cy="-4" r="9" fill="#6FA86D"/>
+          <circle cx="18" cy="14" r="9" fill="#4B7BA8"/>
+          <circle cx="-6" cy="-18" r="9" fill="#F4A799"/>
+          <circle cx="16" cy="-16" r="8" fill="#FBE39A"/>
+        </g>
+        <!-- opened capsule showing blue duck, in Mao Mao's area -->
+        <g id="p2-egg" transform="translate(150,180)">
+          <ellipse cx="-16" cy="6" rx="15" ry="12" fill="#FBE39A" transform="rotate(-20 -16 6)"/>
+          <ellipse cx="16" cy="10" rx="15" ry="12" fill="#F4C13E" transform="rotate(24 16 10)"/>
+          <circle cx="0" cy="-6" r="14" fill="#4B7BA8"/>
+          <circle cx="-4" cy="-9" r="2.4" fill="#FFFDF6"/>
+          <circle cx="5" cy="-9" r="2.4" fill="#FFFDF6"/>
+          <polygon points="8,-6 18,-4 8,-1" fill="#F4C13E"/>
+        </g>
+        <!-- Mao Mao, a bit disappointed but eager -->
+        <g id="p2-maomao" transform="translate(95,248)">
+          <line x1="-7" y1="30" x2="-7" y2="40" stroke="#E56B5A" stroke-width="3" stroke-linecap="round"/>
+          <line x1="7" y1="30" x2="7" y2="40" stroke="#E56B5A" stroke-width="3" stroke-linecap="round"/>
+          <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6"/>
+          <ellipse cx="16" cy="0" rx="8" ry="12" fill="#F4C13E" transform="rotate(42 16 0)"/>
+          <circle cx="2" cy="-22" r="18" fill="#FFFDF6"/>
+          <circle cx="-1" cy="-24" r="3" fill="#2B2419"/>
+          <circle cx="10" cy="-24" r="3" fill="#2B2419"/>
+          <polygon points="8,-23 19,-20 8,-16" fill="#E56B5A"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>投进一枚硬币，咔啦——转出一个蛋！打开是只小蓝鸭。</h2>
+      <p class="small">"我想要的是小红车呀……再来一个！"</p>
+    </div>
+  </div>
+
+  <!-- PAGE 3 · 一个接一个，停不下来 -->
+  <div class="page" data-bg="sky" data-text="又一个蛋，是颗小黄星。又一个蛋，是块小绿糖。就是没有小红车。再来一个，再来一个……毛毛一个接一个，停不下来。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="242" width="400" height="78" fill="#F1E8D0" opacity="0.9"/>
+        <!-- machine -->
+        <g id="p3-machine" transform="translate(280,168)">
+          <rect x="-42" y="42" width="84" height="72" rx="8" fill="#E56B5A"/>
+          <rect x="-30" y="80" width="60" height="24" rx="5" fill="#2B2419" opacity="0.28"/>
+          <circle cx="0" cy="60" r="8" fill="#F4C13E" stroke="#8C7C66" stroke-width="1.6"/>
+          <rect x="-2.5" y="52" width="5" height="16" rx="2.5" fill="#8C7C66"/>
+          <rect x="-44" y="38" width="88" height="9" rx="3" fill="#C4564A"/>
+          <circle cx="0" cy="0" r="42" fill="#A8C2DE" opacity="0.4" stroke="#8C7C66" stroke-width="2"/>
+          <circle cx="-14" cy="12" r="8" fill="#6FA86D"/>
+          <circle cx="10" cy="0" r="8" fill="#4B7BA8"/>
+          <circle cx="-2" cy="-16" r="8" fill="#F4A799"/>
+        </g>
+        <!-- scattered opened toys on the ground -->
+        <g id="p3-toys">
+          <circle cx="120" cy="272" r="12" fill="#F4C13E"/>
+          <polygon points="120,264 123,271 130,271 124,275 126,282 120,278 114,282 116,275 110,271 117,271" fill="#FFFDF6"/>
+          <circle cx="160" cy="284" r="12" fill="#6FA86D"/>
+          <rect x="154" y="278" width="12" height="12" rx="3" fill="#FFFDF6"/>
+          <circle cx="205" cy="278" r="12" fill="#4B7BA8"/>
+          <circle cx="202" cy="276" r="2.2" fill="#FFFDF6"/>
+          <circle cx="209" cy="276" r="2.2" fill="#FFFDF6"/>
+          <circle cx="95" cy="286" r="11" fill="#F4A799"/>
+        </g>
+        <!-- Mao Mao reaching for knob, excited -->
+        <g id="p3-maomao" transform="translate(200,238)">
+          <g class="float">
+            <line x1="-7" y1="30" x2="-7" y2="40" stroke="#E56B5A" stroke-width="3" stroke-linecap="round"/>
+            <line x1="7" y1="30" x2="7" y2="40" stroke="#E56B5A" stroke-width="3" stroke-linecap="round"/>
+            <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6"/>
+            <ellipse cx="18" cy="-4" rx="8" ry="12" fill="#F4C13E" transform="rotate(58 18 -4)"/>
+            <circle cx="4" cy="-24" r="18" fill="#FFFDF6"/>
+            <circle cx="4" cy="-27" r="3.4" fill="#2B2419"/>
+            <circle cx="15" cy="-27" r="3.4" fill="#2B2419"/>
+            <polygon points="12,-25 23,-28 13,-19" fill="#E56B5A"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>小黄星、小绿糖……就是没有小红车。</h2>
+      <p class="small">"再来一个，再来一个……"毛毛一个接一个，停不下来。</p>
+    </div>
+  </div>
+
+  <!-- PAGE 4 · 硬币全没了，还是没小红车 -->
+  <div class="page" data-bg="yellow" data-text="手一摸口袋，空空的——硬币全没啦。毛毛手里一堆小玩具，就是没有最想要的小红车。她愣住了：我怎么……一直停不下来呀？">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="242" width="400" height="78" fill="#F1E8D0"/>
+        <!-- empty coin pouch -->
+        <g id="p4-pouch" transform="translate(300,250)">
+          <path d="M-22 -6 q22 -20 44 0 l-6 30 q-16 8 -32 0 z" fill="#C4564A"/>
+          <ellipse cx="0" cy="-6" rx="22" ry="7" fill="#8C7C66" opacity="0.5"/>
+          <text x="0" y="16" font-size="13" text-anchor="middle" fill="#FFFDF6">空空的</text>
+        </g>
+        <!-- pile of toys in her arms area -->
+        <g id="p4-pile">
+          <circle cx="150" cy="272" r="13" fill="#F4C13E"/>
+          <circle cx="176" cy="282" r="13" fill="#6FA86D"/>
+          <circle cx="130" cy="286" r="12" fill="#4B7BA8"/>
+          <circle cx="196" cy="270" r="12" fill="#F4A799"/>
+          <circle cx="165" cy="256" r="11" fill="#FBE39A"/>
+          <!-- but no red car: a small dashed red car outline crossed -->
+        </g>
+        <!-- Mao Mao stunned -->
+        <g id="p4-maomao" transform="translate(120,244)">
+          <line x1="-7" y1="34" x2="-7" y2="44" stroke="#E56B5A" stroke-width="3" stroke-linecap="round"/>
+          <line x1="7" y1="34" x2="7" y2="44" stroke="#E56B5A" stroke-width="3" stroke-linecap="round"/>
+          <ellipse cx="0" cy="10" rx="22" ry="24" fill="#FFFDF6"/>
+          <circle cx="0" cy="-20" r="18" fill="#FFFDF6"/>
+          <circle cx="-3" cy="-21" r="3.2" fill="#2B2419"/>
+          <circle cx="8" cy="-21" r="3.2" fill="#2B2419"/>
+          <ellipse cx="2" cy="-13" rx="4" ry="5" fill="#2B2419" opacity="0.35"/>
+          <polygon points="5,-20 16,-17 5,-13" fill="#E56B5A"/>
+        </g>
+        <!-- thought: little red car in a dashed cloud -->
+        <g transform="translate(120,150)">
+          <ellipse cx="0" cy="0" rx="40" ry="26" fill="#FFFDF6" opacity="0.85" stroke="#8C7C66" stroke-width="1.4" stroke-dasharray="5 4"/>
+          <rect x="-20" y="-6" width="40" height="14" rx="5" fill="#E56B5A"/>
+          <rect x="-10" y="-14" width="20" height="10" rx="4" fill="#E56B5A"/>
+          <circle cx="-11" cy="10" r="5" fill="#2B2419"/>
+          <circle cx="11" cy="10" r="5" fill="#2B2419"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>硬币全没啦，可就是没有那辆小红车。</h2>
+      <p class="small">毛毛愣住了："我怎么……一直停不下来呀？"</p>
+    </div>
+  </div>
+
+  <!-- PAGE 5 · 爸爸解释机制 -->
+  <div class="page" data-bg="blue" data-text="爸爸鸡蹲下来，轻轻说：让你停不下来的，不是那个玩具呀。是因为你猜不到下一个蛋是什么。猜不到，才让你一次次想再来一个。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="242" width="400" height="78" fill="#F1E8D0" opacity="0.9"/>
+        <!-- big question-capsule floating -->
+        <g id="p5-qmark" transform="translate(200,120)">
+          <circle cx="0" cy="0" r="38" fill="#FFFDF6" opacity="0.9" stroke="#4B7BA8" stroke-width="2.4"/>
+          <ellipse cx="0" cy="0" rx="38" ry="14" fill="none" stroke="#4B7BA8" stroke-width="1.4" opacity="0.5"/>
+          <text x="0" y="16" font-size="46" text-anchor="middle" fill="#4B7BA8" font-weight="700">?</text>
+        </g>
+        <!-- Mao Mao listening -->
+        <g id="p5-maomao" transform="translate(110,250)">
+          <line x1="-7" y1="30" x2="-7" y2="40" stroke="#E56B5A" stroke-width="3" stroke-linecap="round"/>
+          <line x1="7" y1="30" x2="7" y2="40" stroke="#E56B5A" stroke-width="3" stroke-linecap="round"/>
+          <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6"/>
+          <circle cx="2" cy="-22" r="18" fill="#FFFDF6"/>
+          <circle cx="0" cy="-24" r="3" fill="#2B2419"/>
+          <circle cx="11" cy="-24" r="3" fill="#2B2419"/>
+          <polygon points="8,-23 19,-20 8,-16" fill="#E56B5A"/>
+        </g>
+        <!-- Dad crouching, talking -->
+        <g id="p5-dad" transform="translate(295,222)">
+          <line x1="-9" y1="46" x2="-9" y2="58" stroke="#E56B5A" stroke-width="3.4" stroke-linecap="round"/>
+          <line x1="9" y1="46" x2="9" y2="58" stroke="#E56B5A" stroke-width="3.4" stroke-linecap="round"/>
+          <ellipse cx="0" cy="14" rx="32" ry="34" fill="#FFFDF6"/>
+          <ellipse cx="-24" cy="4" rx="10" ry="16" fill="#F4C13E" transform="rotate(-38 -24 4)"/>
+          <circle cx="0" cy="-32" r="26" fill="#FFFDF6"/>
+          <circle cx="-9" cy="-36" r="7" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="9" cy="-36" r="7" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <line x1="-2" y1="-36" x2="2" y2="-36" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="-9" cy="-36" r="2.5" fill="#2B2419"/>
+          <circle cx="9" cy="-36" r="2.5" fill="#2B2419"/>
+          <polygon points="-14,-30 -28,-26 -14,-22" fill="#E56B5A"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>爸爸蹲下来："让你停不下来的，不是玩具呀。"</h2>
+      <p class="small">"是因为你猜不到下一个蛋是什么——猜不到，才让你一次次想'再来一个'。"</p>
+    </div>
+  </div>
+
+  <!-- PAGE 6 · 先想好，只扭两个 -->
+  <div class="page" data-bg="mint" data-text="过了几天，又看见扭蛋机。这次毛毛先想好：我只扭两个，扭完就走。两个扭完，她把剩下的硬币收进口袋，笑着牵起爸爸的手，走啦。">
+    <div class="scene">
+      <svg viewBox="0 0 400 320">
+        <rect x="0" y="242" width="400" height="78" fill="#F1E8D0"/>
+        <!-- machine on the right, calm -->
+        <g id="p6-machine" transform="translate(310,172)">
+          <rect x="-38" y="40" width="76" height="66" rx="8" fill="#E56B5A"/>
+          <rect x="-27" y="74" width="54" height="22" rx="5" fill="#2B2419" opacity="0.28"/>
+          <circle cx="0" cy="56" r="7" fill="#F4C13E" stroke="#8C7C66" stroke-width="1.6"/>
+          <rect x="-40" y="36" width="80" height="8" rx="3" fill="#C4564A"/>
+          <circle cx="0" cy="0" r="38" fill="#A8C2DE" opacity="0.4" stroke="#8C7C66" stroke-width="2"/>
+          <circle cx="-13" cy="9" r="8" fill="#F4C13E"/>
+          <circle cx="8" cy="-3" r="8" fill="#6FA86D"/>
+          <circle cx="14" cy="13" r="8" fill="#4B7BA8"/>
+        </g>
+        <!-- two capsules held, happy -->
+        <g id="p6-two" transform="translate(150,170)">
+          <ellipse cx="-13" cy="0" rx="13" ry="15" fill="#F4C13E"/>
+          <ellipse cx="-13" cy="0" rx="13" ry="6" fill="#FFFDF6" opacity="0.4"/>
+          <ellipse cx="15" cy="6" rx="13" ry="15" fill="#6FA86D"/>
+          <ellipse cx="15" cy="6" rx="13" ry="6" fill="#FFFDF6" opacity="0.4"/>
+          <text x="0" y="34" font-size="13" text-anchor="middle" fill="#2B2419">就两个，够啦！</text>
+        </g>
+        <!-- Mao Mao holding dad's hand, walking away happy -->
+        <g id="p6-maomao" transform="translate(120,250)">
+          <g class="float">
+            <line x1="-7" y1="30" x2="-9" y2="40" stroke="#E56B5A" stroke-width="3" stroke-linecap="round"/>
+            <line x1="7" y1="30" x2="9" y2="40" stroke="#E56B5A" stroke-width="3" stroke-linecap="round"/>
+            <ellipse cx="0" cy="8" rx="22" ry="24" fill="#FFFDF6"/>
+            <ellipse cx="16" cy="4" rx="8" ry="12" fill="#F4C13E" transform="rotate(30 16 4)"/>
+            <circle cx="-2" cy="-22" r="18" fill="#FFFDF6"/>
+            <circle cx="-6" cy="-25" r="3" fill="#2B2419"/>
+            <circle cx="6" cy="-25" r="3" fill="#2B2419"/>
+            <path d="M-8 -18 q6 5 12 0" stroke="#2B2419" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+            <polygon points="-8,-24 -19,-21 -8,-17" fill="#E56B5A"/>
+          </g>
+        </g>
+        <!-- Dad next to her -->
+        <g id="p6-dad" transform="translate(200,232)">
+          <line x1="-9" y1="46" x2="-9" y2="58" stroke="#E56B5A" stroke-width="3.4" stroke-linecap="round"/>
+          <line x1="9" y1="46" x2="9" y2="58" stroke="#E56B5A" stroke-width="3.4" stroke-linecap="round"/>
+          <ellipse cx="0" cy="14" rx="32" ry="34" fill="#FFFDF6"/>
+          <ellipse cx="-24" cy="6" rx="10" ry="15" fill="#F4C13E" transform="rotate(-30 -24 6)"/>
+          <circle cx="0" cy="-32" r="26" fill="#FFFDF6"/>
+          <circle cx="-9" cy="-36" r="7" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="9" cy="-36" r="7" fill="#FFFDF6" stroke="#2B2419" stroke-width="2"/>
+          <line x1="-2" y1="-36" x2="2" y2="-36" stroke="#2B2419" stroke-width="2"/>
+          <circle cx="-9" cy="-36" r="2.5" fill="#2B2419"/>
+          <circle cx="9" cy="-36" r="2.5" fill="#2B2419"/>
+          <polygon points="-14,-30 -28,-26 -14,-22" fill="#E56B5A"/>
+        </g>
+      </svg>
+    </div>
+    <div class="text">
+      <h2>这次毛毛先想好："我只扭两个，扭完就走。"</h2>
+      <p class="small">两个扭完，她把剩下的硬币收好，笑着牵起爸爸的手。</p>
+    </div>
+  </div>
+
+  <!-- LAST PAGE — end-card -->
+  <div class="page" data-bg="cream" data-text="给小弟弟。让你停不下来的，常常不是那个东西本身，是你猜不到下一个是什么。先想好扭几个、看几个、玩多久，你就是自己的小主人。">
+    <div class="end-card">
+      <h2>给小弟弟 🥚</h2>
+      <p>让你停不下来的，常常不是那个东西——<br>是"猜不到下一个是什么"。</p>
+      <p style="font-size:32px;color:#E56B5A;font-weight:700;margin:16px 0;">"先想好，到几个为止"</p>
+      <p style="font-size:16px;color:#5C4F3D;">想好了再开始，你就是自己的小主人。</p>
+      <button class="read-aloud" style="margin-top:24px;" onclick="goTo(0)">🔄 再讲一遍</button>
+    </div>
+  </div>
+
+  <button class="nav-btn" id="prev" aria-label="上一页">←</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div></div>
+  <button class="nav-btn" id="next" aria-label="下一页">→</button>
+
+</div>
+<script src="../fo-utils.js"></script>
+<script>
+  const BOOK_ID = '38-the-capsule'; const BOOK_TITLE = '毛毛的扭蛋机'; const BOOK_TOTAL = 7;
+
+  function getInteractionLayer(el) {
+    if (!el) return null;
+    if (el._interactionLayer) return el._interactionLayer;
+    const isSvgGroup = el.namespaceURI === 'http://www.w3.org/2000/svg' && el.tagName.toLowerCase() === 'g';
+    if (!isSvgGroup || !el.hasAttribute('transform')) {
+      el._interactionLayer = el;
+      return el;
+    }
+    const layer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    layer.setAttribute('data-interaction-layer', '');
+    if (el.classList.contains('float')) {
+      el.classList.remove('float');
+      layer.classList.add('float');
+      layer.style.animationDelay = el.style.animationDelay || '';
+      el.style.animationDelay = '';
+    }
+    while (el.firstChild) layer.appendChild(el.firstChild);
+    el.appendChild(layer);
+    el._interactionLayer = layer;
+    return layer;
+  }
+
+  function placeSpeechBubble(scene, el, msg) {
+    const er = el.getBoundingClientRect();
+    const sr = scene.getBoundingClientRect();
+    const b = document.createElement('div');
+    b.className = 'speech-bubble';
+    b.textContent = msg;
+    b.style.maxWidth = Math.max(120, sr.width - 24) + 'px';
+    scene.appendChild(b);
+
+    const br = b.getBoundingClientRect();
+    let left = er.left + er.width / 2 - sr.left;
+    let top = er.top - sr.top - br.height - 10;
+    if (top < 8) top = Math.min(sr.height - br.height - 8, er.bottom - sr.top + 10);
+    left = Math.max(12 + br.width / 2, Math.min(sr.width - 12 - br.width / 2, left));
+
+    const bubbles = Array.from(scene.querySelectorAll('.speech-bubble')).filter(x => x !== b);
+    for (const other of bubbles) {
+      const or = other.getBoundingClientRect();
+      const overlaps = !(left + br.width / 2 < or.left - sr.left || left - br.width / 2 > or.right - sr.left || top + br.height < or.top - sr.top || top > or.bottom - sr.top);
+      if (overlaps) top = Math.min(sr.height - br.height - 8, or.bottom - sr.top + 8);
+    }
+
+    b.style.left = left + 'px';
+    b.style.top = Math.max(8, top) + 'px';
+    b.style.transform = 'translateX(-50%)';
+    setTimeout(() => b.remove(), 1500);
+  }
+
+  function makeInteractive(el, animClass, msg) {
+    if (!el) return;
+    const target = getInteractionLayer(el);
+    el.classList.add('interactive');
+    el.addEventListener('click', function () {
+      if (el._busy) return;
+      el._busy = true;
+      target.classList.remove(animClass);
+      void target.getBoundingClientRect();
+      target.classList.add(animClass);
+      if (msg) {
+        const scene = el.closest('.scene');
+        if (scene) placeSpeechBubble(scene, el, msg);
+      }
+      setTimeout(() => { target.classList.remove(animClass); el._busy = false; }, 750);
+    });
+  }
+
+  const pages = document.querySelectorAll('.page');
+  const total  = pages.length;
+  const dots   = document.getElementById('dots');
+  let current  = 0;
+
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('span');
+    if (i === 0) d.classList.add('is-active');
+    dots.appendChild(d);
+  }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    speechSynthesis.cancel();
+    pages.forEach((p, i) => p.classList.toggle('is-active', i === idx));
+    dots.querySelectorAll('span').forEach((s, i) => s.classList.toggle('is-active', i === idx));
+    current = idx;
+    document.getElementById('prev').disabled = idx === 0;
+    document.getElementById('next').disabled = idx === total - 1;
+    if (window.FO) FO.logProgress(BOOK_ID, idx, BOOK_TOTAL);
+  }
+
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  goTo(current - 1);
+    if (e.key === 'ArrowRight') goTo(current + 1);
+  });
+
+  let _tx = 0;
+  document.addEventListener('touchstart', e => { _tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - _tx;
+    if (Math.abs(dx) > 50) dx < 0 ? goTo(current + 1) : goTo(current - 1);
+  });
+
+  document.getElementById('readBtn').addEventListener('click', () => {
+    const text = pages[current].dataset.text;
+    if (!text || !window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-CN'; u.rate = 0.85; u.pitch = 1.1;
+    speechSynthesis.speak(u);
+  });
+
+  goTo(0);
+
+  // interactions
+  makeInteractive(document.getElementById('p1-machine'), 'do-wobble', '扭一扭？🥚');
+  makeInteractive(document.getElementById('p1-maomao'), 'do-bounce', '哇——好多蛋！🐣');
+  makeInteractive(document.getElementById('p2-egg'), 'do-wobble', '咦，是小蓝鸭');
+  makeInteractive(document.getElementById('p2-maomao'), 'do-bounce', '再来一个！');
+  makeInteractive(document.getElementById('p3-maomao'), 'do-bounce', '再来一个……');
+  makeInteractive(document.getElementById('p3-toys'), 'do-wobble', '又不是小红车');
+  makeInteractive(document.getElementById('p4-maomao'), 'do-shake', '怎么停不下来呀？');
+  makeInteractive(document.getElementById('p4-pouch'), 'do-shake', '硬币……没啦');
+  makeInteractive(document.getElementById('p5-qmark'), 'do-wobble', '猜不到下一个 ❓');
+  makeInteractive(document.getElementById('p5-dad'), 'do-bounce', '停不下来的是"猜不到"');
+  makeInteractive(document.getElementById('p6-two'), 'do-bounce', '就两个，够啦！');
+  makeInteractive(document.getElementById('p6-maomao'), 'do-bounce', '我是自己的小主人！');
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.FO) FO.logHistory(BOOK_ID, BOOK_TITLE);
+  });
+</script>
+</body>
+</html>
