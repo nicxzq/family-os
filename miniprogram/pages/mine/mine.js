@@ -1,4 +1,5 @@
 const { ROLES, getRole } = require('../../data/roles.js');
+const { buildShare, buildTimeline } = require('../../utils/share.js');
 
 const VERSION = '2.0.0';
 
@@ -197,5 +198,21 @@ Page({
 
   toggleHelp() {
     this.setData({ helpOpen: !this.data.helpOpen });
+  },
+
+  goPrivacy() {
+    wx.navigateTo({ url: '/pages/policy/policy?type=privacy' });
+  },
+
+  goDisclaimer() {
+    wx.navigateTo({ url: '/pages/policy/policy?type=disclaimer' });
+  },
+
+  onShareAppMessage() {
+    return buildShare('好的家庭教育', '/pages/home/home');
+  },
+
+  onShareTimeline() {
+    return buildTimeline('好的家庭教育', '');
   }
 });

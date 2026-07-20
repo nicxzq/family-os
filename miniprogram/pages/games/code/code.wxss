@@ -1,0 +1,188 @@
+.level-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xs);
+}
+
+.level-pill {
+  background: var(--paper);
+  box-shadow: var(--shadow-soft);
+  border-radius: var(--radius-full);
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-xs);
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.level-title {
+  font-size: var(--font-sm);
+  font-weight: 700;
+}
+
+.level-hint {
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+  margin-bottom: var(--space-md);
+}
+
+.maze-shell {
+  position: relative;
+  background: var(--cream-deep);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  padding: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.maze-grid {
+  width: min(100%, 46vh);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 6rpx;
+}
+
+.cell {
+  border-radius: var(--radius-sm);
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-lg);
+}
+
+.cell.is-wall {
+  background: var(--ink);
+}
+
+.cell.is-goal {
+  background: var(--yellow);
+}
+
+.cell.is-trail {
+  background: var(--green-soft);
+  color: var(--ink-soft);
+}
+
+.cell.is-robot {
+  background: var(--green-soft);
+}
+
+.maze-result {
+  position: absolute;
+  left: var(--space-md);
+  right: var(--space-md);
+  bottom: var(--space-md);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-md) var(--space-lg);
+  text-align: center;
+}
+
+.maze-result.is-success {
+  background: var(--green);
+  color: var(--paper);
+}
+
+.maze-result.is-fail {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+.maze-result-text {
+  font-size: var(--font-sm);
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+}
+
+.stars {
+  margin-bottom: var(--space-sm);
+}
+
+.star {
+  font-size: var(--font-lg);
+  color: var(--paper);
+  opacity: 0.4;
+  margin: 0 var(--space-xs);
+}
+
+.star.is-on {
+  opacity: 1;
+}
+
+.maze-result-btn {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.blocks-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.block {
+  flex: 1;
+  min-width: 132rpx;
+  text-align: center;
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-xs);
+  font-size: var(--font-xs);
+  font-weight: 700;
+  box-shadow: var(--shadow-soft);
+}
+
+.block--move { background: var(--green); color: var(--paper); }
+.block--right { background: var(--blue); color: var(--paper); }
+.block--left { background: var(--coral); color: var(--paper); }
+.block--repeat { background: var(--yellow); color: var(--ink); }
+
+.program-label {
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+  margin-bottom: var(--space-xs);
+}
+
+.program-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+  min-height: 72rpx;
+}
+
+.program-empty {
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+}
+
+.program-item {
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--font-xs);
+  font-weight: 700;
+  box-shadow: var(--shadow-soft);
+}
+
+.program-item--move { background: var(--green); color: var(--paper); }
+.program-item--right { background: var(--blue); color: var(--paper); }
+.program-item--left { background: var(--coral); color: var(--paper); }
+
+.actions-row {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.clear-btn,
+.run-btn {
+  flex: 1;
+}
+
+.clear-btn[disabled],
+.run-btn[disabled] {
+  opacity: 0.55;
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "历史侦探",
+  "usingComponents": {
+    "fo-tabbar": "/components/fo-tabbar/fo-tabbar"
+  }
+}

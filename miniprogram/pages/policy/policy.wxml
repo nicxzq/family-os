@@ -1,0 +1,11 @@
+<view class="wrap">
+  <view class="card policy">
+    <view class="policy-title">{{content.title}}</view>
+    <view wx:for="{{content.sections}}" wx:for-item="sec" wx:key="heading" class="policy-sec">
+      <view class="policy-heading">{{sec.heading}}</view>
+      <view wx:for="{{sec.body}}" wx:for-item="p" wx:key="*this" class="policy-p">{{p}}</view>
+    </view>
+  </view>
+</view>
+
+<fo-tabbar active="mine" />

@@ -4,14 +4,20 @@
     <view class="section-title">家庭周会 · 复盘</view>
     <view class="section-lead">每周日，10 分钟，把这一周说清楚。边填边存，随时回来接着写。</view>
     <view class="week-bar">
-      <button class="week-btn" bindtap="prevWeek">← 上一周</button>
       <view class="week-stamp">
         <view class="week-stamp-main">{{weekLabel}}</view>
         <view class="week-stamp-sub">{{rangeLabel}}</view>
       </view>
-      <button class="week-btn" bindtap="nextWeek" disabled="{{isThisWeek}}">下一周 →</button>
+      <view class="week-nav">
+        <button class="week-btn" bindtap="prevWeek">← 上一周</button>
+        <button wx:if="{{!isThisWeek}}" class="week-btn" bindtap="thisWeek">回到本周</button>
+        <button class="week-btn" bindtap="nextWeek" disabled="{{isThisWeek}}">下一周 →</button>
+      </view>
     </view>
-    <button wx:if="{{!isThisWeek}}" class="week-btn week-btn--now" bindtap="thisWeek">回到本周</button>
+    <view class="review-actions">
+      <button class="action-btn" open-type="share">↗️ 分享给家人</button>
+      <button class="action-btn" bindtap="copyLastWeek">⬇️ 从上周复制</button>
+    </view>
   </view>
 
   <view class="card card--coral rsec">

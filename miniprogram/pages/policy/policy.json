@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "隐私政策",
+  "usingComponents": {
+    "fo-tabbar": "/components/fo-tabbar/fo-tabbar"
+  }
+}

@@ -1,4 +1,5 @@
 const { TOPICS, THEMES_ORDER, weekOfYear } = require('../../data/topics.js');
+const { buildShare, buildTimeline } = require('../../utils/share.js');
 
 Page({
   data: {
@@ -41,5 +42,13 @@ Page({
   pick(e) {
     this.render(e.currentTarget.dataset.w - 1);
     wx.pageScrollTo({ scrollTop: 0 });
+  },
+
+  onShareAppMessage() {
+    return buildShare('饭桌问题 · 50 个话题', '/pages/topics/topics');
+  },
+
+  onShareTimeline() {
+    return buildTimeline('饭桌问题 · 50 个话题', '');
   }
 });

@@ -2,9 +2,9 @@
 
   <!-- HERO(压缩版) -->
   <view class="hero">
-    <image class="hero-logo" src="/assets/logo.png" mode="widthFix" />
     <view class="eyebrow">A FAMILY OS · v1</view>
     <view class="hero-title">把"家"当作一件可以一起经营一辈子的事。</view>
+    <image class="hero-logo" src="/assets/logo.gif" mode="widthFix" />
   </view>
 
   <!-- 六句话轮播 -->
@@ -55,7 +55,7 @@
   <!-- 工具箱入口 -->
   <view class="toolbox-banner" bindtap="goToolbox">
     <view class="toolbox-banner-title">🧰 工具箱</view>
-    <view class="toolbox-banner-desc">饭桌问题 · 暑期打卡 · 存钱罐 · 每周回顾 · 注意力账本</view>
+    <view class="toolbox-banner-desc">饭桌问题 · 暑期打卡 · 存钱罐 · 每周回顾 · 小游戏</view>
     <view class="toolbox-banner-cta">打开 →</view>
   </view>
 
@@ -75,7 +75,7 @@
       >{{item}}</view>
       <view class="wall-foot">— 我们家，2026 —</view>
     </view>
-    <button class="wall-save" bindtap="savePoster">🖼️ 存成 A4 家庭墙图片（六条合一）</button>
+    <button class="wall-save" bindtap="savePoster">🖼️ 存成 A4 家庭墙图片</button>
   </view>
 
   <!-- 共读清单 -->
@@ -99,14 +99,14 @@
           </view>
         </view>
         <view class="shelf-board"></view>
+        <view wx:if="{{selBook && selRow === ri}}" class="card card--{{selBook.color}} book">
+          <view class="book-for">{{selBook.who}}</view>
+          <view class="book-title">{{selBook.title}}</view>
+          <view class="book-note">{{selBook.note}}</view>
+        </view>
       </view>
     </view>
-    <view wx:if="{{selBook}}" class="card card--{{selBook.color}} book">
-      <view class="book-for">{{selBook.who}}</view>
-      <view class="book-title">{{selBook.title}}</view>
-      <view class="book-note">{{selBook.note}}</view>
-    </view>
-    <view wx:else class="book-hint">点一本书，看看为什么选它。</view>
+    <view wx:if="{{!selBook}}" class="book-hint">点一本书，看看为什么选它。</view>
   </view>
 
   <view class="footer">

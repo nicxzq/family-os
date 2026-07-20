@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "化学厨房",
+  "usingComponents": {
+    "fo-tabbar": "/components/fo-tabbar/fo-tabbar"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "代码积木",
+  "usingComponents": {
+    "fo-tabbar": "/components/fo-tabbar/fo-tabbar"
+  }
+}

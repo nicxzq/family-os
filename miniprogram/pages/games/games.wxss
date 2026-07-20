@@ -1,0 +1,60 @@
+.cat-tabs {
+  white-space: nowrap;
+  margin-bottom: var(--space-md);
+}
+
+.cat-tab {
+  display: inline-flex;
+  align-items: center;
+  background: var(--paper);
+  color: var(--ink-soft);
+  border-radius: var(--radius-full);
+  padding: var(--space-xs) var(--space-md);
+  margin-right: var(--space-sm);
+  font-size: var(--font-sm);
+  box-shadow: var(--shadow-soft);
+}
+
+.cat-tab.is-active {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.game-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.game-card {
+  width: calc(50% - var(--space-md) / 2);
+  box-sizing: border-box;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.game-card--soon {
+  opacity: 0.55;
+}
+
+.game-emoji {
+  font-size: var(--font-xxl);
+  line-height: 1;
+  margin-bottom: var(--space-sm);
+}
+
+.game-name {
+  font-size: var(--font-md);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.game-cta {
+  font-size: var(--font-xs);
+  color: var(--coral);
+  font-weight: 500;
+}
+
+.game-card--soon .game-cta {
+  color: var(--ink-mute);
+}

@@ -2,6 +2,7 @@ const { IDEAS, RULES, BOOKS } = require('../../data/ideas.js');
 const { IDEA_ART } = require('../../data/idea-art.js');
 const { ROLES } = require('../../data/roles.js');
 const { saveWallPoster } = require('../../utils/share-card.js');
+const { buildShare, buildTimeline } = require('../../utils/share.js');
 
 const SHELF_COLORS = ['coral', 'yellow', 'green', 'blue'];
 const PER_SHELF = 3;
@@ -22,6 +23,7 @@ Page({
     rules: RULES,
     shelves: buildShelves(),
     selBook: null,
+    selRow: -1,
     roles: ROLES
   },
 
@@ -37,7 +39,7 @@ Page({
     const d = e.currentTarget.dataset;
     const book = this.data.shelves[d.ri][d.bi];
     const same = this.data.selBook && this.data.selBook.title === book.title;
-    this.setData({ selBook: same ? null : book });
+    this.setData({ selBook: same ? null : book, selRow: same ? -1 : d.ri });
   },
 
   goRole(e) {
@@ -48,5 +50,13 @@ Page({
 
   goToolbox() {
     wx.switchTab({ url: '/pages/toolbox/toolbox' });
+  },
+
+  onShareAppMessage() {
+    return buildShare('好的家庭教育 · 一家人的操作系统', '/pages/home/home');
+  },
+
+  onShareTimeline() {
+    return buildTimeline('好的家庭教育 · 一家人的操作系统', '');
   }
 });

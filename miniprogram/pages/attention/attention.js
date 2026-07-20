@@ -1,4 +1,6 @@
 // 对齐网站 attention-budget.html;数据按天存本地 fo_attention_<YYYY-MM-DD>。
+const { buildShare, buildTimeline } = require('../../utils/share.js');
+
 const CATEGORIES = [
   { key: 'deep', label: '深度专注' },
   { key: 'learn', label: '轻度学习' },
@@ -106,5 +108,13 @@ Page({
         that.render();
       }
     });
+  },
+
+  onShareAppMessage() {
+    return buildShare('注意力账本', '/pages/attention/attention');
+  },
+
+  onShareTimeline() {
+    return buildTimeline('注意力账本', '');
   }
 });

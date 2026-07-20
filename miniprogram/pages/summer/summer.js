@@ -1,5 +1,7 @@
 // 任务规则移植自网站 summer2026.html(genTasks);数量取网站默认 cfg(快乐暑假 2 页、阅读 2 篇)。
 // 打卡数据独立存本地 fo_summer_done = { 'YYYY-MM-DD': { taskId: 1 } },与网站不互通。
+const { buildShare, buildTimeline } = require('../../utils/share.js');
+
 const START = '2026-07-14';
 const END = '2026-08-30';
 const WK = ['日', '一', '二', '三', '四', '五', '六'];
@@ -171,5 +173,13 @@ Page({
 
   prev() { if (!this.data.atStart) this.render(addD(this.data.sel, -1)); },
   next() { if (!this.data.atEnd) this.render(addD(this.data.sel, 1)); },
-  today() { this.render(clamp(f(new Date()))); }
+  today() { this.render(clamp(f(new Date()))); },
+
+  onShareAppMessage() {
+    return buildShare('快乐暑假打卡', '/pages/summer/summer');
+  },
+
+  onShareTimeline() {
+    return buildTimeline('快乐暑假打卡', '');
+  }
 });

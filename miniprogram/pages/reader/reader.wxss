@@ -110,3 +110,35 @@
 .action-btn--done {
   background: var(--green);
 }
+
+/* 上一篇/下一篇 */
+.piece-nav {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.piece-nav-item {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.piece-nav-item--next {
+  text-align: right;
+}
+
+.piece-nav-dir {
+  font-size: var(--font-sm);
+  color: var(--coral);
+  font-weight: 500;
+  margin-bottom: var(--space-xs);
+}
+
+.piece-nav-title {
+  font-size: var(--font-sm);
+  color: var(--ink-soft);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}

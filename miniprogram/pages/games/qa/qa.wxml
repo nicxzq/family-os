@@ -1,0 +1,42 @@
+<view class="wrap qa-page">
+  <view class="eyebrow">问答 · 方向 vs 目标</view>
+  <view class="section-title">你追的是哪一种？</view>
+  <view class="section-lead">目标像终点，方向像指南针。先看看你更相信哪一个。</view>
+
+  <view wx:if="{{!finished}}" class="progress">
+    <view
+      wx:for="{{progress}}"
+      wx:key="index"
+      class="progress-dot {{item === 'done' ? 'is-done' : ''}} {{item === 'current' ? 'is-current' : ''}}"
+    ></view>
+  </view>
+
+  <view wx:if="{{!finished && question}}" class="q card">
+    <view class="q-num">问题 {{current + 1}} / {{total}}</view>
+    <view class="q-title">{{question.q}}</view>
+    <view class="q-options">
+      <view
+        wx:for="{{question.options}}"
+        wx:key="*this"
+        class="q-option {{selected === index ? 'is-selected' : ''}}"
+        bindtap="select"
+        data-idx="{{index}}"
+      >{{item}}</view>
+    </view>
+    <view wx:if="{{selected >= 0}}" class="q-reaction">{{question.reaction}}</view>
+    <button wx:if="{{selected >= 0}}" class="btn q-next" bindtap="next">
+      {{current === total - 1 ? '看结果 →' : '下一题 →'}}
+    </button>
+  </view>
+
+  <view wx:if="{{finished}}" class="result card">
+    <view class="result-title">{{resultTitle}}</view>
+    <view class="stars">
+      <text wx:for="{{starRange}}" wx:key="*this" class="star {{index < stars ? 'is-on' : ''}}">★</text>
+    </view>
+    <view class="result-p">{{resultDesc}}</view>
+    <button class="btn retry" bindtap="retry">再玩一次</button>
+  </view>
+</view>
+
+<fo-tabbar active="toolbox" />

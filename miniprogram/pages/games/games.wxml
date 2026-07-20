@@ -1,0 +1,31 @@
+<view class="wrap games-page">
+  <view class="eyebrow">游戏中心</view>
+  <view class="section-title">一起玩的小游戏</view>
+  <view class="section-lead">共 {{totalCount}} 个游戏 · 小程序已上线 {{liveCount}} 个，其余网站版可玩</view>
+
+  <scroll-view class="cat-tabs" scroll-x enable-flex="{{true}}">
+    <view
+      wx:for="{{cats}}"
+      wx:key="id"
+      class="cat-tab {{activeCat === item.id ? 'is-active' : ''}}"
+      bindtap="onTabTap"
+      data-cat="{{item.id}}"
+    >{{item.label}}</view>
+  </scroll-view>
+
+  <view class="game-grid">
+    <view
+      wx:for="{{list}}"
+      wx:key="id"
+      class="card card--{{item.color}} game-card {{item.live ? '' : 'game-card--soon'}}"
+      bindtap="onGameTap"
+      data-idx="{{index}}"
+    >
+      <view class="game-emoji">{{item.emoji}}</view>
+      <view class="game-name">{{item.name}}</view>
+      <view class="game-cta">{{item.live ? '开始 →' : '敬请期待 · 网站版可玩'}}</view>
+    </view>
+  </view>
+</view>
+
+<fo-tabbar active="toolbox" />

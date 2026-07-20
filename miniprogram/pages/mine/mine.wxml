@@ -77,6 +77,16 @@
     </view>
   </view>
 
+  <!-- 隐私与免责 -->
+  <view class="card row" bindtap="goPrivacy">
+    <view class="row-label">隐私政策</view>
+    <view class="row-value">›</view>
+  </view>
+  <view class="card row" bindtap="goDisclaimer">
+    <view class="row-label">免责说明</view>
+    <view class="row-value">›</view>
+  </view>
+
   <!-- 关于 -->
   <view class="card about">
     <view class="about-title">好的家庭教育</view>

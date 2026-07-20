@@ -3,31 +3,50 @@
 }
 
 .week-bar {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
   margin-top: var(--space-md);
 }
 
+.week-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
 .week-btn {
+  flex: 1;
+  min-width: 0;
   background: var(--paper);
   color: var(--ink);
   border-radius: var(--radius-full);
   font-size: var(--font-xs);
   box-shadow: var(--shadow-soft);
-  padding-left: var(--space-md);
-  padding-right: var(--space-md);
-}
-
-.week-btn--now {
-  margin-top: var(--space-sm);
-  color: var(--blue);
-  font-weight: 700;
+  padding-left: var(--space-sm);
+  padding-right: var(--space-sm);
+  white-space: nowrap;
 }
 
 .week-stamp {
-  flex: 1;
   text-align: center;
+}
+
+.review-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.action-btn {
+  flex: 1;
+  min-width: 0;
+  background: var(--cream-deep);
+  color: var(--ink-soft);
+  border-radius: var(--radius-full);
+  font-size: var(--font-xs);
+  padding-left: var(--space-sm);
+  padding-right: var(--space-sm);
+  white-space: nowrap;
 }
 
 .week-stamp-main {

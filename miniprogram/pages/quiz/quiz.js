@@ -1,4 +1,5 @@
 const { QUIZ, FIVE_RULES } = require('../../data/quiz.js');
+const { buildShare, buildTimeline } = require('../../utils/share.js');
 
 Page({
   data: {
@@ -52,5 +53,13 @@ Page({
 
   retry() {
     this.setData({ started: false, finished: false, current: 0, question: null, selected: -1, progress: [] });
+  },
+
+  onShareAppMessage() {
+    return buildShare('5 道小测试', '/pages/quiz/quiz');
+  },
+
+  onShareTimeline() {
+    return buildTimeline('5 道小测试', '');
   }
 });

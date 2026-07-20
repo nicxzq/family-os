@@ -3,8 +3,10 @@
 }
 
 .hero-logo {
-  width: 320rpx;
-  margin-bottom: var(--space-sm);
+  display: block;
+  width: 52rpx;
+  margin-left: auto;
+  margin-top: var(--space-xs);
 }
 
 .hero-title {
@@ -184,72 +186,7 @@
   color: var(--ink-mute);
 }
 
-/* 共读清单 · 书架 */
-.bookshelf {
-  margin-top: var(--space-md);
-}
-
-.shelf-books {
-  display: flex;
-  align-items: flex-end;
-  gap: var(--space-sm);
-  padding: 0 var(--space-sm);
-}
-
-.shelf-book {
-  width: calc((100% - 2 * var(--space-sm)) / 3);
-  box-sizing: border-box;
-  height: var(--book-h);
-  background: var(--paper);
-  border-left: var(--space-xs) solid var(--ink-mute);
-  border-radius: var(--radius-sm);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  box-shadow: var(--shadow-soft);
-  padding: var(--space-sm);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  transition: transform 0.15s ease;
-}
-
-.shelf-book.is-picked {
-  transform: translateY(calc(-1 * var(--space-xs)));
-  box-shadow: var(--shadow-card);
-}
-
-.shelf-book--coral { border-left-color: var(--coral); }
-.shelf-book--yellow { border-left-color: var(--yellow); }
-.shelf-book--green { border-left-color: var(--green); }
-.shelf-book--blue { border-left-color: var(--blue); }
-
-.shelf-book-who {
-  align-self: flex-start;
-  font-size: var(--font-xs);
-  color: var(--ink-soft);
-  background: var(--cream);
-  border-radius: var(--radius-full);
-  padding: 0 var(--space-sm);
-}
-
-.shelf-book-title {
-  font-size: var(--font-sm);
-  font-weight: 700;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-  overflow: hidden;
-}
-
-.shelf-board {
-  height: var(--shelf-board-h);
-  background: var(--cream-deep);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-soft);
-  margin-bottom: var(--space-lg);
-}
-
+/* 共读清单 · 书架（书架系列样式已迁至 app.wxss 全局共用） */
 .book-hint {
   text-align: center;
   font-size: var(--font-sm);

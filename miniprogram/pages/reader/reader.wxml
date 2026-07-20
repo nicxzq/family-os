@@ -30,6 +30,17 @@
       {{actionDone ? '已加入本周 ✓' : '我要试试 →'}}
     </button>
   </view>
+
+  <view wx:if="{{prevPiece || nextPiece}}" class="piece-nav">
+    <view wx:if="{{prevPiece}}" class="card piece-nav-item piece-nav-item--prev" bindtap="goPrev">
+      <view class="piece-nav-dir">‹ 上一篇</view>
+      <view class="piece-nav-title">{{prevPiece.title}}</view>
+    </view>
+    <view wx:if="{{nextPiece}}" class="card piece-nav-item piece-nav-item--next" bindtap="goNext">
+      <view class="piece-nav-dir">下一篇 ›</view>
+      <view class="piece-nav-title">{{nextPiece.title}}</view>
+    </view>
+  </view>
 </view>
 
 <fo-tabbar active="role" />

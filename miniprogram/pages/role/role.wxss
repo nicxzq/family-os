@@ -156,94 +156,23 @@
   background: var(--cream-deep);
 }
 
-.piece--soon {
-  opacity: 0.55;
-}
-
-.piece-code {
-  font-size: var(--font-xs);
-  letter-spacing: 0.06em;
-  color: var(--ink-mute);
-}
-
-.piece-title {
-  font-size: var(--font-lg);
-  font-weight: 700;
-  line-height: 1.35;
-  margin: var(--space-xs) 0;
-}
-
-.piece-sub {
-  font-size: var(--font-sm);
-  color: var(--ink-soft);
-  margin-bottom: var(--space-xs);
-}
-
-.piece-tag {
-  font-size: var(--font-sm);
-  color: var(--coral);
-}
-
-/* ---- 弟弟:绘本目录 ---- */
-.book {
-  display: flex;
-  gap: var(--space-md);
-  align-items: flex-start;
-}
-
-.book--locked {
-  opacity: 0.55;
-}
-
-.book-cover {
-  width: 140rpx;
-  height: 140rpx;
+/* ---- 老二:绘本书架 ---- */
+.shelf-book-cover {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
   border-radius: var(--radius-sm);
   background: var(--cream);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 64rpx;
-  flex-shrink: 0;
+  font-size: var(--font-xxl);
   overflow: hidden;
 }
 
-.book-cover-img {
+.shelf-book-cover-img {
   width: 100%;
   height: 100%;
-}
-
-.book-body {
-  flex: 1;
-}
-
-.book-num {
-  font-size: var(--font-xs);
-  color: var(--ink-mute);
-}
-
-.book-title {
-  font-size: var(--font-lg);
-  font-weight: 700;
-  margin: var(--space-xs) 0;
-}
-
-.book-theme {
-  font-size: var(--font-xs);
-  color: var(--ink-soft);
-  margin-bottom: var(--space-xs);
-}
-
-.book-desc {
-  font-size: var(--font-sm);
-  color: var(--ink-soft);
-  margin-bottom: var(--space-xs);
-}
-
-.book-cta {
-  font-size: var(--font-sm);
-  color: var(--coral);
-  font-weight: 500;
 }
 
 .for-parents {

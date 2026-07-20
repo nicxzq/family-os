@@ -1,4 +1,13 @@
-const { getStory } = require('../../data/stories.js');
+const { getStory, CATALOG } = require('../../data/stories.js');
+const { buildShare, buildTimeline } = require('../../utils/share.js');
+
+function buildStoryOrder() {
+  const list = [];
+  CATALOG.forEach(function (s) {
+    if (s.available) list.push({ id: s.id, title: s.title });
+  });
+  return list;
+}
 
 Page({
   data: {
@@ -6,10 +15,13 @@ Page({
     current: 0,
     total: 0,
     playIdx: -1,   // 正在播放动画的页
-    bubbleIdx: -1  // 正在显示气泡的页
+    bubbleIdx: -1, // 正在显示气泡的页
+    prevStory: null,
+    nextStory: null
   },
 
   onLoad(options) {
+    this.id = options.id;
     const story = getStory(options.id);
     if (!story || !story.pages) {
       wx.showToast({ title: '这本绘本还没上架', icon: 'none' });
@@ -17,7 +29,17 @@ Page({
       return;
     }
     wx.setNavigationBarTitle({ title: story.title });
-    this.setData({ story: story, total: story.pages.length });
+    const order = buildStoryOrder();
+    let idx = -1;
+    for (let i = 0; i < order.length; i++) {
+      if (order[i].id === options.id) { idx = i; break; }
+    }
+    this.setData({
+      story: story,
+      total: story.pages.length,
+      prevStory: idx > 0 ? order[idx - 1] : null,
+      nextStory: idx >= 0 && idx < order.length - 1 ? order[idx + 1] : null
+    });
     const read = wx.getStorageSync('fo_read_stories') || {};
     read[options.id] = { t: story.title, ts: Date.now() };
     wx.setStorageSync('fo_read_stories', read);
@@ -47,5 +69,26 @@ Page({
 
   onUnload() {
     this.clearTimers();
+  },
+
+  goPrevStory() {
+    if (!this.data.prevStory) return;
+    wx.redirectTo({ url: '/pages/story/story?id=' + this.data.prevStory.id });
+  },
+
+  goNextStory() {
+    if (!this.data.nextStory) return;
+    wx.redirectTo({ url: '/pages/story/story?id=' + this.data.nextStory.id });
+  },
+
+  onShareAppMessage() {
+    return buildShare(
+      this.data.story ? this.data.story.title : '毛毛绘本',
+      '/pages/story/story?id=' + this.id
+    );
+  },
+
+  onShareTimeline() {
+    return buildTimeline(this.data.story ? this.data.story.title : '毛毛绘本', 'id=' + this.id);
   }
 });

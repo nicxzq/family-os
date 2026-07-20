@@ -1,0 +1,111 @@
+<view class="wrap multi-page">
+  <view class="eyebrow">多学科 · 历史侦探</view>
+  <view class="section-title">历史侦探</view>
+  <view class="section-lead">历史不只是背年份，它是一连串的因果——找到线索，还原真相。</view>
+
+  <view class="visit-row">
+    <view class="visit-dot {{solved.tf ? 'is-done' : ''}}"></view>
+    <view class="visit-dot {{solved.tl ? 'is-done' : ''}}"></view>
+    <view class="visit-dot {{solved.ew ? 'is-done' : ''}}"></view>
+    <view class="visit-hint">破解三个案件解锁侦探徽章</view>
+  </view>
+
+  <view class="ctabs">
+    <view class="ctab {{activeCase === 'tf' ? 'is-active' : ''}} {{solved.tf ? 'is-solved' : ''}}" bindtap="switchCase" data-case="tf">案件一：真假史料</view>
+    <view class="ctab {{activeCase === 'tl' ? 'is-active' : ''}} {{solved.tl ? 'is-solved' : ''}}" bindtap="switchCase" data-case="tl">案件二：时间线排序</view>
+    <view class="ctab {{activeCase === 'ew' ? 'is-active' : ''}} {{solved.ew ? 'is-solved' : ''}}" bindtap="switchCase" data-case="ew">案件三：东西方同步</view>
+  </view>
+
+  <!-- 案件一：真假史料 -->
+  <view wx:if="{{activeCase === 'tf'}}" class="panel">
+    <view class="panel-head card">
+      <view class="panel-head-title">📜 真假史料鉴定</view>
+      <view class="panel-head-p">以下五条说法，有真有假。点击你认为正确的答案，看看历史认知有没有误区。</view>
+    </view>
+    <view wx:for="{{tf}}" wx:key="index" class="tf-q card">
+      <view class="tf-stmt">{{item.stmt}}</view>
+      <view class="tf-btns">
+        <view class="tf-btn {{item.trueBtnClass}}" bindtap="answerTF" data-idx="{{index}}" data-choice="{{true}}">✓ 正确</view>
+        <view class="tf-btn {{item.falseBtnClass}}" bindtap="answerTF" data-idx="{{index}}" data-choice="{{false}}">✗ 错误</view>
+      </view>
+      <view wx:if="{{item.showExplain}}" class="tf-explain">{{item.explain}}</view>
+    </view>
+    <view wx:if="{{solved.tf}}" class="case-done">🎉 真假史料全部鉴定完毕！</view>
+  </view>
+
+  <!-- 案件二：时间线排序 -->
+  <view wx:if="{{activeCase === 'tl'}}" class="panel">
+    <view class="panel-head card">
+      <view class="panel-head-title">⏱ 时间线侦探</view>
+      <view class="panel-head-p">下面五个历史事件顺序被打乱了。请按从早到晚的时间顺序依次点击，给每个事件编号。</view>
+    </view>
+    <view class="tl-hint">💡 这五件事都发生在公元前（BC），年份数字越大反而越早。</view>
+    <view class="tl-events">
+      <view
+        wx:for="{{tl.events}}"
+        wx:key="index"
+        class="tl-ev {{item.cls}}"
+        bindtap="selectTL"
+        data-idx="{{index}}"
+      >
+        <view class="tl-num">{{item.num}}</view>
+        <view class="tl-body">
+          <view class="tl-title">{{item.title}}</view>
+          <view class="tl-year {{item.showYear ? 'is-show' : ''}}">{{item.showYear ? '公元前 ' + item.year + ' 年' : '公元前 ? 年'}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="tl-actions">
+      <button class="btn submit-btn" bindtap="checkTL" disabled="{{!tl.canSubmit}}">提交顺序</button>
+      <button class="btn btn--ghost reset-btn" bindtap="resetTL" disabled="{{!tl.canReset}}">重置顺序</button>
+    </view>
+    <view wx:if="{{tl.msg}}" class="tl-msg tl-msg--{{tl.msgClass}}">{{tl.msg}}</view>
+    <view wx:if="{{solved.tl}}" class="case-done">🎉 时间线排列正确！</view>
+  </view>
+
+  <!-- 案件三：东西方同步 -->
+  <view wx:if="{{activeCase === 'ew'}}" class="panel">
+    <view class="panel-head card">
+      <view class="panel-head-title">🌐 东西方同步对照</view>
+      <view class="panel-head-p">中国与西方常在同一时期发生重大事件。点击左侧一张卡片，再点击右侧同时代的事件，完成配对（共 4 对）。</view>
+    </view>
+    <view class="ew-status">已配对：{{ew.matched}} / 4</view>
+    <view class="ew-cols">
+      <view class="ew-col-label">🇨🇳 中国</view>
+      <view class="ew-col-label">🌐 西方</view>
+    </view>
+    <view class="ew-grid">
+      <view class="ew-col">
+        <view
+          wx:for="{{ew.left}}"
+          wx:key="id"
+          class="ew-card {{item.cls}}"
+          bindtap="selectEW"
+          data-side="L"
+          data-id="{{item.id}}"
+        >{{item.text}}</view>
+      </view>
+      <view class="ew-col">
+        <view
+          wx:for="{{ew.right}}"
+          wx:key="id"
+          class="ew-card {{item.cls}}"
+          bindtap="selectEW"
+          data-side="R"
+          data-id="{{item.id}}"
+        >{{item.text}}</view>
+      </view>
+    </view>
+    <view wx:if="{{solved.ew}}" class="case-done">🎉 东西方同步配对全部正确！</view>
+  </view>
+
+  <view wx:if="{{allDone}}" class="done-banner">
+    <view class="done-banner-title">🎉 侦探徽章已解锁！</view>
+    <view class="stars">
+      <text wx:for="{{starRange}}" wx:key="*this" class="star {{index < stars ? 'is-on' : ''}}">★</text>
+    </view>
+    <button class="btn retry" bindtap="retry">再玩一次</button>
+  </view>
+</view>
+
+<fo-tabbar active="toolbox" />

@@ -1,0 +1,49 @@
+<view class="wrap code-page">
+  <view class="eyebrow">程序 · 代码积木</view>
+  <view class="section-title">代码积木</view>
+
+  <view class="level-row">
+    <view class="level-pill">{{levelPill}}</view>
+    <view class="level-title">{{levelTitle}}</view>
+  </view>
+  <view class="level-hint">{{levelHint}}</view>
+
+  <view class="maze-shell">
+    <view class="maze-grid">
+      <view wx:for="{{cells}}" wx:key="index" class="{{item.cls}}">{{item.text}}</view>
+    </view>
+    <view wx:if="{{resultShow}}" class="maze-result {{resultSuccess ? 'is-success' : 'is-fail'}}">
+      <view class="maze-result-text">{{resultText}}</view>
+      <view wx:if="{{finalStars > 0}}" class="stars">
+        <text wx:for="{{starRange}}" wx:key="index" class="star {{index < finalStars ? 'is-on' : ''}}">★</text>
+      </view>
+      <button class="btn maze-result-btn" bindtap="onResultTap">{{resultBtnText}}</button>
+    </view>
+  </view>
+
+  <view class="blocks-row">
+    <view class="block block--move" bindtap="addInstruction" data-type="move">前进</view>
+    <view class="block block--right" bindtap="addInstruction" data-type="right">右转</view>
+    <view class="block block--left" bindtap="addInstruction" data-type="left">左转</view>
+    <view class="block block--repeat" bindtap="repeatLast">🔁 重复上一步</view>
+  </view>
+
+  <view class="program-label">程序（{{program.length}} / {{programMax}}）· 点一下可移除</view>
+  <view class="program-list">
+    <view wx:if="{{program.length === 0}}" class="program-empty">点上面的指令，加入程序</view>
+    <view
+      wx:for="{{program}}"
+      wx:key="index"
+      class="program-item program-item--{{item.type}}"
+      bindtap="removeInstruction"
+      data-idx="{{index}}"
+    >{{index + 1}}. {{item.label}} ✕</view>
+  </view>
+
+  <view class="actions-row">
+    <button class="btn btn--ghost clear-btn" bindtap="clearProgram" disabled="{{running}}">清空</button>
+    <button class="btn run-btn" bindtap="runProgram" disabled="{{running || program.length === 0}}">▶ 运行</button>
+  </view>
+</view>
+
+<fo-tabbar active="toolbox" />

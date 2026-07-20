@@ -48,9 +48,9 @@
     </view>
   </block>
 
-  <!-- ============ 哥哥 ============ -->
+  <!-- ============ 老大 ============ -->
   <block wx:if="{{role === 'eldest'}}">
-    <view class="section-title">给哥哥</view>
+    <view class="section-title">给老大</view>
     <view class="section-lead">不是测验，没有分数。每篇讲一个值得想清楚的概念——读完，给自己留一个本周可以试的小行动。</view>
 
     <view class="card card--yellow entry-card" bindtap="goSummer">
@@ -60,46 +60,61 @@
       <view class="entry-cta">打开 →</view>
     </view>
 
-    <block wx:for="{{groups}}" wx:for-item="g" wx:for-index="gi" wx:key="group">
+    <view class="card card--green entry-card" bindtap="goGames">
+      <view class="entry-tag">游戏中心</view>
+      <view class="entry-title">🎮 一起玩的小游戏</view>
+      <view class="entry-desc">52 个小游戏，5 个已上线</view>
+      <view class="entry-cta">打开 →</view>
+    </view>
+
+    <view wx:for="{{eldestShelves}}" wx:for-item="g" wx:for-index="gi" wx:key="group">
       <view class="group-title">{{g.group}}</view>
-      <view
-        wx:for="{{g.items}}"
-        wx:key="code"
-        class="card card--{{item.color}} piece {{item.id ? '' : 'piece--soon'}}"
-        bindtap="openReader"
-        data-g="{{gi}}"
-        data-i="{{index}}"
-      >
-        <view class="piece-code">{{item.code}}</view>
-        <view class="piece-title">{{item.title}}</view>
-        <view class="piece-sub">{{item.sub}}</view>
-        <view class="piece-tag">{{item.id ? '可阅读 →' : '敬请期待'}}</view>
+      <view class="bookshelf">
+        <view wx:for="{{g.rows}}" wx:for-item="row" wx:for-index="ri" wx:key="ri" class="shelf">
+          <view class="shelf-books">
+            <view
+              wx:for="{{row}}"
+              wx:for-item="item"
+              wx:key="code"
+              class="shelf-book shelf-book--{{item.color}} {{item.id ? '' : 'shelf-book--soon'}}"
+              bindtap="openReader"
+              data-id="{{item.id}}"
+            >
+              <view class="shelf-book-who">{{item.code}}</view>
+              <view class="shelf-book-title">{{item.title}}</view>
+            </view>
+          </view>
+          <view class="shelf-board"></view>
+        </view>
       </view>
-    </block>
+    </view>
   </block>
 
-  <!-- ============ 弟弟 ============ -->
+  <!-- ============ 老二 ============ -->
   <block wx:if="{{role === 'youngest'}}">
     <view class="section-title">有一只小小的毛毛，她和卡梅拉一起长大。</view>
     <view class="section-lead">每周一本。大字、图多、可朗读。读完不用考问，让故事自己长进他心里。</view>
 
-    <view
-      wx:for="{{stories}}"
-      wx:key="id"
-      class="card book {{item.available ? '' : 'book--locked'}}"
-      bindtap="openStory"
-      data-idx="{{index}}"
-    >
-      <view class="book-cover">
-        <image wx:if="{{item.cover}}" class="book-cover-img" src="{{item.cover}}" mode="aspectFit" />
-        <text wx:else>📕</text>
-      </view>
-      <view class="book-body">
-        <view class="book-num">{{item.badge}}</view>
-        <view class="book-title">{{item.title}}</view>
-        <view class="book-theme">{{item.theme}}</view>
-        <view class="book-desc">{{item.desc}}</view>
-        <view class="book-cta">{{item.available ? '翻开绘本 →' : '即将上架'}}</view>
+    <view class="bookshelf">
+      <view wx:for="{{youngestShelves}}" wx:for-item="row" wx:for-index="ri" wx:key="ri" class="shelf">
+        <view class="shelf-books">
+          <view
+            wx:for="{{row}}"
+            wx:for-item="item"
+            wx:key="id"
+            class="shelf-book {{item.available ? '' : 'shelf-book--soon'}}"
+            bindtap="openStory"
+            data-id="{{item.id}}"
+            data-available="{{item.available}}"
+          >
+            <view class="shelf-book-cover">
+              <image wx:if="{{item.cover}}" class="shelf-book-cover-img" src="{{item.cover}}" mode="aspectFit" />
+              <text wx:else>📕</text>
+            </view>
+            <view class="shelf-book-title">{{item.title}}</view>
+          </view>
+        </view>
+        <view class="shelf-board"></view>
       </view>
     </view>
 

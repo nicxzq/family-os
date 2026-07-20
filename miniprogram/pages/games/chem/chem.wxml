@@ -1,0 +1,47 @@
+<view class="wrap chem-page">
+  <view class="eyebrow">科学 · 化学厨房</view>
+  <view class="section-title">化学厨房</view>
+  <view class="section-lead">选择元素，点击"合成！"，发现藏在生活里的化合物。</view>
+
+  <view class="elements-label">ELEMENTS · 选择元素（可多选）</view>
+  <view class="elements-grid">
+    <view
+      wx:for="{{elements}}"
+      wx:key="sym"
+      class="elem-tile {{selected.indexOf(item.sym) >= 0 ? 'is-selected' : ''}}"
+      bindtap="toggleElem"
+      data-sym="{{item.sym}}"
+    >
+      <view class="elem-symbol">{{item.sym}}</view>
+      <view class="elem-name">{{item.name}}</view>
+      <view class="elem-num">{{item.num}}</view>
+    </view>
+  </view>
+
+  <view class="synth-row">
+    <button class="btn synth-btn" bindtap="synthesize">合成！⚗️</button>
+    <button class="btn btn--ghost clear-btn" bindtap="clearSelection">清空选择</button>
+  </view>
+  <view class="selected-display">{{selectedDisplay}}</view>
+
+  <view wx:if="{{resultMsg}}" class="result-msg {{resultOk ? 'is-success' : 'is-fail'}}">{{resultMsg}}</view>
+
+  <view class="status-bar">
+    <view class="badge {{discoveredCount >= 4 ? 'is-active' : ''}}">化学新手 🧪</view>
+    <view class="badge {{discoveredCount >= 8 ? 'is-master' : ''}}">化学大师 🏆</view>
+    <view class="count-display">已发现 {{discoveredCount}} / {{totalRecipes}}</view>
+  </view>
+
+  <view class="discoveries-label">DISCOVERIES · 发现记录</view>
+  <view wx:if="{{discoveries.length === 0}}" class="empty-state">还没有发现。试着把元素组合起来！</view>
+  <view wx:for="{{discoveries}}" wx:key="key" class="disc-card">
+    <view class="disc-emoji">{{item.emoji}}</view>
+    <view class="disc-body">
+      <view class="disc-name">{{item.name}}</view>
+      <view class="disc-formula">{{item.formula}}</view>
+      <view class="disc-fact">{{item.fact}}</view>
+    </view>
+  </view>
+</view>
+
+<fo-tabbar active="toolbox" />

@@ -19,6 +19,10 @@
   </swiper>
   <view class="pager">
     <view class="pager-hint">{{current + 1}} / {{total}} · 左右滑动翻页</view>
+    <view wx:if="{{prevStory || nextStory}}" class="pager-nav">
+      <view wx:if="{{prevStory}}" class="pager-nav-item pager-nav-item--prev" bindtap="goPrevStory">‹ 上一本 {{prevStory.title}}</view>
+      <view wx:if="{{nextStory}}" class="pager-nav-item pager-nav-item--next" bindtap="goNextStory">{{nextStory.title}} 下一本 ›</view>
+    </view>
     <view class="pager-dots">
       <view
         wx:for="{{story.pages}}"

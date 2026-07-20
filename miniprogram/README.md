@@ -23,13 +23,17 @@
 | `pages/review/review` | `weekly-review.html` | 家庭周会复盘：五板块表单，按 ISO 周存本地，可回看 |
 | `pages/piggy/piggy` | `piggy-bank.html` | 零花钱实验室：记账 + 储蓄目标（单账本，无成员体系） |
 | `pages/attention/attention` | `attention-budget.html` | 注意力账本：按天记录，堆叠条分布图（免 canvas） |
+| `pages/games/games` | `games/index.html` | 游戏目录：分类 tab + 卡片流，5 个已上线其余预告（目录数据 `data/games.js` 手工对齐网站） |
+| `pages/games/{qa,multi,chem,physics,code}` | `games/g01·g44·g21·g22·g41` | 5 类首个游戏的简化原生移植；星级存 `fo_game_stars`（键名与网站一致） |
+| `pages/policy/policy` | — | 隐私政策 / 免责说明（`?type=privacy\|disclaimer` 一页两用） |
 
 角色页四块内容：爸爸妈妈（`for-wife.html` 文案改写为父母共读视角，写在 role.wxml）、
-哥哥（读本目录 + 暑期入口）、弟弟（绘本目录）、爷爷奶奶和朋友（三个故事）。
+老大（读本目录 + 暑期入口）、老二（绘本目录）、爷爷奶奶和朋友（三个故事）。
 
 本地 storage 键：`fo_role`（角色）、`fo_profile`（头像昵称）、`fo_read_readers` / `fo_read_stories`
 （阅读记录 `{id:{t,ts}}`）、`fo_review_<YYYY-Wnn>`（周回顾）、`fo_piggy`（存钱罐）、
-`fo_attention_<YYYY-MM-DD>`（注意力）、`fo_summer_done`（暑期打卡）。全部只存本机，无登录无后端。
+`fo_attention_<YYYY-MM-DD>`（注意力）、`fo_summer_done`（暑期打卡）、`fo_game_stars`（游戏星级）。
+全部只存本机，无登录无后端。
 
 ## 内容同步（重要）
 
@@ -43,7 +47,7 @@
 另有两个独立生成物（不在 sync-miniprogram.js 里，各自的脚本生成）：
 
 - `data/idea-art.js` + `assets/idea-art/*.png` ← `scripts/gen-idea-art.js`：六条原则的同风格扁平插画。脚本内写 SVG（色值取自 styles.css），用 macOS `qlmanage` 光栅化 + `sips` 裁成 720×480 PNG。换非 macOS 平台需替换光栅化步骤。
-- `assets/logo.png`（横版锁定）+ `assets/logo-mark.png`（方形吉祥物）← `scripts/gen-logo.py`（Pillow，需 arm64 Python）："大橙小原"品牌 logo，所有导出图片页脚都带它。
+- `assets/logo.gif`（动图，首页 hero 用）← 源图 `uploads/logo-source.gif`（1080×1080/2MB），ffmpeg 压到 320×320/12fps/约 260KB 以守住主包体积。`assets/logo-mark.png`（方形徽章，所有 canvas 导出图页脚都带它）← 动图完整帧（第 86 帧 coalesce）裁掉底部文字后的圆形徽章。换 logo 时重做这两步即可（旧的 `scripts/gen-logo.py` 产物已废弃）。
 
 改了以上网站源文件后，在仓库根目录跑：
 
@@ -72,7 +76,7 @@ node scripts/sync-miniprogram.js
 
 ## 未收录（网站有、小程序暂无）
 
-- 52 个互动游戏（canvas/JS 重，逐个移植工作量大，需单独立项）
+- 互动游戏已收录 5 个简化原生版（问答/化学/物理/编程/多学科各首个，见 `pages/games/`），其余 47+ 个仍只在网站版（逐个移植需单独立项）
 - Supabase 登录、日记、共读追踪、共创系统（需换微信登录体系 + 合规的后端域名）
 - 幻灯片、墙报打印版（投屏/打印场景，不适合小程序）
 - 网站上绘本 04+ 和全部读本有登录门禁；小程序内暂无登录，内容直接开放（家庭内部使用，接受）

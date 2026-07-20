@@ -1,6 +1,7 @@
 const { IDEAS, RULES } = require('../../data/ideas.js');
 const { IDEA_ART } = require('../../data/idea-art.js');
 const { savePrincipleImage } = require('../../utils/share-card.js');
+const { buildTimeline } = require('../../utils/share.js');
 
 Page({
   data: {
@@ -38,5 +39,9 @@ Page({
       title: this.data.idea ? this.data.idea.title : '六个想法',
       path: '/pages/idea/idea?no=' + this.data.no
     };
+  },
+
+  onShareTimeline() {
+    return buildTimeline(this.data.idea ? this.data.idea.title : '六个想法', 'no=' + this.data.no);
   }
 });

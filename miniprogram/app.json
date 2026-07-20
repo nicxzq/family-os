@@ -12,7 +12,14 @@
     "pages/summer/summer",
     "pages/review/review",
     "pages/piggy/piggy",
-    "pages/attention/attention"
+    "pages/attention/attention",
+    "pages/policy/policy",
+    "pages/games/games",
+    "pages/games/qa/qa",
+    "pages/games/multi/multi",
+    "pages/games/physics/physics",
+    "pages/games/chem/chem",
+    "pages/games/code/code"
   ],
   "lazyCodeLoading": "requiredComponents",
   "window": {

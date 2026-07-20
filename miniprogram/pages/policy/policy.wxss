@@ -1,0 +1,30 @@
+.policy-title {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  margin-bottom: var(--space-md);
+}
+
+.policy-sec {
+  margin-bottom: var(--space-md);
+}
+
+.policy-sec:last-child {
+  margin-bottom: 0;
+}
+
+.policy-heading {
+  font-size: var(--font-md);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--space-xs);
+}
+
+.policy-p {
+  font-size: var(--font-sm);
+  color: var(--ink-soft);
+  margin-bottom: var(--space-xs);
+}
+
+.policy-p:last-child {
+  margin-bottom: 0;
+}

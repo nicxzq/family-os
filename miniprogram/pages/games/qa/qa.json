@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "方向 vs 目标",
+  "usingComponents": {
+    "fo-tabbar": "/components/fo-tabbar/fo-tabbar"
+  }
+}

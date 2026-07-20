@@ -1,4 +1,17 @@
 const { ROLES, getRole } = require('../../data/roles.js');
+const { buildTimeline } = require('../../utils/share.js');
+
+const PER_SHELF = 3;
+
+function buildRows(items) {
+  const rows = [];
+  items.forEach(function (it, i) {
+    const row = Math.floor(i / PER_SHELF);
+    if (!rows[row]) rows[row] = [];
+    rows[row].push(it);
+  });
+  return rows;
+}
 
 Page({
   data: {
@@ -6,8 +19,8 @@ Page({
     role: '',
     roleInfo: null,
     picker: false,
-    groups: [],
-    stories: []
+    eldestShelves: [],
+    youngestShelves: []
   },
 
   onLoad(options) {
@@ -27,11 +40,13 @@ Page({
 
   loadRole(role) {
     const patch = { role: role, roleInfo: getRole(role), picker: false };
-    if (role === 'eldest' && !this.data.groups.length) {
-      patch.groups = require('../../data/readers.js').GROUPS;
+    if (role === 'eldest' && !this.data.eldestShelves.length) {
+      patch.eldestShelves = require('../../data/readers.js').GROUPS.map(function (g) {
+        return { group: g.group, rows: buildRows(g.items) };
+      });
     }
-    if (role === 'youngest' && !this.data.stories.length) {
-      patch.stories = require('../../data/stories.js').CATALOG;
+    if (role === 'youngest' && !this.data.youngestShelves.length) {
+      patch.youngestShelves = buildRows(require('../../data/stories.js').CATALOG);
     }
     this.setData(patch);
     wx.pageScrollTo({ scrollTop: 0 });
@@ -54,26 +69,29 @@ Page({
   noop() {},
 
   openReader(e) {
-    const d = e.currentTarget.dataset;
-    const item = this.data.groups[d.g].items[d.i];
-    if (!item.id) {
+    const id = e.currentTarget.dataset.id;
+    if (!id) {
       wx.showToast({ title: '这篇还在路上，敬请期待', icon: 'none' });
       return;
     }
-    wx.navigateTo({ url: '/pages/reader/reader?id=' + item.id });
+    wx.navigateTo({ url: '/pages/reader/reader?id=' + id });
   },
 
   openStory(e) {
-    const s = this.data.stories[e.currentTarget.dataset.idx];
-    if (!s.available) {
+    const d = e.currentTarget.dataset;
+    if (!d.available) {
       wx.showToast({ title: '这本还在路上', icon: 'none' });
       return;
     }
-    wx.navigateTo({ url: '/pages/story/story?id=' + s.id });
+    wx.navigateTo({ url: '/pages/story/story?id=' + d.id });
   },
 
   goSummer() {
     wx.navigateTo({ url: '/pages/summer/summer' });
+  },
+
+  goGames() {
+    wx.navigateTo({ url: '/pages/games/games' });
   },
 
   goQuiz() {
@@ -86,5 +104,13 @@ Page({
       title: info ? '给' + info.name + '：' + info.tag : '好的家庭教育',
       path: '/pages/role/role' + (this.data.role ? '?role=' + this.data.role : '')
     };
+  },
+
+  onShareTimeline() {
+    const info = this.data.roleInfo;
+    return buildTimeline(
+      info ? '给' + info.name + '：' + info.tag : '好的家庭教育',
+      this.data.role ? 'role=' + this.data.role : ''
+    );
   }
 });

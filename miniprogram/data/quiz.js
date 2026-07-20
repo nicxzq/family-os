@@ -1,4 +1,4 @@
-// 给哥哥的 5 道互动小测试 —— 与网站 for-eldest.html 内容一致
+// 给老大的 5 道互动小测试 —— 与网站 for-eldest.html 内容一致
 const QUIZ = [
   {
     num: '问题 1 / 5',

@@ -134,6 +134,22 @@
   margin-bottom: var(--space-xs);
 }
 
+.pager-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-xs);
+}
+
+.pager-nav-item {
+  font-size: var(--font-xs);
+  color: var(--coral);
+  font-weight: 500;
+}
+
+.pager-nav-item--next {
+  margin-left: auto;
+}
+
 .pager-dots {
   display: flex;
   justify-content: center;

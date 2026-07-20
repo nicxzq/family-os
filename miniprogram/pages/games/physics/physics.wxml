@@ -1,0 +1,57 @@
+<view class="wrap physics-page">
+  <view class="eyebrow">科学 · 物理弹弓</view>
+  <view class="section-title">物理弹弓</view>
+  <view class="section-lead">调整角度和力度，把小球射向目标；连续命中 3 次解锁"物理小达人"。</view>
+
+  <view class="score-row">
+    <view class="score-pill {{hits >= 3 ? 'is-done' : ''}}">命中：{{hits}} / 3</view>
+    <view class="score-pill">尝试：{{tries}} 次</view>
+    <view wx:if="{{hits >= 3}}" class="score-pill score-pill--master">物理小达人 🚀</view>
+  </view>
+
+  <view class="canvas-wrap">
+    <canvas type="2d" id="physicsCanvas" class="physics-canvas"></canvas>
+  </view>
+
+  <view class="controls">
+    <view class="ctrl">
+      <view class="ctrl-label">发射角度</view>
+      <view class="ctrl-val">{{angle}}°</view>
+      <slider min="5" max="80" value="{{angle}}" activeColor="{{paletteCoral}}" block-color="{{paletteCoral}}" bindchanging="onAngleChange" bindchange="onAngleChange" disabled="{{animating}}" />
+    </view>
+    <view class="ctrl">
+      <view class="ctrl-label">力度</view>
+      <view class="ctrl-val">{{power}}</view>
+      <slider min="20" max="100" value="{{power}}" activeColor="{{paletteCoral}}" block-color="{{paletteCoral}}" bindchanging="onPowerChange" bindchange="onPowerChange" disabled="{{animating}}" />
+    </view>
+    <button class="btn fire-btn" bindtap="fire" disabled="{{animating}}">🚀 发射！</button>
+  </view>
+
+  <view wx:if="{{resultMsg}}" class="result-box {{resultHit ? 'is-hit' : 'is-miss'}}">{{resultMsg}}</view>
+
+  <view class="know">
+    <view class="know-toggle" bindtap="toggleKnow">
+      <text>📐 物理知识点</text>
+      <text>{{knowOpen ? '▴' : '▾'}}</text>
+    </view>
+    <view wx:if="{{knowOpen}}" class="know-body">
+      <view class="know-item">
+        <view class="know-h">为什么 45° 角射程最远？</view>
+        <view class="know-p">水平方向速度越大飞得越远，垂直方向速度越大飞得越高。45° 时两个方向的速度分量恰好平衡，射程最大。</view>
+      </view>
+      <view class="know-item">
+        <view class="know-h">抛体运动公式</view>
+        <view class="formula-box">
+          <view>x = v₀·cos(θ)·t</view>
+          <view>y = v₀·sin(θ)·t − ½·g·t²</view>
+        </view>
+      </view>
+      <view class="know-item">
+        <view class="know-h">重力加速度</view>
+        <view class="know-p">地球引力使所有物体以 g = 9.8 m/s² 向下加速。石头和羽毛在真空中下落速度相同——这是伽利略的发现。</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<fo-tabbar active="toolbox" />

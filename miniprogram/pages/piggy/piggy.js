@@ -1,4 +1,6 @@
 // 逻辑对齐网站 piggy-bank.html;数据存本地 fo_piggy(小程序无成员体系,单账本)。
+const { buildShare, buildTimeline } = require('../../utils/share.js');
+
 const MAX_BALANCE = 200;
 const INCOME_DEFS = [
   { emoji: '🎁', label: '零花钱' },
@@ -150,5 +152,13 @@ Page({
     this.save();
     this.setData({ goalName: '', goalTarget: '', goalFormOpen: false });
     this.render();
+  },
+
+  onShareAppMessage() {
+    return buildShare('零花钱实验室', '/pages/piggy/piggy');
+  },
+
+  onShareTimeline() {
+    return buildTimeline('零花钱实验室', '');
   }
 });

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "物理弹弓",
+  "usingComponents": {
+    "fo-tabbar": "/components/fo-tabbar/fo-tabbar"
+  }
+}
