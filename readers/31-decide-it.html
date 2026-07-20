@@ -1,0 +1,284 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: K05 · 源: 思考的真相 1.5「决策」（生活中我们做的每一个决策，无论重要与否，背后所谓的思考，其实全都是定义、分类、比较、因果这四个要素的组合应用；四要素有微妙的先后顺序：为了分析因果，可能需要提前进行比较；比较之前，得先做到分类合理，才能基于同一范畴、同一属性进行比较；而为了分类合理，就要先做到定义足够清楚；到最后全是组合嵌套使用——找到种种原因之后，还要对原因再次归类（如内部/外部），再相互比较，直到找到最重要的那个原因；例1 选职业：定义自己的兴趣和长处→分类可能的职业领域（科学、艺术、教育等）→在领域中比较哪个更适合自己的需求和期望→考虑因果（在某个职业中工作是否带来满足感、收入是否足够）；例2 饮食习惯：定义健康饮食的标准（低热量、高营养价值）→分类食物（健康/不健康至少两类）→在食物之间比较挑出最符合标准的→思考因果（某种食物对身体健康的影响）；例3 李笑来买特斯拉作代步工具＝决策之后的行动，当初决策的根据是因果关系；比较过特斯拉和其他可能的选择＝比较+因果；比较时先在油车电车里做出选择＝分类+比较；而后在电车当中继续比较、根据比较结果做出决定＝比较+因果；例4 还买了特斯拉股票，理由之一是在他眼里特斯拉从一开始就是一家机器人制造公司而不是汽车制造公司，每天上路开的特斯拉是这一生当中的第一个机器人——车型机器人；定义不同→理解不同→分类和比较都不同→决策自然不同；吉利李书福对汽车非同一般的定义："汽车那不就是两张沙发配四个轮子，再加上一个铁壳儿吗？"很能解释他的一些非同一般的决策；由定义分类比较因果构成的基础思考框架非常简单且实用，所有的复杂问题其实都是由这些简单的要素组合或者叠加构成的，于是逐一突破即可）。金句取"所有的复杂问题，其实都是由这些简单的要素组合或者叠加构成的"。蓝色系。§7.4 第五篇。 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<script src="/fo-gate.js"></script>
+<title>决策，不是第五种本领 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--blue); --accent-soft: var(--blue-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--green); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+</head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 思考的真相</span>
+    <h1>决策，<br>不是第五种本领</h1>
+
+    <p class="hook">
+      前四篇，你攒齐了四样工具：<span class="em">定义</span>（左边必要、右边毫无歧义）、<span class="em">分类</span>（不重不漏）、<span class="em">比较</span>（同一范畴、相同属性）、<span class="em">因果</span>（四问模板）。现在来一个反常识的消息：接下来要讲的"决策"，<span class="em">并不是第五种新本领</span>。书里说得干脆——我们做的每一个决策，无论重要与否，背后所谓的思考，其实<span class="em">全都是这四个要素的组合应用</span>。从选职业到选午饭，从买一辆车到买一支股票，全是同一条流水线。
+    </p>
+
+    <!-- 拆解 1 · 四要素有先后顺序 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>四个要素，有一条微妙的先后顺序</h3>
+      <p>四个要素不是随便抓一个就用，它们之间有一条<strong>微妙的先后顺序</strong>：为了分析<strong>因果</strong>，就可能需要提前进行<strong>比较</strong>；在比较之前，就得先做到<strong>分类</strong>合理，才能基于同一范畴、同一属性进行比较；而为了分类合理，就要先做到<strong>定义</strong>足够清楚。倒过来读一遍就是流水线：定义 → 分类 → 比较 → 因果 → 决策。</p>
+      <p>当然，到最后全都是<strong>组合嵌套</strong>使用。比如找到种种原因之后，还要对各种原因<strong>再次归类</strong>——分为内部原因或者外部原因——然后<strong>相互比较</strong>，直到找到最重要的那个原因。工具不是用一次就收起来的，它们在一次决策里会被反复调用。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="决策流水线：定义、分类、比较、因果四步依次衔接，最终产出决策，且组合嵌套使用">
+          <g font-size="12" text-anchor="middle">
+            <rect x="24" y="46" width="104" height="46" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="76" y="66" fill="var(--ink)" font-weight="700" font-size="13">① 定义</text>
+            <text x="76" y="84" fill="var(--ink-soft)" font-size="10.5">先说清楚是什么</text>
+            <path d="M 128 69 L 152 69" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <path d="M 146 64 L 154 69 L 146 74" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <rect x="156" y="46" width="104" height="46" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="208" y="66" fill="var(--ink)" font-weight="700" font-size="13">② 分类</text>
+            <text x="208" y="84" fill="var(--ink-soft)" font-size="10.5">才能分得合理</text>
+            <path d="M 260 69 L 284 69" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <path d="M 278 64 L 286 69 L 278 74" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <rect x="288" y="46" width="104" height="46" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="340" y="66" fill="var(--ink)" font-weight="700" font-size="13">③ 比较</text>
+            <text x="340" y="84" fill="var(--ink-soft)" font-size="10.5">同范畴同属性</text>
+            <path d="M 392 69 L 416 69" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <path d="M 410 64 L 418 69 L 410 74" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <rect x="420" y="46" width="104" height="46" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="472" y="66" fill="var(--ink)" font-weight="700" font-size="13">④ 因果</text>
+            <text x="472" y="84" fill="var(--ink-soft)" font-size="10.5">选了会带来什么</text>
+            <path d="M 472 92 L 472 116" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <path d="M 467 110 L 472 118 L 477 110" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <rect x="404" y="120" width="136" height="42" rx="21" fill="var(--accent)"/>
+            <text x="472" y="146" fill="var(--paper)" font-weight="700" font-size="13.5">决策</text>
+            <path d="M 404 141 Q 200 141 128 96" fill="none" stroke="var(--ink-mute)" stroke-width="1.5" stroke-dasharray="5 4"/>
+            <text x="230" y="168" fill="var(--ink-mute)" font-size="11">嵌套：找到原因后，再归类（内部/外部）、再比较，直到找到最重要的那个</text>
+            <text x="300" y="196" fill="var(--ink)" font-size="12.5">每一个决策背后，都是这条流水线在<tspan fill="var(--accent)" font-weight="700">组合运转</tspan></text>
+          </g>
+        </svg>
+        <figcaption>定义 → 分类 → 比较 → 因果 → 决策：顺序微妙，且组合嵌套使用（《思考的真相》1.5）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 两个生活例子 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>选职业和选午饭，走的是同一条流水线</h3>
+      <p>书里举了两个例子，一大一小。<strong>选职业</strong>：首先<strong>定义</strong>自己的兴趣和长处；然后<strong>分类</strong>可能的职业领域——科学、艺术、教育等等；接下来在这些领域当中<strong>比较</strong>，看看哪个更适合自己的需求和期望；最后考虑<strong>因果</strong>——在某个职业中工作，是否会带来满足感？收入是否足够多？四步走完，一个人才能做出明智的职业选择。</p>
+      <p>小到<strong>决定吃什么</strong>也一样：先<strong>定义</strong>健康饮食的标准（低热量、高营养价值）；再把食物<strong>分类</strong>成健康的和不健康的；然后在食物之间<strong>比较</strong>，挑出最符合标准的；最后想<strong>因果</strong>——这种食物对身体会产生什么影响。你看，事情有大小，流水线没有变。</p>
+      <figure>
+        <svg viewBox="0 0 600 250" role="img" aria-label="选职业与选饮食两个例子分别走过定义分类比较因果四步的对照表">
+          <g font-size="11.5" text-anchor="middle">
+            <rect x="120" y="20" width="112" height="34" rx="8" fill="var(--accent)"/>
+            <text x="176" y="42" fill="var(--paper)" font-weight="700">定义</text>
+            <rect x="238" y="20" width="112" height="34" rx="8" fill="var(--accent)"/>
+            <text x="294" y="42" fill="var(--paper)" font-weight="700">分类</text>
+            <rect x="356" y="20" width="112" height="34" rx="8" fill="var(--accent)"/>
+            <text x="412" y="42" fill="var(--paper)" font-weight="700">比较</text>
+            <rect x="474" y="20" width="112" height="34" rx="8" fill="var(--accent)"/>
+            <text x="530" y="42" fill="var(--paper)" font-weight="700">因果</text>
+            <text x="60" y="92" fill="var(--ink)" font-weight="700" font-size="12.5">选职业</text>
+            <rect x="120" y="66" width="112" height="60" rx="8" fill="var(--accent-soft)"/>
+            <text x="176" y="90" fill="var(--ink-soft)">我的兴趣</text>
+            <text x="176" y="108" fill="var(--ink-soft)">和长处是什么</text>
+            <rect x="238" y="66" width="112" height="60" rx="8" fill="var(--accent-soft)"/>
+            <text x="294" y="90" fill="var(--ink-soft)">科学 · 艺术</text>
+            <text x="294" y="108" fill="var(--ink-soft)">教育……</text>
+            <rect x="356" y="66" width="112" height="60" rx="8" fill="var(--accent-soft)"/>
+            <text x="412" y="90" fill="var(--ink-soft)">哪个更适合</text>
+            <text x="412" y="108" fill="var(--ink-soft)">我的期望</text>
+            <rect x="474" y="66" width="112" height="60" rx="8" fill="var(--accent-soft)"/>
+            <text x="530" y="90" fill="var(--ink-soft)">满足感？</text>
+            <text x="530" y="108" fill="var(--ink-soft)">收入够吗？</text>
+            <text x="60" y="168" fill="var(--ink)" font-weight="700" font-size="12.5">选吃什么</text>
+            <rect x="120" y="142" width="112" height="60" rx="8" fill="var(--cream)"/>
+            <text x="176" y="166" fill="var(--ink-soft)">健康标准：低热量</text>
+            <text x="176" y="184" fill="var(--ink-soft)">高营养价值</text>
+            <rect x="238" y="142" width="112" height="60" rx="8" fill="var(--cream)"/>
+            <text x="294" y="166" fill="var(--ink-soft)">健康的 /</text>
+            <text x="294" y="184" fill="var(--ink-soft)">不健康的</text>
+            <rect x="356" y="142" width="112" height="60" rx="8" fill="var(--cream)"/>
+            <text x="412" y="166" fill="var(--ink-soft)">挑出最符合</text>
+            <text x="412" y="184" fill="var(--ink-soft)">标准的</text>
+            <rect x="474" y="142" width="112" height="60" rx="8" fill="var(--cream)"/>
+            <text x="530" y="166" fill="var(--ink-soft)">对身体的</text>
+            <text x="530" y="184" fill="var(--ink-soft)">影响是什么</text>
+            <text x="300" y="234" fill="var(--ink)" font-size="12.5">事情有大小，<tspan fill="var(--accent)" font-weight="700">流水线没有变</tspan></text>
+          </g>
+        </svg>
+        <figcaption>大到职业、小到午饭：每个决策都走一遍 定义→分类→比较→因果（《思考的真相》1.5）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 买车的决策树 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>拆一个真实决策：买一辆车</h3>
+      <p>李笑来在书里拆了自己的一个真实决策：买特斯拉作为代步工具。买车这件事，是<strong>决策之后的行动</strong>；那当初如此决策的根据是什么？是<strong>因果关系</strong>——在此之前，他肯定根据自己的情况分析过、得出了结论，因为他<strong>比较过特斯拉和其他可能的选择</strong>，这是比较和因果的组合应用。</p>
+      <p>再往前退一步：在比较各款车之前，他肯定<strong>先在油车、电车里做出了一个选择</strong>——这是分类与比较的组合应用；而后<strong>在电车当中继续比较</strong>，根据比较的结果做出决定——这还是比较和因果的组合应用。一个"买哪辆车"，拆开来就是四要素来回接力。</p>
+      <figure>
+        <svg viewBox="0 0 600 250" role="img" aria-label="买车决策树：先在油车电车中分类选择，再在电车中比较，最后依据因果做出决定">
+          <g font-size="12" text-anchor="middle">
+            <rect x="220" y="14" width="160" height="38" rx="10" fill="var(--accent)"/>
+            <text x="300" y="38" fill="var(--paper)" font-weight="700" font-size="12.5">要买一辆代步车</text>
+            <path d="M 300 52 L 300 68 M 300 68 L 176 84 M 300 68 L 424 84" fill="none" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <rect x="106" y="86" width="140" height="40" rx="10" fill="var(--cream)" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <text x="176" y="111" fill="var(--ink-soft)" font-weight="700">油车</text>
+            <rect x="354" y="86" width="140" height="40" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="424" y="111" fill="var(--ink)" font-weight="700">电车 ✓</text>
+            <text x="300" y="106" fill="var(--accent)" font-size="11" font-weight="700">分类＋比较</text>
+            <path d="M 424 126 L 424 148" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <rect x="314" y="150" width="220" height="40" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="424" y="175" fill="var(--ink)" font-size="11.5">在电车当中继续比较各个选择</text>
+            <text x="270" y="172" fill="var(--accent)" font-size="11" font-weight="700">比较＋因果</text>
+            <path d="M 424 190 L 424 212" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <path d="M 419 206 L 424 214 L 429 206" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <rect x="344" y="216" width="160" height="30" rx="15" fill="var(--accent)"/>
+            <text x="424" y="236" fill="var(--paper)" font-weight="700" font-size="12">做出决定 → 行动</text>
+            <text x="130" y="200" fill="var(--ink)" font-size="12">一个"买哪辆车"，</text>
+            <text x="130" y="222" fill="var(--ink)" font-size="12">拆开是四要素<tspan fill="var(--accent)" font-weight="700">来回接力</tspan></text>
+          </g>
+        </svg>
+        <figcaption>先分大类，再在类里比较，最后按比较结果决定——决策之后，才是行动（《思考的真相》1.5）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 · 定义不同，决策不同 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>流水线的第一步，决定了终点</h3>
+      <p>更有意思的是第二个决策：他不仅买了特斯拉的车，还买了特斯拉的<strong>股票</strong>。理由之一是：在他眼里，<strong>特斯拉从一开始就是一家机器人制造公司</strong>，而不是大多数人以为的汽车制造公司——他每天上路开的那辆车，是他<strong>这一生当中的第一个机器人</strong>，只不过不是人形机器人，而是车型机器人。<strong>定义不同，进而理解不同，而后分类和比较都不同，于是到最后决策自然不同</strong>。流水线的第一步变了，终点就完全不一样。</p>
+      <p>这样思考的当然不止他一个。同样是汽车，吉利控股集团的董事长李书福就有非常不一样的定义："<strong>汽车那不就是两张沙发配四个轮子，再加上一个铁壳儿吗？</strong>"如此非同一般的定义，就很能解释他的一些非同一般的决策。这套由定义、分类、比较、因果构成的基础思考框架，非常简单且实用——所有的复杂问题，其实都是由这些简单的要素组合或者叠加构成的，于是，<strong>逐一突破即可</strong>。</p>
+      <figure>
+        <svg viewBox="0 0 600 240" role="img" aria-label="同一个汽车三种定义导向三种不同决策：代步工具、车型机器人、两张沙发四个轮子加铁壳">
+          <g font-size="11.5" text-anchor="middle">
+            <text x="300" y="26" fill="var(--ink)" font-weight="700" font-size="13.5">同一个"汽车"，三张定义表，三种决策</text>
+            <rect x="30" y="44" width="170" height="92" rx="12" fill="var(--cream)" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <text x="115" y="68" fill="var(--ink)" font-weight="700">大多数人</text>
+            <text x="115" y="92" fill="var(--ink-soft)">汽车 ＝ 代步工具</text>
+            <text x="115" y="118" fill="var(--ink-mute)" font-size="11">决策：挑一辆合适的</text>
+            <rect x="215" y="44" width="170" height="92" rx="12" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="300" y="68" fill="var(--ink)" font-weight="700">李笑来</text>
+            <text x="300" y="92" fill="var(--ink-soft)">特斯拉 ＝ 车型机器人</text>
+            <text x="300" y="118" fill="var(--accent)" font-size="11" font-weight="700">决策：连股票也买了</text>
+            <rect x="400" y="44" width="170" height="92" rx="12" fill="var(--cream)" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <text x="485" y="68" fill="var(--ink)" font-weight="700">李书福</text>
+            <text x="485" y="86" fill="var(--ink-soft)" font-size="10.5">汽车 ＝ 两张沙发</text>
+            <text x="485" y="102" fill="var(--ink-soft)" font-size="10.5">＋四个轮子＋铁壳</text>
+            <text x="485" y="124" fill="var(--ink-mute)" font-size="11">决策：那我也能造</text>
+            <path d="M 300 148 L 300 168" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <text x="300" y="192" fill="var(--ink)" font-size="12.5">定义不同 → 理解不同 → 分类、比较都不同</text>
+            <text x="300" y="218" fill="var(--accent)" font-weight="700" font-size="13">→ 决策自然不同</text>
+          </g>
+        </svg>
+        <figcaption>流水线第一步（定义）不同，终点（决策）就完全不同（《思考的真相》1.5）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"所有的复杂问题，其实都是由这些<br>简单的要素组合或者叠加构成的。"</p>
+      <span class="src">—— 《思考的真相》1.5「决策」。每个决策＝定义→分类→比较→因果的组合应用；凡事从四要素出发，逐一突破即可。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>回想你最近一次纠结的选择（报什么班、买哪个、周末先做什么）。对照流水线：你是从"定义我到底要什么"开始的，还是直接跳到了"比较"甚至"随便选了"？跳过的是哪一步？</summary>
+        <p class="hint">没有标准答案，写在你自己的本子上。提示：多数纠结不是"比不出来"，而是第一步就没定义清楚"我要的到底是什么"——标准模糊，怎么比都乱。</p>
+      </details>
+      <details>
+        <summary>李书福把汽车定义成"两张沙发配四个轮子，再加上一个铁壳"。挑一个你身边最普通的东西（书包、作业本、零花钱），试着给它一个不一样的定义——定义变了之后，你会做出什么不一样的决定？</summary>
+        <p class="hint">没有标准答案。提示：比如把零花钱定义成"种子"而不是"糖果券"，接下来的分类（花掉的/种下的）和比较（哪个长得快）就全变了——决策也会跟着变。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>本周做一次<strong>"四步决策"实验</strong>：挑一个你真实要做的小决策（怎么安排周末、买哪样东西、选哪个活动），在本子上画四格，<strong>按顺序走完流水线</strong>：① 定义——我到底要什么？把标准写成一句毫无歧义的话；② 分类——有哪几类选项？查一下有没有漏掉的"其他"；③ 比较——同一范畴、相同属性地比，需要的话给依据打分；④ 因果——选了它，会带来什么？最后记录：过程中你有几次想<strong>跳过某一步直接选</strong>的冲动。周末把这张四格清单讲给家人听，对比"直接选"和"走完四步"的结果差多少。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="30-trace-the-cause.html">← 先发生的，不一定是原因</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '31-decide-it';
+    const READER_TITLE = '决策，不是第五种本领';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: K04 · 源: 思考的真相 1.4「因果」（思考的基础要素第四个：因果。当一个原因产生一个结果的时候，原因总在前、结果总在后——但我们从小就被教育过，时间上的先后顺序并不保证因果关系；从学术上看，因果关系的探究从来都不容易，因果分析几乎是整个科学的核心；科学方法的实施过程基本上都相当耗时费力伤财，理解上不太困难、操作上相当吃力；各领域为确定因果各自发展出许多方法：常见的观察法/实验法/统计分析之外，药学的双盲验证和回溯研究、法律的谁主张谁举证原则、经济学的回归分析、社会科学的随机对照试验差分法、计算机的蒙特卡罗模拟等；绝大多数普通人无法一一掌握，日常个体研究能力和生产资料有限，常常干脆囫囵吞枣地采用专家获得的研究成果；但生活里的问题太多，总无法避免要自己动手研究，可用四个问题的提问式模板逐一自问自答：①a真的是b的原因吗？不是→分析结束；②a是b的唯一原因吗？是→分析结束；③如果不是唯一原因，还有哪些原因？全部罗列出来；④最重要的原因到底是什么？然后答案就出来了；"这个提问流程，虽然非常简单，却相当够用。日常生活里的绝大多数因果分析，哪怕仅用这四个问题过一遍，就已经超越了绝大多数人的思考或者不思考，简单却实用"）。金句取"因果分析，几乎是整个科学的核心"。珊瑚色。§7.4 第四篇。 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<script src="/fo-gate.js"></script>
+<title>先发生的，不一定是原因 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--coral); --accent-soft: var(--coral-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(22px,5vw,30px); font-weight:700; color:var(--accent); line-height:1.5; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--blue); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+</head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 思考的真相</span>
+    <h1>先发生的，<br>不一定是原因</h1>
+
+    <p class="hook">
+      期末成绩下滑，家里的判决几乎是秒下的："都是因为你<span class="em">天天玩手机</span>。"听起来很顺：先有玩手机，后有成绩下滑，一前一后，铁证如山？可你大概也见过另一种"铁证"——比赛那天正好穿了新球鞋，赢了，于是那双鞋成了"幸运鞋"。两件事一前一后发生，就能说前面那件是原因吗？这一篇讲思考的第四个基础要素：<span class="em">因果</span>。它可能是四个要素里最难的一个——难到几乎撑起了整个科学。好消息是，书里给了一个只有<span class="em">四个问题</span>的模板，普通人拿来就能用。
+    </p>
+
+    <!-- 拆解 1 · 先后 ≠ 因果 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>原因在前，结果在后——但反过来不成立</h3>
+      <p>先把顺序说死：<strong>当一个原因产生一个结果的时候，这个原因总是在前，结果总是在后</strong>。原因不可能迟到。</p>
+      <p>可是，"在前"只是原因的必要条件，不是充分条件——<strong>我们从小就被教育过：时间上的先后顺序，并不保证因果关系</strong>。新球鞋在赢球之前穿上，手机在成绩下滑之前就在玩，这些都只能说明"它发生在前面"，说明不了"它导致了后面"。把"先发生"直接当成"是原因"，正是日常生活里最常见、也最不被察觉的一步跳跃。上一篇你或许还记得：《把时间当作朋友》里也点过"相关不等于因果"这个陷阱——而这一篇，会给你一套自己动手查因果的办法。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="时间线：原因总在前结果总在后，但先发生不保证是原因">
+          <g font-size="13" text-anchor="middle">
+            <path d="M 60 70 L 540 70" fill="none" stroke="var(--ink-mute)" stroke-width="2"/>
+            <path d="M 532 64 L 542 70 L 532 76" fill="none" stroke="var(--ink-mute)" stroke-width="2"/>
+            <text x="558" y="75" fill="var(--ink-mute)" font-size="12">时间</text>
+            <circle cx="180" cy="70" r="34" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="180" y="66" fill="var(--ink)" font-weight="700">在前</text>
+            <text x="180" y="84" fill="var(--ink-soft)" font-size="11.5">穿新球鞋</text>
+            <circle cx="420" cy="70" r="34" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.6"/>
+            <text x="420" y="66" fill="var(--ink)" font-weight="700">在后</text>
+            <text x="420" y="84" fill="var(--ink-soft)" font-size="11.5">赢了比赛</text>
+            <path d="M 222 52 Q 300 18 378 52" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6 4"/>
+            <text x="300" y="30" fill="var(--accent)" font-weight="700" font-size="12.5">是它导致的吗？✗ 未必</text>
+            <text x="300" y="132" fill="var(--ink)" font-size="12.5">原因总在前，结果总在后</text>
+            <text x="300" y="156" fill="var(--accent)" font-weight="700" font-size="12.5">但"先发生"，并不保证"是原因"</text>
+            <text x="300" y="184" fill="var(--ink-mute)" font-size="11.5">"在前"只是入场券，不是判决书</text>
+          </g>
+        </svg>
+        <figcaption>时间先后顺序，并不保证因果关系（《思考的真相》1.4）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 因果是科学的核心 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>查因果有多难？难到撑起了整个科学</h3>
+      <p>从学术上来看，<strong>因果关系的探究从来都并不容易——甚至，因果分析几乎是整个科学的核心</strong>。为了确认"a 到底是不是 b 的原因"，各个领域的科学家们发展出了一整套专门的方法：平日里常见的<strong>观察法、实验法、统计分析</strong>之外，药学里普遍使用<strong>双盲验证</strong>和<strong>回溯研究</strong>，法律领域普遍认同<strong>谁主张谁举证</strong>的原则，经济学有<strong>回归分析</strong>，社会科学有<strong>随机对照试验、差分法</strong>，计算机领域有<strong>蒙特卡罗模拟</strong>……</p>
+      <p>这些方法有个共同点：<strong>理解上都不太困难，但是操作上都相当吃力</strong>——科学方法的实施过程，基本上都相当耗时、费力、伤财。绝大多数普通人不可能一一掌握，日常生活里个体的研究能力和生产资料都有限，于是常常干脆<strong>囫囵吞枣地采用专家获得的研究成果</strong>。这不丢人，这是现实。但生活里的问题实在太多，总有无法避免、要自己动手研究的时候——那怎么办？</p>
+      <figure>
+        <svg viewBox="0 0 600 240" role="img" aria-label="各领域确定因果的方法工具箱：药学双盲验证、法律谁主张谁举证、经济学回归分析、社会科学随机对照试验、计算机蒙特卡罗模拟">
+          <g font-size="12" text-anchor="middle">
+            <text x="300" y="26" fill="var(--ink)" font-weight="700" font-size="13.5">为了查清因果，科学家造了一整箱工具</text>
+            <rect x="40" y="42" width="165" height="52" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="122" y="63" fill="var(--ink)" font-weight="700" font-size="11.5">药学</text>
+            <text x="122" y="82" fill="var(--ink-soft)" font-size="11">双盲验证 · 回溯研究</text>
+            <rect x="217" y="42" width="165" height="52" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="299" y="63" fill="var(--ink)" font-weight="700" font-size="11.5">法律</text>
+            <text x="299" y="82" fill="var(--ink-soft)" font-size="11">谁主张，谁举证</text>
+            <rect x="394" y="42" width="165" height="52" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="476" y="63" fill="var(--ink)" font-weight="700" font-size="11.5">经济学</text>
+            <text x="476" y="82" fill="var(--ink-soft)" font-size="11">回归分析</text>
+            <rect x="40" y="104" width="165" height="52" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="122" y="125" fill="var(--ink)" font-weight="700" font-size="11.5">社会科学</text>
+            <text x="122" y="144" fill="var(--ink-soft)" font-size="11">随机对照试验 · 差分法</text>
+            <rect x="217" y="104" width="165" height="52" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="299" y="125" fill="var(--ink)" font-weight="700" font-size="11.5">计算机</text>
+            <text x="299" y="144" fill="var(--ink-soft)" font-size="11">蒙特卡罗模拟</text>
+            <rect x="394" y="104" width="165" height="52" rx="10" fill="var(--paper)" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <text x="476" y="125" fill="var(--ink)" font-weight="700" font-size="11.5">日常通用</text>
+            <text x="476" y="144" fill="var(--ink-soft)" font-size="11">观察 · 实验 · 统计分析</text>
+            <text x="300" y="190" fill="var(--ink)" font-size="12.5">共同点：理解不难，<tspan fill="var(--accent)" font-weight="700">操作吃力</tspan>——耗时 · 费力 · 伤财</text>
+            <text x="300" y="216" fill="var(--ink-mute)" font-size="11.5">所以普通人常常直接采用专家的研究成果——但总有要自己动手的时候</text>
+          </g>
+        </svg>
+        <figcaption>因果分析几乎是整个科学的核心——每个领域都为它专门造了工具</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 四问模板 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>普通人的工具：四个问题，逐一自问自答</h3>
+      <p>书里给出的办法，是一个<strong>提问式模板</strong>。如果把 a 和 b 放在一起，想探究它们是否是因果关系，就按顺序问四个问题：</p>
+      <p><strong>第一问：a 真的是 b 的原因吗？</strong>如果不是，分析到此结束。<strong>第二问：如果 a 的确是 b 的原因，那么 a 是 b 的唯一原因吗？</strong>如果是，分析也结束了。<strong>第三问：如果 a 不是唯一原因，那么还有哪些原因？</strong>把它们全部罗列出来。<strong>第四问：既然 a 并不是 b 最重要的原因，那么最重要的原因到底是什么？</strong>——然后，答案就出来了。</p>
+      <figure>
+        <svg viewBox="0 0 600 300" role="img" aria-label="因果四问流程图：a是b的原因吗、是唯一原因吗、还有哪些原因、最重要的原因是什么">
+          <g font-size="12" text-anchor="middle">
+            <rect x="150" y="16" width="300" height="40" rx="10" fill="var(--accent)" stroke="none"/>
+            <text x="300" y="41" fill="var(--paper)" font-weight="700" font-size="12.5">① a 真的是 b 的原因吗？</text>
+            <path d="M 452 36 L 512 36" fill="none" stroke="var(--ink-mute)" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <text x="530" y="32" fill="var(--ink-mute)" font-size="11">不是 →</text>
+            <text x="530" y="48" fill="var(--ink-mute)" font-size="11">结束</text>
+            <path d="M 300 58 L 300 80" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <text x="322" y="76" fill="var(--accent)" font-size="11">是 ↓</text>
+            <rect x="150" y="82" width="300" height="40" rx="10" fill="var(--accent)" stroke="none"/>
+            <text x="300" y="107" fill="var(--paper)" font-weight="700" font-size="12.5">② a 是 b 的唯一原因吗？</text>
+            <path d="M 452 102 L 512 102" fill="none" stroke="var(--ink-mute)" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <text x="530" y="98" fill="var(--ink-mute)" font-size="11">是 →</text>
+            <text x="530" y="114" fill="var(--ink-mute)" font-size="11">结束</text>
+            <path d="M 300 124 L 300 146" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <text x="330" y="142" fill="var(--accent)" font-size="11">不是 ↓</text>
+            <rect x="150" y="148" width="300" height="40" rx="10" fill="var(--accent)" stroke="none"/>
+            <text x="300" y="173" fill="var(--paper)" font-weight="700" font-size="12.5">③ 还有哪些原因？全部罗列出来</text>
+            <path d="M 300 190 L 300 212" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <rect x="150" y="214" width="300" height="40" rx="10" fill="var(--accent)" stroke="none"/>
+            <text x="300" y="239" fill="var(--paper)" font-weight="700" font-size="12.5">④ 最重要的原因，到底是什么？</text>
+            <path d="M 300 256 L 300 274" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <text x="300" y="292" fill="var(--ink)" font-weight="700" font-size="12.5">答案就出来了</text>
+          </g>
+        </svg>
+        <figcaption>因果四问：两道"出口"提前收工，两道"追问"挖到真正重要的原因（《思考的真相》1.4）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 · 简单却够用 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>简单，却已经超越绝大多数人</h3>
+      <p>把开头那句"都是因为你天天玩手机"放进模板试试。第一问：手机真的是成绩下滑的原因吗？可能是。第二问：它是唯一原因吗？多半不是。第三问：还有哪些？睡眠不足、这学期内容变难、复习方法没跟上、考前状态……全列出来。第四问：<strong>最重要的原因到底是什么？</strong>——答案很可能不是"没收手机"三个字能解决的。你看，同一件事，凭感觉下结论和用四问过一遍，得到的是两个世界。</p>
+      <p>书里对这个模板的评价很克制，也很提气：<strong>这个提问流程，虽然非常简单，却相当够用。日常生活里的绝大多数因果分析，哪怕仅用这四个问题过一遍，就已经超越了绝大多数人的思考或者不思考</strong>——简单，却实用。你不需要蒙特卡罗模拟，你只需要在下结论之前，多问四个问题。</p>
+      <figure>
+        <svg viewBox="0 0 600 200" role="img" aria-label="凭感觉下结论与四问过一遍的对比">
+          <g font-size="12.5" text-anchor="middle">
+            <rect x="40" y="30" width="245" height="120" rx="12" fill="var(--cream)" stroke="var(--ink-mute)" stroke-width="1.5" stroke-dasharray="5 3"/>
+            <text x="162" y="58" fill="var(--ink)" font-weight="700">凭感觉</text>
+            <text x="162" y="84" fill="var(--ink-soft)" font-size="12">"先发生的就是原因"</text>
+            <text x="162" y="110" fill="var(--ink-mute)" font-size="12">一步跳到结论</text>
+            <text x="162" y="134" fill="var(--ink-mute)" font-size="12">＝ 思考，或者不思考</text>
+            <rect x="315" y="30" width="245" height="120" rx="12" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="437" y="58" fill="var(--ink)" font-weight="700">四问过一遍</text>
+            <text x="437" y="84" fill="var(--ink-soft)" font-size="12">是原因吗 → 唯一吗</text>
+            <text x="437" y="110" fill="var(--ink-soft)" font-size="12">还有哪些 → 哪个最重要</text>
+            <text x="437" y="134" fill="var(--accent)" font-size="12" font-weight="700">已超越绝大多数人 ✓</text>
+            <text x="300" y="182" fill="var(--ink-mute)" font-size="12">不需要实验室——只需要在下结论之前，多问四个问题</text>
+          </g>
+        </svg>
+        <figcaption>简单却实用：仅用四个问题过一遍，就已经超越了绝大多数人的思考或者不思考</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"因果分析，<br>几乎是整个科学的核心。"</p>
+      <span class="src">—— 《思考的真相》1.4「因果」。原因在前、结果在后，但先后不保证因果；普通人的够用工具＝四问：是原因吗 · 唯一吗 · 还有哪些 · 哪个最重要。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>回想一个你自己深信过的"因果"——幸运物、"一喝凉水就生病"、"某某老师教得不好所以我这科不行"……用四问过一遍，它能走到第几问？</summary>
+        <p class="hint">没有标准答案，写在你自己的本子上。提示：很多"深信"在第一问就停了——它只是先发生，或者只是恰好一起出现。能走到第三问的，才值得认真列清单。</p>
+      </details>
+      <details>
+        <summary>大人们也常用"一句话因果"下结论（"成绩下滑就是因为手机"）。如果让你用第三问和第四问帮这句话补全，你会往清单里加哪些原因？哪个最重要？</summary>
+        <p class="hint">没有标准答案。提示：第三问的清单越诚实，第四问的答案越有用——找到最重要的原因，才知道该改的到底是什么。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>本周做一次<strong>"因果四问"侦探实验</strong>：收集 3 句你身边出现的"一句话因果"（自己说的、家人说的、同学说的都行，比如"因为 __ 所以 __"）。每句都在本子上过一遍四问：<strong>① 真的是原因吗？② 是唯一原因吗？③ 还有哪些原因？全部列出来；④ 最重要的原因是什么？</strong>记下每句话"走到了第几问"、清单里被你新挖出来的原因有几个。周末挑改判最大的一句，把你的四问清单讲给家人听。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="29-compare-it.html">← 选不出来，是因为还没比完</a>
+      <a href="31-decide-it.html" id="next-piece">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '30-trace-the-cause';
+    const READER_TITLE = '先发生的，不一定是原因';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
