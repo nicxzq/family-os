@@ -1,0 +1,271 @@
+<!doctype html>
+<!-- CONTENT_MAP 篇号: K06 · 源: 思考的真相 2.1「关系」+ 2.2「维度」（2.1：事物由定义描述清楚，而分类、比较、因果分析这三个动作的完成，会确定事物与事物之间的关系；分类之后→从属关系（苹果属于水果）与同属关系（苹果和香蕉同属水果），同属一个集合概念的两个集合概念可能相交/不相交，相交的可进行与或非计算——与=同时满足（既喜欢苹果又喜欢香蕉）、或=满足其一、非=排除（不喜欢苹果）；比较之后→大于和约等于两种（小于只是大于的镜像，等于无需比较，不等于必属大于或约等于之一），约等于对应"类比"这一思考模式、第三部分重提；语文课里比较后最常见的逻辑关系=并列、递进与转折；因果分析之后→因果、相关、无关三种：冰淇淋销量与溺水人数强相关但非因果，共同原因=天气热（天热→销量↑；天热→游泳人多→基数变大→溺水人数↑），误把相关当因果、真正原因就成漏网之鱼；很弱的相关≈无关（受教育程度与生活满意度）；完全无关却被硬连因果=早上烧香拜佛和下午股市赚钱。2.2：研究因果仅靠感觉绝对不够、从来耗时费力伤财，科学启蒙阶段只有教堂神父和富二代有足够生产资料参与研究；长期只关注一对一因果→发展成以为只有一对一因果→"有因必有果，有果必有因"，各种宗教据此在世界各地不约而同崛起盛行；实际一因多果（天热→冰淇淋销量↑、溺水人数↑、社会耗电量↑）、一果多因（溺水人数增加←游泳人多/海啸爆发/前一年安全教育培训减少/政府有关支出削减）→我们并非生活在一维因果世界，而是二维因果网络世界；更复杂的互为因果上世纪下半叶才被系统化研究：科技发展↔经济发展；"性格决定命运"是一维理解，实际性格与命运互为因果——性格由过往经历塑造、命运=经历的总和、性格影响决策进而随时把现在变成过往形成更多经历；互为因果里 a 导致 b、下一瞬间 b 又导致 a、先后顺序不断对调——瞬间可忽略，无数瞬间构成的永恒无法忽略→时间成了房间里的大象；世界=由时间穿起来的、无数个因果网络构成的三维因果系统世界；若用十代表每个维度增加的复杂度变化，一维眼光只能看到真实世界的1‰，而实际每维复杂度可用10的N次方替代，即人们长期以来的认知只是10的N次方分之一的三次方；时间的三段演变=干扰因素→必要且不可忽略→不可或缺的维度）。金句取"我们所存在的世界，并不是一维因果世界，也不是二维因果网络世界，而是由时间穿起来的、无数个因果网络构成的三维因果系统世界"。绿色系。§7.4 第六篇。 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,noai,noimageai">
+<script src="/fo-gate.js"></script>
+<title>世界不是一根因果链 · 成长读本</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  :root { --accent: var(--green); --accent-soft: var(--green-soft); }
+  * { box-sizing: border-box; }
+  body { background:var(--cream); color:var(--ink); font-family:"LXGW WenKai TC","LXGW WenKai",serif; margin:0; line-height:1.8; }
+  .progress-bar { position:fixed; top:0; left:0; height:4px; width:0; background:var(--accent); z-index:50; transition:width .12s ease-out; }
+  .topbar { position:sticky; top:0; z-index:20; display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:rgba(248,242,226,0.92); backdrop-filter:blur(8px); }
+  .topbar .back { text-decoration:none; color:var(--ink-soft); font-size:var(--font-size-body-sm); background:var(--paper); padding:7px 14px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .nav-member-btn { display:inline-flex; align-items:center; gap:8px; background:var(--paper); border:0; border-radius:var(--radius-full); padding:6px 14px 6px 6px; font-family:inherit; font-size:var(--font-size-ui); cursor:pointer; color:var(--ink-soft); box-shadow:var(--shadow-soft); }
+
+  .wrap { max-width:680px; margin:0 auto; padding:8px 20px 90px; }
+  .kicker { display:inline-block; font-size:var(--font-size-note); color:var(--accent); background:var(--accent-soft); padding:4px 12px; border-radius:var(--radius-full); margin-top:16px; }
+  h1 { font-size:clamp(28px,6vw,40px); line-height:1.3; margin:14px 0 8px; }
+  .hook { font-size:var(--font-size-title); line-height:1.75; color:var(--ink); margin:18px 0 6px; }
+  .hook .em { color:var(--accent); font-weight:700; }
+
+  .card { background:var(--paper); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); padding:24px 24px 22px; margin:22px 0; }
+  .card h3 { font-size:var(--font-size-title); margin:0 0 12px; }
+  .card p { margin:0 0 12px; font-size:var(--font-size-body-lg); }
+  .card p:last-child { margin-bottom:0; }
+  .step-no { display:inline-block; width:30px; height:30px; line-height:30px; text-align:center; border-radius:var(--radius-circle); background:var(--accent); color:var(--paper); font-weight:700; font-size:var(--font-size-body-sm); margin-right:8px; }
+
+  figure { margin:14px 0 4px; }
+  figure svg { width:100%; height:auto; display:block; }
+  figcaption { font-size:var(--font-size-note); color:var(--ink-mute); text-align:center; margin-top:8px; }
+
+  .quote { text-align:center; padding:30px 24px; }
+  .quote p { font-size:clamp(20px,4.6vw,28px); font-weight:700; color:var(--accent); line-height:1.55; margin:0; }
+  .quote .src { display:block; font-size:var(--font-size-note); color:var(--ink-mute); font-weight:400; margin-top:14px; }
+
+  .reflect summary { cursor:pointer; font-size:var(--font-size-body-lg); list-style:none; padding:10px 0; border-bottom:1px dashed var(--cream-deep); }
+  .reflect summary::-webkit-details-marker { display:none; }
+  .reflect summary::before { content:"›"; display:inline-block; color:var(--accent); font-weight:700; margin-right:10px; transition:transform .2s; }
+  .reflect details[open] summary::before { transform:rotate(90deg); }
+  .reflect .hint { font-size:var(--font-size-note); color:var(--ink-soft); padding:8px 0 4px 20px; }
+
+  .action { border:2px solid var(--accent); background:var(--accent-soft); }
+  .action h3 { color:var(--ink); }
+  .action .try { margin-top:14px; background:var(--accent); color:var(--paper); border:0; border-radius:var(--radius-full); padding:11px 24px; font-family:inherit; font-size:var(--font-size-body-sm); cursor:pointer; box-shadow:var(--shadow-button); }
+  .action .try.done { background:var(--blue); pointer-events:none; }
+
+  .pager { display:flex; justify-content:space-between; margin-top:26px; font-size:var(--font-size-body-sm); }
+  .pager a { text-decoration:none; color:var(--ink-soft); background:var(--paper); padding:10px 18px; border-radius:var(--radius-full); box-shadow:var(--shadow-soft); }
+  .pager a.disabled { opacity:.4; pointer-events:none; }
+</style>
+</head>
+<body>
+  <div class="progress-bar" id="bar"></div>
+
+  <nav class="topbar">
+    <a class="back" href="index.html">← 读本目录</a>
+    <button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button>
+  </nav>
+
+  <main class="wrap">
+    <span class="kicker">成长读本 · 思考的真相</span>
+    <h1>世界不是<br>一根因果链</h1>
+
+    <p class="hook">
+      有一组真实的统计：<span class="em">冰淇淋销量一增加，溺水的人数就增加</span>；销量一减少，溺水人数也跟着减少。所以——冰淇淋会害人溺水？你大概立刻觉得不对劲。可为什么不对劲？前五篇你攒齐了定义、分类、比较、因果四样工具，这一篇往上走一层：这四样工具"做"出来的，其实是<span class="em">事物与事物之间的关系</span>。而关系里最容易踩坑的一种，恰恰就是因果——它远比"一个原因、一个结果"要立体得多。
+    </p>
+
+    <!-- 拆解 1 · 关系是"做"出来的 -->
+    <section class="card">
+      <h3><span class="step-no">1</span>关系不是看出来的，是"做"出来的</h3>
+      <p>书里先给了一张地图：事物，是由<strong>定义</strong>描述清楚的；而<strong>分类、比较、因果分析</strong>这三个动作的完成，会确定<strong>事物与事物之间的关系</strong>。也就是说，每做一个动作，就"产出"几种关系。</p>
+      <p><strong>分类之后</strong>，能确定<strong>从属</strong>与<strong>同属</strong>：苹果属于水果，是从属；香蕉也属于水果，还是从属；但苹果和香蕉之间是同属——它们都属于水果。同属的两个集合概念可能相交、可能不相交，相交的还能做<strong>与、或、非</strong>的计算：找"既喜欢苹果<strong>又</strong>喜欢香蕉的人"是与，要同时满足；找"喜欢苹果<strong>或</strong>香蕉的人"是或，满足其一即可；找"<strong>不</strong>喜欢苹果的人"是非，排除某个条件。</p>
+      <p><strong>比较之后</strong>，能确定的关系只有两种：<strong>大于</strong>和<strong>约等于</strong>。小于只是大于的镜像（a 小于 b＝b 大于 a）；等于既然相等就无需比较；不等于则必属大于或约等于之一。而"约等于"对应着一种非常重要的思考模式——<strong>类比</strong>，书的第三部分会专门讲它。顺带一提，语文课上众多要素摆在一起时，基于比较产生的最常见逻辑关系是<strong>并列、递进与转折</strong>。</p>
+      <figure>
+        <svg viewBox="0 0 600 232" role="img" aria-label="关系地图：分类产出从属同属与或非，比较产出大于约等于，因果分析产出因果相关无关">
+          <g font-size="12" text-anchor="middle">
+            <rect x="210" y="12" width="180" height="36" rx="18" fill="var(--accent)"/>
+            <text x="300" y="35" fill="var(--paper)" font-weight="700" font-size="13">事物之间的关系</text>
+            <path d="M 300 48 L 300 62 M 300 62 L 110 76 M 300 62 L 300 76 M 300 62 L 490 76" fill="none" stroke="var(--ink-mute)" stroke-width="1.5"/>
+            <rect x="24" y="78" width="172" height="34" rx="9" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="110" y="100" fill="var(--ink)" font-weight="700">分类之后</text>
+            <rect x="214" y="78" width="172" height="34" rx="9" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="300" y="100" fill="var(--ink)" font-weight="700">比较之后</text>
+            <rect x="404" y="78" width="172" height="34" rx="9" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <text x="490" y="100" fill="var(--ink)" font-weight="700">因果分析之后</text>
+            <rect x="24" y="122" width="172" height="72" rx="9" fill="var(--cream)"/>
+            <text x="110" y="144" fill="var(--ink-soft)" font-size="11.5">从属：苹果 → 水果</text>
+            <text x="110" y="162" fill="var(--ink-soft)" font-size="11.5">同属：苹果 ↔ 香蕉</text>
+            <text x="110" y="180" fill="var(--ink-soft)" font-size="11.5">相交可算：与 · 或 · 非</text>
+            <rect x="214" y="122" width="172" height="72" rx="9" fill="var(--cream)"/>
+            <text x="300" y="144" fill="var(--ink-soft)" font-size="11.5">大于（小于是它的镜像）</text>
+            <text x="300" y="162" fill="var(--ink-soft)" font-size="11.5">约等于 → 对应"类比"</text>
+            <text x="300" y="180" fill="var(--ink-mute)" font-size="10.5">语文课：并列 · 递进 · 转折</text>
+            <rect x="404" y="122" width="172" height="72" rx="9" fill="var(--cream)"/>
+            <text x="490" y="144" fill="var(--ink-soft)" font-size="11.5">因果</text>
+            <text x="490" y="162" fill="var(--ink-soft)" font-size="11.5">相关</text>
+            <text x="490" y="180" fill="var(--ink-soft)" font-size="11.5">无关</text>
+            <text x="300" y="222" fill="var(--ink)" font-size="12.5">每做一个思考动作，就<tspan fill="var(--accent)" font-weight="700">产出几种关系</tspan></text>
+          </g>
+        </svg>
+        <figcaption>定义描述事物；分类、比较、因果分析确定事物之间的关系（《思考的真相》2.1）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 2 · 相关不是因果 -->
+    <section class="card">
+      <h3><span class="step-no">2</span>一起涨落，不等于谁害了谁</h3>
+      <p>回到开头的冰淇淋。冰淇淋销量和溺水人数之间存在<strong>很强的相关关系</strong>：一个涨另一个也涨，一个跌另一个也跌。可你能说冰淇淋销量增加<strong>导致</strong>了溺水人数增加吗？不能。真相是：<strong>天气热了</strong>，冰淇淋销量就增加；与此同时，天气热了，去游泳的人就多了——<strong>就算溺水的比例不变，基数变大了，溺水人数也会增加</strong>。反过来天气凉了，两个数字一起回落。两件事其实都是"天气变热"这<strong>同一个原因</strong>造成的结果，它们之间根本不存在因果关系。</p>
+      <p>这个坑的代价很具体：如果把相关误解为因果，<strong>真正的原因就可能被忽略掉，成了漏网之鱼</strong>。再往下还有两层——<strong>很弱的相关，约等于无关</strong>：比如受教育程度高低和生活满意度之间，既没有真正的因果，也看不出明显的间接因果，准确讲干脆就是无关；更常见的是，人们把<strong>完全无关</strong>的两件事用因果硬连起来：比如早上烧了香、拜了佛，和下午股市上赚到了一点点钱。</p>
+      <figure>
+        <svg viewBox="0 0 600 226" role="img" aria-label="共同原因示意：天气热同时导致冰淇淋销量上升与游泳人数增加进而溺水人数增加，冰淇淋与溺水只是相关不是因果">
+          <g font-size="12" text-anchor="middle">
+            <rect x="230" y="12" width="140" height="38" rx="19" fill="var(--accent)"/>
+            <text x="300" y="36" fill="var(--paper)" font-weight="700" font-size="13">天气热了 ☀</text>
+            <path d="M 258 50 L 152 84" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <path d="M 158 77 L 150 86 L 162 88" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <path d="M 342 50 L 448 84" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <path d="M 438 88 L 450 86 L 442 77" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <rect x="52" y="88" width="188" height="40" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="146" y="113" fill="var(--ink)" font-weight="700" font-size="12">冰淇淋销量 ↑</text>
+            <rect x="360" y="88" width="188" height="40" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="454" y="106" fill="var(--ink)" font-weight="700" font-size="12">去游泳的人 ↑</text>
+            <text x="454" y="122" fill="var(--ink-soft)" font-size="10.5">比例不变，基数变大</text>
+            <path d="M 454 128 L 454 148" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <path d="M 449 142 L 454 150 L 459 142" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <rect x="372" y="152" width="164" height="36" rx="10" fill="var(--cream)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="454" y="175" fill="var(--ink)" font-weight="700" font-size="12">溺水人数 ↑</text>
+            <path d="M 146 132 Q 250 200 368 172" fill="none" stroke="var(--ink-mute)" stroke-width="1.6" stroke-dasharray="6 5"/>
+            <text x="220" y="164" fill="var(--ink-mute)" font-size="11.5">强相关 ≠ 因果</text>
+            <text x="300" y="214 " fill="var(--ink)" font-size="12.5">把相关当因果，真正的原因就成了<tspan fill="var(--accent)" font-weight="700">漏网之鱼</tspan></text>
+          </g>
+        </svg>
+        <figcaption>冰淇淋和溺水一起涨落，只因背后有同一个原因：天气热（《思考的真相》2.1）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 3 · 一根链还是一张网 -->
+    <section class="card">
+      <h3><span class="step-no">3</span>人类盯着"一因一果"，盯了几千年</h3>
+      <p>为什么这个坑这么多人踩？书里给了一个历史解释：研究因果关系事实上很难，仅靠感觉绝对不够用，从来都是<strong>耗时、费力、伤财</strong>的——在现代科学的启蒙阶段，大体上只有教堂里的神父和社会上的富二代，才有足够的生产资料去参与研究。于是在相当长的时间里，人们关注的只有<strong>一对一的因果关系</strong>：一个原因造成一个结果；看到一个结果，就去找"那一个"原因。</p>
+      <p>只关注一对一，最终发展成<strong>以为只有一对一</strong>——很多人不知不觉地相信"有因必有果，有果必有因"。而真实世界复杂得多：<strong>一个原因造成很多个结果</strong>——天热了，冰淇淋销量上升、溺水人数增加、社会耗电量也增加；<strong>一个结果对应很多个原因</strong>——溺水人数增加，可能是游泳的人多了，也可能那年有海啸，或者前一年安全教育培训减少了、相关支出被削减了。所以我们并非生活在一对一因果构成的<strong>一维因果世界</strong>里，而是生活在不知道比想象复杂多少倍的<strong>二维因果网络世界</strong>。</p>
+      <figure>
+        <svg viewBox="0 0 600 210" role="img" aria-label="一维因果链与二维因果网络对比：左侧单一原因指向单一结果，右侧多因多果交织成网">
+          <g font-size="12" text-anchor="middle">
+            <text x="150" y="30" fill="var(--ink)" font-weight="700" font-size="13">以为的世界：一根链</text>
+            <rect x="60" y="86" width="80" height="34" rx="9" fill="var(--cream)" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <text x="100" y="108" fill="var(--ink-soft)">原因</text>
+            <path d="M 140 103 L 196 103" fill="none" stroke="var(--ink-mute)" stroke-width="2"/>
+            <path d="M 190 98 L 198 103 L 190 108" fill="none" stroke="var(--ink-mute)" stroke-width="2"/>
+            <rect x="200" y="86" width="80" height="34" rx="9" fill="var(--cream)" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <text x="240" y="108" fill="var(--ink-soft)">结果</text>
+            <text x="150" y="166" fill="var(--ink-mute)" font-size="11.5">"有因必有果，有果必有因"</text>
+            <path d="M 310 40 L 310 190" fill="none" stroke="var(--cream-deep)" stroke-width="2"/>
+            <text x="452" y="30" fill="var(--accent)" font-weight="700" font-size="13">真实的世界：一张网</text>
+            <circle cx="380" cy="76" r="17" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <circle cx="470" cy="58" r="17" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <circle cx="552" cy="86" r="17" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <circle cx="398" cy="150" r="17" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <circle cx="490" cy="164" r="17" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <circle cx="560" cy="146" r="17" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+            <path d="M 393 87 L 439 63 M 470 75 L 470 75 M 483 68 L 541 80 M 393 87 L 452 60 M 385 93 L 395 133 M 393 84 L 476 152 M 470 75 L 487 147 M 546 102 L 500 152 M 552 103 L 558 129 M 412 145 L 473 160" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="452" y="196" fill="var(--ink)" font-size="12">一因<tspan fill="var(--accent)" font-weight="700">多</tspan>果 · 一果<tspan fill="var(--accent)" font-weight="700">多</tspan>因</text>
+          </g>
+        </svg>
+        <figcaption>一维因果链只是想象；真实世界是二维因果网络（《思考的真相》2.2）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 拆解 4 · 互为因果与时间 -->
+    <section class="card">
+      <h3><span class="step-no">4</span>互为因果，把时间请回了房间</h3>
+      <p>网还不是终点。有一类关系，科学家直到<strong>上个世纪下半叶</strong>才有能力系统研究：<strong>互为因果</strong>。科技发展促进经济发展，反过来经济发展也促进科技发展。人们常说"性格决定命运"——这是典型的一维理解；实际上性格和命运互为因果：<strong>性格由过往的经历塑造，而命运就是经历的总和</strong>；同时性格又影响着决策，随时把"现在"变成"过往"，形成更多的经历。</p>
+      <p>互为因果的有趣之处在于：<strong>时间再也没办法被忽视了</strong>。一维思考里，时间只是个"可能形成干扰的因素"（先发生不保证是原因，上一篇讲过）。可在互为因果里，先是 a 导致 b，下一个瞬间 b 又导致 a，先后顺序<strong>不断对调</strong>——一个瞬间可以忽略，可无数个瞬间构成的是永恒，永恒如何忽略？时间就这样成了人们突然看见的<strong>房间里的大象</strong>。于是人类恍然大悟：我们所在的，是由时间穿起来的、无数个因果网络构成的<strong>三维因果系统世界</strong>。如果用"十"代表每个维度增加带来的复杂度变化，用一维眼光看三维世界，<strong>大约只能看到真实世界的千分之一</strong>——而实际的复杂度变化远不止十倍。时间在人类认知里走过了三步：干扰因素 → 必要且不可忽略 → 不可或缺的维度。</p>
+      <figure>
+        <svg viewBox="0 0 600 236" role="img" aria-label="维度阶梯：一维因果链、二维因果网络、由时间串起的三维因果系统，以及时间地位的三步演变">
+          <g font-size="12" text-anchor="middle">
+            <rect x="24" y="24" width="168" height="120" rx="12" fill="var(--cream)" stroke="var(--ink-mute)" stroke-width="1.4"/>
+            <text x="108" y="50" fill="var(--ink)" font-weight="700">一维 · 链</text>
+            <circle cx="66" cy="90" r="9" fill="var(--ink-mute)"/>
+            <path d="M 75 90 L 130 90" fill="none" stroke="var(--ink-mute)" stroke-width="2"/>
+            <path d="M 124 85 L 132 90 L 124 95" fill="none" stroke="var(--ink-mute)" stroke-width="2"/>
+            <circle cx="142" cy="90" r="9" fill="var(--ink-mute)"/>
+            <text x="108" y="128" fill="var(--ink-mute)" font-size="10.5">时间＝干扰因素</text>
+            <rect x="216" y="24" width="168" height="120" rx="12" fill="var(--cream)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="300" y="50" fill="var(--ink)" font-weight="700">二维 · 网</text>
+            <circle cx="262" cy="80" r="8" fill="var(--accent)"/><circle cx="330" cy="72" r="8" fill="var(--accent)"/>
+            <circle cx="252" cy="114" r="8" fill="var(--accent)"/><circle cx="308" cy="112" r="8" fill="var(--accent)"/><circle cx="352" cy="104" r="8" fill="var(--accent)"/>
+            <path d="M 270 82 L 322 74 M 268 86 L 302 108 M 330 80 L 312 105 M 260 111 L 300 112 M 316 110 L 344 106 M 336 78 L 348 97" fill="none" stroke="var(--accent)" stroke-width="1.4"/>
+            <text x="300" y="128" fill="var(--ink-mute)" font-size="10.5">时间＝必要且不可忽略</text>
+            <rect x="408" y="24" width="168" height="120" rx="12" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+            <text x="492" y="50" fill="var(--ink)" font-weight="700">三维 · 时间串起的网</text>
+            <path d="M 428 116 L 564 68" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <path d="M 557 66 L 566 67 L 561 75" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <ellipse cx="452" cy="106" rx="20" ry="12" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+            <ellipse cx="492" cy="92" rx="20" ry="12" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+            <ellipse cx="532" cy="78" rx="20" ry="12" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="492" y="134" fill="var(--ink-soft)" font-size="10.5">时间＝不可或缺的维度</text>
+            <text x="300" y="176" fill="var(--ink)" font-size="12.5">互为因果：a→b，下一瞬间 b→a，<tspan fill="var(--accent)" font-weight="700">不断对调</tspan></text>
+            <text x="300" y="204" fill="var(--ink)" font-size="12.5">用一维眼光看三维世界，只能看到 <tspan fill="var(--accent)" font-weight="700">约 1‰</tspan></text>
+          </g>
+        </svg>
+        <figcaption>从链到网，再到时间串起的系统——时间从干扰因素变成不可或缺的维度（《思考的真相》2.2）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 金句 -->
+    <section class="card quote">
+      <p>"我们所存在的世界，并不是一维因果世界，<br>也不是二维因果网络世界，而是由时间穿起来的、<br>无数个因果网络构成的三维因果系统世界。"</p>
+      <span class="src">—— 《思考的真相》2.2「维度」。分类、比较、因果分析确定事物之间的关系；而因果这种关系，是一张被时间穿起来的网。</span>
+    </section>
+
+    <!-- 想一想 -->
+    <section class="card reflect">
+      <h3>💬 想一想</h3>
+      <details>
+        <summary>找一对你身边"一起涨落"的事：比如天冷了，感冒的人多了，热奶茶卖得也多了——热奶茶和感冒是什么关系？试着找出它们背后的"天气热"式共同原因。</summary>
+        <p class="hint">没有标准答案，写在你自己的本子上。提示：先别问"谁导致谁"，先问"有没有第三个东西，同时推着它们俩动"——找到共同原因，相关和因果就分开了。</p>
+      </details>
+      <details>
+        <summary>书里说性格和命运互为因果。在你自己身上找一对互为因果：比如"越擅长打球就越爱打，越爱打练得越多，就更擅长"。找到之后想想——如果想让这个循环转得更好，从哪一头动手最容易？</summary>
+        <p class="hint">没有标准答案。提示：互为因果是个循环，没有"唯一的起点"；但循环里总有一头是你今天就能推一把的——推那一头，下一个瞬间它会替你推另一头。</p>
+      </details>
+    </section>
+
+    <!-- 行动卡 -->
+    <section class="card action">
+      <h3>🎯 行动卡 · 本周</h3>
+      <p>本周画一张<strong>"因果网"</strong>：挑一个你真实关心的结果（比如"这周总是睡得晚""这次数学进步了"），在本子中央写下它，然后分四步织网：① 往左列出<strong>至少 3 个原因</strong>（别停在第一个）；② 挑其中一个原因，往右列出它造成的<strong>至少 3 个结果</strong>——验证"一因多果"；③ 在网里找出<strong>一对互为因果</strong>，用双向箭头 ⇄ 标出来；④ 周末把这张网讲给家人听，请他们再帮你<strong>补上几条你没画的线</strong>。最后数一数：这张网有几个节点、几条线——和你最初以为的"一根链"差多少。</p>
+      <button class="try" id="tryBtn">我要试试 →</button>
+    </section>
+
+    <nav class="pager">
+      <a href="31-decide-it.html">← 决策，不是第五种本领</a>
+      <a href="#" class="disabled" id="next-piece" title="更多篇章陆续上线">下一篇 →</a>
+    </nav>
+  </main>
+
+  <script src="../fo-utils.js"></script>
+  <script>
+    const READER_ID = '32-cause-web';
+    const READER_TITLE = '世界不是一根因果链';
+
+    const bar = document.getElementById('bar');
+    function updateBar(){ const h=document.documentElement; const max=(h.scrollHeight-h.clientHeight)||1; bar.style.width=Math.min(100,(h.scrollTop/max)*100)+'%'; }
+    addEventListener('scroll', updateBar, { passive:true }); updateBar();
+
+    const m = window.FO ? FO.getMember() : null;
+    const el = document.getElementById('nav-member-btn');
+    if (m) { el.innerHTML = FO.avatarSVG(m.avatar, m.color, 32) + '<span>' + m.name + '</span>'; el.onclick=function(){location.href='../dashboard.html';}; }
+    else { el.innerHTML = '<span>登录</span>'; el.onclick=function(){location.href='../login.html';}; }
+
+    const tryBtn = document.getElementById('tryBtn');
+    tryBtn.addEventListener('click', function(){ tryBtn.textContent='已加入本周 ✓'; tryBtn.classList.add('done'); if(window.FO) FO.logProgress(READER_ID,1,1); });
+
+    document.addEventListener('DOMContentLoaded', function(){ if (window.FO) FO.logHistory(READER_ID, READER_TITLE); });
+    const act = document.querySelector('.action');
+    if (act && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && window.FO){ FO.logProgress(READER_ID,1,1); io.disconnect(); } }); }, { threshold:0.6 });
+      io.observe(act);
+    }
+  </script>
+</body>
+</html>
