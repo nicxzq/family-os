@@ -208,6 +208,15 @@ Page({
     wx.navigateTo({ url: '/pages/policy/policy?type=disclaimer' });
   },
 
+  copyEmail() {
+    wx.setClipboardData({
+      data: 'ocular.sunsets0a@icloud.com',
+      success() {
+        wx.showToast({ title: '邮箱已复制', icon: 'success' });
+      }
+    });
+  },
+
   onShareAppMessage() {
     return buildShare('好的家庭教育', '/pages/home/home');
   },

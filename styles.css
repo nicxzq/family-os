@@ -717,6 +717,17 @@ footer p {
   margin-bottom: 8px;
 }
 
+.footer-feedback a {
+  color: var(--ink-mute);
+  font-size: var(--font-size-note);
+  text-decoration: underline;
+  text-underline-offset: var(--space-sm);
+}
+
+.footer-feedback a:hover {
+  color: var(--ink-soft);
+}
+
 /* ===== 响应式 ===== */
 
 @media (max-width: 760px) {

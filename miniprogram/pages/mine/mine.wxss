@@ -7,8 +7,10 @@
 .avatar-btn {
   width: 128rpx;
   height: 128rpx;
+  min-width: 0;
   padding: 0;
-  border-radius: var(--radius-full);
+  line-height: 1;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--cream);
   flex-shrink: 0;
@@ -24,11 +26,13 @@
 .avatar-img {
   width: 100%;
   height: 100%;
+  border-radius: var(--radius-lg);
 }
 
 .avatar-placeholder {
   font-size: var(--font-xxl);
   line-height: 1;
+  border-radius: var(--radius-lg);
 }
 
 .profile-body {
@@ -187,4 +191,24 @@
 
 .io-btn::after {
   border: none;
+}
+
+.feedback-btn {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--coral);
+  color: var(--paper);
+  border: none;
+  border-radius: var(--radius);
+  font-size: var(--font-sm);
+}
+
+.feedback-btn::after {
+  border: none;
+}
+
+.feedback-btn-ghost {
+  background: var(--cream);
+  color: var(--ink-soft);
 }

@@ -95,4 +95,16 @@
     <view class="about-line">先从我开始 · 然后是我们 · 最后是这个家</view>
   </view>
 
+  <!-- 意见反馈 -->
+  <view class="card">
+    <view class="row row--bare">
+      <view class="row-label">意见反馈</view>
+    </view>
+    <view class="io-desc">有想法、发现问题，都欢迎告诉我们</view>
+    <view class="io-btns">
+      <button class="feedback-btn" open-type="feedback">写反馈</button>
+      <button class="feedback-btn feedback-btn-ghost" bindtap="copyEmail">复制邮箱</button>
+    </view>
+  </view>
+
 </view>
