@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>食物链平衡 · 游戏</title>
+<meta name="description" content="加一种、减一种，看整条食物链怎么连锁反应。">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  .nav-member-btn{display:inline-flex;align-items:center;gap:var(--space-md);background:var(--paper);border:0;border-radius:var(--radius-full);padding:var(--space-sm) var(--space-2xl) var(--space-sm) var(--space-sm);font-family:inherit;font-size:var(--font-size-ui);cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
+  .nav-member-btn svg{border-radius:var(--radius-circle)}
+  .game-nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:var(--space-2xl);background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:var(--space-lg) var(--space-2xl);margin-bottom:var(--space-2xl)}
+  .back-link{text-decoration:none;color:var(--ink-mute);font-size:var(--font-size-body-sm)}
+  .page{max-width:var(--size-content-narrow);margin:0 auto;padding:0 var(--space-5xl) var(--size-chart)}
+  .game-hero{text-align:center;margin-bottom:var(--space-3xl)}
+  .game-hero .emoji{font-size:var(--font-size-emoji);display:block;margin-bottom:var(--space-md)}
+  .game-hero h1{font-size:clamp(var(--font-size-hero-sm),var(--font-size-hero-fluid),var(--font-size-hero));margin-bottom:var(--space-md)}
+  .game-hero .sub{color:var(--ink-soft);font-size:var(--font-size-body);line-height:1.6}
+
+  .fc-board{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--space-2xl);align-items:start}
+  .fc-panel{background:var(--paper);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:var(--space-4xl) var(--space-5xl)}
+  .fc-panel h2{font-size:var(--font-size-body-lg);margin-bottom:var(--space-md)}
+  .fc-task{font-size:var(--font-size-ui);color:var(--ink-mute);line-height:1.7;margin-bottom:var(--space-xl)}
+
+  .fc-web{display:flex;flex-direction:column;gap:var(--space-lg)}
+  .fc-tier{display:flex;align-items:center;gap:var(--space-lg)}
+  .fc-tier-label{width:var(--size-decoded-box-min);flex-shrink:0;font-size:var(--font-size-caption);color:var(--ink-mute)}
+  .fc-species{flex:1;display:flex;flex-wrap:wrap;gap:var(--space-md)}
+  .fc-card{display:flex;align-items:center;gap:var(--space-sm);border:var(--size-border) solid var(--cream-deep);background:var(--cream);border-radius:var(--radius);padding:var(--space-md) var(--space-lg);font:inherit;font-size:var(--font-size-body-sm);color:var(--ink);cursor:pointer;transition:all .2s}
+  .fc-card:hover:not(:disabled){border-color:var(--ink-mute)}
+  .fc-card:disabled{cursor:default}
+  .fc-card .icon{font-size:var(--font-size-title)}
+  .fc-card.gone{opacity:.35;text-decoration:line-through}
+  .fc-card.boom{border-color:var(--coral);background:var(--coral-soft)}
+  .fc-card.crash{border-color:var(--blue);background:var(--blue-soft)}
+  .fc-pop{font-size:var(--font-size-caption);color:var(--ink-mute);min-width:var(--space-6xl);text-align:right}
+
+  .fc-actions{display:flex;flex-wrap:wrap;gap:var(--space-md);margin-top:var(--space-2xl)}
+  .fc-btn{border:0;border-radius:var(--radius-full);padding:var(--space-md) var(--space-2xl);font:inherit;font-size:var(--font-size-ui);cursor:pointer;background:var(--cream-deep);color:var(--ink)}
+  .fc-btn.primary{background:var(--ink);color:var(--paper)}
+  .fc-btn:disabled{opacity:.4;cursor:default}
+  .fc-btn.is-hidden{display:none}
+
+  .fc-log{margin-top:var(--space-xl);display:flex;flex-direction:column;gap:var(--space-sm);max-height:var(--size-chart);overflow-y:auto}
+  .fc-log-item{font-size:var(--font-size-note);color:var(--ink-soft);line-height:1.6;padding-left:var(--space-lg);border-left:var(--size-border) solid var(--cream-deep)}
+  .fc-log-item.bad{border-left-color:var(--coral)}
+  .fc-log-item.good{border-left-color:var(--green)}
+
+  .fc-verdict{margin-top:var(--space-xl);border-radius:var(--radius);padding:var(--space-xl);font-size:var(--font-size-body-sm);line-height:1.8;display:none}
+  .fc-verdict.show{display:block}
+  .fc-verdict.ok{background:var(--green-soft);color:var(--ink)}
+  .fc-verdict.bad{background:var(--coral-soft);color:var(--ink)}
+
+  .fc-levels{display:flex;gap:var(--space-sm);margin-bottom:var(--space-xl);flex-wrap:wrap}
+  .fc-dot{width:var(--space-lg);height:var(--space-lg);border-radius:var(--radius-circle);background:var(--cream-deep)}
+  .fc-dot.done{background:var(--green)}
+  .fc-dot.current{background:var(--yellow)}
+
+  .concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-lg);margin-top:var(--space-4xl)}
+  .concept-card{background:var(--paper);border-radius:var(--radius);padding:var(--space-2xl);box-shadow:var(--shadow-soft)}
+  .concept-card h3{font-size:var(--font-size-body-sm);margin-bottom:var(--space-sm)}
+  .concept-card p{font-size:var(--font-size-note);color:var(--ink-soft);line-height:1.7}
+
+  @media (max-width:760px){
+    .page{padding:0 var(--space-xl) var(--size-chart)}
+    .fc-board{grid-template-columns:1fr}
+    .concepts{grid-template-columns:1fr}
+  }
+</style>
+<script src="/fo-gate.js"></script></head>
+<body>
+<main class="page">
+  <nav class="game-nav"><a class="back-link" href="index.html#multi">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+  <header class="game-hero">
+    <span class="emoji">🦉</span>
+    <h1>食物链平衡</h1>
+    <p class="sub">动一个物种，整条链都会晃。先想清楚谁吃谁，再动手。</p>
+  </header>
+
+  <div class="fc-levels" id="levels"></div>
+
+  <div class="fc-board">
+    <section class="fc-panel">
+      <h2 id="scene-name">生态系统</h2>
+      <p class="fc-task" id="task"></p>
+      <div class="fc-web" id="web"></div>
+      <div class="fc-actions">
+        <button class="fc-btn" id="reset-btn">重置生态</button>
+        <button class="fc-btn primary" id="check-btn">看看结果</button>
+        <button class="fc-btn is-hidden" id="next-btn">下一关</button>
+      </div>
+      <div class="fc-verdict" id="verdict"></div>
+    </section>
+    <aside class="fc-panel">
+      <h2>连锁反应记录</h2>
+      <p class="fc-task">点左边的物种可以「移除 / 放回」。每动一次，看看下面发生了什么。</p>
+      <div class="fc-log" id="log"></div>
+    </aside>
+  </div>
+
+  <div class="concepts">
+    <div class="concept-card"><h3>食物链</h3><p>能量从植物流向食草动物，再流向食肉动物。每一层都靠下面一层活着。</p></div>
+    <div class="concept-card"><h3>连锁反应</h3><p>拿掉一环，上面的饿死，下面的暴增。生态系统里没有"只影响自己"的改动。</p></div>
+    <div class="concept-card"><h3>关键种</h3><p>有些物种个头不大，却撑着整个系统。它一消失，几十种生物跟着变。</p></div>
+  </div>
+</main>
+<script src="../fo-utils.js"></script>
+<script>
+var GAME_ID='g63-food-chain';
+
+/* tier: 0=生产者 1=初级消费者 2=次级消费者 3=顶级捕食者
+   eats: 该物种吃谁（id 列表） */
+var levels=[
+  {name:'草原',
+   task:'狼被猎人打光了。移除「狼」，看看草原会发生什么——然后想想怎么才能救回草。',
+   species:[
+     {id:'grass',name:'青草',icon:'🌿',tier:0,eats:[]},
+     {id:'rabbit',name:'野兔',icon:'🐇',tier:1,eats:['grass']},
+     {id:'fox',name:'狐狸',icon:'🦊',tier:2,eats:['rabbit']},
+     {id:'wolf',name:'狼',icon:'🐺',tier:3,eats:['rabbit','fox']}
+   ],
+   goal:{type:'balanced',requires:['wolf']},
+   tip:'顶级捕食者没了，狐狸就没人管了。让狼回来，链条才重新闭合。'},
+
+  {name:'池塘',
+   task:'把「水藻」移除，观察整个池塘塌下去的顺序。看完再复原，理解为什么植物是地基。',
+   species:[
+     {id:'algae',name:'水藻',icon:'🌱',tier:0,eats:[]},
+     {id:'snail',name:'田螺',icon:'🐌',tier:1,eats:['algae']},
+     {id:'minnow',name:'小鱼',icon:'🐟',tier:1,eats:['algae']},
+     {id:'frog',name:'青蛙',icon:'🐸',tier:2,eats:['snail','minnow']},
+     {id:'heron',name:'白鹭',icon:'🕊️',tier:3,eats:['frog','minnow']}
+   ],
+   goal:{type:'balanced',requires:['algae']},
+   tip:'生产者是地基。地基一抽，上面每一层都会跟着塌。看完记得把它放回去。'},
+
+  {name:'森林 · 关键种',
+   task:'这片森林里有一个物种撑着整个系统。试着一个个移除，找出哪一个塌得最厉害——然后把它留下，只移除一个可以移除的。',
+   species:[
+     {id:'oak',name:'橡树',icon:'🌳',tier:0,eats:[]},
+     {id:'berry',name:'浆果',icon:'🫐',tier:0,eats:[]},
+     {id:'squirrel',name:'松鼠',icon:'🐿️',tier:1,eats:['oak']},
+     {id:'deer',name:'鹿',icon:'🦌',tier:1,eats:['oak','berry']},
+     {id:'bird',name:'山雀',icon:'🐦',tier:1,eats:['berry']},
+     {id:'owl',name:'猫头鹰',icon:'🦉',tier:2,eats:['squirrel','bird']},
+     {id:'lynx',name:'猞猁',icon:'🐈',tier:3,eats:['deer','squirrel']}
+   ],
+   goal:{type:'removeOne'},
+   tip:'橡树被两种动物依赖，是这里的关键种。而山雀只被猫头鹰吃，它消失时系统还撑得住。'}
+];
+
+var levelIndex=0,removed={},touched={},log=[],solved={};
+
+function lv(){return levels[levelIndex];}
+function alive(id){return !removed[id];}
+
+/* 简单生态模型：
+   - 生产者：被吃它的现存物种越多，压力越大；上层天敌少了会被啃光
+   - 消费者：食物全没 = 饿死；天敌全没 = 数量暴增 */
+function simulate(){
+  var sp=lv().species,res={};
+  sp.forEach(function(s){
+    if(!alive(s.id)){res[s.id]='gone';return;}
+    var food=s.eats.filter(alive);
+    var predators=sp.filter(function(o){return alive(o.id)&&o.eats.indexOf(s.id)>=0;});
+    if(s.tier>0&&s.eats.length&&!food.length){res[s.id]='crash';return;}
+    if(s.tier===0){
+      var eaters=sp.filter(function(o){return alive(o.id)&&o.eats.indexOf(s.id)>=0;});
+      var unchecked=eaters.filter(function(e){
+        return !sp.some(function(o){return alive(o.id)&&o.eats.indexOf(e.id)>=0;});
+      });
+      res[s.id]=unchecked.length?'crash':'ok';
+      return;
+    }
+    // 原本就没有天敌的物种（本生态的顶层）由食物量自我调节，不会因"没天敌"而暴增
+    var naturallyApex=!sp.some(function(o){return o.eats.indexOf(s.id)>=0;});
+    res[s.id]=(predators.length||naturallyApex)?'ok':'boom';
+  });
+  return res;
+}
+
+function popOf(state){return state==='gone'?0:(state==='crash'?12:(state==='boom'?96:60));}
+
+function render(){
+  var sp=lv().species,res=simulate();
+  var tiers=[[],[],[],[]];
+  sp.forEach(function(s){tiers[s.tier].push(s);});
+  var labels=['生产者','食草','食肉','顶级'];
+  var html='';
+  for(var t=3;t>=0;t--){
+    if(!tiers[t].length)continue;
+    html+='<div class="fc-tier"><span class="fc-tier-label">'+labels[t]+'</span><div class="fc-species">';
+    html+=tiers[t].map(function(s){
+      var st=res[s.id];
+      var cls=st==='gone'?'gone':(st==='boom'?'boom':(st==='crash'?'crash':''));
+      var tag=st==='gone'?'已移除':(st==='boom'?'暴增':(st==='crash'?'濒临消失':'稳定'));
+      return '<button class="fc-card '+cls+'" data-id="'+s.id+'">'+
+        '<span class="icon">'+s.icon+'</span><span>'+s.name+'</span>'+
+        '<span class="fc-pop">'+tag+'</span></button>';
+    }).join('');
+    html+='</div></div>';
+  }
+  document.getElementById('web').innerHTML=html;
+  document.querySelectorAll('#web .fc-card').forEach(function(b){
+    b.onclick=function(){toggle(b.dataset.id);};
+  });
+  document.getElementById('log').innerHTML=log.slice(-8).reverse().map(function(l){
+    return '<p class="fc-log-item '+l.k+'">'+l.t+'</p>';
+  }).join('')||'<p class="fc-log-item">还没有动过。点一个物种试试。</p>';
+  renderLevels();
+}
+
+function renderLevels(){
+  document.getElementById('levels').innerHTML=levels.map(function(l,i){
+    return '<span class="fc-dot'+(solved[i]?' done':(i===levelIndex?' current':''))+'" title="'+l.name+'"></span>';
+  }).join('');
+}
+
+function toggle(id){
+  var sp=lv().species.find(function(s){return s.id===id;});
+  var before=simulate();
+  removed[id]=!removed[id];
+  if(removed[id])touched[id]=true;
+  var after=simulate();
+  var msgs=[];
+  lv().species.forEach(function(s){
+    if(before[s.id]===after[s.id])return;
+    if(after[s.id]==='boom')msgs.push({k:'bad',t:'没有天敌了，'+s.name+'开始暴增。'});
+    else if(after[s.id]==='crash')msgs.push({k:'bad',t:s.name+'失去食物来源，数量骤降。'});
+    else if(after[s.id]==='ok'&&before[s.id]!=='gone')msgs.push({k:'good',t:s.name+'恢复稳定。'});
+  });
+  log.push({k:removed[id]?'bad':'good',t:(removed[id]?'移除了':'放回了')+sp.name+'。'});
+  msgs.forEach(function(m){log.push(m);});
+  document.getElementById('verdict').classList.remove('show');
+  render();
+}
+
+function check(){
+  var res=simulate(),g=lv().goal;
+  var bad=lv().species.filter(function(s){return res[s.id]==='boom'||res[s.id]==='crash';});
+  var removedCount=Object.keys(removed).filter(function(k){return removed[k];}).length;
+  var v=document.getElementById('verdict');
+  var ok,text;
+  if(g.type==='balanced'){
+    var need=(g.requires||[]).filter(function(id){return !touched[id];});
+    if(need.length){
+      var names=need.map(function(id){return lv().species.find(function(s){return s.id===id;}).name;});
+      v.className='fc-verdict show bad';
+      v.textContent='先动手试试：把「'+names.join('、')+'」移除，看看会发生什么，再把生态调回平衡。';
+      return;
+    }
+    ok=bad.length===0;
+    text=ok?'整条链稳住了：每种动物都有吃的，顶层由食物量自己调节，中间层都有天敌管着。平衡不是没有捕食，而是彼此制约。'
+           :'还有 '+bad.length+' 个物种不稳定（'+bad.map(function(s){return s.name;}).join('、')+'）。'+lv().tip;
+  }else{
+    ok=removedCount===1&&bad.length===0;
+    text=ok?'找到了：这一个物种消失，系统还能自己撑住。而关键种一旦消失，整片森林都会改变——它不一定是最大最凶的那个。'
+           :(removedCount===0?'先移除一个物种试试，看哪个能让系统撑得住。'
+             :(removedCount>1?'一次只移除一个。把多余的放回去。'
+               :'这个物种撑着别人：'+bad.map(function(s){return s.name;}).join('、')+'跟着出问题了。换一个试试。'+lv().tip));
+  }
+  v.className='fc-verdict show '+(ok?'ok':'bad');
+  v.textContent=text;
+  if(ok){
+    solved[levelIndex]=true;
+    renderLevels();
+    document.getElementById('next-btn').classList.toggle('is-hidden',levelIndex>=levels.length-1);
+    if(Object.keys(solved).length===levels.length)markDone();
+  }
+}
+
+function markDone(){
+  var a=JSON.parse(localStorage.getItem('fo_games_done')||'[]');
+  if(a.indexOf(GAME_ID)<0){a.push(GAME_ID);localStorage.setItem('fo_games_done',JSON.stringify(a));}
+  if(window.FO&&FO.logGameHistory)FO.logGameHistory(GAME_ID,'食物链平衡');
+}
+
+function loadLevel(i){
+  levelIndex=i;removed={};touched={};log=[];
+  document.getElementById('scene-name').textContent=lv().name;
+  document.getElementById('task').textContent=lv().task;
+  document.getElementById('verdict').classList.remove('show');
+  document.getElementById('next-btn').classList.add('is-hidden');
+  render();
+}
+
+document.getElementById('reset-btn').onclick=function(){loadLevel(levelIndex);};
+document.getElementById('check-btn').onclick=check;
+document.getElementById('next-btn').onclick=function(){loadLevel(Math.min(levelIndex+1,levels.length-1));};
+loadLevel(0);
+(function(){
+  var m=window.FO&&FO.getMember(),el=document.getElementById('nav-member-btn');
+  if(m){el.innerHTML=FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>';el.onclick=function(){location.href='../dashboard.html';};}
+  else{el.innerHTML='<span>登录</span>';el.onclick=function(){location.href='../login.html';};}
+})();
+</script>
+</body>
+</html>

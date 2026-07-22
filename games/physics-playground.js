@@ -331,10 +331,66 @@
     return max > 95 ? '两列波发生明显增强叠加。波峰遇波峰，振幅变大。' : phase > 145 && phase < 215 ? '接近相消叠加。波峰遇波谷，振幅变小。' : '调节相位和振幅，观察红色合成波如何变化。';
   }
 
+  /* 浮力沉浮舱：浮力 = 液体密度 × 排开体积。
+     调物体密度、体积和液体密度，让舱体停在目标深度（悬浮）。 */
+  function buoyancyDepth(){
+    // 密度比 <1 浮起、=1 悬浮、>1 下沉；映射成 0(浮在水面)~1(沉底)
+    var ratio = state.cargoDensity / state.liquidDensity;
+    return clamp((ratio - 0.6) / 0.8, 0, 1);
+  }
+
+  function drawBuoyancy(){
+    bg();
+    var waterTop = 90;
+    ctx.fillStyle = 'rgba(75,123,168,.22)';
+    ctx.fillRect(0, waterTop, W, H - waterTop);
+    line(0, waterTop, W, waterTop, '#4b7ba8', 3);
+    ctx.fillStyle = '#2b2419';
+    ctx.font = '16px serif';
+    ctx.fillText('水面', 16, waterTop - 12);
+    ctx.fillText('池底', 16, H - 14);
+
+    // 目标深度带
+    var bandY = waterTop + (H - waterTop - 60) * 0.5;
+    ctx.fillStyle = 'rgba(111,168,109,.25)';
+    ctx.fillRect(0, bandY - 22, W, 44);
+    line(0, bandY, W, bandY, '#6fa86d', 2, [10, 8]);
+    ctx.fillStyle = '#6fa86d';
+    ctx.fillText('目标：停在这一层（悬浮）', W - 260, bandY - 30);
+
+    // 舱体
+    var size = 26 + state.volume * 0.5;
+    var depth = buoyancyDepth();
+    var y = waterTop + 26 + depth * (H - waterTop - 76);
+    var x = W * 0.42 + Math.sin(state.t * 0.05) * 6;
+    ctx.fillStyle = '#e56b5a';
+    ctx.fillRect(x - size / 2, y - size / 2, size, size);
+    ctx.strokeStyle = '#2b2419';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x - size / 2, y - size / 2, size, size);
+
+    // 受力箭头：浮力向上、重力向下
+    var buoy = state.liquidDensity * state.volume / 100;
+    var weight = state.cargoDensity * state.volume / 100;
+    line(x, y - size / 2, x, y - size / 2 - buoy * 2.2, '#4b7ba8', 5);
+    line(x, y + size / 2, x, y + size / 2 + weight * 2.2, '#e56b5a', 5);
+    ctx.fillStyle = '#4b7ba8';
+    ctx.fillText('浮力 ' + fmt(buoy), x + 14, y - size / 2 - 10);
+    ctx.fillStyle = '#e56b5a';
+    ctx.fillText('重力 ' + fmt(weight), x + 14, y + size / 2 + 22);
+
+    var diff = Math.abs(state.cargoDensity - state.liquidDensity);
+    if (diff < 3) return '浮力≈重力，舱体悬停在目标层。密度相等时，物体既不浮也不沉。';
+    return state.cargoDensity < state.liquidDensity
+      ? '舱体比水轻 ' + fmt(state.liquidDensity - state.cargoDensity) + '，往上浮。'
+      : '舱体比水重 ' + fmt(state.cargoDensity - state.liquidDensity) + '，往下沉。';
+  }
+
   function draw(){
     syncCanvasSize();
     state.t++;
     var text = {
+      buoyancy: drawBuoyancy,
       circuit: drawCircuit,
       optics: drawOptics,
       newton: drawNewton,
@@ -355,7 +411,7 @@
   }
 
   function run(){
-    if (cfg.type === 'wave' || cfg.type === 'gravity' || cfg.type === 'heat' || cfg.type === 'newton') {
+    if (cfg.type === 'wave' || cfg.type === 'gravity' || cfg.type === 'heat' || cfg.type === 'newton' || cfg.type === 'buoyancy') {
       running = true;
       state.t = 0;
       tick();
@@ -368,6 +424,7 @@
 
   function check(){
     var ok = false;
+    if (cfg.type === 'buoyancy') ok = Math.abs(state.cargoDensity - state.liquidDensity) < 3;
     if (cfg.type === 'circuit') ok = state.switching > 50 && state.voltage / state.resistance > .25 && state.voltage / state.resistance < .9;
     if (cfg.type === 'optics') ok = $('live').textContent.indexOf('命中') >= 0;
     if (cfg.type === 'newton') ok = Math.max(0, (state.force - state.friction) / state.mass) > 4;

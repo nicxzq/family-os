@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>浮力沉浮舱 · 游戏</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="physics-playground.css">
+<script src="/fo-gate.js"></script></head>
+<body>
+<main class="physics-page">
+  <nav class="physics-nav"><a class="physics-back" href="index.html#science">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+  <header class="physics-hero"><div id="emoji" class="physics-emoji"></div><div><h1 id="title"></h1><p id="sub" class="physics-sub"></p></div></header>
+  <div class="physics-status"><span id="score" class="physics-pill"></span><span id="badge" class="physics-pill"></span><span id="live" class="physics-pill"></span></div>
+  <section class="physics-stage"><canvas id="physics-canvas" width="720" height="360"></canvas><div id="message" class="physics-message"></div></section>
+  <section class="physics-grid"><div id="controls" class="physics-controls"></div><aside class="physics-brief"><h2 id="concept"></h2><p id="mission"></p><ul id="learn"></ul></aside></section>
+</main>
+<script src="../fo-utils.js"></script>
+<script>
+window.PHYSICS_GAME = {
+  id:'g61-physics-buoyancy', type:'buoyancy', emoji:'⚓', title:'浮力沉浮舱',
+  sub:'调节舱体密度、体积和液体密度，让潜水舱既不浮起也不沉底。',
+  concept:'浮力与密度', mission:'目标：让舱体的密度和液体密度接近，停在绿色的目标层。',
+  prompt:'按运行看舱体走向。比水轻就浮起，比水重就沉底。',
+  success:'悬停成功！浮力正好等于重力，这就是潜水艇的工作原理。',
+  tryAgain:'还没停住。看看画面上蓝色（浮力）和红色（重力）哪根箭头更长，往那边调。',
+  learn:[
+    '浮力 = 液体密度 × 排开液体的体积。跟物体多重没关系，只跟它占了多大地方有关。',
+    '物体密度 < 液体密度就浮，> 就沉，相等时悬浮。',
+    '潜水艇不改体积，改的是自身重量——往压载舱里灌水或排水。',
+    '死海里人能躺着看书，是因为盐水密度更大，同样体积能托起更重的人。'
+  ],
+  controls:[
+    {id:'cargoDensity',label:'舱体密度',min:40,max:130,value:95,unit:''},
+    {id:'volume',label:'舱体体积',min:20,max:90,value:50,unit:''},
+    {id:'liquidDensity',label:'液体密度',min:60,max:120,value:100,unit:''}
+  ]
+};
+</script>
+<script src="physics-playground.js"></script>
+</body>
+</html>

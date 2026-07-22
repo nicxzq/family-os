@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>错误博物馆 · 犯错之后，先做哪一步？</title>
+<meta name="description" content="关于「先解决问题，再想别的」的小游戏。">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  .nav-member-btn{display:inline-flex;align-items:center;gap:var(--space-md);background:var(--paper);border:0;border-radius:var(--radius-full);padding:var(--space-sm) var(--space-xl) var(--space-sm) var(--space-sm);font-family:inherit;font-size:var(--font-size-ui);cursor:pointer;color:var(--ink-soft);box-shadow:var(--shadow-soft)}
+  .nav-member-btn svg{border-radius:var(--radius-circle)}
+  .game{--width-game:720px;--width-game-prose:520px;max-width:var(--width-game);margin:0 auto;padding:0 var(--space-3xl) var(--space-section)}
+  .game-nav{display:flex;align-items:center;justify-content:space-between;gap:var(--space-lg);flex-wrap:wrap;position:sticky;top:0;z-index:10;background:var(--paper);box-shadow:var(--shadow-soft);border-radius:var(--radius);padding:var(--space-md) var(--space-lg);margin-bottom:var(--space-2xl)}
+  .back{color:var(--ink-mute);text-decoration:none;font-size:var(--font-size-body-sm)}
+  .game-intro{text-align:center;margin-bottom:var(--space-4xl)}
+  .game-intro h1{font-size:clamp(var(--font-size-hero-md),var(--font-size-hero-fluid),var(--font-size-hero-lg));line-height:1.2;margin-bottom:var(--space-lg)}
+  .game-intro p{color:var(--ink-soft);font-size:var(--font-size-body)}
+  .progress{display:flex;gap:var(--space-sm);justify-content:center;margin-bottom:var(--space-3xl)}
+  .progress span{width:var(--space-6xl);height:var(--space-xs);background:var(--cream-deep);border-radius:var(--radius-full)}
+  .progress .is-current{background:var(--yellow)}
+  .progress .is-done{background:var(--coral)}
+  .q,.result{display:none;background:var(--paper);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:var(--space-3xl)}
+  .q.is-active,.result.is-active{display:block}
+  .q-num{font-size:var(--font-size-note);letter-spacing:.16em;color:var(--ink-mute);margin-bottom:var(--space-md)}
+  .q h2{font-size:var(--font-size-icon);margin-bottom:var(--space-lg)}
+  .q-scene{background:var(--cream);border-radius:var(--radius);padding:var(--space-lg) var(--space-xl);color:var(--ink-soft);font-size:var(--font-size-body-sm);line-height:1.8;margin-bottom:var(--space-2xl)}
+  .q-options{display:grid;gap:var(--space-lg);margin-bottom:var(--space-xl)}
+  .q-option{width:100%;text-align:left;border:var(--size-border-card) solid transparent;background:var(--cream);color:var(--ink);border-radius:var(--radius-card-inner);padding:var(--space-lg) var(--space-xl);font:inherit;cursor:pointer}
+  .q-option:hover{border-color:var(--coral-soft)}
+  .q-option.is-selected{border-color:var(--coral);background:var(--coral-soft)}
+  .q-option.is-best{border-color:var(--green);background:var(--green-soft)}
+  .q-reaction{display:none;background:var(--cream-deep);border-left:var(--size-border-card) solid var(--yellow);border-radius:var(--radius-card-inner);padding:var(--space-xl);line-height:1.8}
+  .q-reaction.is-shown{display:block}
+  .q-reaction b{color:var(--ink)}
+  .q-next,.next-link{display:none;margin-top:var(--space-xl);border:0;background:var(--ink);color:var(--cream);border-radius:var(--radius-full);padding:var(--space-lg) var(--space-2xl);font:inherit;text-decoration:none;cursor:pointer}
+  .q-next.is-shown,.next-link{display:inline-flex}
+  .result{text-align:center}
+  .result h2{font-size:var(--font-size-icon-lg)}
+  .result p{color:var(--ink-soft);margin:var(--space-lg) auto;max-width:var(--width-game-prose)}
+  .result .score{font-size:var(--font-size-title);color:var(--coral);font-weight:700}
+</style>
+<script src="/fo-gate.js"></script></head>
+<body><main class="game">
+  <nav class="game-nav"><a class="back" href="index.html#qa">← 游戏库</a><button id="nav-member-btn" class="nav-member-btn" aria-label="成员"></button></nav>
+  <header class="game-intro">
+    <h1>错误博物馆</h1>
+    <p>每个人都会犯错。区别在于——犯错之后的第一步，你先做什么。</p>
+  </header>
+  <div class="progress" id="progress"><span></span><span></span><span></span><span></span><span></span></div>
+
+  <section class="q is-active" data-q="0">
+    <div class="q-num">展品 1 / 5</div>
+    <div class="q-scene">你把妈妈的杯子碰掉了，碎了一地。她还没回家。</div>
+    <h2>你先做哪一件事？</h2>
+    <div class="q-options">
+      <button class="q-option">把碎片扫干净，然后告诉她</button>
+      <button class="q-option" data-best="1">先确认没人被扎到，再收拾，再说</button>
+      <button class="q-option">藏起来，看看她会不会发现</button>
+      <button class="q-option">先想好怎么解释不是我的错</button>
+    </div>
+    <div class="q-reaction"><b>先解决问题，再想别的。</b>顺序是：有没有人受伤 → 能不能补救 → 再说责任。急着解释、急着藏起来，都是把"我会不会被骂"排在了"事情怎么办"前面。</div>
+    <button class="q-next">下一件 →</button>
+  </section>
+
+  <section class="q" data-q="1">
+    <div class="q-num">展品 2 / 5</div>
+    <div class="q-scene">数学卷子发下来，你错了一道以前会做的题。</div>
+    <h2>这道错题最值钱的部分是什么？</h2>
+    <div class="q-options">
+      <button class="q-option">扣掉的那几分</button>
+      <button class="q-option" data-best="1">它指出了你以为自己会、其实没真懂的地方</button>
+      <button class="q-option">证明你今天状态不好</button>
+      <button class="q-option">没什么价值，下次小心点就行</button>
+    </div>
+    <div class="q-reaction"><b>错误是一份免费的诊断报告。</b>它精准地指出你的知识边界在哪儿。只看分数，报告就白拿了；去看"我当时怎么想的、哪一步想岔了"，这道题才真正变成你的。</div>
+    <button class="q-next">下一件 →</button>
+  </section>
+
+  <section class="q" data-q="2">
+    <div class="q-num">展品 3 / 5</div>
+    <div class="q-scene">小组作业里，同学做错了一步，整组的进度被拖慢。</div>
+    <h2>你会怎么开口？</h2>
+    <div class="q-options">
+      <button class="q-option">"你怎么连这个都能弄错？"</button>
+      <button class="q-option">什么都不说，自己默默重做</button>
+      <button class="q-option" data-best="1">"这一步好像出问题了，我们一起看看怎么补"</button>
+      <button class="q-option">告诉老师是他弄错的</button>
+    </div>
+    <div class="q-reaction"><b>对事不对人。</b>"你怎么这样"针对的是人，"这一步出问题了"针对的是事。前者让人防守，后者让人一起解决。默默重做看着善良，但下次他还会错。</div>
+    <button class="q-next">下一件 →</button>
+  </section>
+
+  <section class="q" data-q="3">
+    <div class="q-num">展品 4 / 5</div>
+    <div class="q-scene">你练了一个月的滑板，今天摔了，还是没学会那个动作。</div>
+    <h2>你怎么理解这一个月？</h2>
+    <div class="q-options">
+      <button class="q-option">白练了，看来我没天赋</button>
+      <button class="q-option" data-best="1">摔的每一次都在告诉我重心该往哪挪</button>
+      <button class="q-option">再练一个月，练不会就放弃</button>
+      <button class="q-option">别人学得比我快，我不适合这个</button>
+    </div>
+    <div class="q-reaction"><b>技能是靠失败次数堆出来的，不是靠天赋。</b>"我没天赋"是最省事的解释，也是最贵的——它一句话就把继续尝试的路堵死了。不慌，时间是朋友。</div>
+    <button class="q-next">下一件 →</button>
+  </section>
+
+  <section class="q" data-q="4">
+    <div class="q-num">展品 5 / 5</div>
+    <div class="q-scene">爸爸做错了一件事，还在你面前承认了。</div>
+    <h2>这说明什么？</h2>
+    <div class="q-options">
+      <button class="q-option">大人也不靠谱</button>
+      <button class="q-option" data-best="1">承认错误不丢人，是一种本事</button>
+      <button class="q-option">以后可以拿这件事说他</button>
+      <button class="q-option">他应该藏起来别让我知道</button>
+    </div>
+    <div class="q-reaction"><b>一个能当着孩子承认错误的家，才是安全的家。</b>如果犯错要付出"被嘲笑、被记账"的代价，家里所有人都会开始隐瞒。愿意说出来，是因为知道说出来之后大家会一起解决。</div>
+    <button class="q-next">看结果 →</button>
+  </section>
+
+  <section class="result">
+    <h2>错误博物馆 · 参观完毕</h2>
+    <p class="score" id="score"></p>
+    <p id="verdict"></p>
+    <p>这个博物馆里没有一件展品是失败——它们全是线索。下次犯错的时候记得这个顺序：<b>先看有没有人受伤，再看怎么补救，最后才轮到谁的责任。</b></p>
+    <a class="next-link" href="index.html#qa">回到游戏库 →</a>
+  </section>
+</main>
+<script src="../fo-utils.js"></script>
+<script>
+var current=0,total=5,gameId='g60-mistakes',best=0;
+function markDone(){
+  var a=JSON.parse(localStorage.getItem('fo_games_done')||'[]');
+  if(a.indexOf(gameId)<0){a.push(gameId);localStorage.setItem('fo_games_done',JSON.stringify(a));}
+  if(window.FO&&FO.logGameHistory)FO.logGameHistory(gameId,'错误博物馆');
+}
+function goTo(i){
+  document.querySelectorAll('.q').forEach(function(q){q.classList.remove('is-active');});
+  if(i>=total){
+    document.getElementById('score').textContent='你选中「先解决问题」的次数：'+best+' / '+total;
+    document.getElementById('verdict').textContent=
+      best>=4?'你已经很清楚：处理错误比解释错误重要得多。':
+      (best>=2?'你有一半时候会先看事情本身——另一半时候，试着把"谁的错"往后放一放。':
+               '下次犯错时，先问一句"现在最该做的是什么"，而不是"这怪谁"。');
+    document.querySelector('.result').classList.add('is-active');
+    markDone();return;
+  }
+  current=i;
+  document.querySelector('.q[data-q="'+i+'"]').classList.add('is-active');
+  document.querySelectorAll('.progress span').forEach(function(s,n){
+    s.classList.toggle('is-done',n<i);s.classList.toggle('is-current',n===i);
+  });
+}
+document.querySelectorAll('.q').forEach(function(q){
+  q.querySelectorAll('.q-option').forEach(function(o){
+    o.onclick=function(){
+      if(q.dataset.answered)return;
+      q.dataset.answered='1';
+      q.querySelectorAll('.q-option').forEach(function(x){x.classList.remove('is-selected');});
+      o.classList.add('is-selected');
+      var b=q.querySelector('.q-option[data-best]');
+      if(b)b.classList.add('is-best');
+      if(o.dataset.best)best++;
+      q.querySelector('.q-reaction').classList.add('is-shown');
+      q.querySelector('.q-next').classList.add('is-shown');
+    };
+  });
+  q.querySelector('.q-next').onclick=function(){goTo(current+1);scrollTo({top:0,behavior:'smooth'});};
+});
+goTo(0);
+(function(){
+  var m=window.FO&&FO.getMember(),el=document.getElementById('nav-member-btn');
+  if(m){el.innerHTML=FO.avatarSVG(m.avatar,m.color,32)+'<span>'+m.name+'</span>';el.onclick=function(){location.href='../dashboard.html';};}
+  else{el.innerHTML='<span>登录</span>';el.onclick=function(){location.href='../login.html';};}
+})();
+</script>
+</body></html>
