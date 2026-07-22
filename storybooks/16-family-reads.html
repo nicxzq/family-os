@@ -64,6 +64,7 @@
   .end-card h2{font-size:28px;color:#4B7BA8;margin-bottom:16px;}
   .end-card p{font-size:19px;color:#2B2419;line-height:1.7;margin-bottom:12px;}
 </style>
+<link rel="stylesheet" href="/storybooks/book-nav.css">
 </head>
 <body>
 <div class="book">
@@ -379,5 +380,7 @@ makeInteractive(document.getElementById('p4-mao'),'do-bounce','好神奇！✨')
 makeInteractive(document.getElementById('p5-mao'),'do-bounce','我在看书！📖');
 if(window.FO)FO.logHistory(BOOK_ID,BOOK_TITLE);
 </script>
+<script src="/storybooks/booklist.js"></script>
+<script>if (window.FO && window.FO.initBookNav) FO.initBookNav(BOOK_ID);</script>
 </body>
 </html>

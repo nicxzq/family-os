@@ -75,7 +75,8 @@
   @keyframes fOutBwd { 0% { transform: rotateY(0deg); opacity: 1; } 100% { transform: rotateY(80deg); opacity: 0; } }
   @keyframes fInBwd  { 0% { transform: rotateY(-80deg); opacity: 0; } 100% { transform: rotateY(0deg); opacity: 1; } }
 </style>
-<script src="/fo-gate.js"></script></head>
+<script src="/fo-gate.js"></script><link rel="stylesheet" href="/storybooks/book-nav.css">
+</head>
 <body>
 <div class="book">
   <div class="top">
@@ -296,5 +297,7 @@
   makeInteractive(document.getElementById('p6-maomao'), 'do-bounce', '等待值得了 🌸');
   document.addEventListener('DOMContentLoaded', () => { if (window.FO) FO.logHistory(BOOK_ID, BOOK_TITLE); });
 </script>
+<script src="/storybooks/booklist.js"></script>
+<script>if (window.FO && window.FO.initBookNav) FO.initBookNav(BOOK_ID);</script>
 </body>
 </html>

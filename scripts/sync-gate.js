@@ -85,7 +85,23 @@ if (warnings.length) {
   warnings.forEach((w) => console.log('  ! ' + w));
 }
 
-// 4) Chain: regenerate mini-program data from website content (the daily
+// 4) Chain: regenerate the storybook order and inject cross-book navigation
+//    (the daily storybook task adds new books, so this must never be manual).
+try {
+  require('child_process').execFileSync(
+    process.execPath, [path.join(__dirname, 'gen-booklist.js')],
+    { stdio: 'inherit' }
+  );
+  require('child_process').execFileSync(
+    process.execPath, [path.join(__dirname, 'sync-book-nav.js')],
+    { stdio: 'inherit' }
+  );
+} catch (e) {
+  console.log('sync-gate: book nav sync failed (gating unaffected): ' + e.message);
+  process.exitCode = 1;
+}
+
+// 5) Chain: regenerate mini-program data from website content (the daily
 //    storybook task runs sync-gate as its final step, so this keeps
 //    miniprogram/data/ in sync automatically). Failure must not break gating.
 try {

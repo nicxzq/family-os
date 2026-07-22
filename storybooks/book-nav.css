@@ -1,0 +1,59 @@
+/* Cross-book navigation shown only on a storybook's last page.
+   Storybook pages are self-contained and do not load styles.css, so the
+   tokens this component needs are declared here. Values mirror styles.css. */
+.book-nav {
+  --book-nav-ink: #2B2419;
+  --book-nav-paper: rgba(255, 255, 255, 0.92);
+  --book-nav-accent: #4B7BA8;
+  --book-nav-accent-ink: #FFFDF6;
+  --book-nav-gap: 10px;
+  --book-nav-inset: 84px;
+  --book-nav-pad-y: 10px;
+  --book-nav-pad-x: 18px;
+  --book-nav-radius: 999px;
+  --book-nav-font: 15px;
+  --book-nav-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--book-nav-inset);
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--book-nav-gap);
+  pointer-events: none;
+}
+
+.book-nav[hidden] {
+  display: none;
+}
+
+.book-nav-btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--book-nav-pad-y) var(--book-nav-pad-x);
+  border-radius: var(--book-nav-radius);
+  background: var(--book-nav-paper);
+  color: var(--book-nav-ink);
+  font-family: inherit;
+  font-size: var(--book-nav-font);
+  text-decoration: none;
+  box-shadow: var(--book-nav-shadow);
+  backdrop-filter: blur(4px);
+}
+
+.book-nav-home {
+  background: var(--book-nav-accent);
+  color: var(--book-nav-accent-ink);
+}
+
+.book-nav-btn:active {
+  transform: translateY(1px);
+}
+
+.book-nav-slot {
+  display: inline-block;
+}

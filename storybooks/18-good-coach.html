@@ -105,7 +105,8 @@
   .s-blue { stroke: var(--blue); stroke-width: 2; }
   .round { stroke-linecap: round; }
 </style>
-<script src="/fo-gate.js"></script></head>
+<script src="/fo-gate.js"></script><link rel="stylesheet" href="/storybooks/book-nav.css">
+</head>
 <body>
 <div class="book">
   <div class="top">
@@ -361,5 +362,7 @@
     if (window.FO) FO.logHistory(BOOK_ID, BOOK_TITLE);
   });
 </script>
+<script src="/storybooks/booklist.js"></script>
+<script>if (window.FO && window.FO.initBookNav) FO.initBookNav(BOOK_ID);</script>
 </body>
 </html>

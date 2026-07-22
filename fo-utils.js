@@ -127,5 +127,46 @@ window.FO = {
     };
     const shape = shapes[avatar] || shapes.chick;
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="${size}" height="${size}">${shape}</svg>`;
+  },
+  /* Cross-book navigation for the youngest child's storybooks.
+     Only shown on the last page — call FO.bookNav(BOOK_ID) once, then
+     FO.bookNavToggle(isLastPage) from the page-change handler.
+     Book order comes from storybooks/booklist.js (generated). */
+  bookNav(bookId) {
+    const list = window.FO_BOOKLIST || [];
+    const i = list.findIndex((b) => b.id === bookId);
+    if (i < 0) return;
+    const prev = list[i - 1];
+    const next = list[i + 1];
+    const nav = document.createElement('nav');
+    nav.className = 'book-nav';
+    nav.id = 'book-nav';
+    nav.hidden = true;
+    nav.innerHTML =
+      (prev ? `<a class="book-nav-btn" href="${prev.href}">← 上一本</a>` : '<span class="book-nav-slot"></span>') +
+      '<a class="book-nav-btn book-nav-home" href="/for-youngest">返回目录</a>' +
+      (next ? `<a class="book-nav-btn" href="${next.href}">下一本 →</a>` : '<span class="book-nav-slot"></span>');
+    document.body.appendChild(nav);
+  },
+  bookNavToggle(show) {
+    const nav = document.getElementById('book-nav');
+    if (nav) nav.hidden = !show;
+  },
+  /* One-line entry point injected into every numeric storybook page.
+     Watches which .page carries .is-active so it works with each book's own
+     paging script, and reveals the nav only on the final page. */
+  initBookNav(bookId) {
+    this.bookNav(bookId);
+    const pages = document.querySelectorAll('.page');
+    if (!pages.length) return;
+    const sync = () => {
+      let idx = -1;
+      pages.forEach((p, i) => { if (p.classList.contains('is-active')) idx = i; });
+      this.bookNavToggle(idx === pages.length - 1);
+    };
+    new MutationObserver(sync).observe(document.body, {
+      subtree: true, attributes: true, attributeFilter: ['class']
+    });
+    sync();
   }
 };
