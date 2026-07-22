@@ -3,8 +3,7 @@
   <!-- HERO(压缩版) -->
   <view class="hero">
     <view class="eyebrow">A FAMILY OS · v1</view>
-    <view class="hero-title">把"家"当作一件可以一起经营一辈子的事。</view>
-    <image class="hero-logo" src="/assets/logo.gif" mode="widthFix" />
+    <view class="hero-title">把"家"当作一件可以一起经营一辈子的事。<image class="hero-logo" src="/assets/logo.gif" mode="widthFix" /></view>
   </view>
 
   <!-- 六句话轮播 -->

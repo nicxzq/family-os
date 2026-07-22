@@ -4,35 +4,43 @@
   gap: var(--space-md);
 }
 
+/* 微信原生 button 的默认样式（padding / line-height / min-height）很顽固，
+   会把它撑成长方形。所以 button 本身只做无样式包裹，视觉方块交给内部
+   固定尺寸的 .avatar-inner——尺寸稳定，圆角正方形。 */
 .avatar-btn {
-  width: 128rpx;
-  height: 128rpx;
-  min-width: 0;
+  --avatar-size: 128rpx;
   padding: 0;
+  margin: 0;
+  border: 0;
   line-height: 1;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: var(--cream);
+  background: transparent;
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .avatar-btn::after {
   border: none;
 }
 
+.avatar-inner {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
 .avatar-img {
   width: 100%;
   height: 100%;
-  border-radius: var(--radius-lg);
 }
 
 .avatar-placeholder {
   font-size: var(--font-xxl);
   line-height: 1;
-  border-radius: var(--radius-lg);
 }
 
 .profile-body {

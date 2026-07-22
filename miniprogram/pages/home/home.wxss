@@ -1,18 +1,20 @@
 .hero {
+  --hero-logo-w: 64rpx;
   padding: var(--space-lg) 0 var(--space-md);
-}
-
-.hero-logo {
-  display: block;
-  width: 52rpx;
-  margin-left: auto;
-  margin-top: var(--space-xs);
 }
 
 .hero-title {
   font-size: var(--font-xxl);
   font-weight: 700;
   line-height: 1.35;
+}
+
+.hero-logo {
+  display: inline-block;
+  width: var(--hero-logo-w);
+  height: var(--hero-logo-w);
+  vertical-align: middle;
+  margin-left: var(--space-xs);
 }
 
 .section {

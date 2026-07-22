@@ -2,8 +2,8 @@
 // （qaGames / chemGames / physGames / codeGames / multiGames 五个数组），网站新增/
 // 调整游戏时同步在此维护，不要新增网站没有的游戏。
 //
-// cat 取值：qa（问答，20 个）/ sci（科学，化学 20 + 物理 10 = 30 个）/
-// code（程序，10 个）/ multi（多学科，4 个）。
+// cat 取值：qa（问答，21 个）/ sci（科学，化学 20 + 物理 11 = 31 个）/
+// code（程序，11 个）/ multi（多学科，5 个）。
 //
 // live: true 表示该游戏已在小程序内实现为原生页面（page 指向小程序页面路径）；
 // 其余 59 个为预告位——网站版已可玩，小程序版尚未做，page 留空字符串。
@@ -40,6 +40,7 @@ var GAMES = [
   { id: 'g18-longterm', name: '长期主义', emoji: '🌱', color: 'green', cat: 'qa', live: false, page: '' },
   { id: 'g19-habit', name: '习惯实验室', emoji: '🔄', color: 'coral', cat: 'qa', live: false, page: '' },
   { id: 'g20-connect', name: '知识连接', emoji: '🔗', color: 'blue', cat: 'qa', live: false, page: '' },
+  { id: 'g60-mistakes', name: '错误博物馆', emoji: '🏛️', color: 'green', cat: 'qa', live: false, page: '' },
 
   // 科学类 · 化学 20 个（网站 chemGames，均为 color: green）
   { id: 'g21-chemistry', name: '化学厨房', emoji: '⚗️', color: 'green', cat: 'sci', live: true, page: '/pages/games/chem/chem' },
@@ -74,6 +75,7 @@ var GAMES = [
   { id: 'g38-physics-lever', name: '杠杆原理', emoji: '⚖️', color: 'blue', cat: 'sci', live: false, page: '' },
   { id: 'g39-physics-gravity', name: '星球引力', emoji: '🪐', color: 'blue', cat: 'sci', live: false, page: '' },
   { id: 'g40-physics-wave', name: '波动叠加', emoji: '〰️', color: 'blue', cat: 'sci', live: false, page: '' },
+  { id: 'g61-physics-buoyancy', name: '浮力沉浮舱', emoji: '⚓', color: 'blue', cat: 'sci', live: false, page: '' },
 
   // 程序类 10 个（网站 codeGames）
   { id: 'g41-blocks', name: '代码积木', emoji: '🧱', color: 'coral', cat: 'code', live: true, page: '/pages/games/code/code' },
@@ -86,12 +88,14 @@ var GAMES = [
   { id: 'g57-stack-queue', name: '栈与队列', emoji: '📚', color: 'blue', cat: 'code', live: false, page: '' },
   { id: 'g58-logic-gate', name: '逻辑门', emoji: '💡', color: 'yellow', cat: 'code', live: false, page: '' },
   { id: 'g59-greedy-coins', name: '贪心找零', emoji: '🪙', color: 'coral', cat: 'code', live: false, page: '' },
+  { id: 'g62-loop-factory', name: '循环工厂', emoji: '🔁', color: 'yellow', cat: 'code', live: false, page: '' },
 
   // 多学科 4 个（网站 multiGames）
   { id: 'g44-history-detective', name: '历史侦探', emoji: '🏛️', color: 'coral', cat: 'multi', live: true, page: '/pages/games/multi/multi' },
   { id: 'g45-geo', name: '地图寻宝', emoji: '🗺️', color: 'yellow', cat: 'multi', live: false, page: '' },
   { id: 'g46-words-cipher', name: '文字密码', emoji: '📝', color: 'green', cat: 'multi', live: false, page: '' },
-  { id: 'g47-math-art', name: '数学画廊', emoji: '🔢', color: 'blue', cat: 'multi', live: false, page: '' }
+  { id: 'g47-math-art', name: '数学画廊', emoji: '🔢', color: 'blue', cat: 'multi', live: false, page: '' },
+  { id: 'g63-food-chain', name: '食物链平衡', emoji: '🦉', color: 'green', cat: 'multi', live: false, page: '' }
 ];
 
 module.exports = { CATS: CATS, GAMES: GAMES };

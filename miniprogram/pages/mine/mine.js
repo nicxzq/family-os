@@ -208,11 +208,11 @@ Page({
     wx.navigateTo({ url: '/pages/policy/policy?type=disclaimer' });
   },
 
-  copyEmail() {
+  copyWechat() {
     wx.setClipboardData({
-      data: 'ocular.sunsets0a@icloud.com',
+      data: 'carl-xu',
       success() {
-        wx.showToast({ title: '邮箱已复制', icon: 'success' });
+        wx.showToast({ title: '微信号已复制', icon: 'success' });
       }
     });
   },

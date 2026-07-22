@@ -3,8 +3,10 @@
   <!-- 头像昵称 -->
   <view class="card profile">
     <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
-      <image wx:if="{{profile.avatarPath}}" class="avatar-img" src="{{profile.avatarPath}}" mode="aspectFill" />
-      <view wx:else class="avatar-placeholder">🙂</view>
+      <view class="avatar-inner">
+        <image wx:if="{{profile.avatarPath}}" class="avatar-img" src="{{profile.avatarPath}}" mode="aspectFill" />
+        <view wx:else class="avatar-placeholder">🙂</view>
+      </view>
     </button>
     <view class="profile-body">
       <input
@@ -103,7 +105,7 @@
     <view class="io-desc">有想法、发现问题，都欢迎告诉我们</view>
     <view class="io-btns">
       <button class="feedback-btn" open-type="feedback">写反馈</button>
-      <button class="feedback-btn feedback-btn-ghost" bindtap="copyEmail">复制邮箱</button>
+      <button class="feedback-btn feedback-btn-ghost" bindtap="copyWechat">复制微信</button>
     </view>
   </view>
 
