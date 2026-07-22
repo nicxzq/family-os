@@ -326,8 +326,45 @@ syncPalette();
   console.log('  ' + f + ' → ' + (size / 1024).toFixed(0) + ' KB');
 });
 
+/* ── 体积守护 ─────────────────────────────────────────────
+   微信小程序主包上限 2 MB。内容是每天自动增长的（storybooks/readers
+   由定时任务新增），所以每次同步都必须检查，不能等到上传时才发现。 */
+function checkBundleSize() {
+  const ROOT_MP = path.resolve(__dirname, '..', 'miniprogram');
+  const LIMIT = 2 * 1024 * 1024;
+  const WARN_AT = 1.9 * 1024 * 1024;
+  const files = [];
+
+  (function walk(dir) {
+    fs.readdirSync(dir, { withFileTypes: true }).forEach(function (e) {
+      const full = path.join(dir, e.name);
+      if (e.isDirectory()) walk(full);
+      else files.push({ path: path.relative(ROOT_MP, full), size: fs.statSync(full).size });
+    });
+  })(ROOT_MP);
+
+  const total = files.reduce(function (a, f) { return a + f.size; }, 0);
+  const mb = (total / 1024 / 1024).toFixed(2);
+  console.log('\nminiprogram 总体积：' + mb + ' MB / 2.00 MB 上限');
+
+  if (total < WARN_AT) return;
+
+  console.log('体积最大的文件：');
+  files.sort(function (a, b) { return b.size - a.size; }).slice(0, 8).forEach(function (f) {
+    console.log('  ' + (f.size / 1024).toFixed(0).padStart(6) + ' KB  ' + f.path);
+  });
+
+  if (total >= LIMIT) {
+    console.error('\n✗ 超过 2 MB 主包上限，无法上传。请先精简内容或拆分分包。');
+    process.exit(1);
+  }
+  console.log('\n! 已超过 1.9 MB 预警线，离上限不远了。');
+}
+
 if (warnings.length) {
   console.log('\n共 ' + warnings.length + ' 条警告（见上）。');
 } else {
   console.log('\n无警告，同步完成。');
 }
+
+checkBundleSize();

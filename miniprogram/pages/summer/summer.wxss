@@ -1,4 +1,5 @@
 .banner {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -243,3 +244,196 @@
 .cal-dot--full { background: var(--green-soft); }
 .cal-dot--part { background: var(--yellow-soft); }
 .cal-dot--none { background: var(--cream); border: 2rpx solid var(--cream-deep); box-sizing: border-box; }
+
+/* ── 设置入口与设置页 ───────────────────────────────── */
+page {
+  --set-label-w: 120rpx;
+  --set-side-w: 140rpx;
+  --set-btn-min-w: 200rpx;
+  --fx-piece-w: 16rpx;
+  --fx-piece-h: 26rpx;
+  --fx-start-y: -40rpx;
+  --fx-end-y: 110vh;
+  --fx-duration: 1.4s;
+}
+
+.banner-set {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  font-size: var(--font-lg);
+  padding: var(--space-xs);
+  line-height: 1;
+}
+
+.day-hint {
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+  margin: var(--space-sm) 0 var(--space-md);
+  text-align: center;
+}
+
+.set-card {
+  margin-bottom: var(--space-md);
+}
+
+.set-title {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.set-hint {
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+  line-height: 1.6;
+  margin-bottom: var(--space-sm);
+}
+
+.set-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) 0;
+  border-bottom: 2rpx solid var(--cream-deep);
+}
+
+.set-label {
+  width: var(--set-label-w);
+  flex-shrink: 0;
+  font-size: var(--font-sm);
+  color: var(--ink-soft);
+}
+
+.set-input,
+.set-value {
+  flex: 1;
+  font-size: var(--font-md);
+  color: var(--ink);
+}
+
+.set-item {
+  display: flex;
+  gap: var(--space-sm);
+  padding: var(--space-sm) 0;
+  border-bottom: 2rpx solid var(--cream-deep);
+}
+
+.set-item-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.set-item-name {
+  font-size: var(--font-md);
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.set-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+.set-item-time,
+.set-item-rule {
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+}
+
+.set-item-time {
+  color: var(--blue);
+}
+
+.set-item-slot {
+  display: inline-block;
+  margin-top: var(--space-xs);
+  font-size: var(--font-xs);
+  color: var(--ink-soft);
+  background: var(--cream);
+  border-radius: var(--radius-full);
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.set-item-side {
+  width: var(--set-side-w);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-xs);
+}
+
+.set-switch {
+  transform: scale(0.7);
+  transform-origin: right center;
+}
+
+.set-switch-label {
+  font-size: var(--font-xs);
+  color: var(--ink-mute);
+}
+
+.set-item-del {
+  font-size: var(--font-xs);
+  color: var(--coral);
+}
+
+.set-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.set-btn {
+  flex: 1;
+  min-width: var(--set-btn-min-w);
+  font-size: var(--font-sm);
+  background: var(--cream-deep);
+  color: var(--ink);
+  border-radius: var(--radius-full);
+  padding: var(--space-xs) var(--space-sm);
+  line-height: 1.8;
+}
+
+.set-btn::after { border: none; }
+
+.set-btn--ghost {
+  background: var(--paper);
+  color: var(--ink-mute);
+  box-shadow: inset 0 0 0 2rpx var(--cream-deep);
+}
+
+/* ── 撒花 ───────────────────────────────────────────── */
+.fx {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 90;
+  overflow: hidden;
+}
+
+.fx-piece {
+  position: absolute;
+  top: var(--fx-start-y);
+  width: var(--fx-piece-w);
+  height: var(--fx-piece-h);
+  border-radius: var(--radius-sm);
+  animation: fx-fall var(--fx-duration) ease-in forwards;
+}
+
+.fx-piece--coral { background: var(--coral); }
+.fx-piece--yellow { background: var(--yellow); }
+.fx-piece--green { background: var(--green); }
+.fx-piece--blue { background: var(--blue); }
+
+@keyframes fx-fall {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate3d(var(--fx-drift), var(--fx-end-y), 0) rotate(var(--fx-spin)); opacity: 0; }
+}

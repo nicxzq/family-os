@@ -1,16 +1,17 @@
 <view class="wrap">
 
-  <!-- 日历视图：进来先看整个暑假 -->
+  <!-- 日历视图：进来先看整个周期 -->
   <block wx:if="{{view === 'cal'}}">
     <view class="banner">
       <view class="banner-body">
-        <view class="banner-date">🌞 快乐暑假 2026</view>
-        <view class="banner-sub">7 月 14 日 — 8 月 30 日 · 点某一天看当天打卡</view>
+        <view class="banner-date">{{title}}</view>
+        <view class="banner-sub">{{rangeText}} · 点某一天看当天打卡</view>
       </view>
       <view class="banner-pct">
         <view class="banner-pct-num">{{calFull}}</view>
         <view class="banner-pct-label">全勤天 · 打卡 {{calDone}} 天</view>
       </view>
+      <view class="banner-set" bindtap="openSet">⚙️</view>
     </view>
 
     <view class="cal card">
@@ -44,7 +45,7 @@
     <view class="banner">
       <view class="banner-body">
         <view class="banner-date">{{selCn}}</view>
-        <view class="banner-sub">🌞 快乐暑假 2026 · 7 月 14 日 — 8 月 30 日</view>
+        <view class="banner-sub">{{title}} · {{rangeText}}</view>
         <view class="banner-badge" wx:if="{{isToday}}">今天</view>
       </view>
       <view class="banner-pct">
@@ -64,6 +65,7 @@
         wx:key="id"
         class="task {{task.done ? 'is-done' : ''}} {{task.req ? '' : 'is-opt'}}"
         bindtap="toggle"
+        bindlongpress="longpress"
         data-s="{{si}}"
         data-t="{{ti}}"
       >
@@ -76,6 +78,8 @@
       </view>
     </block>
 
+    <view class="day-hint">长按任意一项可以改名称、改时间或从计划中删掉。</view>
+
     <view class="day-nav">
       <button class="day-btn" bindtap="prev" disabled="{{atStart}}">← 前一天</button>
       <button class="day-btn day-btn--today" bindtap="today">回到今天</button>
@@ -83,8 +87,72 @@
     </view>
   </block>
 
+  <!-- 设置视图 -->
+  <block wx:if="{{view === 'set'}}">
+    <view class="back-cal" bindtap="backFromSet">← 返回日历</view>
+
+    <view class="card set-card">
+      <view class="set-title">打卡设置</view>
+      <view class="set-row">
+        <text class="set-label">标题</text>
+        <input class="set-input" value="{{title}}" bindblur="onTitle" placeholder="给这份打卡起个名字" />
+      </view>
+      <view class="set-row">
+        <text class="set-label">开始</text>
+        <picker mode="date" value="{{cfg.start}}" bindchange="onStart">
+          <view class="set-value">{{cfg.start}}</view>
+        </picker>
+      </view>
+      <view class="set-row">
+        <text class="set-label">结束</text>
+        <picker mode="date" value="{{cfg.end}}" bindchange="onEnd">
+          <view class="set-value">{{cfg.end}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="card set-card">
+      <view class="set-title">每天的项目</view>
+      <view class="set-hint">点名称或时间可以改；重复规则（每周几、指定日期）目前跟随初始计划。</view>
+
+      <view wx:for="{{setItems}}" wx:key="id" class="set-item">
+        <view class="set-item-main">
+          <view class="set-item-name" bindtap="onSetName" data-id="{{item.id}}" data-name="{{item.name}}">{{item.name}}</view>
+          <view class="set-item-meta">
+            <text class="set-item-time" bindtap="onSetTime" data-id="{{item.id}}" data-time="{{item.time}}">{{item.time || '＋ 加时间'}}</text>
+            <text class="set-item-rule">{{item.rule}}</text>
+          </view>
+          <picker range="{{slotOptions}}" value="{{item.slotIndex}}" bindchange="onSetSlot" data-id="{{item.id}}">
+            <view class="set-item-slot">{{item.slotLabel}}</view>
+          </picker>
+        </view>
+        <view class="set-item-side">
+          <switch class="set-switch" checked="{{item.req}}" bindchange="onSetReq" data-id="{{item.id}}" color="#6FA86D" />
+          <text class="set-switch-label">{{item.req ? '必做' : '自选'}}</text>
+          <view class="set-item-del" bindtap="onSetDelete" data-id="{{item.id}}">删除</view>
+        </view>
+      </view>
+
+      <view class="set-actions">
+        <button class="set-btn" bindtap="addItem">＋ 新增项目</button>
+        <button class="set-btn" bindtap="addSlot">＋ 新增时间段</button>
+        <button class="set-btn set-btn--ghost" bindtap="resetCfg">恢复默认</button>
+      </view>
+    </view>
+  </block>
+
   <view class="summer-note">打卡只记在这台手机上;完整版(日历、周回顾、AI 点评)在网站 /summer2026。</view>
 
+</view>
+
+<!-- 撒花 -->
+<view wx:if="{{confetti.length}}" class="fx">
+  <view
+    wx:for="{{confetti}}"
+    wx:key="id"
+    class="fx-piece fx-piece--{{item.color}}"
+    style="left:{{item.left}}%;animation-delay:{{item.delay}}ms;--fx-drift:{{item.drift}}rpx;--fx-spin:{{item.spin}}deg"
+  ></view>
 </view>
 
 <fo-tabbar active="toolbox" />
