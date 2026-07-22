@@ -227,7 +227,7 @@ h2.sec{font-size:var(--font-size-body);margin:var(--space-xs) 0 var(--space-sm)}
 </head>
 <body>
 <header class="top">
-  <div class="brand">🌞 快乐暑假 2026<small>7 月 14 日 — 8 月 30 日 · 五升六</small></div>
+  <div class="brand" id="brand"></div>
   <div class="top-right">
     <span class="sync" id="sync" onclick="go('set')"><span class="dot"></span><span id="sync-t">本地</span></span>
     <a class="back" href="/for-eldest">← 哥哥主页</a>
@@ -240,19 +240,63 @@ h2.sec{font-size:var(--font-size-body);margin:var(--space-xs) 0 var(--space-sm)}
 
 <script>
 /* ================= 基础 ================= */
-const START='2026-07-14', END='2026-08-30', KEY='summer2026-v1';
+const KEY='summer2026-v1';
+
+/* 计划本身是数据，不是写死的代码：换一个假期、换一套习惯只改配置。
+   规则：weekdays(每周几) / dates(指定日期) / range(区间) / exceptDates(排除)，
+   都不写就是每天。名称里的 {kuaile} {yuedu} 会被设置里的份量替换。 */
+function defaultPlan(){return {
+  title:'🌞 快乐暑假 2026',
+  subtitle:'五升六',
+  start:'2026-07-14',
+  end:'2026-08-30',
+  slots:[
+    {key:'morning',label:'🌅 早晨'},
+    {key:'study',label:'📚 上午 · 学习'},
+    {key:'flex',label:'🧩 下午 · 自选'},
+    {key:'cls',label:'🏫 英语课'},
+    {key:'evening',label:'🌙 晚上'}
+  ],
+  items:[
+    {id:'sport',name:'早起运动 30 分钟',slot:'morning',req:true,time:'8:00'},
+    {id:'ski',name:'上午滑雪 ⛷️',slot:'morning',req:false,time:'上午',pri:true,icon:'⛷️',dates:['2026-07-15']},
+    {id:'kuaile',name:'《快乐暑假》{kuaile} 页',slot:'study',req:true,time:'9:00-11:30',exceptDates:['2026-07-15']},
+    {id:'yuedu',name:'英语阅读训练 {yuedu} 篇',slot:'study',req:true,time:'9:00-11:30',exceptDates:['2026-07-15']},
+    {id:'fanwen',name:'高分范文 · 学 1 个话题',slot:'study',req:true,pri:true,icon:'✍️',weekdays:[2,5]},
+    {id:'miaohong',name:'英语范文描红 1 篇',slot:'study',req:true},
+    {id:'mindmap',name:'《猫武士》思维导图制作 🗺️',slot:'study',req:true,pri:true,icon:'🗺️',dates:['2026-08-16']},
+    {id:'video',name:'《猫武士》讲书视频拍摄 🎬',slot:'study',req:true,pri:true,icon:'🎬',dates:['2026-08-23']},
+    {id:'coding',name:'编程做游戏 30-60 分钟(自选)',slot:'flex',req:false,time:'14:00-15:30'},
+    {id:'cube',name:'魔方 · 平板对战(自选)',slot:'flex',req:false},
+    {id:'maowu',name:'读《猫武士》30 分钟',slot:'flex',req:true},
+    {id:'cls',name:'英语课(线下)',slot:'cls',req:true,time:'15:30 出发 · 16:00-17:50',pri:true,icon:'🏫',range:['2026-07-15','2026-07-19']},
+    {id:'tingli-1',name:'听力天天练 · 练词汇',slot:'evening',req:true,time:'晚饭前后 10 分钟',weekdays:[1]},
+    {id:'tingli-2',name:'听力天天练 · 练句子',slot:'evening',req:true,time:'晚饭前后 10 分钟',weekdays:[2]},
+    {id:'tingli-3',name:'听力天天练 · 练对话',slot:'evening',req:true,time:'晚饭前后 10 分钟',weekdays:[3]},
+    {id:'tingli-4',name:'听力天天练 · 练短文',slot:'evening',req:true,time:'晚饭前后 10 分钟',weekdays:[4]},
+    {id:'tingli-5',name:'听力天天练 · 练综合',slot:'evening',req:true,time:'晚饭前后 10 分钟',weekdays:[5]},
+    {id:'tingli-6',name:'听力天天练 · 双休自测',slot:'evening',req:true,time:'晚饭前后 10 分钟',weekdays:[6]},
+    {id:'lianzi',name:'练字 15-20 分钟',slot:'evening',req:true,time:'19:30'},
+    {id:'switch',name:'Switch 时间 2 个半小时 🎮',slot:'evening',req:false,time:'周六专属',pri:true,icon:'🎮',weekdays:[6]},
+    {id:'sleep',name:'22:30 前上床睡觉',slot:'evening',req:true,time:'21:45 洗漱'}
+  ]
+};}
+/* S 还没建好时（defaults 初始化过程中）退回默认计划，避免鸡生蛋问题 */
+function curPlan(){return (typeof S!=='undefined'&&S&&S.plan)?S.plan:defaultPlan();}
+function START(){return curPlan().start;}
+function END(){return curPlan().end;}
 
 function p(s){const a=s.split('-');return new Date(+a[0],+a[1]-1,+a[2]);}
 function f(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function addD(s,n){const d=p(s);d.setDate(d.getDate()+n);return f(d);}
-function clamp(s){return s<START?START:(s>END?END:s);}
+function clamp(s){return s<START()?START():(s>END()?END():s);}
 const WK=['日','一','二','三','四','五','六'];
 function cn(s){const d=p(s);return (d.getMonth()+1)+' 月 '+d.getDate()+' 日 · 周'+WK[d.getDay()];}
 const todayReal=f(new Date());
 
 /* ---- 状态:只存差异,任务由规则生成 ---- */
 let S;
-function defaults(){return {cfg:{kuaile:2,yuedu:2,gentle:true},travel:{start:'',end:''},done:{},removed:{},added:{},renamed:{},comments:{},evals:{},weekEvals:{},view:'day',sel:clamp(todayReal)};}
+function defaults(){return {plan:defaultPlan(),cfg:{kuaile:2,yuedu:2,gentle:true},travel:{start:'',end:''},done:{},removed:{},added:{},renamed:{},comments:{},evals:{},weekEvals:{},view:'day',sel:todayReal};}
 function load(){
   try{const raw=localStorage.getItem(KEY);if(!raw)return null;
     const s=JSON.parse(raw);return Object.assign(defaults(),s);}catch(e){return null;}
@@ -380,7 +424,7 @@ const MOTTOS=[
   '冷知识😆 为什么海不干？因为鱼在里面“游(油)”。',
   '轻松一下🐟 螃蟹为什么走路横着走？因为它任性（横行霸道）。'
 ];
-function mqIndex(d){const i=Math.round((p(d)-p(START))/864e5);return ((i%MOTTOS.length)+MOTTOS.length)%MOTTOS.length;}
+function mqIndex(d){const i=Math.round((p(d)-p(START()))/864e5);return ((i%MOTTOS.length)+MOTTOS.length)%MOTTOS.length;}
 let mqOverride=null;
 function mqText(d){return mqOverride!=null?MOTTOS[mqOverride]:MOTTOS[mqIndex(d)];}
 function mqShuffle(){mqOverride=Math.floor(Math.random()*MOTTOS.length);render();}
@@ -419,7 +463,7 @@ function refreshDayEval(d,btn){delete S.evals[d];genDayEval(d,btn);}
 
 function weekFacts(w){
   let tot=0,dn=0,miss=[];
-  for(let i=0;i<7;i++){const d=addD(w,i);if(d<START||d>END)continue;
+  for(let i=0;i<7;i++){const d=addD(w,i);if(d<START()||d>END())continue;
     genTasks(d).filter(x=>x.req).forEach(x=>{tot++;if(isDone(d,x.id))dn++;else if(d<todayReal)miss.push(cn(d).split(' · ')[0]+' '+x.name);});
   }
   return {tot,dn,pct:tot?Math.round(dn/tot*100):100,miss};
@@ -437,42 +481,44 @@ async function genWeekEval(w,btn){
 }
 
 /* ================= 任务生成规则 =================
-   固定骨架 + 差异覆盖(removed/added/renamed)。 */
-const SLOTS=[
-  ['morning','🌅 早晨'],
-  ['study','📚 上午 · 学习'],
-  ['flex','🧩 下午 · 自选'],
-  ['cls','🏫 英语课'],
-  ['evening','🌙 晚上'],
-];
-const TL={1:'练词汇',2:'练句子',3:'练对话',4:'练短文',5:'练综合',6:'双休自测'};
+   计划骨架来自 S.plan.items（数据），再叠加按天的差异覆盖(removed/added/renamed)。
+   改计划请去「设置 → 每天的项目」，或在今天视图长按/点条目上的按钮。 */
+function SLOTS(){return S.plan.slots.map(s=>[s.key,s.label]);}
+
+function planMonths(){
+  const out=[],a=p(START()),b=p(END());
+  let y=a.getFullYear(),m=a.getMonth()+1;
+  while(y<b.getFullYear()||(y===b.getFullYear()&&m<=b.getMonth()+1)){
+    out.push([y,m]);
+    m++;if(m>12){m=1;y++;}
+  }
+  return out;
+}
+
+/* 一条计划项是否落在某一天 */
+function itemOnDate(it,date){
+  if(it.exceptDates&&it.exceptDates.indexOf(date)>=0)return false;
+  if(it.dates)return it.dates.indexOf(date)>=0;
+  if(it.range)return date>=it.range[0]&&date<=it.range[1];
+  if(it.weekdays)return it.weekdays.indexOf(p(date).getDay())>=0;
+  return true;
+}
+function fillName(name){
+  return String(name).replace(/\{kuaile\}/g,S.cfg.kuaile).replace(/\{yuedu\}/g,S.cfg.yuedu);
+}
+function ruleText(it){
+  if(it.dates)return it.dates.join('、');
+  if(it.range)return it.range[0]+' 起 '+it.range[1]+' 止';
+  if(it.weekdays)return '每周'+it.weekdays.map(w=>WK[w]).join('、');
+  return '每天';
+}
 
 function genTasks(date){
   let t=[];
-  const w=p(date).getDay();
   if(isTravel(date)){
     t.push({id:'maowu',name:'读《猫武士》(旅行也别忘啦)',slot:'flex',req:true,time:'任意时段',pri:true,icon:'📖'});
   }else{
-    const ski=(date==='2026-07-15');
-    t.push({id:'sport',name:'早起运动 30 分钟',slot:'morning',req:true,time:'8:00'});
-    if(ski) t.push({id:'ski',name:'上午滑雪 ⛷️',slot:'morning',req:false,time:'上午',pri:true,icon:'⛷️'});
-    if(!ski){
-      t.push({id:'kuaile',name:'《快乐暑假》'+S.cfg.kuaile+' 页',slot:'study',req:true,time:'9:00-11:30'});
-      t.push({id:'yuedu',name:'英语阅读训练 '+S.cfg.yuedu+' 篇',slot:'study',req:true,time:'9:00-11:30'});
-    }
-    if(w===2||w===5) t.push({id:'fanwen',name:'高分范文 · 学 1 个话题',slot:'study',req:true,pri:true,icon:'✍️'});
-    t.push({id:'miaohong',name:'英语范文描红 1 篇',slot:'study',req:true});
-    if(date==='2026-08-16') t.push({id:'mindmap',name:'《猫武士》思维导图制作 🗺️',slot:'study',req:true,pri:true,icon:'🗺️'});
-    if(date==='2026-08-23') t.push({id:'video',name:'《猫武士》讲书视频拍摄 🎬',slot:'study',req:true,pri:true,icon:'🎬'});
-    t.push({id:'coding',name:'编程做游戏 30-60 分钟(自选)',slot:'flex',req:false,time:'14:00-15:30'});
-    t.push({id:'cube',name:'魔方 · 平板对战(自选)',slot:'flex',req:false});
-    t.push({id:'maowu',name:'读《猫武士》30 分钟',slot:'flex',req:true});
-    if(date>='2026-07-15'&&date<='2026-07-19')
-      t.push({id:'cls',name:'英语课(线下)',slot:'cls',req:true,time:'15:30 出发 · 16:00-17:50',pri:true,icon:'🏫'});
-    if(TL[w]) t.push({id:'tingli',name:'听力天天练 · '+TL[w],slot:'evening',req:true,time:'晚饭前后 10 分钟'});
-    t.push({id:'lianzi',name:'练字 15-20 分钟',slot:'evening',req:true,time:'19:30'});
-    if(w===6) t.push({id:'switch',name:'Switch 时间 2 个半小时 🎮',slot:'evening',req:false,time:'周六专属',pri:true,icon:'🎮'});
-    t.push({id:'sleep',name:'22:30 前上床睡觉',slot:'evening',req:true,time:'21:45 洗漱'});
+    t=S.plan.items.filter(it=>itemOnDate(it,date)).map(it=>Object.assign({},it,{name:fillName(it.name)}));
   }
   const rm=S.removed[date]||[];
   t=t.filter(x=>rm.indexOf(x.id)<0);
@@ -524,19 +570,19 @@ function renderDay(){
     +'<circle cx="37" cy="37" r="30" fill="none" stroke="var(--paper)" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+(C*pct/100)+' '+C+'"/></svg>'
     +'<div class="pct">'+pct+'%<small>完成</small></div></div></div>';
   h+='<div class="daynav">'
-    +'<button onclick="mv(-1)" '+(d<=START?'disabled':'')+'>‹ 前一天</button>'
+    +'<button onclick="mv(-1)" '+(d<=START()?'disabled':'')+'>‹ 前一天</button>'
     +'<button class="today-btn" onclick="mvToday()">回到今天</button>'
-    +'<button onclick="mv(1)" '+(d>=END?'disabled':'')+'>后一天 ›</button></div>';
+    +'<button onclick="mv(1)" '+(d>=END()?'disabled':'')+'>后一天 ›</button></div>';
   h+='<div class="marquee" onclick="mqShuffle()"><span class="mq-ico">💡</span><div class="mq-vp"><span class="mq-in">'+esc(mqText(d))+'</span></div></div>';
   const tasks=genTasks(d);
-  SLOTS.forEach(([k,label])=>{
+  SLOTS().forEach(([k,label])=>{
     const ts=tasks.filter(x=>x.slot===k);
     if(!ts.length)return;
     h+='<div class="slot-title">'+label+'</div>';
     ts.forEach(x=>{
       const dn=isDone(d,x.id);
       const late=!dn&&x.req&&d<todayReal;
-      h+='<div class="task '+(dn?'done':'')+' '+(late?'late':'')+' '+(x.req?'':'opt')+'" data-id="'+x.id+'" onclick="tg(\''+x.id+'\')">'
+      h+='<div class="task '+(dn?'done':'')+' '+(late?'late':'')+' '+(x.req?'':'opt')+'" data-id="'+x.id+'" onclick="tg(\''+x.id+'\')" oncontextmenu="return planMenu(event,\''+x.id+'\')" ontouchstart="lpStart(event,\''+x.id+'\')" ontouchend="lpEnd()" ontouchmove="lpEnd()">'
         +'<div class="box">'+(dn?'✓':'')+'</div>'
         +'<div class="tx"><div class="nm">'+esc(x.name)+(late?'<span class="late-tag">没完成</span>':'')+'</div>'
         +(x.time?'<div class="tm">'+esc(x.time)+'</div>':'')
@@ -613,13 +659,100 @@ function addTask(){
   render();save();
 }
 
+/* ---- 长按编辑（移动端）与计划级修改 ---- */
+let _lpTimer=null;
+function lpStart(e,id){
+  clearTimeout(_lpTimer);
+  _lpTimer=setTimeout(()=>{planMenu(e,id);},550);
+}
+function lpEnd(){clearTimeout(_lpTimer);}
+
+function planMenu(e,id){
+  if(e&&e.preventDefault)e.preventDefault();
+  const it=S.plan.items.find(x=>x.id===id);
+  if(!it){rn(id);return false;}
+  const pick=prompt(
+    '修改「'+fillName(it.name)+'」，输入数字：\n'+
+    '1 = 只改今天的名称\n'+
+    '2 = 改整个计划里的名称\n'+
+    '3 = 改时间段\n'+
+    '4 = 切换 必做/自选（当前：'+(it.req?'必做':'自选')+'）\n'+
+    '5 = 从整个计划里删掉','1');
+  if(pick===null)return false;
+  if(pick==='1')rn(id);
+  else if(pick==='2')planRename(id);
+  else if(pick==='3')planRetime(id);
+  else if(pick==='4'){it.req=!it.req;render();save();toast('已设为'+(it.req?'必做':'自选'));}
+  else if(pick==='5')planRemove(id);
+  return false;
+}
+function planRename(id){
+  const it=S.plan.items.find(x=>x.id===id);if(!it)return;
+  const v=prompt('整个计划里的名称（{kuaile}/{yuedu} 会替换成设置里的份量）:',it.name);
+  if(v===null||!v.trim())return;
+  it.name=v.trim();render();save();toast('计划已更新');
+}
+function planRetime(id){
+  const it=S.plan.items.find(x=>x.id===id);if(!it)return;
+  const v=prompt('时间段（留空表示不显示）:',it.time||'');
+  if(v===null)return;
+  it.time=v.trim();render();save();toast('时间已更新');
+}
+function planRemove(id){
+  if(!confirm('从整个计划里删掉这一项？以后每天都不再出现，已打的记录不会消失。'))return;
+  S.plan.items=S.plan.items.filter(x=>x.id!==id);
+  render();save();toast('已从计划中删除');
+}
+function planToggleReq(id){
+  const it=S.plan.items.find(x=>x.id===id);if(!it)return;
+  it.req=!it.req;render();save();toast('已设为'+(it.req?'必做':'自选'));
+}
+function planAdd(){
+  const name=prompt('新项目名称（例如：跳绳 200 个）:');
+  if(!name||!name.trim())return;
+  const slotList=S.plan.slots.map((s,i)=>(i+1)+'='+s.label).join('  ');
+  const si=prompt('放在哪个时间段？\n'+slotList,'1');
+  if(si===null)return;
+  const slot=S.plan.slots[Math.max(0,Math.min(S.plan.slots.length-1,parseInt(si,10)-1))];
+  const req=confirm('这是必做吗？\n「确定」= 必做\n「取消」= 自选');
+  S.plan.items.push({id:'p'+Date.now(),name:name.trim(),slot:slot.key,req:req,time:''});
+  render();save();toast('已加入计划');
+}
+function planAddSlot(){
+  const label=prompt('新时间段名称（例如：🌆 傍晚）:');
+  if(!label||!label.trim())return;
+  S.plan.slots.push({key:'s'+Date.now(),label:label.trim()});
+  render();save();toast('时间段已添加');
+}
+function planTitle(v){S.plan.title=v.trim()||'打卡';applyBrand();save();}
+function planSubtitle(v){S.plan.subtitle=v.trim();applyBrand();save();}
+function planRange(which,v){
+  if(!v)return;
+  if(which==='start'){S.plan.start=v;if(S.plan.start>S.plan.end)S.plan.end=S.plan.start;}
+  else{S.plan.end=v;if(S.plan.end<S.plan.start)S.plan.start=S.plan.end;}
+  S.sel=clamp(S.sel);
+  applyBrand();render();save();
+}
+function planReset(){
+  if(!confirm('恢复默认计划？项目和时间段会回到初始的暑假计划，打卡记录不会删除。'))return;
+  S.plan=defaultPlan();applyBrand();render();save();toast('已恢复默认计划');
+}
+function applyBrand(){
+  const b=document.getElementById('brand');
+  if(!b)return;
+  const range=cnShort(START())+' — '+cnShort(END());
+  b.innerHTML=esc(S.plan.title)+'<small>'+esc(range+(S.plan.subtitle?' · '+S.plan.subtitle:''))+'</small>';
+  document.title=S.plan.title.replace(/^[^\u4e00-\u9fa5A-Za-z]+/,'')+' · 打卡';
+}
+function cnShort(s){const d=p(s);return (d.getMonth()+1)+' 月 '+d.getDate()+' 日';}
+
 /* ---- 日历 ---- */
 function renderCal(){
   let h='<div class="card"><h2 class="sec">整个暑假一眼看完</h2>'
     +'<div class="note">点任意一天可以进去看详情、补打卡。格子里的小图标是当天的重点/特别事项。</div>'
     +'<div class="set-row" style="border:0;padding-bottom:0"><label class="tgl"><input type="checkbox" '+(S.cfg.gentle?'checked':'')+' onchange="toggleGentle(this.checked)">轻松模式</label>'
     +'<span class="hint" style="margin:0">开启后，没做完的日子不标红，只轻轻提示「补」</span></div></div>';
-  [[2026,7],[2026,8]].forEach(([y,m])=>{
+  planMonths().forEach(([y,m])=>{
     h+='<div class="cal-month">'+m+' 月</div><div class="cal">';
     WK.forEach(w=>h+='<div class="hd">'+w+'</div>');
     const first=new Date(y,m-1,1);
@@ -627,7 +760,7 @@ function renderCal(){
     const days=new Date(y,m,0).getDate();
     for(let dd=1;dd<=days;dd++){
       const ds=f(new Date(y,m-1,dd));
-      if(ds<START||ds>END){h+='<div class="cell blank"></div>';continue;}
+      if(ds<START()||ds>END()){h+='<div class="cell blank"></div>';continue;}
       const trav=isTravel(ds),past=ds<todayReal,future=ds>todayReal;
       const st=reqStat(ds),allDone=(st.total>0&&st.done>=st.total);
       let cls='';
@@ -665,7 +798,7 @@ function weekStart(d){
 function renderRev(){
   let h='<div class="card"><h2 class="sec">每周回顾</h2><div class="note">建议每周日晚一起翻一眼:看完成率,不做批评,写一句鼓励。</div></div>';
   const weeks={};
-  for(let d=START;d<=END;d=addD(d,1)){
+  for(let d=START();d<=END();d=addD(d,1)){
     const w=weekStart(d);(weeks[w]=weeks[w]||[]).push(d);
   }
   let idx=0;
@@ -710,6 +843,35 @@ function renderSet(){
       +'<a href="/login.html?back=%2Fsummer2026">用哥哥的账号登录一下 →</a><br>'
       +'<span class="note">不登录也能正常用，只是记录只存在当前这台设备上。</span></div>';
   }
+  h+='<div class="card"><h2 class="sec">🗓️ 打卡计划</h2>'
+    +'<div class="note">标题、时间跨度、每天有哪些项目——全都可以改。改计划不会影响已经打过的记录。</div>'
+    +'<div class="set-row"><label>标题</label><input type="text" id="plan-title" value="'+esc(S.plan.title)+'" onchange="planTitle(this.value)"></div>'
+    +'<div class="set-row"><label>副标题</label><input type="text" id="plan-sub" value="'+esc(S.plan.subtitle||'')+'" placeholder="比如：五升六" onchange="planSubtitle(this.value)"></div>'
+    +'<div class="set-row"><label>开始日</label><input type="date" value="'+START()+'" onchange="planRange(\'start\',this.value)"></div>'
+    +'<div class="set-row"><label>结束日</label><input type="date" value="'+END()+'" onchange="planRange(\'end\',this.value)"></div>'
+    +'</div>';
+
+  h+='<div class="card"><h2 class="sec">📋 每天的项目</h2>'
+    +'<div class="note">点 ✎ 改名称、⏱ 改时间、必做/自选可以切换。今天视图里长按某一项也能直接改。</div>';
+  S.plan.slots.forEach(sl=>{
+    const its=S.plan.items.filter(x=>x.slot===sl.key);
+    h+='<div class="slot-title">'+esc(sl.label)+'</div>';
+    if(!its.length){h+='<div class="note">这个时间段还没有项目。</div>';return;}
+    its.forEach(it=>{
+      h+='<div class="set-row">'
+        +'<label>'+esc(fillName(it.name))+'<span class="hint">'+esc(ruleText(it))+(it.time?' · '+esc(it.time):'')+'</span></label>'
+        +'<span>'
+        +'<button class="btn ghost" onclick="planRename(\''+it.id+'\')">✎</button>'
+        +'<button class="btn ghost" onclick="planRetime(\''+it.id+'\')">⏱</button>'
+        +'<button class="btn ghost" onclick="planToggleReq(\''+it.id+'\')">'+(it.req?'必做':'自选')+'</button>'
+        +'<button class="btn ghost" onclick="planRemove(\''+it.id+'\')">✕</button>'
+        +'</span></div>';
+    });
+  });
+  h+='<div class="set-row" style="border:0"><button class="btn pri" onclick="planAdd()">＋ 新增项目</button>'
+    +'<button class="btn ghost" onclick="planAddSlot()">＋ 新增时间段</button>'
+    +'<button class="btn ghost" onclick="planReset()">恢复默认计划</button></div></div>';
+
   const L=llmCfg();
   h+='<div class="card"><h2 class="sec">🤖 AI 点评设置</h2>'
     +'<div class="note">配置任意兼容 OpenAI 格式的接口，用来生成每日/每周点评。密钥只存这台设备本地，不会上传云端。</div>'
@@ -726,8 +888,8 @@ function renderSet(){
 
   h+='<div class="card"><h2 class="sec">✈️ 旅行模式</h2>'
     +'<div class="note">设定日期后,这段时间每天只剩「读猫武士」一件事。</div>'
-    +'<div class="set-row"><label>出发日</label><input type="date" id="ts" min="'+START+'" max="'+END+'" value="'+S.travel.start+'"></div>'
-    +'<div class="set-row"><label>返程日</label><input type="date" id="te" min="'+START+'" max="'+END+'" value="'+S.travel.end+'"></div>'
+    +'<div class="set-row"><label>出发日</label><input type="date" id="ts" min="'+START()+'" max="'+END()+'" value="'+S.travel.start+'"></div>'
+    +'<div class="set-row"><label>返程日</label><input type="date" id="te" min="'+START()+'" max="'+END()+'" value="'+S.travel.end+'"></div>'
     +'<div class="set-row"><button class="btn pri" onclick="setTravel()">保存旅行日期</button>'
     +'<button class="btn ghost" onclick="clearTravel()">取消旅行模式</button></div></div>';
 
@@ -789,6 +951,8 @@ function wipe(){
   S=defaults();save();render();
 }
 
+if(!S.plan)S.plan=defaultPlan();
+applyBrand();
 render();
 cloudInit();
 </script>
