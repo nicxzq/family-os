@@ -20,6 +20,7 @@
 - `storybooks/` 下的文件改动前要先读 `storybooks/STORYBOOK_DESIGN.md`,并保持 `#prev` 左 / `#next` 右与 `data-interaction-layer` 动画约束
 - `readers/index.html` 和 `storybooks/CONTENT_MAP.md` 里的 slug 可能和真实文件漂移; 新增或补登记读本时要先用文件系统核对目标文件是否存在（2026-07-18 已修一处：F02 指向的 03-short-video.html 实为 03-variable-reward.html；sync-miniprogram.js 会自动校验并警告）
 - 当前仓库没有可直接调用的 `ui-tokenize` 命令; 审查 UI 改动时至少要对 changed files 做 `hex`/`px` 残留检查,避免把硬编码视觉值带进主分支
+- `save local changes` 这类 merge/快照提交可能把 `readers/index.html` 的 slug 漂移或非法 token 值一起带进主分支; 审查时先跑 `node scripts/check-readers-index.js` 抓目录 404 和 `#var(...)` 这类错误
 
 ## 我的纠正 / 偏好
 - 先读仓库根目录 `AGENTS.md` 和 `MEMORY.md`,没有就先补齐,再做任何会改文件或外部状态的工作
@@ -32,6 +33,7 @@
 - 游戏界面规范在 `docs/GAME_UI_STANDARD.md`
 - Storybook 设计规范在 `storybooks/STORYBOOK_DESIGN.md`
 - Codex 自动任务 `automation-3`（每日审查并修复最近提交）：每天 07:00（Asia/Hong_Kong）审查过去 24 小时提交。
+- 哥哥读本目录回归检查脚本在 `scripts/check-readers-index.js`
 
 ## 凭据位置(只记位置,不记值)
 - Supabase URL 与 anon key 由 `fo-supabase.js` 读取,具体值应查本地环境或部署配置
